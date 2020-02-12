@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="start"
-        android:background="@drawable/gradient_color_box"
+        android:background="@drawable/style_gradient_color_box"
         android:orientation="horizontal">
 
         <ImageButton
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:background="@drawable/gradient_color_box"
+        android:background="@drawable/style_gradient_color_box"
         android:orientation="horizontal"
         android:visibility="gone">
 
@@ -237,7 +237,7 @@
                 android:id="@+id/bcabos_ongkir_cekongkir_check_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/gradient_color_rounded_box"
+                android:background="@drawable/style_gradient_color_rounded_box"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:text="CEK ONGKOS KIRIM"
@@ -250,20 +250,88 @@
 
     </LinearLayout>
 
+    <!--STOK PRODUK-->
+    <LinearLayout
+        android:id="@+id/bcabos_stok_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/bcabos_stok_search_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingRight="16dp"
+            android:weightSum="6"
+            android:layout_marginBottom="8dp"
+            android:visibility="visible">
+
+            <ImageButton
+                android:id="@+id/bcabos_stok_search_back_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:src="@drawable/ic_keyboard_back_gradient" />
+
+            <EditText
+                android:id="@+id/bcabos_stok_search_edittext"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="match_parent"
+                android:background="@drawable/style_edittext_background"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:paddingStart="10dp"
+                android:textSize="16dp"
+                android:hint="Search..."/>
+
+            <ImageButton
+                android:id="@+id/bcabos_stok_search_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:src="@drawable/ic_keyboard_search_blue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bcabos_stok_produk_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingRight="16dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="visible">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/bcabos_stok_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
+
     <!--KEYBOARD-->
     <android.inputmethodservice.KeyboardView
         android:id="@+id/bcabos_keyboard_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:paddingTop="10dp"
-        android:paddingBottom="20dp"
-
-        android:keyTextColor="@color/key_text_color"
+        android:background="@color/light_grey"
         android:keyBackground="@drawable/style_keyboard_key_background"
 
-        android:shadowRadius="0.0"
-        android:background="@color/light_grey">
-    </android.inputmethodservice.KeyboardView>
+        android:keyTextColor="@color/key_text_color"
+        android:paddingTop="10dp"
+
+        android:paddingBottom="20dp"
+        android:shadowRadius="0.0"></android.inputmethodservice.KeyboardView>
 
 </LinearLayout>

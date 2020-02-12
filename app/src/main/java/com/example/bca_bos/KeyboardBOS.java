@@ -13,9 +13,14 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.bca_bos.adapters.StokProdukAdapter;
 
 public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
 
@@ -44,11 +49,22 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     private LinearLayout g_feature_layout;
     private ImageButton g_btn_feature_back;
     private Button g_btn_feature_ongkir;
+    private Button g_btn_feature_stok;
 
     //ONGKIR
     private LinearLayout g_ongkir_layout, g_ongkir_berat_layout, g_ongkir_asal_layout, g_ongkir_tujuan_layout, g_ongkir_cekongkir_layout;
     private ImageButton g_btn_ongkir_back, g_btn_ongkir_berat, g_btn_ongkir_asal, g_btn_ongkir_tujuan;
     private EditText g_et_ongkir_berat, g_et_ongkir_asal, g_et_ongkir_tujuan;
+
+    //STOK
+    private LinearLayout g_stok_layout, g_stok_search_layout, g_stok_produk_layout;
+
+    private RecyclerView g_rv_stok;
+    private LinearLayoutManager g_stok_item_layout;
+    private StokProdukAdapter g_stok_adapter;
+
+    private ImageButton g_btn_stok_back;
+    private EditText g_et_stok_search;
 
     @Override
     public View onCreateInputView() {
@@ -61,6 +77,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             initiateMenu();
             initiateFeature();
             initiateOngkir();
+            initiateStok();
         } catch (Exception ex){
             Log.i("EHS", ex.toString());
         }
@@ -107,8 +124,15 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_btn_feature_ongkir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(KeyboardBOS.this, "WOY", Toast.LENGTH_SHORT).show();
                 showOngkir();
+            }
+        });
+
+        g_btn_feature_stok = g_viewparent.findViewById(R.id.bcabos_extended_feature_stok_button);
+        g_btn_feature_stok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showStok();
             }
         });
     }
@@ -210,28 +234,70 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     }
 
+    private void initiateStok(){
+        g_stok_layout = g_viewparent.findViewById(R.id.bcabos_stok_layout);
+        g_stok_search_layout = g_viewparent.findViewById(R.id.bcabos_stok_search_layout);
+        g_stok_produk_layout = g_viewparent.findViewById(R.id.bcabos_stok_produk_layout);
+        g_rv_stok = g_viewparent.findViewById(R.id.bcabos_stok_recyclerview);
+
+        g_stok_item_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
+        g_stok_adapter = new StokProdukAdapter();
+
+        g_rv_stok.setLayoutManager(g_stok_item_layout);
+        g_rv_stok.setAdapter(g_stok_adapter);
+
+        //BAGIAN SEARCH
+        g_et_stok_search = g_viewparent.findViewById(R.id.bcabos_stok_search_edittext);
+        g_et_stok_search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    focusedEditText = "g_et_stok_search";
+                    typedCharacters.setLength(0);
+                }
+            }
+        });
+        g_et_stok_search.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                showStokSearch();
+                return false;
+            }
+        });
+
+        //BAGIAN BACK
+        g_btn_stok_back = g_viewparent.findViewById(R.id.bcabos_stok_search_back_button);
+        g_btn_stok_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                focusedEditText = "g_et_external";
+                showFeatureMenu();
+            }
+        });
+    }
+
     //region SHOW FUNCTION
     private void showHomeMenu() {
-        showAllMenu();
+        refreshDisplay();
         g_home_layout.setVisibility(View.VISIBLE);
         changeLayoutStatus(true);
     }
 
     private void showFeatureMenu() {
-        showAllMenu();
+        refreshDisplay();
         g_feature_layout.setVisibility(View.VISIBLE);
         changeLayoutStatus(true);
     }
 
     private void showOngkir() {
-        showAllMenu();
+        refreshDisplay();
         g_keyboardview.setVisibility(View.GONE);
         g_ongkir_layout.setVisibility(View.VISIBLE);
         changeLayoutStatus(false);
     }
 
     private void showBeratMenu() {
-        showAllMenu();
+        refreshDisplay();
         g_ongkir_layout.setVisibility(View.VISIBLE);
         g_ongkir_asal_layout.setVisibility(View.GONE);
         g_ongkir_tujuan_layout.setVisibility(View.GONE);
@@ -240,7 +306,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     }
 
     private void showAsalMenu() {
-        showAllMenu();
+        refreshDisplay();
         g_ongkir_layout.setVisibility(View.VISIBLE);
         g_ongkir_berat_layout.setVisibility(View.GONE);
         g_ongkir_tujuan_layout.setVisibility(View.GONE);
@@ -249,7 +315,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     }
 
     private void showTujuanMenu() {
-        showAllMenu();
+        refreshDisplay();
         g_ongkir_layout.setVisibility(View.VISIBLE);
         g_ongkir_berat_layout.setVisibility(View.GONE);
         g_ongkir_asal_layout.setVisibility(View.GONE);
@@ -257,7 +323,21 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         changeLayoutStatus(false);
     }
 
-    private void showAllMenu(){
+    private void showStok() {
+        refreshDisplay();
+        g_keyboardview.setVisibility(View.GONE);
+        g_stok_layout.setVisibility(View.VISIBLE);
+        changeLayoutStatus(false);
+    }
+
+    private void showStokSearch() {
+        refreshDisplay();
+        g_stok_layout.setVisibility(View.VISIBLE);
+        g_stok_produk_layout.setVisibility(View.GONE);
+        changeLayoutStatus(false);
+    }
+
+    private void refreshDisplay(){
         //keyboard
         g_keyboardview.setVisibility(View.VISIBLE);
 
@@ -265,12 +345,17 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_home_layout.setVisibility(View.GONE);
         g_feature_layout.setVisibility(View.GONE);
         g_ongkir_layout.setVisibility(View.GONE);
+        g_stok_layout.setVisibility(View.GONE);
 
         //inside ongkir layout
         g_ongkir_berat_layout.setVisibility(View.VISIBLE);
         g_ongkir_asal_layout.setVisibility(View.VISIBLE);
         g_ongkir_tujuan_layout.setVisibility(View.VISIBLE);
         g_ongkir_cekongkir_layout.setVisibility(View.VISIBLE);
+
+        //inside stok layout
+        g_stok_produk_layout.setVisibility(View.VISIBLE);
+        g_stok_search_layout.setVisibility(View.VISIBLE);
     }
 
     //endregion
@@ -403,6 +488,10 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             case "g_et_ongkir_tujuan":
                 g_et_ongkir_tujuan.setText(typedCharacters);
                 g_et_ongkir_tujuan.setSelection(g_et_ongkir_tujuan.getText().length());
+                break;
+            case "g_et_stok_search":
+                g_et_stok_search.setText(typedCharacters);
+                g_et_stok_search.setSelection(g_et_stok_search.getText().length());
                 break;
             default:
                 InputConnection inputConnection = getCurrentInputConnection();
