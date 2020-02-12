@@ -3,7 +3,7 @@
     android:keyWidth="8.9%p"
     android:horizontalGap="1%p"
     android:verticalGap="1%p"
-    android:keyHeight="50dp">
+    android:keyHeight="40dp">
 
     <!--Number and Symbol Keyboard-->
     <Row>

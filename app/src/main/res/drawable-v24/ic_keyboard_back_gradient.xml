@@ -14,7 +14,8 @@
                 <appt:attr name="android:fillColor">
 
                     <gradient
-                        android:type="linear"
+                        android:gradientRadius="250"
+                        android:type="radial"
                         android:angle="0"
                         android:endColor="#1485D1"
                         android:startColor="#005FAF" />
