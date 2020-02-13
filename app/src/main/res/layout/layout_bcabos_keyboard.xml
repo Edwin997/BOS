@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="start"
-        android:background="@drawable/gradient_color_box"
+        android:background="@drawable/style_gradient_color_box"
         android:orientation="horizontal">
 
         <ImageButton
@@ -21,17 +21,11 @@
             android:padding="16dp"
             android:src="@drawable/bos_logo_white" />
 
-        <Button
-            android:id="@+id/bcabos_extended_templatedtext_button"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:padding="4dp"
-            android:text="Selamat Datang"
-            android:textAlignment="center"
-            android:textColor="@color/dark_white"
-            android:textSize="8dp"
-            android:textStyle="bold"
-            android:background="@android:color/transparent"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bcabos_extended_home_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp"/>
     </LinearLayout>
 
     <!--FITUR KEYBOARD-->
@@ -40,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:background="@drawable/gradient_color_box"
+        android:background="@drawable/style_gradient_color_box"
         android:orientation="horizontal"
         android:visibility="gone">
 
@@ -208,8 +202,7 @@
             <EditText
                 android:id="@+id/bcabos_ongkir_tujuan_text"
                 style="@style/editText_style"
-                android:layout_weight="9
-"
+                android:layout_weight="9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/grey"
@@ -244,7 +237,7 @@
                 android:layout_weight="9"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@drawable/gradient_color_rounded_box"
+                android:background="@drawable/style_gradient_color_rounded_box"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:text="CEK ONGKOS KIRIM"
@@ -257,20 +250,82 @@
 
     </LinearLayout>
 
+    <!--STOK PRODUK-->
+    <LinearLayout
+        android:id="@+id/bcabos_stok_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="8dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/bcabos_stok_search_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_marginBottom="8dp"
+            android:visibility="visible">
+
+            <ImageButton
+                android:id="@+id/bcabos_stok_search_back_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_keyboard_back_gradient" />
+
+            <EditText
+                android:id="@+id/bcabos_stok_search_edittext"
+                android:layout_width="0dp"
+                android:layout_weight="8"
+                android:layout_height="match_parent"
+                android:background="@drawable/style_edittext_background"
+                android:paddingLeft="16dp"
+                android:textColorHint="@color/grey"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:hint="Search..."/>
+
+            <ImageButton
+                android:id="@+id/bcabos_stok_search_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_keyboard_search_blue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bcabos_stok_produk_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingRight="16dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="visible">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/bcabos_stok_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
+
     <!--KEYBOARD-->
     <android.inputmethodservice.KeyboardView
         android:id="@+id/bcabos_keyboard_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
+        android:keyTextColor="@color/black"
+        android:background="@color/light_grey"
+        android:keyBackground="@drawable/style_keyboard_key_background"
         android:paddingTop="10dp"
         android:paddingBottom="20dp"
-
-        android:keyTextColor="@color/black"
-        android:keyBackground="@drawable/style_keyboard_key_background"
-
-        android:shadowRadius="0.0"
-        android:background="@color/light_grey">
+        android:shadowRadius="0.0">
     </android.inputmethodservice.KeyboardView>
 
 </LinearLayout>

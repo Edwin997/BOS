@@ -5,11 +5,19 @@ public class Produk {
     private int id;
     private String nama;
     private int stok;
-    private String gambar;
+    private int gambar;
     private int harga;
 
     public Produk(){
 
+    }
+
+    public Produk(int id, String nama, int stok, int gambar, int harga){
+        this.setId(id);
+        this.setNama(nama);
+        this.setStok(stok);
+        this.setGambar(gambar);
+        this.setHarga(harga);
     }
 
     public int getId() {
@@ -36,11 +44,11 @@ public class Produk {
         this.stok = stok;
     }
 
-    public String getGambar() {
+    public int getGambar() {
         return gambar;
     }
 
-    public void setGambar(String gambar) {
+    public void setGambar(int gambar) {
         this.gambar = gambar;
     }
 
