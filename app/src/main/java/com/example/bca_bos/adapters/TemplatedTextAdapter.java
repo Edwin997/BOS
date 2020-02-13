@@ -1,15 +1,16 @@
-package com.example.bca_bos;
+package com.example.bca_bos.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bca_bos.ListTemplatedTextDummy;
+import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.TemplatedText;
 
@@ -53,7 +54,7 @@ public class TemplatedTextAdapter extends RecyclerView.Adapter<TemplatedTextAdap
     @Override
     public void OnCallBack(String p_text) {
         if(g_parent_oncallbacklistener != null){
-            g_parent_oncallbacklistener.OnCallBack(p_text);
+            g_parent_oncallbacklistener.OnCallBack("TEXT;" + p_text);
         }
     }
 
