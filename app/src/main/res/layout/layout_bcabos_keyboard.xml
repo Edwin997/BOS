@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:padding="16dp"
-            android:src="@drawable/bca_bos_text_white" />
+            android:src="@drawable/bos_logo_white" />
 
         <Button
             android:id="@+id/bcabos_extended_templatedtext_button"
@@ -145,7 +145,7 @@
             <EditText
                 android:id="@+id/bcabos_ongkir_berat_text"
                 style="@style/editText_style"
-                android:layout_weight="8"
+                android:layout_weight="9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/grey"
@@ -153,17 +153,6 @@
                 android:textStyle="bold"
                 android:hint="Berat(kg)*"
                 android:inputType="number"/>
-
-            <ImageButton
-                android:id="@+id/bcabos_ongkir_berat_check_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/ic_keyboard_check"
-                android:layout_marginTop="4dp"
-                android:paddingRight="10dp"
-                android:paddingLeft="16dp"
-                android:background="@android:color/transparent"/>
 
         </LinearLayout>
 
@@ -188,24 +177,13 @@
             <EditText
                 android:id="@+id/bcabos_ongkir_asal_text"
                 style="@style/editText_style"
-                android:layout_weight="8"
+                android:layout_weight="9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/grey"
                 android:textSize="16dp"
                 android:textStyle="bold"
                 android:hint="Asal pengiriman*"/>
-
-            <ImageButton
-                android:id="@+id/bcabos_ongkir_asal_check_button"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_keyboard_check"
-                android:layout_marginTop="4dp"
-                android:paddingRight="10dp"
-                android:paddingLeft="16dp"
-                android:background="@android:color/transparent"/>
 
         </LinearLayout>
 
@@ -230,7 +208,8 @@
             <EditText
                 android:id="@+id/bcabos_ongkir_tujuan_text"
                 style="@style/editText_style"
-                android:layout_weight="8"
+                android:layout_weight="9
+"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/grey"
@@ -238,16 +217,6 @@
                 android:textStyle="bold"
                 android:hint="Tujuan Pengiriman*"/>
 
-            <ImageButton
-                android:id="@+id/bcabos_ongkir_tujuan_check_button"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_keyboard_check"
-                android:layout_marginTop="4dp"
-                android:paddingRight="10dp"
-                android:paddingLeft="16dp"
-                android:background="@android:color/transparent"/>
         </LinearLayout>
 
         <LinearLayout
@@ -256,12 +225,13 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingRight="16dp"
+            android:paddingRight="8dp"
             android:layout_marginBottom="8dp"
             android:visibility="visible">
 
             <ImageButton
                 android:id="@+id/bcabos_ongkir_cekongkir_back_button"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
@@ -271,7 +241,8 @@
 
             <Button
                 android:id="@+id/bcabos_ongkir_cekongkir_check_button"
-                android:layout_width="match_parent"
+                android:layout_weight="9"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/gradient_color_rounded_box"
                 android:paddingLeft="8dp"

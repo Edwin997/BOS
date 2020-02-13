@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
     android:keyWidth="8.9%p"
-    android:keyHeight="40dp"
+    android:keyHeight="45dp"
     android:horizontalGap="1%p"
     android:verticalGap="1%p">
 
@@ -44,13 +44,36 @@
         <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
     </Row>
     <!--(MODE)(LOGO)(.,)(SPACE)(@)(ENTER)-->
-    <Row android:rowEdgeFlags="bottom">
+    <Row android:rowEdgeFlags="bottom"
+        android:keyboardMode="@integer/bos_keyboard_mode_alphabet_action_1">
         <Key android:codes="-2" android:keyLabel="123?" android:keyWidth="10%p"  android:keyEdgeFlags="left"/>
         <Key android:codes="-3" android:keyIcon="@drawable/ic_keyboard_keyboard" android:keyWidth="10%p"/>
         <Key android:codes="44" android:keyLabel="&#x0002C;" android:keyWidth="10%p"/>
         <Key android:codes="32" android:keyWidth="43%p" android:keyLabel="SPASI" android:isRepeatable="true"/>
         <Key android:codes="46" android:keyLabel="&#x0002E;" android:keyWidth="10%p"/>
-        <Key android:codes="-4" android:keyIcon="@drawable/ic_keyboard_enter" android:keyWidth="10%p" android:keyEdgeFlags="right"/>
+        <Key android:codes="@integer/KEYBOARD_KEYCODE_CHANGE_ALPHABET_ACTION" android:keyIcon="@drawable/ic_keyboard_enter" android:keyWidth="10%p" android:keyEdgeFlags="right"/>
+    </Row>
+
+    <!--(MODE)(LOGO)(.,)(SPACE)(@)(NEXT)-->
+    <Row android:rowEdgeFlags="bottom"
+        android:keyboardMode="@integer/bos_keyboard_mode_alphabet_action_2">
+        <Key android:codes="-2" android:keyLabel="123?" android:keyWidth="10%p"  android:keyEdgeFlags="left"/>
+        <Key android:codes="-3" android:keyIcon="@drawable/ic_keyboard_keyboard" android:keyWidth="10%p"/>
+        <Key android:codes="44" android:keyLabel="&#x0002C;" android:keyWidth="10%p"/>
+        <Key android:codes="32" android:keyWidth="43%p" android:keyLabel="SPASI" android:isRepeatable="true"/>
+        <Key android:codes="46" android:keyLabel="&#x0002E;" android:keyWidth="10%p"/>
+        <Key android:codes="@integer/KEYBOARD_KEYCODE_CHANGE_ALPHABET_ACTION" android:keyIcon="@drawable/ic_keyboard_next_gradient" android:keyWidth="10%p" android:keyEdgeFlags="right"/>
+    </Row>
+
+    <!--(MODE)(LOGO)(.,)(SPACE)(@)(OK)-->
+    <Row android:rowEdgeFlags="bottom"
+        android:keyboardMode="@integer/bos_keyboard_mode_alphabet_action_3">
+        <Key android:codes="-2" android:keyLabel="123?" android:keyWidth="10%p"  android:keyEdgeFlags="left"/>
+        <Key android:codes="-3" android:keyIcon="@drawable/ic_keyboard_keyboard" android:keyWidth="10%p"/>
+        <Key android:codes="44" android:keyLabel="&#x0002C;" android:keyWidth="10%p"/>
+        <Key android:codes="32" android:keyWidth="43%p" android:keyLabel="SPASI" android:isRepeatable="true"/>
+        <Key android:codes="46" android:keyLabel="&#x0002E;" android:keyWidth="10%p"/>
+        <Key android:codes="@integer/KEYBOARD_KEYCODE_CHANGE_ALPHABET_ACTION" android:keyIcon="@drawable/ic_keyboard_check" android:keyWidth="10%p" android:keyEdgeFlags="right"/>
     </Row>
     <!--Alphabet Keyboard-->
 </Keyboard>
