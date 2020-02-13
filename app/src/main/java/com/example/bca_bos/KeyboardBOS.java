@@ -17,6 +17,9 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
 
     private final static int KEYCODE_CHANGE_NUMBER_SYMBOL = -7;
@@ -38,7 +41,9 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     //HOME
     private LinearLayout g_home_layout;
-    private ImageButton g_btn_home;
+    private Button g_btn_home;
+    private RecyclerView g_templatedtext_recyclerview;
+    private LinearLayoutManager g_linear_layout;
 
     //FEATURE
     private LinearLayout g_feature_layout;
@@ -88,8 +93,16 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             @Override
             public void onClick(View view) {
                 showFeatureMenu();
+                Toast.makeText(KeyboardBOS.this, "yo", Toast.LENGTH_SHORT).show();
             }
         });
+//
+//        g_templatedtext_recyclerview = g_viewparent.findViewById(R.id.bcabos_extended_home_recyclerview);
+//        g_linear_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
+//        TemplatedTextAdapter tta = new TemplatedTextAdapter();
+//
+//        g_templatedtext_recyclerview.setLayoutManager(g_linear_layout);
+//        g_templatedtext_recyclerview.setAdapter(tta);
     }
 
     private void initiateFeature() {
@@ -107,7 +120,6 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_btn_feature_ongkir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(KeyboardBOS.this, "WOY", Toast.LENGTH_SHORT).show();
                 showOngkir();
             }
         });
@@ -280,11 +292,11 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     @Override
     public void onPress(int i) {
-        char code = (char) i;
-        if(code == ' '){
-            InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
-            imeManager.showInputMethodPicker();
-        }
+//        char code = (char) i;
+//        if(code == ' '){
+//            InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
+//            imeManager.showInputMethodPicker();
+//        }
     }
 
     @Override
@@ -370,7 +382,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     @Override
     public void swipeLeft() {
-
+        Toast.makeText(this, "TES", Toast.LENGTH_SHORT).show();
     }
 
     @Override
