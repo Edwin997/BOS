@@ -10,12 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="start"
+        android:weightSum="6"
         android:background="@drawable/gradient_color_box"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/bcabos_extended_home_button"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:padding="16dp"
@@ -23,11 +25,19 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/bcabos_extended_home_recyclerview"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="4"
             android:layout_height="match_parent"
             android:padding="5dp"/>
 
-
+        <ImageButton
+            android:id="@+id/bcabos_extended_add_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:padding="16dp"
+            android:src="@drawable/ic_keyboard_add_white" />
     </LinearLayout>
 
     <!--FITUR KEYBOARD-->

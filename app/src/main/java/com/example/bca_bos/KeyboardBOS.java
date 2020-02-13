@@ -20,7 +20,9 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
+import com.example.bca_bos.interfaces.OnCallBackListener;
+
+public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKeyboardActionListener, OnCallBackListener {
 
     private final static int KEYCODE_CHANGE_NUMBER_SYMBOL = -7;
 
@@ -41,7 +43,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     //HOME
     private LinearLayout g_home_layout;
-    private Button g_btn_home;
+    private ImageButton g_btn_home;
     private RecyclerView g_templatedtext_recyclerview;
     private LinearLayoutManager g_linear_layout;
 
@@ -96,13 +98,14 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                 Toast.makeText(KeyboardBOS.this, "yo", Toast.LENGTH_SHORT).show();
             }
         });
-//
-//        g_templatedtext_recyclerview = g_viewparent.findViewById(R.id.bcabos_extended_home_recyclerview);
-//        g_linear_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
-//        TemplatedTextAdapter tta = new TemplatedTextAdapter();
-//
-//        g_templatedtext_recyclerview.setLayoutManager(g_linear_layout);
-//        g_templatedtext_recyclerview.setAdapter(tta);
+
+        g_templatedtext_recyclerview = g_viewparent.findViewById(R.id.bcabos_extended_home_recyclerview);
+        g_linear_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
+        TemplatedTextAdapter tta = new TemplatedTextAdapter();
+        tta.setParentOnCallBack(this);
+
+        g_templatedtext_recyclerview.setLayoutManager(g_linear_layout);
+        g_templatedtext_recyclerview.setAdapter(tta);
     }
 
     private void initiateFeature() {
@@ -468,4 +471,8 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         }
     }
 
+    @Override
+    public void OnCallBack(String p_text) {
+        commitTextToBOSKeyboardEditText(p_text);
+    }
 }
