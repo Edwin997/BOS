@@ -15,18 +15,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
 
     private final static int KEYCODE_CHANGE_NUMBER_SYMBOL = -7;
+    private final static int KEYCODE_CHANGE_ALPHABET_ACTION = -4;
 
     private View g_viewparent;
     private KeyboardView g_keyboardview;
 
-    private Keyboard g_keyboard_alphabet;
-    private Keyboard g_keyboard_symbol1;
-    private Keyboard g_keyboard_symbol2;
+    private Keyboard g_keyboard_alphabet_action1, g_keyboard_alphabet_action2, g_keyboard_alphabet_action3;
+    private Keyboard g_keyboard_symbol1, g_keyboard_symbol2;
+
 
     private boolean IS_CAPS = false;
     private boolean IS_ALPHABET = true;
@@ -47,8 +47,9 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     //ONGKIR
     private LinearLayout g_ongkir_layout, g_ongkir_berat_layout, g_ongkir_asal_layout, g_ongkir_tujuan_layout, g_ongkir_cekongkir_layout;
-    private ImageButton g_btn_ongkir_back, g_btn_ongkir_berat, g_btn_ongkir_asal, g_btn_ongkir_tujuan;
+    private ImageButton g_btn_ongkir_berat_back,g_btn_ongkir_asal_back, g_btn_ongkir_tujuan_back, g_btn_ongkir_back;
     private EditText g_et_ongkir_berat, g_et_ongkir_asal, g_et_ongkir_tujuan;
+    private Button g_btn_ongkir_cekongkir;
 
     @Override
     public View onCreateInputView() {
@@ -71,11 +72,13 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     private void initiateKeyboardView() {
         g_keyboardview = g_viewparent.findViewById(R.id.bcabos_keyboard_view);
 
-        g_keyboard_alphabet = new Keyboard(this, R.xml.bcabos_keyboard_alphabet);
+        g_keyboard_alphabet_action1 = new Keyboard(this, R.xml.bcabos_keyboard_alphabet, R.integer.bos_keyboard_mode_alphabet_action_1);
+        g_keyboard_alphabet_action2 = new Keyboard(this, R.xml.bcabos_keyboard_alphabet, R.integer.bos_keyboard_mode_alphabet_action_2);
+        g_keyboard_alphabet_action3 = new Keyboard(this, R.xml.bcabos_keyboard_alphabet, R.integer.bos_keyboard_mode_alphabet_action_3);
         g_keyboard_symbol1 = new Keyboard(this, R.xml.bcabos_keyboard_number, R.integer.bos_keyboard_mode_symbol_1);
         g_keyboard_symbol2 = new Keyboard(this, R.xml.bcabos_keyboard_number, R.integer.bos_keyboard_mode_symbol_2);
 
-        g_keyboardview.setKeyboard(g_keyboard_alphabet);
+        g_keyboardview.setKeyboard(g_keyboard_alphabet_action1);
         g_keyboardview.setOnKeyboardActionListener(this);
         g_keyboardview.setPreviewEnabled(false);
     }
@@ -107,7 +110,6 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_btn_feature_ongkir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(KeyboardBOS.this, "WOY", Toast.LENGTH_SHORT).show();
                 showOngkir();
             }
         });
@@ -127,6 +129,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
                     focusedEditText = "g_et_ongkir_berat";
+                    g_keyboardview.setKeyboard(g_keyboard_alphabet_action2);
                     typedCharacters.setLength(0);
                 }
             }
@@ -134,15 +137,17 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_et_ongkir_berat.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                focusedEditText = "g_et_ongkir_berat";
                 showBeratMenu();
                 return false;
             }
         });
-        g_btn_ongkir_berat = g_viewparent.findViewById(R.id.bcabos_ongkir_berat_check_button);
-        g_btn_ongkir_berat.setOnClickListener(new View.OnClickListener() {
+        g_btn_ongkir_berat_back = g_viewparent.findViewById(R.id.bcabos_ongkir_berat_back_button);
+        g_btn_ongkir_berat_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showAsalMenu();
+                showOngkir();
+                g_keyboardview.setKeyboard(g_keyboard_alphabet_action1);
             }
         });
 
@@ -153,6 +158,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus){
                     focusedEditText = "g_et_ongkir_asal";
+                    g_keyboardview.setKeyboard(g_keyboard_alphabet_action2);
                     typedCharacters.setLength(0);
                 }
             }
@@ -160,15 +166,17 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_et_ongkir_asal.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                focusedEditText = "g_et_ongkir_asal";
                 showAsalMenu();
                 return false;
             }
         });
-        g_btn_ongkir_asal = g_viewparent.findViewById(R.id.bcabos_ongkir_asal_check_button);
-        g_btn_ongkir_asal.setOnClickListener(new View.OnClickListener() {
+        g_btn_ongkir_asal_back = g_viewparent.findViewById(R.id.bcabos_ongkir_asal_back_button);
+        g_btn_ongkir_asal_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showTujuanMenu();
+                showOngkir();
+                g_keyboardview.setKeyboard(g_keyboard_alphabet_action1);
             }
         });
 
@@ -179,6 +187,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
                     focusedEditText = "g_et_ongkir_tujuan";
+                    g_keyboardview.setKeyboard(g_keyboard_alphabet_action3);
                     typedCharacters.setLength(0);
                 }
             }
@@ -186,25 +195,36 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_et_ongkir_tujuan.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                focusedEditText = "g_et_ongkir_tujuan";
                 showTujuanMenu();
                 return false;
             }
         });
-        g_btn_ongkir_tujuan = g_viewparent.findViewById(R.id.bcabos_ongkir_tujuan_check_button);
-        g_btn_ongkir_tujuan.setOnClickListener(new View.OnClickListener() {
+        g_btn_ongkir_tujuan_back = g_viewparent.findViewById(R.id.bcabos_ongkir_tujuan_back_button);
+        g_btn_ongkir_tujuan_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showOngkir();
+                g_keyboardview.setKeyboard(g_keyboard_alphabet_action1);
             }
         });
 
-        //BAGIAN BACK
+        //BAGIAN BUTTON
         g_btn_ongkir_back = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_back_button);
         g_btn_ongkir_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 focusedEditText = "g_et_external";
+                emptyOngkirEditText();
                 showFeatureMenu();
+            }
+        });
+
+        g_btn_ongkir_cekongkir = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_check_button);
+        g_btn_ongkir_cekongkir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                emptyOngkirEditText();
             }
         });
 
@@ -226,6 +246,9 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     private void showOngkir() {
         showAllMenu();
         g_keyboardview.setVisibility(View.GONE);
+        g_btn_ongkir_berat_back.setVisibility(View.GONE);
+        g_btn_ongkir_asal_back.setVisibility(View.GONE);
+        g_btn_ongkir_tujuan_back.setVisibility(View.GONE);
         g_ongkir_layout.setVisibility(View.VISIBLE);
         changeLayoutStatus(false);
     }
@@ -268,8 +291,11 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
         //inside ongkir layout
         g_ongkir_berat_layout.setVisibility(View.VISIBLE);
+        g_btn_ongkir_berat_back.setVisibility(View.VISIBLE);
         g_ongkir_asal_layout.setVisibility(View.VISIBLE);
+        g_btn_ongkir_asal_back.setVisibility(View.VISIBLE);
         g_ongkir_tujuan_layout.setVisibility(View.VISIBLE);
+        g_btn_ongkir_tujuan_back.setVisibility(View.VISIBLE);
         g_ongkir_cekongkir_layout.setVisibility(View.VISIBLE);
     }
 
@@ -278,13 +304,21 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         this.isInputConnectionExternalBOSKeyboard = homeStatus;
     }
 
+    //Menghapus isi editText
+    private void emptyOngkirEditText() {
+        g_et_ongkir_berat.setText("");
+        g_et_ongkir_asal.setText("");
+        g_et_ongkir_tujuan.setText("");
+    }
+
     @Override
     public void onPress(int i) {
-        char code = (char) i;
-        if(code == ' '){
-            InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
-            imeManager.showInputMethodPicker();
-        }
+        //Ganti keyboard
+//        char code = (char) i;
+//        if(code == ' '){
+//            InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
+//            imeManager.showInputMethodPicker();
+//        }
     }
 
     @Override
@@ -308,6 +342,29 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
                 IS_SYMBOL1 = !IS_SYMBOL1;
                 break;
+            case KEYCODE_CHANGE_ALPHABET_ACTION:
+                switch (focusedEditText){
+                    case "g_et_ongkir_berat":
+                        focusedEditText = "g_et_ongkir_asal";
+                        showAsalMenu();
+                        g_keyboardview.setKeyboard(g_keyboard_alphabet_action2);
+                        break;
+                    case "g_et_ongkir_asal":
+                        focusedEditText = "g_et_ongkir_tujuan";
+                        showTujuanMenu();
+                        g_keyboardview.setKeyboard(g_keyboard_alphabet_action3);
+                        break;
+                    case "g_et_ongkir_tujuan":
+                        focusedEditText = "g_et_external";
+                        showOngkir();
+                        g_keyboardview.setKeyboard(g_keyboard_alphabet_action1);
+                        break;
+                        default:
+                            l_inputconnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
+                            g_keyboardview.setKeyboard(g_keyboard_alphabet_action1);
+                }
+
+                break;
             case Keyboard.KEYCODE_MODE_CHANGE :
                 if(IS_ALPHABET){
                     IS_SYMBOL1 = true;
@@ -315,7 +372,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                     g_keyboardview.setKeyboard(g_keyboard_symbol1);
                 }
                 else{
-                    g_keyboardview.setKeyboard(g_keyboard_alphabet);
+                    g_keyboardview.setKeyboard(g_keyboard_alphabet_action1);
                 }
 
                 IS_ALPHABET = !IS_ALPHABET;
@@ -326,12 +383,16 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             case Keyboard.KEYCODE_SHIFT:
                 IS_CAPS = !IS_CAPS;
 
-                g_keyboard_alphabet.setShifted(IS_CAPS);
+                g_keyboard_alphabet_action1.setShifted(IS_CAPS);
                 g_keyboardview.invalidateAllKeys();
 
                 break;
-            case Keyboard.KEYCODE_DONE:
-                l_inputconnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
+//            case Keyboard.KEYCODE_DONE:
+//                l_inputconnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
+//                break;
+            case Keyboard.KEYCODE_CANCEL:
+                InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
+                imeManager.showInputMethodPicker();
                 break;
             default :
                 char code = (char) i;

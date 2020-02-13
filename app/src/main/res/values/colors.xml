@@ -4,15 +4,13 @@
     <color name="colorPrimaryDark">#269bc3</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="white">#FFFFFF</color>
+    <color name="white">#FEFEFE</color>
     <color name="dark_white">#F9FBFC</color>
     <color name="light_grey">#F0F0F1</color>
-    <color name="grey">#95A5A6</color>
+    <color name="grey">#A8A8A8</color>
     <color name="dark_grey">#414042</color>
-    <color name="black">#000000</color>
+    <color name="black">#161616</color>
     <color name="light_blue">#269BC3</color>
     <color name="dark_blue">#1D61AE</color>
-
-    <color name="key_text_color">#414042</color>
 
 </resources>

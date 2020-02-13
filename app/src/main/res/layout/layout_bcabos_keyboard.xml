@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:padding="16dp"
-            android:src="@drawable/bca_bos_text_white" />
+            android:src="@drawable/bos_logo_white" />
 
         <Button
             android:id="@+id/bcabos_extended_templatedtext_button"
@@ -133,24 +133,26 @@
             android:visibility="visible">
 
             <ImageButton
-                android:id="@+id/bcabos_ongkir_berat_check_button"
+                android:id="@+id/bcabos_ongkir_berat_back_button"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_keyboard_check"
-                android:layout_marginTop="4dp"
-                android:paddingRight="10dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
                 android:paddingLeft="16dp"
-                android:background="@android:color/transparent"/>
+                android:paddingRight="16dp"
+                android:src="@drawable/ic_keyboard_back_gradient"/>
 
             <EditText
                 android:id="@+id/bcabos_ongkir_berat_text"
                 style="@style/editText_style"
-                android:layout_width="match_parent"
+                android:layout_weight="9"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="@color/grey"
-                android:textSize="14dp"
-                android:hint="Berat(kg)*"/>
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:hint="Berat(kg)*"
+                android:inputType="number"/>
 
         </LinearLayout>
 
@@ -163,23 +165,24 @@
             android:visibility="visible">
 
             <ImageButton
-                android:id="@+id/bcabos_ongkir_asal_check_button"
+                android:id="@+id/bcabos_ongkir_asal_back_button"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_keyboard_check"
-                android:layout_marginTop="4dp"
-                android:paddingRight="10dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
                 android:paddingLeft="16dp"
-                android:background="@android:color/transparent"/>
+                android:paddingRight="16dp"
+                android:src="@drawable/ic_keyboard_back_gradient"/>
 
             <EditText
                 android:id="@+id/bcabos_ongkir_asal_text"
                 style="@style/editText_style"
-                android:layout_width="match_parent"
+                android:layout_weight="9"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="@color/grey"
-                android:textSize="14dp"
+                android:textSize="16dp"
+                android:textStyle="bold"
                 android:hint="Asal pengiriman*"/>
 
         </LinearLayout>
@@ -193,25 +196,27 @@
             android:visibility="visible">
 
             <ImageButton
-                android:id="@+id/bcabos_ongkir_tujuan_check_button"
+                android:id="@+id/bcabos_ongkir_tujuan_back_button"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_keyboard_check"
-                android:layout_marginTop="4dp"
-                android:paddingRight="10dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
                 android:paddingLeft="16dp"
-                android:background="@android:color/transparent"/>
+                android:paddingRight="16dp"
+                android:src="@drawable/ic_keyboard_back_gradient"/>
 
             <EditText
                 android:id="@+id/bcabos_ongkir_tujuan_text"
                 style="@style/editText_style"
-                android:layout_width="match_parent"
+                android:layout_weight="9
+"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="@color/grey"
-                android:textSize="14dp"
-                android:hint="Tujuan Pengiriman*"
-                android:selectAllOnFocus="true"/>
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:hint="Tujuan Pengiriman*"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -220,12 +225,13 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingRight="16dp"
+            android:paddingRight="8dp"
             android:layout_marginBottom="8dp"
             android:visibility="visible">
 
             <ImageButton
                 android:id="@+id/bcabos_ongkir_cekongkir_back_button"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
@@ -235,7 +241,8 @@
 
             <Button
                 android:id="@+id/bcabos_ongkir_cekongkir_check_button"
-                android:layout_width="match_parent"
+                android:layout_weight="9"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/gradient_color_rounded_box"
                 android:paddingLeft="8dp"
@@ -259,7 +266,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="20dp"
 
-        android:keyTextColor="@color/key_text_color"
+        android:keyTextColor="@color/black"
         android:keyBackground="@drawable/style_keyboard_key_background"
 
         android:shadowRadius="0.0"

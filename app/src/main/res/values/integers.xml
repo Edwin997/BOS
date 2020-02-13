@@ -5,4 +5,9 @@
 
     <integer name="bos_keyboard_mode_symbol_1">0</integer>
     <integer name="bos_keyboard_mode_symbol_2">1</integer>
+
+    <integer name="KEYBOARD_KEYCODE_CHANGE_ALPHABET_ACTION">-4</integer>
+    <integer name="bos_keyboard_mode_alphabet_action_1">0</integer>
+    <integer name="bos_keyboard_mode_alphabet_action_2">1</integer>
+    <integer name="bos_keyboard_mode_alphabet_action_3">2</integer>
 </resources>
