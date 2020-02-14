@@ -3,11 +3,15 @@
 
     <integer name="KEYBOARD_KEYCODE_CHANGE_NUMBER_SYMBOL">-7</integer>
 
-    <integer name="bos_keyboard_mode_symbol_1">0</integer>
-    <integer name="bos_keyboard_mode_symbol_2">1</integer>
+    <integer name="bos_keyboard_mode_symbol_1_default">0</integer>
+    <integer name="bos_keyboard_mode_symbol_1_next">1</integer>
+    <integer name="bos_keyboard_mode_symbol_1_ok">2</integer>
 
-    <integer name="KEYBOARD_KEYCODE_CHANGE_ALPHABET_ACTION">-4</integer>
-    <integer name="bos_keyboard_mode_alphabet_action_1">0</integer>
-    <integer name="bos_keyboard_mode_alphabet_action_2">1</integer>
-    <integer name="bos_keyboard_mode_alphabet_action_3">2</integer>
+    <integer name="bos_keyboard_mode_symbol_2_default">0</integer>
+    <integer name="bos_keyboard_mode_symbol_2_next">1</integer>
+    <integer name="bos_keyboard_mode_symbol_2_ok">2</integer>
+
+    <integer name="bos_keyboard_mode_alphabet_action_default">0</integer>
+    <integer name="bos_keyboard_mode_alphabet_action_next">1</integer>
+    <integer name="bos_keyboard_mode_alphabet_action_ok">2</integer>
 </resources>

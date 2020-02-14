@@ -27,19 +27,25 @@ import com.example.bca_bos.interfaces.OnCallBackListener;
 public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKeyboardActionListener, OnCallBackListener {
 
     private final static int KEYCODE_CHANGE_NUMBER_SYMBOL = -7;
-    private final static int KEYCODE_CHANGE_ALPHABET_ACTION = -4;
+
+    private final static int KEY_DEFAULT = 0;
+    private final static int KEY_NEXT = 1;
+    private final static int KEY_OK = 2;
 
     private View g_viewparent;
     private KeyboardView g_keyboardview;
 
-    private Keyboard g_keyboard_alphabet_action1, g_keyboard_alphabet_action2, g_keyboard_alphabet_action3;
-    private Keyboard g_keyboard_symbol1, g_keyboard_symbol2;
+    private Keyboard g_keyboard_alphabet_default, g_keyboard_alphabet_next, g_keyboard_alphabet_ok;
+    private Keyboard g_keyboard_symbol1_default, g_keyboard_symbol1_next, g_keyboard_symbol1_ok;
+    private Keyboard g_keyboard_symbol2_default, g_keyboard_symbol2_next, g_keyboard_symbol2_ok;
     private Keyboard g_keyboard_number;
 
 
     private boolean IS_CAPS = false;
     private boolean IS_ALPHABET = true;
     private boolean IS_SYMBOL1 = true;
+
+    private int KEYCODE_DONE_TYPE = 0;
 
     private boolean isInputConnectionExternalBOSKeyboard;
     String focusedEditText="";
@@ -95,14 +101,21 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     private void initiateKeyboardView() {
         g_keyboardview = g_viewparent.findViewById(R.id.bcabos_keyboard_view);
 
-        g_keyboard_alphabet_action1 = new Keyboard(this, R.xml.bcabos_keyboard_alphabet, R.integer.bos_keyboard_mode_alphabet_action_1);
-        g_keyboard_alphabet_action2 = new Keyboard(this, R.xml.bcabos_keyboard_alphabet, R.integer.bos_keyboard_mode_alphabet_action_2);
-        g_keyboard_alphabet_action3 = new Keyboard(this, R.xml.bcabos_keyboard_alphabet, R.integer.bos_keyboard_mode_alphabet_action_3);
-        g_keyboard_symbol1 = new Keyboard(this, R.xml.bcabos_keyboard_number_symbol, R.integer.bos_keyboard_mode_symbol_1);
-        g_keyboard_symbol2 = new Keyboard(this, R.xml.bcabos_keyboard_number_symbol, R.integer.bos_keyboard_mode_symbol_2);
+        g_keyboard_alphabet_default = new Keyboard(this, R.xml.bcabos_keyboard_alphabet, R.integer.bos_keyboard_mode_alphabet_action_default);
+        g_keyboard_alphabet_next = new Keyboard(this, R.xml.bcabos_keyboard_alphabet, R.integer.bos_keyboard_mode_alphabet_action_next);
+        g_keyboard_alphabet_ok = new Keyboard(this, R.xml.bcabos_keyboard_alphabet, R.integer.bos_keyboard_mode_alphabet_action_ok);
+
+        g_keyboard_symbol1_default = new Keyboard(this, R.xml.bcabos_keyboard_number_symbol, R.integer.bos_keyboard_mode_symbol_1_default);
+        g_keyboard_symbol1_next = new Keyboard(this, R.xml.bcabos_keyboard_number_symbol, R.integer.bos_keyboard_mode_symbol_1_next);
+        g_keyboard_symbol1_ok = new Keyboard(this, R.xml.bcabos_keyboard_number_symbol, R.integer.bos_keyboard_mode_symbol_1_ok);
+
+        g_keyboard_symbol2_default = new Keyboard(this, R.xml.bcabos_keyboard_number_symbol, R.integer.bos_keyboard_mode_symbol_2_default);
+        g_keyboard_symbol2_next = new Keyboard(this, R.xml.bcabos_keyboard_number_symbol, R.integer.bos_keyboard_mode_symbol_2_next);
+        g_keyboard_symbol2_ok = new Keyboard(this, R.xml.bcabos_keyboard_number_symbol, R.integer.bos_keyboard_mode_symbol_2_ok);
+
         g_keyboard_number = new Keyboard(this, R.xml.bcabos_keyboard_number);
 
-        g_keyboardview.setKeyboard(g_keyboard_alphabet_action1);
+        g_keyboardview.setKeyboard(g_keyboard_alphabet_default);
         g_keyboardview.setOnKeyboardActionListener(this);
         g_keyboardview.setPreviewEnabled(false);
     }
@@ -189,7 +202,9 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             @Override
             public void onClick(View view) {
                 showOngkir();
-                g_keyboardview.setKeyboard(g_keyboard_alphabet_action1);
+                IS_ALPHABET = true;
+                KEYCODE_DONE_TYPE = KEY_DEFAULT;
+                setKeyboardType();
             }
         });
 
@@ -209,7 +224,9 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 focusedEditText = "g_et_ongkir_asal";
                 showAsalMenu();
-                g_keyboardview.setKeyboard(g_keyboard_alphabet_action2);
+                IS_ALPHABET = true;
+                KEYCODE_DONE_TYPE = KEY_NEXT;
+                setKeyboardType();
                 return false;
             }
         });
@@ -218,7 +235,9 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             @Override
             public void onClick(View view) {
                 showOngkir();
-                g_keyboardview.setKeyboard(g_keyboard_alphabet_action1);
+                IS_ALPHABET = true;
+                KEYCODE_DONE_TYPE = KEY_DEFAULT;
+                setKeyboardType();
             }
         });
 
@@ -238,7 +257,9 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 focusedEditText = "g_et_ongkir_tujuan";
                 showTujuanMenu();
-                g_keyboardview.setKeyboard(g_keyboard_alphabet_action3);
+                IS_ALPHABET = true;
+                KEYCODE_DONE_TYPE = KEY_OK;
+                setKeyboardType();
                 return false;
             }
         });
@@ -247,7 +268,9 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             @Override
             public void onClick(View view) {
                 showOngkir();
-                g_keyboardview.setKeyboard(g_keyboard_alphabet_action1);
+                IS_ALPHABET = true;
+                KEYCODE_DONE_TYPE = KEY_DEFAULT;
+                setKeyboardType();
             }
         });
 
@@ -300,6 +323,9 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 showStokSearch();
+                IS_ALPHABET = true;
+                KEYCODE_DONE_TYPE = KEY_DEFAULT;
+                setKeyboardType();
                 return false;
             }
         });
@@ -437,47 +463,40 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         playClick(i);
         switch (i){
             case KEYCODE_CHANGE_NUMBER_SYMBOL:
-                if(IS_SYMBOL1){
-                    g_keyboardview.setKeyboard(g_keyboard_symbol2);
-                }
-                else{
-                    g_keyboardview.setKeyboard(g_keyboard_symbol1);
-                }
                 IS_SYMBOL1 = !IS_SYMBOL1;
+                setKeyboardType();
                 break;
-            case KEYCODE_CHANGE_ALPHABET_ACTION:
+            case Keyboard.KEYCODE_DONE:
                 switch (focusedEditText){
                     case "g_et_ongkir_berat":
                         focusedEditText = "g_et_ongkir_asal";
                         showAsalMenu();
-                        g_keyboardview.setKeyboard(g_keyboard_alphabet_action2);
+                        KEYCODE_DONE_TYPE = KEY_NEXT;
+                        setKeyboardType();
                         break;
                     case "g_et_ongkir_asal":
                         focusedEditText = "g_et_ongkir_tujuan";
                         showTujuanMenu();
-                        g_keyboardview.setKeyboard(g_keyboard_alphabet_action3);
+                        KEYCODE_DONE_TYPE = KEY_OK;
+                        setKeyboardType();
                         break;
                     case "g_et_ongkir_tujuan":
                         focusedEditText = "g_et_external";
                         showOngkir();
-                        g_keyboardview.setKeyboard(g_keyboard_alphabet_action1);
+                        KEYCODE_DONE_TYPE = KEY_DEFAULT;
+                        setKeyboardType();
                         break;
-                        default:
-                            l_inputconnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
-                            g_keyboardview.setKeyboard(g_keyboard_alphabet_action1);
+                    default:
+                        l_inputconnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
+                        KEYCODE_DONE_TYPE = KEY_DEFAULT;
+                        setKeyboardType();
                 }
 
                 break;
             case Keyboard.KEYCODE_MODE_CHANGE :
-                if(IS_ALPHABET){
-                    IS_SYMBOL1 = true;
-                    g_keyboardview.setKeyboard(g_keyboard_symbol1);
-                }
-                else{
-                    g_keyboardview.setKeyboard(g_keyboard_alphabet_action1);
-                }
-
+                IS_SYMBOL1 = true;
                 IS_ALPHABET = !IS_ALPHABET;
+                setKeyboardType();
                 break;
             case Keyboard.KEYCODE_DELETE :
                 deleteKeyPressed(l_inputconnection, selectedText);
@@ -485,13 +504,12 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             case Keyboard.KEYCODE_SHIFT:
                 IS_CAPS = !IS_CAPS;
 
-                g_keyboard_alphabet_action1.setShifted(IS_CAPS);
-                g_keyboardview.invalidateAllKeys();
+                g_keyboard_alphabet_default.setShifted(IS_CAPS);
+                g_keyboard_alphabet_next.setShifted(IS_CAPS);
+                g_keyboard_alphabet_ok.setShifted(IS_CAPS);
 
+                g_keyboardview.invalidateAllKeys();
                 break;
-//            case Keyboard.KEYCODE_DONE:
-//                l_inputconnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
-//                break;
             case Keyboard.KEYCODE_CANCEL:
                 InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
                 imeManager.showInputMethodPicker();
@@ -505,6 +523,44 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
         }
 
+    }
+
+    private void setKeyboardType(){
+        if(IS_ALPHABET){
+            if(KEYCODE_DONE_TYPE == KEY_DEFAULT){
+                g_keyboardview.setKeyboard(g_keyboard_alphabet_default);
+            }
+            else if(KEYCODE_DONE_TYPE == KEY_NEXT){
+                g_keyboardview.setKeyboard(g_keyboard_alphabet_next);
+            }
+            else if(KEYCODE_DONE_TYPE == KEY_OK) {
+                g_keyboardview.setKeyboard(g_keyboard_alphabet_ok);
+            }
+        }
+        else{
+            if(IS_SYMBOL1){
+                if(KEYCODE_DONE_TYPE == KEY_DEFAULT){
+                    g_keyboardview.setKeyboard(g_keyboard_symbol1_default);
+                }
+                else if(KEYCODE_DONE_TYPE == KEY_NEXT){
+                    g_keyboardview.setKeyboard(g_keyboard_symbol1_next);
+                }
+                else if(KEYCODE_DONE_TYPE == KEY_OK) {
+                    g_keyboardview.setKeyboard(g_keyboard_symbol1_ok);
+                }
+            }
+            else{
+                if(KEYCODE_DONE_TYPE == KEY_DEFAULT){
+                    g_keyboardview.setKeyboard(g_keyboard_symbol2_default);
+                }
+                else if(KEYCODE_DONE_TYPE == KEY_NEXT){
+                    g_keyboardview.setKeyboard(g_keyboard_symbol2_next);
+                }
+                else if(KEYCODE_DONE_TYPE == KEY_OK) {
+                    g_keyboardview.setKeyboard(g_keyboard_symbol2_ok);
+                }
+            }
+        }
     }
 
     private void playClick(int i) {

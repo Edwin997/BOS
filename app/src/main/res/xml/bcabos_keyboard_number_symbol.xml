@@ -20,7 +20,7 @@
     </Row>
 
     <!--(+),(⨯),(/),(=),(%),(_),(&),(*),((),())-->
-    <Row android:keyboardMode="@integer/bos_keyboard_mode_symbol_1">
+    <Row android:keyboardMode="@integer/bos_keyboard_mode_symbol_1_default">
         <Key android:codes="43" android:keyLabel="&#x0002B;" android:keyEdgeFlags="left"/>
         <Key android:codes="215" android:keyLabel="&#x000D7;"/>
         <Key android:codes="47" android:keyLabel="&#x0002F;"/>
@@ -33,7 +33,7 @@
         <Key android:codes="41" android:keyLabel="&#x00029;" android:keyEdgeFlags="right"/>
     </Row>
     <!--(‐),('),("),(:),(;),(!),(?)-->
-    <Row android:keyboardMode="@integer/bos_keyboard_mode_symbol_1">
+    <Row android:keyboardMode="@integer/bos_keyboard_mode_symbol_1_default">
         <Key android:codes="@integer/KEYBOARD_KEYCODE_CHANGE_NUMBER_SYMBOL" android:keyLabel="&#x00040;/&#x00023;" android:keyWidth="13.85%p" android:keyEdgeFlags="left"/>
         <Key android:codes="8208" android:keyLabel="&#x02010;"/>
         <Key android:codes="39" android:keyLabel="&#x00027;"/>
@@ -44,9 +44,91 @@
         <Key android:codes="63" android:keyLabel="&#x0003F;"/>
         <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
     </Row>
+    <!--(MODE)(LOGO)(.,)(SPACE)(@)(ENTER)-->
+    <Row android:rowEdgeFlags="bottom"
+        android:keyboardMode="@integer/bos_keyboard_mode_symbol_1_default">
+        <Key android:codes="-2" android:keyLabel="ABC" android:keyWidth="10%p"  android:keyEdgeFlags="left"/>
+        <Key android:codes="-3" android:keyIcon="@drawable/ic_keyboard_keyboard" android:keyWidth="10%p"/>
+        <Key android:codes="44" android:keyLabel="&#x0002C;" android:keyWidth="10%p"/>
+        <Key android:codes="32" android:keyWidth="43%p" android:keyLabel="SPASI" android:isRepeatable="true"/>
+        <Key android:codes="46" android:keyLabel="&#x0002E;" android:keyWidth="10%p"/>
+        <Key android:codes="-4" android:keyIcon="@drawable/ic_keyboard_enter" android:keyWidth="10%p" android:keyEdgeFlags="right"/>
+    </Row>
+
+    <!--(+),(⨯),(/),(=),(%),(_),(&),(*),((),())-->
+    <Row android:keyboardMode="@integer/bos_keyboard_mode_symbol_1_next">
+        <Key android:codes="43" android:keyLabel="&#x0002B;" android:keyEdgeFlags="left"/>
+        <Key android:codes="215" android:keyLabel="&#x000D7;"/>
+        <Key android:codes="47" android:keyLabel="&#x0002F;"/>
+        <Key android:codes="61" android:keyLabel="&#x0003D;"/>
+        <Key android:codes="37" android:keyLabel="&#x00025;"/>
+        <Key android:codes="95" android:keyLabel="&#x0005F;"/>
+        <Key android:codes="38" android:keyLabel="&#x00026;"/>
+        <Key android:codes="42" android:keyLabel="&#x0002A;"/>
+        <Key android:codes="40" android:keyLabel="&#x00028;"/>
+        <Key android:codes="41" android:keyLabel="&#x00029;" android:keyEdgeFlags="right"/>
+    </Row>
+    <!--(‐),('),("),(:),(;),(!),(?)-->
+    <Row android:keyboardMode="@integer/bos_keyboard_mode_symbol_1_next">
+        <Key android:codes="@integer/KEYBOARD_KEYCODE_CHANGE_NUMBER_SYMBOL" android:keyLabel="&#x00040;/&#x00023;" android:keyWidth="13.85%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="8208" android:keyLabel="&#x02010;"/>
+        <Key android:codes="39" android:keyLabel="&#x00027;"/>
+        <Key android:codes="34" android:keyLabel="&#x00022;"/>
+        <Key android:codes="58" android:keyLabel="&#x0003A;"/>
+        <Key android:codes="59" android:keyLabel="&#x0003B;"/>
+        <Key android:codes="33" android:keyLabel="&#x00021;"/>
+        <Key android:codes="63" android:keyLabel="&#x0003F;"/>
+        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
+    </Row>
+    <!--(MODE)(LOGO)(.,)(SPACE)(@)(NEXT)-->
+    <Row android:rowEdgeFlags="bottom"
+        android:keyboardMode="@integer/bos_keyboard_mode_symbol_1_next">
+        <Key android:codes="-2" android:keyLabel="ABC" android:keyWidth="10%p"  android:keyEdgeFlags="left"/>
+        <Key android:codes="-3" android:keyIcon="@drawable/ic_keyboard_keyboard" android:keyWidth="10%p"/>
+        <Key android:codes="44" android:keyLabel="&#x0002C;" android:keyWidth="10%p"/>
+        <Key android:codes="32" android:keyWidth="43%p" android:keyLabel="SPASI" android:isRepeatable="true"/>
+        <Key android:codes="46" android:keyLabel="&#x0002E;" android:keyWidth="10%p"/>
+        <Key android:codes="-4" android:keyIcon="@drawable/ic_keyboard_next_gradient" android:keyWidth="10%p" android:keyEdgeFlags="right"/>
+    </Row>
+
+    <!--(+),(⨯),(/),(=),(%),(_),(&),(*),((),())-->
+    <Row android:keyboardMode="@integer/bos_keyboard_mode_symbol_1_ok">
+        <Key android:codes="43" android:keyLabel="&#x0002B;" android:keyEdgeFlags="left"/>
+        <Key android:codes="215" android:keyLabel="&#x000D7;"/>
+        <Key android:codes="47" android:keyLabel="&#x0002F;"/>
+        <Key android:codes="61" android:keyLabel="&#x0003D;"/>
+        <Key android:codes="37" android:keyLabel="&#x00025;"/>
+        <Key android:codes="95" android:keyLabel="&#x0005F;"/>
+        <Key android:codes="38" android:keyLabel="&#x00026;"/>
+        <Key android:codes="42" android:keyLabel="&#x0002A;"/>
+        <Key android:codes="40" android:keyLabel="&#x00028;"/>
+        <Key android:codes="41" android:keyLabel="&#x00029;" android:keyEdgeFlags="right"/>
+    </Row>
+    <!--(‐),('),("),(:),(;),(!),(?)-->
+    <Row android:keyboardMode="@integer/bos_keyboard_mode_symbol_1_ok">
+        <Key android:codes="@integer/KEYBOARD_KEYCODE_CHANGE_NUMBER_SYMBOL" android:keyLabel="&#x00040;/&#x00023;" android:keyWidth="13.85%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="8208" android:keyLabel="&#x02010;"/>
+        <Key android:codes="39" android:keyLabel="&#x00027;"/>
+        <Key android:codes="34" android:keyLabel="&#x00022;"/>
+        <Key android:codes="58" android:keyLabel="&#x0003A;"/>
+        <Key android:codes="59" android:keyLabel="&#x0003B;"/>
+        <Key android:codes="33" android:keyLabel="&#x00021;"/>
+        <Key android:codes="63" android:keyLabel="&#x0003F;"/>
+        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
+    </Row>
+    <!--(MODE)(LOGO)(.,)(SPACE)(@)(OK)-->
+    <Row android:rowEdgeFlags="bottom"
+        android:keyboardMode="@integer/bos_keyboard_mode_symbol_1_ok">
+        <Key android:codes="-2" android:keyLabel="ABC" android:keyWidth="10%p"  android:keyEdgeFlags="left"/>
+        <Key android:codes="-3" android:keyIcon="@drawable/ic_keyboard_keyboard" android:keyWidth="10%p"/>
+        <Key android:codes="44" android:keyLabel="&#x0002C;" android:keyWidth="10%p"/>
+        <Key android:codes="32" android:keyWidth="43%p" android:keyLabel="SPASI" android:isRepeatable="true"/>
+        <Key android:codes="46" android:keyLabel="&#x0002E;" android:keyWidth="10%p"/>
+        <Key android:codes="-4" android:keyIcon="@drawable/ic_keyboard_check" android:keyWidth="10%p" android:keyEdgeFlags="right"/>
+    </Row>
 
     <!--(+),(=),(@),(#),(%),(_),(&),(*),((),())-->
-    <Row android:keyboardMode="@integer/bos_keyboard_mode_symbol_2">
+    <Row android:keyboardMode="@integer/bos_keyboard_mode_symbol_2_default">
         <Key android:codes="43" android:keyLabel="&#x0002B;" android:keyEdgeFlags="left"/>
         <Key android:codes="61" android:keyLabel="&#x0003D;"/>
         <Key android:codes="64" android:keyLabel="&#x00040;"/>
@@ -59,7 +141,7 @@
         <Key android:codes="93" android:keyLabel="&#x0005D;" android:keyEdgeFlags="right"/>
     </Row>
     <!--(‐),('),("),(:),(;),(!),(?)-->
-    <Row android:keyboardMode="@integer/bos_keyboard_mode_symbol_2">
+    <Row android:keyboardMode="@integer/bos_keyboard_mode_symbol_2_default">
         <Key android:codes="@integer/KEYBOARD_KEYCODE_CHANGE_NUMBER_SYMBOL" android:keyLabel="&#x0002B;/&#x0003D;" android:keyWidth="13.85%p" android:keyEdgeFlags="left"/>
         <Key android:codes="8208" android:keyLabel="&#x02010;"/>
         <Key android:codes="39" android:keyLabel="&#x00027;"/>
@@ -70,9 +152,9 @@
         <Key android:codes="63" android:keyLabel="&#x0003F;"/>
         <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
     </Row>
-
     <!--(MODE)(LOGO)(.,)(SPACE)(@)(ENTER)-->
-    <Row android:rowEdgeFlags="bottom">
+    <Row android:rowEdgeFlags="bottom"
+        android:keyboardMode="@integer/bos_keyboard_mode_symbol_2_default">
         <Key android:codes="-2" android:keyLabel="ABC" android:keyWidth="10%p"  android:keyEdgeFlags="left"/>
         <Key android:codes="-3" android:keyIcon="@drawable/ic_keyboard_keyboard" android:keyWidth="10%p"/>
         <Key android:codes="44" android:keyLabel="&#x0002C;" android:keyWidth="10%p"/>
@@ -80,4 +162,77 @@
         <Key android:codes="46" android:keyLabel="&#x0002E;" android:keyWidth="10%p"/>
         <Key android:codes="-4" android:keyIcon="@drawable/ic_keyboard_enter" android:keyWidth="10%p" android:keyEdgeFlags="right"/>
     </Row>
+
+    <!--(+),(=),(@),(#),(%),(_),(&),(*),((),())-->
+    <Row android:keyboardMode="@integer/bos_keyboard_mode_symbol_2_next">
+        <Key android:codes="43" android:keyLabel="&#x0002B;" android:keyEdgeFlags="left"/>
+        <Key android:codes="61" android:keyLabel="&#x0003D;"/>
+        <Key android:codes="64" android:keyLabel="&#x00040;"/>
+        <Key android:codes="35" android:keyLabel="&#x00023;"/>
+        <Key android:codes="124" android:keyLabel="&#x0007C;"/>
+        <Key android:codes="126" android:keyLabel="&#x0007E;"/>
+        <Key android:codes="123" android:keyLabel="&#x0007B;"/>
+        <Key android:codes="124" android:keyLabel="&#x0007D;"/>
+        <Key android:codes="91" android:keyLabel="&#x0005B;"/>
+        <Key android:codes="93" android:keyLabel="&#x0005D;" android:keyEdgeFlags="right"/>
+    </Row>
+    <!--(‐),('),("),(:),(;),(!),(?)-->
+    <Row android:keyboardMode="@integer/bos_keyboard_mode_symbol_2_next">
+        <Key android:codes="@integer/KEYBOARD_KEYCODE_CHANGE_NUMBER_SYMBOL" android:keyLabel="&#x0002B;/&#x0003D;" android:keyWidth="13.85%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="8208" android:keyLabel="&#x02010;"/>
+        <Key android:codes="39" android:keyLabel="&#x00027;"/>
+        <Key android:codes="34" android:keyLabel="&#x00022;"/>
+        <Key android:codes="58" android:keyLabel="&#x0003A;"/>
+        <Key android:codes="59" android:keyLabel="&#x0003B;"/>
+        <Key android:codes="33" android:keyLabel="&#x00021;"/>
+        <Key android:codes="63" android:keyLabel="&#x0003F;"/>
+        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
+    </Row>
+    <!--(MODE)(LOGO)(.,)(SPACE)(@)(NEXT)-->
+    <Row android:rowEdgeFlags="bottom"
+        android:keyboardMode="@integer/bos_keyboard_mode_symbol_2_next">
+        <Key android:codes="-2" android:keyLabel="ABC" android:keyWidth="10%p"  android:keyEdgeFlags="left"/>
+        <Key android:codes="-3" android:keyIcon="@drawable/ic_keyboard_keyboard" android:keyWidth="10%p"/>
+        <Key android:codes="44" android:keyLabel="&#x0002C;" android:keyWidth="10%p"/>
+        <Key android:codes="32" android:keyWidth="43%p" android:keyLabel="SPASI" android:isRepeatable="true"/>
+        <Key android:codes="46" android:keyLabel="&#x0002E;" android:keyWidth="10%p"/>
+        <Key android:codes="-4" android:keyIcon="@drawable/ic_keyboard_next_gradient" android:keyWidth="10%p" android:keyEdgeFlags="right"/>
+    </Row>
+
+    <!--(+),(=),(@),(#),(%),(_),(&),(*),((),())-->
+    <Row android:keyboardMode="@integer/bos_keyboard_mode_symbol_2_ok">
+        <Key android:codes="43" android:keyLabel="&#x0002B;" android:keyEdgeFlags="left"/>
+        <Key android:codes="61" android:keyLabel="&#x0003D;"/>
+        <Key android:codes="64" android:keyLabel="&#x00040;"/>
+        <Key android:codes="35" android:keyLabel="&#x00023;"/>
+        <Key android:codes="124" android:keyLabel="&#x0007C;"/>
+        <Key android:codes="126" android:keyLabel="&#x0007E;"/>
+        <Key android:codes="123" android:keyLabel="&#x0007B;"/>
+        <Key android:codes="124" android:keyLabel="&#x0007D;"/>
+        <Key android:codes="91" android:keyLabel="&#x0005B;"/>
+        <Key android:codes="93" android:keyLabel="&#x0005D;" android:keyEdgeFlags="right"/>
+    </Row>
+    <!--(‐),('),("),(:),(;),(!),(?)-->
+    <Row android:keyboardMode="@integer/bos_keyboard_mode_symbol_2_ok">
+        <Key android:codes="@integer/KEYBOARD_KEYCODE_CHANGE_NUMBER_SYMBOL" android:keyLabel="&#x0002B;/&#x0003D;" android:keyWidth="13.85%p" android:keyEdgeFlags="left"/>
+        <Key android:codes="8208" android:keyLabel="&#x02010;"/>
+        <Key android:codes="39" android:keyLabel="&#x00027;"/>
+        <Key android:codes="34" android:keyLabel="&#x00022;"/>
+        <Key android:codes="58" android:keyLabel="&#x0003A;"/>
+        <Key android:codes="59" android:keyLabel="&#x0003B;"/>
+        <Key android:codes="33" android:keyLabel="&#x00021;"/>
+        <Key android:codes="63" android:keyLabel="&#x0003F;"/>
+        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
+    </Row>
+    <!--(MODE)(LOGO)(.,)(SPACE)(@)(OK)-->
+    <Row android:rowEdgeFlags="bottom"
+        android:keyboardMode="@integer/bos_keyboard_mode_symbol_2_ok">
+        <Key android:codes="-2" android:keyLabel="ABC" android:keyWidth="10%p"  android:keyEdgeFlags="left"/>
+        <Key android:codes="-3" android:keyIcon="@drawable/ic_keyboard_keyboard" android:keyWidth="10%p"/>
+        <Key android:codes="44" android:keyLabel="&#x0002C;" android:keyWidth="10%p"/>
+        <Key android:codes="32" android:keyWidth="43%p" android:keyLabel="SPASI" android:isRepeatable="true"/>
+        <Key android:codes="46" android:keyLabel="&#x0002E;" android:keyWidth="10%p"/>
+        <Key android:codes="-4" android:keyIcon="@drawable/ic_keyboard_check" android:keyWidth="10%p" android:keyEdgeFlags="right"/>
+    </Row>
+
 </Keyboard>
