@@ -1,6 +1,11 @@
 package com.example.bca_bos.models;
 
-public class Produk {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class Produk implements Parcelable {
 
     private int id;
     private String nama;
@@ -19,6 +24,26 @@ public class Produk {
         this.setGambar(gambar);
         this.setHarga(harga);
     }
+
+    protected Produk(Parcel in) {
+        id = in.readInt();
+        nama = in.readString();
+        stok = in.readInt();
+        gambar = in.readInt();
+        harga = in.readInt();
+    }
+
+    public static final Creator<Produk> CREATOR = new Creator<Produk>() {
+        @Override
+        public Produk createFromParcel(Parcel in) {
+            return new Produk(in);
+        }
+
+        @Override
+        public Produk[] newArray(int size) {
+            return new Produk[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -60,4 +85,17 @@ public class Produk {
         this.harga = harga;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(nama);
+        dest.writeInt(stok);
+        dest.writeInt(gambar);
+        dest.writeInt(harga);
+    }
 }

@@ -4,13 +4,19 @@ import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -19,10 +25,32 @@ import android.widget.LinearLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.bca_bos.adapters.StokProdukAdapter;
 
 import com.example.bca_bos.adapters.TemplatedTextAdapter;
 import com.example.bca_bos.interfaces.OnCallBackListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKeyboardActionListener, OnCallBackListener {
 
@@ -66,8 +94,24 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     //ONGKIR
     private LinearLayout g_ongkir_layout, g_ongkir_berat_layout, g_ongkir_asal_layout, g_ongkir_tujuan_layout, g_ongkir_cekongkir_layout;
     private ImageButton g_btn_ongkir_berat_back,g_btn_ongkir_asal_back, g_btn_ongkir_tujuan_back, g_btn_ongkir_back;
-    private EditText g_et_ongkir_berat, g_et_ongkir_asal, g_et_ongkir_tujuan;
+    private AutoCompleteTextView g_actv_ongkir_asal, g_actv_ongkir_tujuan;
+    private EditText g_et_ongkir_berat;
     private Button g_btn_ongkir_cekongkir;
+
+    private JSONObject cityJSON, cityRajaOngkirJSON, cityResultsJSON, costJSON, costRajaOngkirJSON, costResultJSON, costCostsJSON, costCostJSON;
+    private JSONArray cityResultsArray, costResultArray, costCostsArray, costCostArray;
+
+    private List<String> cityNameList = new ArrayList<>();
+    private List<String> serviceList = new ArrayList<>();
+    private List<String> estimationDayList = new ArrayList<>();
+    private List<String> costList = new ArrayList<>();
+
+    private final String urlGetCityRajaOngkir = "https://api.rajaongkir.com/starter/city";
+    private final String urlPostCostRajaOngkir = "https://api.rajaongkir.com/starter/cost";
+    private ArrayAdapter<String> asalAdapter;
+    private ArrayAdapter<String> tujuanAdapter;
+
+    private String gAsal, gTujuan, gBerat;
 
     //STOK
     private LinearLayout g_stok_layout, g_stok_search_layout, g_stok_produk_layout;
@@ -92,6 +136,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             initiateOngkir();
             initiateStok();
         } catch (Exception ex){
+            ex.printStackTrace();
             Log.i("EHS", ex.toString());
         }
 
@@ -177,6 +222,11 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_ongkir_tujuan_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_tujuan_layout);
         g_ongkir_cekongkir_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_layout);
 
+        asalAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, cityNameList);
+        tujuanAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, cityNameList);
+
+        getRajaOngkirCity();
+
         //BAGIAN BERAT
         g_et_ongkir_berat = g_viewparent.findViewById(R.id.bcabos_ongkir_berat_text);
         g_et_ongkir_berat.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -185,6 +235,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                 if (hasFocus) {
                     focusedEditText = "g_et_ongkir_berat";
                     typedCharacters.setLength(0);
+                    typedCharacters.delete(0, typedCharacters.length());
                 }
             }
         });
@@ -209,17 +260,19 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         });
 
         //BAGIAN ASAL
-        g_et_ongkir_asal = g_viewparent.findViewById(R.id.bcabos_ongkir_asal_text);
-        g_et_ongkir_asal.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        g_actv_ongkir_asal = g_viewparent.findViewById(R.id.bcabos_ongkir_asal_auto_complete_text_view);
+        g_actv_ongkir_asal.setAdapter(asalAdapter);
+        g_actv_ongkir_asal.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus){
                     focusedEditText = "g_et_ongkir_asal";
                     typedCharacters.setLength(0);
+                    typedCharacters.delete(0, typedCharacters.length());
                 }
             }
         });
-        g_et_ongkir_asal.setOnTouchListener(new View.OnTouchListener() {
+        g_actv_ongkir_asal.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 focusedEditText = "g_et_ongkir_asal";
@@ -230,6 +283,30 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                 return false;
             }
         });
+        g_actv_ongkir_asal.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                asalAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                g_actv_ongkir_asal.showDropDown();
+                g_keyboardview.setVisibility(View.INVISIBLE);
+            }
+        });
+        g_actv_ongkir_asal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                g_keyboardview.setVisibility(View.VISIBLE);
+            }
+        });
+
         g_btn_ongkir_asal_back = g_viewparent.findViewById(R.id.bcabos_ongkir_asal_back_button);
         g_btn_ongkir_asal_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,8 +319,9 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         });
 
         //BAGIAN TUJUAN
-        g_et_ongkir_tujuan = g_viewparent.findViewById(R.id.bcabos_ongkir_tujuan_text);
-        g_et_ongkir_tujuan.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        g_actv_ongkir_tujuan = g_viewparent.findViewById(R.id.bcabos_ongkir_tujuan_auto_complete_text_view);
+        g_actv_ongkir_tujuan.setAdapter(tujuanAdapter);
+        g_actv_ongkir_tujuan.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
@@ -252,7 +330,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                 }
             }
         });
-        g_et_ongkir_tujuan.setOnTouchListener(new View.OnTouchListener() {
+        g_actv_ongkir_tujuan.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 focusedEditText = "g_et_ongkir_tujuan";
@@ -263,6 +341,30 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                 return false;
             }
         });
+        g_actv_ongkir_tujuan.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                tujuanAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                g_actv_ongkir_tujuan.showDropDown();
+                g_keyboardview.setVisibility(View.INVISIBLE);
+            }
+        });
+        g_actv_ongkir_tujuan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                g_keyboardview.setVisibility(View.VISIBLE);
+            }
+        });
+
         g_btn_ongkir_tujuan_back = g_viewparent.findViewById(R.id.bcabos_ongkir_tujuan_back_button);
         g_btn_ongkir_tujuan_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,7 +391,14 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_btn_ongkir_cekongkir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                getAsalCityId();
+                getTujuanCityId();
+                gBerat = g_et_ongkir_berat.getText().toString();
+                focusedEditText = "g_et_external";
+                getRajaOngkirCost();
                 emptyOngkirEditText();
+                showOngkir();
+
             }
         });
 
@@ -437,8 +546,144 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     //Menghapus isi editText
     private void emptyOngkirEditText() {
         g_et_ongkir_berat.setText("");
-        g_et_ongkir_asal.setText("");
-        g_et_ongkir_tujuan.setText("");
+        g_actv_ongkir_asal.setText("");
+        g_actv_ongkir_tujuan.setText("");
+    }
+
+    //koneksi ke API RajaOngkir
+    private void getRajaOngkirCity() {
+
+        RequestQueue queue = Volley.newRequestQueue(KeyboardBOS.this);
+
+        StringRequest sr = new StringRequest(Request.Method.GET, urlGetCityRajaOngkir, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                String cityResponseJSON = response;
+                try {
+                    cityJSON = new JSONObject(cityResponseJSON);
+                    cityRajaOngkirJSON = cityJSON.getJSONObject("rajaongkir");
+                    cityResultsArray = cityRajaOngkirJSON.getJSONArray("results");
+
+                    for (int i =0; i < cityResultsArray.length(); i++){
+                        cityResultsJSON = cityResultsArray.getJSONObject(i);
+                        cityNameList.add(cityResultsJSON.getString("city_name"));
+                    }
+                    asalAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener(){
+
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                String message = "";
+                if (volleyError instanceof NetworkError) {
+                    message = "Cannot connect to Internet...Please check your connection!";
+                } else if (volleyError instanceof ServerError) {
+                    message = "The server could not be found. Please try again after some time!!";
+                } else if (volleyError instanceof AuthFailureError) {
+                    message = "Cannot connect to Internet...Please check your connection!";
+                } else if (volleyError instanceof ParseError) {
+                    message = "Parsing error! Please try again after some time!!";
+                } else if (volleyError instanceof NoConnectionError) {
+                    message = "Cannot connect to Internet...Please check your connection!";
+                } else if (volleyError instanceof TimeoutError) {
+                    message = "Connection TimeOut! Please check your internet connection.";
+                }
+                commitTextToBOSKeyboardEditText(message);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("key", "63ab191d920c76c31dc6cfc441b5da33");
+                return params;
+            }
+        };
+        sr.setTag("getdata");
+        queue.add(sr);
+
+    }
+
+    private void getRajaOngkirCost(){
+
+        RequestQueue queue = Volley.newRequestQueue(KeyboardBOS.this);
+
+        StringRequest sr = new StringRequest(Request.Method.POST, urlPostCostRajaOngkir, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                String costResponseJSON = response;
+                try {
+                    costJSON = new JSONObject(costResponseJSON);
+                    costRajaOngkirJSON = costJSON.getJSONObject("rajaongkir");
+                    costResultArray = costRajaOngkirJSON.getJSONArray("results");
+                    costResultJSON = costResultArray.getJSONObject(0);
+                    costCostsArray = costResultJSON.getJSONArray("costs");
+                    String tmpOngkir = "Daftar Ongkir:";
+
+                    for (int i = 0; i < costCostsArray.length(); i++){
+
+                        costCostsJSON = costCostsArray.getJSONObject(i);
+                        serviceList.add(costCostsJSON.getString("service"));
+                        costCostArray = costCostsJSON.getJSONArray("cost");
+                        costCostJSON = costCostArray.getJSONObject(0);
+                        estimationDayList.add(costCostJSON.getString("etd"));
+                        costList.add(costCostJSON.getString("value"));
+                        tmpOngkir = tmpOngkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i)+" hari - "+costList.get(i);
+
+                    }
+                    commitTextToBOSKeyboardEditText(tmpOngkir);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d("volley", "Error: " + error.getMessage());
+                        error.printStackTrace();
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("key", "63ab191d920c76c31dc6cfc441b5da33");
+                headers.put("content-type", "application/x-www-form-urlencoded");
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("origin", gAsal);
+                params.put("destination", gTujuan);
+                params.put("weight", gBerat);
+                params.put("courier", "jne");
+                return params;
+            }
+
+        };
+
+        queue.add(sr);
+
+    }
+
+    private void getAsalCityId(){
+        gAsal = String.valueOf(cityNameList.indexOf(g_actv_ongkir_asal.getText().toString())+1);
+    }
+
+    private void getTujuanCityId(){
+        gTujuan = String.valueOf(cityNameList.indexOf(g_actv_ongkir_tujuan.getText().toString())+1);
     }
 
     @Override
@@ -616,12 +861,12 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                 g_et_ongkir_berat.setSelection(g_et_ongkir_berat.getText().length());
                 break;
             case "g_et_ongkir_asal":
-                g_et_ongkir_asal.setText(typedCharacters);
-                g_et_ongkir_asal.setSelection(g_et_ongkir_asal.getText().length());
+                g_actv_ongkir_asal.setText(typedCharacters);
+                g_actv_ongkir_asal.setSelection(g_actv_ongkir_asal.getText().length());
                 break;
             case "g_et_ongkir_tujuan":
-                g_et_ongkir_tujuan.setText(typedCharacters);
-                g_et_ongkir_tujuan.setSelection(g_et_ongkir_tujuan.getText().length());
+                g_actv_ongkir_tujuan.setText(typedCharacters);
+                g_actv_ongkir_tujuan.setSelection(g_actv_ongkir_tujuan.getText().length());
                 break;
             case "g_et_stok_search":
                 g_et_stok_search.setText(typedCharacters);
@@ -655,24 +900,24 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                     g_et_ongkir_berat.setSelection(g_et_ongkir_berat.getText().length());
                     break;
                 case "g_et_ongkir_asal":
-                    int etAsalLength = g_et_ongkir_asal.getText().length();
+                    int etAsalLength = g_actv_ongkir_asal.getText().length();
                     if (etAsalLength > 0) {
-                        g_et_ongkir_asal.getText().delete(etAsalLength - 1, etAsalLength);
+                        g_actv_ongkir_asal.getText().delete(etAsalLength - 1, etAsalLength);
                         if(typedCharacters.length()>0){
                             typedCharacters.deleteCharAt(etAsalLength - 1);
                         }
                     }
-                    g_et_ongkir_asal.setSelection(g_et_ongkir_asal.getText().length());
+                    g_actv_ongkir_asal.setSelection(g_actv_ongkir_asal.getText().length());
                     break;
                 case "g_et_ongkir_tujuan":
-                    int etTujuanLength = g_et_ongkir_tujuan.getText().length();
+                    int etTujuanLength = g_actv_ongkir_tujuan.getText().length();
                     if (etTujuanLength > 0) {
-                        g_et_ongkir_tujuan.getText().delete(etTujuanLength - 1, etTujuanLength);
+                        g_actv_ongkir_tujuan.getText().delete(etTujuanLength - 1, etTujuanLength);
                         if(typedCharacters.length()>0){
                             typedCharacters.deleteCharAt(etTujuanLength - 1);
                         }
                     }
-                    g_et_ongkir_tujuan.setSelection(g_et_ongkir_tujuan.getText().length());
+                    g_actv_ongkir_tujuan.setSelection(g_actv_ongkir_tujuan.getText().length());
                     break;
 
             }
@@ -680,7 +925,8 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     }
 
     @Override
-    public void OnCallBack(String p_text) {
+    public void OnCallBack(Object p_obj) {
+        String p_text = p_obj.toString();
         String[] tmpText = p_text.split(";");
 
         if(tmpText[0].equals("STOK")){

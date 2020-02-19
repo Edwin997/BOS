@@ -8,9 +8,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="editText_style">
+    <style name="editText_style_white">
         <item name="android:gravity">center</item>
-        <item name="android:background">@drawable/style_edittext_background</item>
+        <item name="android:background">@drawable/style_edittext_background_white</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ems">10</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="editText_style_grey">
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/style_edittext_background_grey</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ems">10</item>

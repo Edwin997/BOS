@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".ui.produk.EditProdukActivity">
+
+
+    <ImageView
+        android:id="@+id/apps_produk_edit_iv"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/ic_keyboard_stok_produk" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/apps_produk_edit_camera_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_apps_from_camera_white"
+            android:background="@drawable/style_gradient_color_rounded_box"/>
+
+        <ImageButton
+            android:id="@+id/apps_produk_edit_gallery_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_apps_from_gallery_white"
+            android:background="@drawable/style_gradient_color_rounded_box"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/apps_produk_edit_nama_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="Nama Produk"
+        android:layout_marginTop="10dp"
+        android:textSize="24dp"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/apps_produk_edit_harga_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="Harga Produk"
+        android:layout_marginTop="10dp"
+        android:textSize="24dp"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/apps_produk_edit_stok_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="Stok Produk"
+        android:layout_marginTop="10dp"
+        android:textSize="24dp"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/apps_produk_edit_simpan_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/style_gradient_color_rounded_box"
+        android:layout_marginTop="10dp"
+        android:text="SIMPAN"
+        android:textSize="20dp"
+        android:textColor="@color/white" />
+
+</LinearLayout>

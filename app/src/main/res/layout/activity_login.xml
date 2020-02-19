@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="64dp"
+    android:paddingRight="64dp"
+    android:background="@color/white"
+    android:gravity="center"
+    tools:context=".LoginActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="32dp"
+        android:layout_gravity="center"
+        android:src="@drawable/bos_logo_gradient"/>
+
+    <EditText
+        android:id="@+id/editTextUsername"
+        style="@style/editText_style_grey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@color/dark_grey"
+        android:hint="Username"/>
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        style="@style/editText_style_grey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Password"
+        android:inputType="numberPassword"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@color/dark_grey" />
+
+    <TextView
+        android:id="@+id/textViewError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Error"
+        android:textColor="@color/red"
+        android:textSize="16dp"/>
+
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/style_gradient_color_rounded_box"
+        android:text="Login"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+</LinearLayout>

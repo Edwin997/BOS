@@ -121,8 +121,9 @@
         <LinearLayout
             android:id="@+id/bcabos_ongkir_berat_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_height="80dp"
+            android:paddingTop="10dp"
+            android:gravity="top"
             android:orientation="horizontal"
             android:visibility="visible">
 
@@ -130,7 +131,7 @@
                 android:id="@+id/bcabos_ongkir_berat_back_button"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="65dp"
                 android:background="@android:color/transparent"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -138,10 +139,10 @@
 
             <EditText
                 android:id="@+id/bcabos_ongkir_berat_text"
-                style="@style/editText_style"
+                style="@style/editText_style_white"
                 android:layout_weight="9"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:textColorHint="@color/grey"
                 android:textSize="16dp"
                 android:textStyle="bold"
@@ -153,30 +154,34 @@
         <LinearLayout
             android:id="@+id/bcabos_ongkir_asal_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_height="80dp"
+            android:paddingTop="10dp"
+            android:gravity="top"
             android:orientation="horizontal"
             android:visibility="visible">
 
             <ImageButton
                 android:id="@+id/bcabos_ongkir_asal_back_button"
+                android:layout_gravity="top"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="65dp"
                 android:background="@android:color/transparent"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:src="@drawable/ic_keyboard_back_gradient"/>
 
-            <EditText
-                android:id="@+id/bcabos_ongkir_asal_text"
-                style="@style/editText_style"
+            <AutoCompleteTextView
+                android:id="@+id/bcabos_ongkir_asal_auto_complete_text_view"
+                style="@style/editText_style_white"
+                android:dropDownHeight="200dp"
                 android:layout_weight="9"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:textColorHint="@color/grey"
                 android:textSize="16dp"
                 android:textStyle="bold"
+                android:completionThreshold="1"
                 android:hint="Asal pengiriman*"/>
 
         </LinearLayout>
@@ -184,8 +189,9 @@
         <LinearLayout
             android:id="@+id/bcabos_ongkir_tujuan_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_height="80dp"
+            android:paddingTop="10dp"
+            android:gravity="top"
             android:orientation="horizontal"
             android:visibility="visible">
 
@@ -193,21 +199,23 @@
                 android:id="@+id/bcabos_ongkir_tujuan_back_button"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="65dp"
                 android:background="@android:color/transparent"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:src="@drawable/ic_keyboard_back_gradient"/>
 
-            <EditText
-                android:id="@+id/bcabos_ongkir_tujuan_text"
-                style="@style/editText_style"
+            <AutoCompleteTextView
+                android:id="@+id/bcabos_ongkir_tujuan_auto_complete_text_view"
+                style="@style/editText_style_white"
+                android:dropDownHeight="200dp"
                 android:layout_weight="9"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:textColorHint="@color/grey"
                 android:textSize="16dp"
                 android:textStyle="bold"
+                android:completionThreshold="1"
                 android:hint="Tujuan Pengiriman*"/>
 
         </LinearLayout>
@@ -220,6 +228,8 @@
             android:orientation="horizontal"
             android:paddingRight="8dp"
             android:layout_marginBottom="8dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:visibility="visible">
 
             <ImageButton
@@ -282,7 +292,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="8"
                 android:layout_height="match_parent"
-                android:background="@drawable/style_edittext_background"
+                android:background="@drawable/style_edittext_background_white"
                 android:paddingLeft="16dp"
                 android:textColorHint="@color/grey"
                 android:textSize="16dp"

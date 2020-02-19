@@ -52,9 +52,9 @@ public class TemplatedTextAdapter extends RecyclerView.Adapter<TemplatedTextAdap
     }
 
     @Override
-    public void OnCallBack(String p_text) {
+    public void OnCallBack(Object p_obj) {
         if(g_parent_oncallbacklistener != null){
-            g_parent_oncallbacklistener.OnCallBack("TEXT;" + p_text);
+            g_parent_oncallbacklistener.OnCallBack("TEXT;" + p_obj.toString());
         }
     }
 

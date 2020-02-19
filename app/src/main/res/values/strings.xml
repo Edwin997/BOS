@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">BCA BOS</string>
+    <string name="title_activity_application_container">ApplicationContainer</string>
+    <string name="title_beranda">Beranda</string>
+    <string name="title_template">Template</string>
+    <string name="title_produk">Produk</string>
+    <string name="title_transaksi">Transaksi</string>
+    <string name="title_profile">Profile</string>
 </resources>
