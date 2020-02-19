@@ -67,8 +67,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     private Keyboard g_keyboard_symbol1_default, g_keyboard_symbol1_next, g_keyboard_symbol1_ok;
     private Keyboard g_keyboard_symbol2_default, g_keyboard_symbol2_next, g_keyboard_symbol2_ok;
     private Keyboard g_keyboard_number;
-
-
+    
     private boolean IS_CAPS = false;
     private boolean IS_ALPHABET = true;
     private boolean IS_SYMBOL1 = true;
