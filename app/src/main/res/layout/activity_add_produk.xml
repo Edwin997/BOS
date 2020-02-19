@@ -3,86 +3,125 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
     tools:context=".ui.produk.AddProdukActivity">
 
+    <LinearLayout
+        android:id="@+id/apps_produk_add_actionbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.75"
+        android:background="@drawable/style_gradient_color_rounded_bottom_box"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:text="TAMBAH PRODUK"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/apps_produk_add_iv"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_weight="1"
-        app:srcCompat="@drawable/ic_keyboard_stok_produk" />
+        android:layout_margin="10dp"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:src="@drawable/ic_keyboard_stok_produk" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_margin="10dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="0.57"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/apps_produk_add_camera_btn"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_apps_from_camera_white"
-            android:background="@drawable/style_gradient_color_rounded_box"/>
+            android:background="@drawable/style_gradient_color_rounded_box"
+            android:src="@drawable/ic_apps_from_camera_white" />
 
         <ImageButton
             android:id="@+id/apps_produk_add_gallery_btn"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
             android:layout_marginStart="5dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_apps_from_gallery_white"
-            android:background="@drawable/style_gradient_color_rounded_box"/>
+            android:background="@drawable/style_gradient_color_rounded_box"
+            android:src="@drawable/ic_apps_from_gallery_white" />
     </LinearLayout>
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/apps_produk_add_nama_et"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:hint="Nama Produk"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:textSize="24dp"
-        android:inputType="textPersonName" />
+        android:layout_weight="1">
 
-    <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nama Produk"
+            android:inputType="textPersonName"
+            android:textSize="24dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/apps_produk_add_harga_et"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:hint="Harga Produk"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:textSize="24dp"
-        android:inputType="number" />
+        android:layout_weight="1">
 
-    <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Harga Produk"
+            android:inputType="number"
+            android:textSize="24dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/apps_produk_add_stok_et"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:hint="Stok Produk"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:textSize="24dp"
-        android:inputType="number" />
+        android:layout_weight="1">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Stok Produk"
+            android:inputType="number"
+            android:textSize="24dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/apps_produk_add_simpan_btn"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        android:layout_weight="0.75"
         android:background="@drawable/style_gradient_color_rounded_box"
-        android:layout_marginTop="10dp"
         android:text="SIMPAN"
-        android:textSize="20dp"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="20dp" />
 
 </LinearLayout>

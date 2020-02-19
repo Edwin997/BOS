@@ -7,78 +7,64 @@
     app:cardCornerRadius="20dp"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="@color/cardview_light_background"
-    >
-    <androidx.constraintlayout.widget.ConstraintLayout
+    app:cardBackgroundColor="@color/cardview_light_background">
+
+    <LinearLayout
+        android:id="@+id/ll_apps_produk_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp">
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <ImageView
+            android:id="@+id/iv_apps_produk_item"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/produk_dummy_garcia" />
 
         <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="4dp"
-            android:weightSum="7"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/iv_apps_produk_item"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="4"
-                app:srcCompat="@drawable/produk_dummy_garcia" />
+            android:paddingStart="10dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_apps_produk_nama_item"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1.5"
+                android:layout_weight="2"
                 android:ellipsize="end"
-                android:gravity="center_vertical"
+                android:gravity="bottom"
                 android:maxLines="2"
                 android:text="Nama"
-                android:textSize="18dp"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_apps_produk_harga_item"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.75"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="Harga"
                 android:textColor="@color/light_blue"
-                android:textSize="15dp" />
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/tv_apps_produk_stok_item"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.75"
-                android:gravity="center_vertical"
+                android:layout_weight="1.5"
+                android:gravity="top"
                 android:text="Stok"
                 android:textSize="15dp" />
+
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/btn_apps_produk_edit_item"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="2dp"
-            android:elevation="3dp"
-            android:background="@drawable/style_background_floating_imagebutton"
-            android:scaleType="fitCenter"
-            android:padding="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_apps_edit_blue" />
+    </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

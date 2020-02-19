@@ -3,8 +3,6 @@ package com.example.bca_bos.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
 public class Produk implements Parcelable {
 
     private int id;
@@ -12,17 +10,19 @@ public class Produk implements Parcelable {
     private int stok;
     private int gambar;
     private int harga;
+    private Kategori kategori;
 
     public Produk(){
 
     }
 
-    public Produk(int id, String nama, int stok, int gambar, int harga){
+    public Produk(int id, String nama, int stok, int gambar, int harga, Kategori kategori){
         this.setId(id);
         this.setNama(nama);
         this.setStok(stok);
         this.setGambar(gambar);
         this.setHarga(harga);
+        this.setKategori(kategori);
     }
 
     protected Produk(Parcel in) {
@@ -97,5 +97,13 @@ public class Produk implements Parcelable {
         dest.writeInt(stok);
         dest.writeInt(gambar);
         dest.writeInt(harga);
+    }
+
+    public Kategori getKategori() {
+        return kategori;
+    }
+
+    public void setKategori(Kategori kategori) {
+        this.kategori = kategori;
     }
 }

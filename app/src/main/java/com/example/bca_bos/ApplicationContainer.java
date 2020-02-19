@@ -8,6 +8,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.android.volley.toolbox.Volley;
+import com.example.bca_bos.networks.VolleyClass;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ApplicationContainer extends AppCompatActivity  {
@@ -15,6 +17,7 @@ public class ApplicationContainer extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_application_container);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -24,8 +27,9 @@ public class ApplicationContainer extends AppCompatActivity  {
                 R.id.navigation_transaksi, R.id.navigation_profile)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+//        VolleyClass.getProduk(this, "http://10.1.125.119:9000/projectbos/getProduct");
     }
 
 }

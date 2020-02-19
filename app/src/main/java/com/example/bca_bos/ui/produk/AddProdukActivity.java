@@ -10,11 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class AddProdukActivity extends AppCompatActivity {
 
     ImageView g_apps_produk_image;
-    EditText g_apps_produk_nama, g_apps_produk_harga, g_apps_produk_stok;
+    TextInputLayout g_apps_produk_nama, g_apps_produk_harga, g_apps_produk_stok;
     ImageButton g_apps_from_camera, g_apps_from_gallery;
     Button g_apps_simpan;
 
