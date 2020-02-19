@@ -1,66 +1,43 @@
 package com.example.bca_bos.ui.transaksi;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bca_bos.R;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class TransaksiFragment extends Fragment {
+public class TransaksiFilterDetailFragment extends Fragment {
 
     private Context g_context;
 
     private LinearLayoutManager g_linearlayoutmanager;
     private TransaksiAdapter g_transaksiadapter;
 
-    private RecyclerView g_transaksi_fragment_recyclerview;
+    private RecyclerView g_transaksi_fiturdetail_recyclerview;
 
-    Button btn;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         g_context = container.getContext();
 
-        View l_view = inflater.inflate(R.layout.fragment_transaksi, container, false);
+        View l_view = inflater.inflate(R.layout.fragment_transaksi_filter_detail, container, false);
 
         g_linearlayoutmanager = new LinearLayoutManager(g_context);
         g_transaksiadapter = new TransaksiAdapter();
 
-        g_transaksi_fragment_recyclerview = l_view.findViewById(R.id.apps_transaksi_fragment_recyclerview);
-        g_transaksi_fragment_recyclerview.setLayoutManager(g_linearlayoutmanager);
-        g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapter);
+        g_transaksi_fiturdetail_recyclerview = l_view.findViewById(R.id.apps_transaksi_filterdetail_recyclerview);
+        g_transaksi_fiturdetail_recyclerview.setLayoutManager(g_linearlayoutmanager);
+        g_transaksi_fiturdetail_recyclerview.setAdapter(g_transaksiadapter);
 
-
-        btn = l_view.findViewById(R.id.apps_transaksi_fragment_semua_transaksi_btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(g_context, TransaksiFilterDetail.class);
-                startActivity(intent);
-            }
-        });
 //        g_transaksi_fragment_piechart = l_view.findViewById(R.id.apps_transaksi_fragment_piechart);
 //        g_transaksi_fragment_piechart.setUsePercentValues(true);
 
@@ -89,4 +66,7 @@ public class TransaksiFragment extends Fragment {
 
         return l_view;
     }
+
+
+
 }
