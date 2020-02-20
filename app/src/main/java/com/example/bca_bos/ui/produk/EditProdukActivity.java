@@ -11,11 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.models.Produk;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class EditProdukActivity extends AppCompatActivity {
 
     ImageView g_apps_produk_image;
-    EditText g_apps_produk_nama, g_apps_produk_harga, g_apps_produk_stok;
+    TextInputLayout g_apps_produk_nama, g_apps_produk_harga, g_apps_produk_stok;
     ImageButton g_apps_from_camera, g_apps_from_gallery;
     Button g_apps_simpan;
 
@@ -42,8 +43,8 @@ public class EditProdukActivity extends AppCompatActivity {
         g_apps_produk_image = findViewById(R.id.apps_produk_edit_iv);
         g_apps_simpan = findViewById(R.id.apps_produk_edit_simpan_btn);
 
-        g_apps_produk_nama.setText(p_produk.getNama());
-        g_apps_produk_harga.setText(String.valueOf(p_produk.getHarga()));
-        g_apps_produk_stok.setText(String.valueOf(p_produk.getStok()));
+        g_apps_produk_nama.getEditText().setText(p_produk.getNama());
+        g_apps_produk_harga.getEditText().setText(String.valueOf(p_produk.getHarga()));
+        g_apps_produk_stok.getEditText().setText(String.valueOf(p_produk.getStok()));
     }
 }

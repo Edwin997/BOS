@@ -3,8 +3,8 @@ package com.example.bca_bos.ui.produk;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,6 +48,11 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukView
         return g_list_produk.size();
     }
 
+    public void setDatasetProduk(List<Produk> p_list){
+        g_list_produk = p_list;
+        notifyDataSetChanged();
+    }
+
     public void setParentOnCallBack(OnCallBackListener p_oncallback){
         this.g_parent_oncallbacklistener = p_oncallback;
     }
@@ -61,11 +66,11 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukView
 
     public class ProdukViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        private LinearLayout ll_container_produk;
         private ImageView iv_produk;
         private TextView tv_nama_produk;
         private TextView tv_harga_produk;
         private TextView tv_stok_produk;
-        private ImageButton btn_edit_produk;
 
         private Produk l_produk;
         private OnCallBackListener l_parent_oncallbacklistener;
@@ -73,13 +78,14 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukView
         public ProdukViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            ll_container_produk = itemView.findViewById(R.id.ll_apps_produk_item);
+
             iv_produk = itemView.findViewById(R.id.iv_apps_produk_item);
             tv_nama_produk = itemView.findViewById(R.id.tv_apps_produk_nama_item);
             tv_harga_produk = itemView.findViewById(R.id.tv_apps_produk_harga_item);
             tv_stok_produk = itemView.findViewById(R.id.tv_apps_produk_stok_item);
-            btn_edit_produk = itemView.findViewById(R.id.btn_apps_produk_edit_item);
 
-            btn_edit_produk.setOnClickListener(this);
+            ll_container_produk.setOnClickListener(this);
         }
 
         public void setData(Produk produk){
@@ -96,9 +102,10 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukView
 
         @Override
         public void onClick(View view) {
-            if(l_parent_oncallbacklistener != null)
-            {
-                l_parent_oncallbacklistener.OnCallBack(l_produk);
+            if(view == ll_container_produk){
+                if(l_parent_oncallbacklistener != null){
+                    l_parent_oncallbacklistener.OnCallBack(l_produk);
+                }
             }
         }
     }

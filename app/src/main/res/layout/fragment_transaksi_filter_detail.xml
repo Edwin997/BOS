@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/apps_template_fragment_actionbar_layout"
+        android:id="@+id/apps_transaksi_filterdetail_actionbar_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/style_gradient_color_rounded_bottom_box"
@@ -14,35 +12,57 @@
         android:padding="10dp">
 
         <ImageButton
+            android:id="@+id/apps_transaksi_filterdetail_back_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:visibility="invisible"/>
+            android:src="@drawable/ic_apps_back_white"/>
 
         <TextView
+            android:id="@+id/apps_transaksi_filterdetail_judul_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="8"
             android:gravity="center"
             android:textSize="25dp"
-            android:text="TEMPLATE TEKS"
+            android:text="SUDAH SELESAI"
             android:textColor="@color/white"
             android:textStyle="bold"/>
 
         <ImageButton
-            android:id="@+id/apps_template_fragment_add_btn"
+            android:id="@+id/apps_transaksi_filterdetail_next_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_keyboard_add_white"/>
+            android:src="@drawable/ic_apps_next_white"/>
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/apps_template_fragment_recyclerview"
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/apps_transaksi_filterdetail_piechart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        android:background="@color/dark_white"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/dark_grey"
+        android:layout_gravity="center_vertical"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/apps_transaksi_filterdetail_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        />
+
 </LinearLayout>

@@ -8,6 +8,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ApplicationContainer extends AppCompatActivity  {
@@ -24,8 +25,9 @@ public class ApplicationContainer extends AppCompatActivity  {
                 R.id.navigation_transaksi, R.id.navigation_profile)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        //        VolleyClass.getProduk(this, "http://10.1.125.119:9000/projectbos/getProduct");
     }
 
 }
