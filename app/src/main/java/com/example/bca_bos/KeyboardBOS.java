@@ -38,6 +38,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.bca_bos.adapters.MutasiRekeningAdapter;
 import com.example.bca_bos.adapters.StokProdukAdapter;
 
 import com.example.bca_bos.adapters.TemplatedTextAdapter;
@@ -88,8 +89,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     //FEATURE
     private LinearLayout g_feature_layout;
     private ImageButton g_btn_feature_back;
-    private Button g_btn_feature_ongkir;
-    private Button g_btn_feature_stok;
+    private Button g_btn_feature_ongkir, g_btn_feature_stok, g_btn_feature_mutasi;
 
     //ONGKIR
     private LinearLayout g_ongkir_layout, g_ongkir_berat_layout, g_ongkir_asal_layout, g_ongkir_tujuan_layout, g_ongkir_cekongkir_layout;
@@ -115,13 +115,18 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     //STOK
     private LinearLayout g_stok_layout, g_stok_search_layout, g_stok_produk_layout;
-
     private RecyclerView g_rv_stok;
     private LinearLayoutManager g_stok_item_layout;
     private StokProdukAdapter g_stok_adapter;
-
     private ImageButton g_btn_stok_back;
     private EditText g_et_stok_search;
+
+    //MUTASI REKENING
+    private LinearLayout g_mutasi_layout;
+    private RecyclerView g_mutasi_recyclerview;
+    private LinearLayoutManager g_mutasi_item_layout;
+    private ImageButton g_btn_mutasi_back;
+
 
     @Override
     public View onCreateInputView() {
@@ -135,6 +140,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             initiateFeature();
             initiateOngkir();
             initiateStok();
+            initiateMutasi();
         } catch (Exception ex){
             ex.printStackTrace();
             Log.i("EHS", ex.toString());
@@ -142,6 +148,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
         return g_viewparent;
     }
+
 
     private void initiateKeyboardView() {
         g_keyboardview = g_viewparent.findViewById(R.id.bcabos_keyboard_view);
@@ -213,6 +220,15 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                 showStok();
             }
         });
+
+        g_btn_feature_mutasi = g_viewparent.findViewById(R.id.bcabos_extended_feature_mutasi_button);
+        g_btn_feature_mutasi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMutasi();
+            }
+        });
+
     }
 
     private void initiateOngkir(){
@@ -450,6 +466,26 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         });
     }
 
+    private void initiateMutasi() {
+        g_mutasi_layout = g_viewparent.findViewById(R.id.bcabos_extended_mutasi_layout);
+
+        //Recyclerview Mutasi Rekening
+        g_mutasi_recyclerview = g_viewparent.findViewById(R.id.bcabos_extended_mutasi_recyclerview);
+        g_mutasi_item_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL,false);
+        MutasiRekeningAdapter mra = new MutasiRekeningAdapter();
+
+        g_mutasi_recyclerview.setLayoutManager(g_mutasi_item_layout);
+        g_mutasi_recyclerview.setAdapter(mra);
+
+        g_btn_mutasi_back = g_viewparent.findViewById(R.id.bcabos_mutasi_back_button);
+        g_btn_mutasi_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFeatureMenu();
+            }
+        });
+    }
+
     //region SHOW FUNCTION
     private void showHomeMenu() {
         refreshDisplay();
@@ -514,6 +550,13 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         changeLayoutStatus(false);
     }
 
+    private void showMutasi() {
+        refreshDisplay();
+        g_mutasi_layout.setVisibility(View.VISIBLE);
+        g_keyboardview.setVisibility(View.GONE);
+        changeLayoutStatus(true);
+    }
+
     private void refreshDisplay(){
         //keyboard
         g_keyboardview.setVisibility(View.VISIBLE);
@@ -523,6 +566,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_feature_layout.setVisibility(View.GONE);
         g_ongkir_layout.setVisibility(View.GONE);
         g_stok_layout.setVisibility(View.GONE);
+        g_mutasi_layout.setVisibility(View.GONE);
 
         //inside ongkir layout
         g_ongkir_berat_layout.setVisibility(View.VISIBLE);
@@ -536,6 +580,8 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         //inside stok layout
         g_stok_produk_layout.setVisibility(View.VISIBLE);
         g_stok_search_layout.setVisibility(View.VISIBLE);
+
+        //inside mutasi rekening
     }
 
     //endregion

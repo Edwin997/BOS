@@ -121,7 +121,7 @@
         <LinearLayout
             android:id="@+id/bcabos_ongkir_berat_layout"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:paddingTop="10dp"
             android:gravity="top"
             android:orientation="horizontal"
@@ -154,7 +154,7 @@
         <LinearLayout
             android:id="@+id/bcabos_ongkir_asal_layout"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:paddingTop="10dp"
             android:gravity="top"
             android:orientation="horizontal"
@@ -189,7 +189,7 @@
         <LinearLayout
             android:id="@+id/bcabos_ongkir_tujuan_layout"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:paddingTop="10dp"
             android:gravity="top"
             android:orientation="horizontal"
@@ -227,9 +227,8 @@
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingRight="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="10dp"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:visibility="visible">
 
             <ImageButton
@@ -322,6 +321,54 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
+    </LinearLayout>
+
+    <!--MUTASI REKENING-->
+    <LinearLayout
+        android:id="@+id/bcabos_extended_mutasi_layout"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:gravity="start"
+        android:background="@color/light_grey"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:weightSum="10"
+            android:gravity="top"
+            android:orientation="horizontal"
+            android:background="@color/light_grey">
+
+            <ImageButton
+                android:id="@+id/bcabos_mutasi_back_button"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:src="@drawable/ic_keyboard_back_gradient"/>
+
+            <TextView
+                android:layout_weight="8"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Mutasi Rekening"
+                android:textColor="@color/dark_blue"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:inputType="number"/>
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bcabos_extended_mutasi_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
     <!--KEYBOARD-->

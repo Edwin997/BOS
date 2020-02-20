@@ -5,8 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="64dp"
-    android:paddingRight="64dp"
     android:background="@color/white"
     android:gravity="center"
     tools:context=".OTPActivity">
@@ -20,30 +18,47 @@
         android:textSize="20dp"
         android:textStyle="bold"/>
 
-    <EditText
-        android:id="@+id/editTextOTP"
-        style="@style/editText_style_grey"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="OTP"
-        android:inputType="numberPassword"
-        android:textColor="@color/colorPrimaryDark"
-        android:textColorHint="@color/dark_grey" />
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/white"
+        android:layout_marginRight="32dp"
+        android:layout_marginLeft="32dp">
 
-    <TextView
-        android:id="@+id/textViewError"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Error"
-        android:textColor="@color/red"
-        android:textSize="16dp"/>
+        <EditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:textColorHint="@color/grey"
+            android:hint="Password"
+            android:inputType="numberPassword"
+            android:maxLength="6"/>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textViewError"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Error"-->
+    <!--        android:textColor="@color/red"-->
+    <!--        android:textSize="16dp"/>-->
 
     <Button
         android:id="@+id/buttonLogin"
-        android:layout_width="150dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
         android:background="@drawable/style_gradient_color_rounded_box"
         android:text="Login"
         android:textColor="@color/white"
