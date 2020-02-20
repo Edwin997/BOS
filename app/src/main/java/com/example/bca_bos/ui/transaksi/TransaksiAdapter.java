@@ -51,48 +51,12 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
         return g_list_transaksi.size();
     }
 
-    public float countTransaksibyStatus(int p_type){
-        float count = 0;
-
-        for(int i = 0; i < g_list_transaksi.size(); i++){
-            if(g_list_transaksi.get(i).getStatus() == p_type)
-                count++;
-        }
-
-        return count;
+    public void setListTransaksi(List<Transaksi> p_list){
+        g_list_transaksi = p_list;
+        notifyDataSetChanged();
     }
 
-    public float getPersentaseTransaksiSudahSelesai(){
-        float tmpHasil = 0f;
-        if(g_list_transaksi.size() > 0){
-            tmpHasil = (countTransaksibyStatus(KEY_STATUS_SELESAI) / g_list_transaksi.size()) * 100;
-        }
-        return tmpHasil;
-    }
 
-    public float getPersentaseTransaksiSudahDikirim(){
-        float tmpHasil = 0f;
-        if(g_list_transaksi.size() > 0){
-            tmpHasil = (countTransaksibyStatus(KEY_STATUS_SUDAHDIKIRIM) / g_list_transaksi.size()) * 100;
-        }
-        return tmpHasil;
-    }
-
-    public float getPersentaseTransaksiSudahDiBayar(){
-        float tmpHasil = 0f;
-        if(g_list_transaksi.size() > 0){
-            tmpHasil = (countTransaksibyStatus(KEY_STATUS_SUDAHDIBAYAR) / g_list_transaksi.size()) * 100;
-        }
-        return tmpHasil;
-    }
-
-    public float getPersentaseTransaksiBaruMasuk(){
-        float tmpHasil = 0f;
-        if(g_list_transaksi.size() > 0){
-            tmpHasil = (countTransaksibyStatus(KEY_STATUS_BARUMASUK) / g_list_transaksi.size()) * 100;
-        }
-        return tmpHasil;
-    }
 
     public void setParentOnCallBack(OnCallBackListener p_oncallback){
         this.g_parent_oncallbacklistener = p_oncallback;
