@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_apps_bottom_sheet_container"
+    android:id="@+id/layout_apps_bottom_sheet_container_add"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,7 +12,7 @@
         android:gravity="center"
         android:padding="15dp"
         android:text="Tambah Template Teks"
-        android:textColor="@android:color/black"
+        android:textColor="@color/dark_grey"
         android:textSize="18dp"
         android:textStyle="bold"/>
 
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="10dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@color/black"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/apps_bottom_sheet_et_label"
+            android:id="@+id/apps_bottom_sheet_et_label_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Label Template Teks"
@@ -37,19 +37,23 @@
             android:inputType="textPersonName"/>
 
         <EditText
-            android:id="@+id/apps_bottom_sheet_et_deskripsi"
+            android:id="@+id/apps_bottom_sheet_et_deskripsi_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="bottom"
             android:minHeight="100dp"
+            android:maxLength="200"
             android:hint="Deskripsi Template Teks"
             android:maxLines="0"
-            android:inputType="textPersonName"/>
+            android:inputType="textPersonName|textMultiLine"/>
 
         <Button
-            android:id="@+id/apps_bottom_sheet_btn_simpan"
+            android:id="@+id/apps_bottom_sheet_btn_simpan_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_blue_light"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/style_gradient_color_rounded_box"
             android:text="SIMPAN"
             android:textColor="@android:color/white"/>
     </LinearLayout>

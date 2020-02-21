@@ -10,6 +10,7 @@
     app:cardBackgroundColor="@color/cardview_light_background">
 
     <LinearLayout
+        android:id="@+id/ll_apps_template_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
@@ -22,18 +23,10 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
             android:text="Edwin"
             android:textStyle="bold"
-            android:textSize="30dp"/>
-
-        <ImageButton
-            android:id="@+id/btn_apps_template_delete_item"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@drawable/style_gradient_color_rounded_box"
-            android:src="@drawable/ic_apps_delete_white"/>
+            android:textSize="20dp"/>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
