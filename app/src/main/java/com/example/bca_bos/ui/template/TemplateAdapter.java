@@ -36,6 +36,7 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.Templa
         LayoutInflater tmp_layout = LayoutInflater.from(parent.getContext());
         View l_view = tmp_layout.inflate(R.layout.item_apps_template, parent, false);
 
+
         TemplateViewHolder tmpHolder = new TemplateViewHolder(l_view);
         return tmpHolder;
     }
