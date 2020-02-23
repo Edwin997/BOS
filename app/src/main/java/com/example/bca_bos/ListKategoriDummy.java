@@ -11,4 +11,13 @@ public class ListKategoriDummy {
         add(new Kategori(2, "Minuman"));
         add(new Kategori(3, "Elektronik"));
     }};
+
+    public static String[] getListTypeString(){
+        String[] tmpResult = new String[kategoriList.size() + 1];
+        tmpResult[0] = "Semua Produk";
+        for(int i = 1; i <= kategoriList.size(); i++){
+            tmpResult[i] = (kategoriList.get(i-1).getNama());
+        }
+        return tmpResult;
+    }
 }
