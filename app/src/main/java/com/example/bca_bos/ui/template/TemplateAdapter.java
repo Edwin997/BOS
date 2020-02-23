@@ -20,6 +20,8 @@ import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Produk;
 import com.example.bca_bos.models.TemplatedText;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.TemplateViewHolder> implements OnCallBackListener{
@@ -65,10 +67,9 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.Templa
 
     public class TemplateViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private LinearLayout ll_container_produk;
-
         private TextView l_tv_template_label;
-        private ImageButton l_ib_template_delete;
+        private TextView l_tv_template_deskripsi;
+        private ImageButton l_ib_template_edit;
 
         private TemplatedText l_template;
         private OnCallBackListener l_parent_oncallbacklistener;
@@ -76,16 +77,17 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.Templa
         public TemplateViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            ll_container_produk = itemView.findViewById(R.id.ll_apps_template_item);
-
             l_tv_template_label = itemView.findViewById(R.id.tv_apps_template_label_item);
+            l_tv_template_deskripsi = itemView.findViewById(R.id.tv_apps_template_deskripsi_item);
+            l_ib_template_edit = itemView.findViewById(R.id.btn_apps_template_edit_item);
 
-            ll_container_produk.setOnClickListener(this);
+            l_ib_template_edit.setOnClickListener(this);
         }
 
         public void setData(TemplatedText templatedText){
             l_template = templatedText;
             l_tv_template_label.setText(l_template.getLabel());
+            l_tv_template_deskripsi.setText(l_template.getDescription());
         }
 
         public void setParentOnCallBack(OnCallBackListener p_oncallback){
@@ -94,7 +96,7 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.Templa
 
         @Override
         public void onClick(View view) {
-            if(view == ll_container_produk){
+            if(view == l_ib_template_edit){
                 if(l_parent_oncallbacklistener != null){
                     l_parent_oncallbacklistener.OnCallBack(l_template);
                 }

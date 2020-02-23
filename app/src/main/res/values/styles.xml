@@ -36,9 +36,7 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="style_tablayout_transaksi" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">28dp</item>
-        <item name="textAllCaps">false</item>
-        <item name="android:textAllCaps">false</item>
+    <style name="bottom">
+        <item name="android:background">@drawable/style_gradient_color_rounded_box_white</item>
     </style>
 </resources>
