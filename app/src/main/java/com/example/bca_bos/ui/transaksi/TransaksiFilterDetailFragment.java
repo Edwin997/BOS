@@ -1,7 +1,11 @@
 package com.example.bca_bos.ui.transaksi;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +73,7 @@ public class TransaksiFilterDetailFragment extends Fragment implements View.OnCl
 
         g_transaksi_fiturdetail_recyclerview = l_view.findViewById(R.id.apps_transaksi_filterdetail_recyclerview);
         g_linearlayoutmanager = new LinearLayoutManager(g_context);
-        g_transaksiadapter = new TransaksiAdapter();
+
 
         g_transaksi_fiturdetail_recyclerview.setLayoutManager(g_linearlayoutmanager);
         g_transaksi_fiturdetail_recyclerview.setAdapter(g_transaksiadapter);
@@ -85,33 +89,70 @@ public class TransaksiFilterDetailFragment extends Fragment implements View.OnCl
     }
 
     public void refreshLayout(){
-        switch (TRANSAKSI_FRAGMENT_TYPE){
-            case TransaksiFilterDetail.KEY_STATUS_BARUMASUK:
-                g_tv_transaksi_filterdetail.setText("BARU MASUK");
-                drawPieChart(
-                        new int[]{R.color.pink, R.color.dark_grey},
-                        g_list_transaksi.size() + "\nBARU MASUK");
-                break;
-            case TransaksiFilterDetail.KEY_STATUS_SUDAHDIBAYAR:
-                g_tv_transaksi_filterdetail.setText("SUDAH DIBAYAR");
-                drawPieChart(
-                        new int[]{R.color.yellow, R.color.dark_grey},
-                        g_list_transaksi.size() + "\nSUDAH DIBAYAR");
-                break;
-            case TransaksiFilterDetail.KEY_STATUS_SUDAHDIKIRIM:
-                g_tv_transaksi_filterdetail.setText("PROSES PENGIRIMAN");
-                drawPieChart(
-                        new int[]{R.color.turqoise, R.color.dark_grey},
-                        g_list_transaksi.size() + "\nPROSES PENGIRIMAN");
+//        switch (TRANSAKSI_FRAGMENT_TYPE){
+//            case TransaksiFilterDetail.KEY_STATUS_BARUMASUK:
+//                g_tv_transaksi_filterdetail.setText("BARU MASUK");
+//                drawCircleDisplay(
+//                        new int[]{R.color.white, R.color.white_disable},
+//                        g_list_transaksi.size() + "\nBARU MASUK");
+////                drawPieChart(
+////                        new int[]{R.color.pink, R.color.dark_grey},
+////                        g_list_transaksi.size() + "\nBARU MASUK");
+//                break;
+//            case TransaksiFilterDetail.KEY_STATUS_SUDAHDIBAYAR:
+//                g_tv_transaksi_filterdetail.setText("SUDAH DIBAYAR");
+//                drawPieChart(
+//                        new int[]{R.color.yellow, R.color.dark_grey},
+//                        g_list_transaksi.size() + "\nSUDAH DIBAYAR");
+//                break;
+//            case TransaksiFilterDetail.KEY_STATUS_SUDAHDIKIRIM:
+//                g_tv_transaksi_filterdetail.setText("PROSES PENGIRIMAN");
+//                drawPieChart(
+//                        new int[]{R.color.turqoise, R.color.dark_grey},
+//                        g_list_transaksi.size() + "\nPROSES PENGIRIMAN");
+//
+//                break;
+//            case TransaksiFilterDetail.KEY_STATUS_SELESAI:
+//                g_tv_transaksi_filterdetail.setText("TRANSAKSI SELESAI");
+//                drawPieChart(
+//                        new int[]{R.color.green, R.color.dark_grey},
+//                        g_list_transaksi.size() + "\nTRANSAKSI SELESAI");
+//                break;
+//        }
+    }
 
-                break;
-            case TransaksiFilterDetail.KEY_STATUS_SELESAI:
-                g_tv_transaksi_filterdetail.setText("TRANSAKSI SELESAI");
-                drawPieChart(
-                        new int[]{R.color.green, R.color.dark_grey},
-                        g_list_transaksi.size() + "\nTRANSAKSI SELESAI");
-                break;
-        }
+    public void drawCircleDisplay(int[] p_colortemplate, String p_centertext){
+        List<PieEntry> tmpListDataEntry = new ArrayList<>();
+        tmpListDataEntry.add(new PieEntry(g_percentage, ""));
+        tmpListDataEntry.add(new PieEntry((100f-g_percentage), ""));
+
+        PieDataSet l_transaksi_piechart_dataset = new PieDataSet(tmpListDataEntry,"");
+        PieData l_transaksi_piechart_data = new PieData(l_transaksi_piechart_dataset);
+        l_transaksi_piechart_data.setDrawValues(false);
+
+        Description l_description = new Description();
+        l_description.setText("");
+
+        g_transaksi_fragment_piechart.setDrawCenterText(true);
+
+        SpannableString tmpCustomSizeText=  new SpannableString(p_centertext);
+        tmpCustomSizeText.setSpan(new RelativeSizeSpan(3f), 0,1, 0);
+
+        l_transaksi_piechart_dataset.setColors(ColorTemplate.createColors(getResources(), p_colortemplate));
+        g_transaksi_fragment_piechart.setCenterText(tmpCustomSizeText);
+        g_transaksi_fragment_piechart.setCenterTextSize(25);
+        g_transaksi_fragment_piechart.setCenterTextColor(getResources().getColor(R.color.white));
+
+        g_transaksi_fragment_piechart.setData(l_transaksi_piechart_data);
+        g_transaksi_fragment_piechart.setDrawEntryLabels(false);
+        g_transaksi_fragment_piechart.setDrawHoleEnabled(true);
+        g_transaksi_fragment_piechart.setHoleColor(Color.TRANSPARENT);
+
+        g_transaksi_fragment_piechart.setDrawMarkers(false);
+        g_transaksi_fragment_piechart.setDescription(l_description);
+        g_transaksi_fragment_piechart.setHoleRadius(95f);
+        g_transaksi_fragment_piechart.setTransparentCircleRadius(0f);
+        g_transaksi_fragment_piechart.animateXY(1000,1000);
     }
 
     public void drawPieChart(int[] p_colortemplate, String p_centertext){

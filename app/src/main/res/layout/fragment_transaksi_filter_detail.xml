@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/style_background_gradient_turqoise">
 
     <LinearLayout
         android:id="@+id/apps_transaksi_filterdetail_actionbar_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@drawable/style_gradient_color_rounded_bottom_box"
+        android:background="@drawable/style_border_rounded_bottom"
         android:orientation="horizontal"
         android:padding="10dp">
 
@@ -47,7 +48,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_margin="10dp"
-        android:background="@color/dark_white"/>
+        android:background="@android:color/transparent"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -66,3 +67,72 @@
         />
 
 </LinearLayout>
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:orientation="vertical" android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent">-->
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/apps_transaksi_filterdetail_actionbar_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:background="@drawable/style_gradient_color_rounded_bottom_box"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:padding="10dp">-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/apps_transaksi_filterdetail_back_btn"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:src="@drawable/ic_apps_back_white"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/apps_transaksi_filterdetail_judul_tv"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="8"-->
+<!--            android:gravity="center"-->
+<!--            android:textSize="25dp"-->
+<!--            android:text="SUDAH SELESAI"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textStyle="bold"/>-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/apps_transaksi_filterdetail_next_btn"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:src="@drawable/ic_apps_next_white"/>-->
+
+<!--    </LinearLayout>-->
+
+<!--    <com.github.mikephil.charting.charts.PieChart-->
+<!--        android:id="@+id/apps_transaksi_filterdetail_piechart"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:background="@color/dark_white"/>-->
+
+<!--    <FrameLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:layout_marginEnd="20dp"-->
+<!--        android:background="@color/dark_grey"-->
+<!--        android:layout_gravity="center_vertical"/>-->
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/apps_transaksi_filterdetail_recyclerview"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:layout_margin="10dp"-->
+<!--        />-->
+
+<!--</LinearLayout>-->
