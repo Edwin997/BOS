@@ -6,14 +6,16 @@
     android:orientation="vertical"
     android:paddingTop="40dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_gravity="center"
         android:src="@drawable/pak_william"
-        app:civ_border_width="8dp"
-        app:civ_border_color="@color/black"
+        app:riv_corner_radius="48dp"
+        app:riv_border_width="10dp"
+        app:riv_border_color="@color/black"
         android:translationZ="3dp"
+        app:riv_oval="true"
         />
 
     <androidx.cardview.widget.CardView
@@ -33,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="50dp"
-                android:text="William"
+                android:text="William Sutanto"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="24dp"
@@ -205,8 +207,9 @@
             android:background="@drawable/style_gradient_color_rounded_box">
 
             <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:id="@+id/profile_edit_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_apps_edit_white"/>
 

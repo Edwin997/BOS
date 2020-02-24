@@ -1,107 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/dark_white">
+    android:paddingTop="24dp">
 
-    <LinearLayout
-        android:id="@+id/apps_produk_fragment_actionbar_layout"
-        android:layout_width="match_parent"
-        android:paddingTop="24dp"
-        android:layout_height="84dp"
-        android:background="@drawable/style_gradient_color_rounded_bottom_box"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:weightSum="10">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="8"
-            android:layout_marginTop="24dp"
-            android:paddingEnd="10dp"
-            android:background="@drawable/style_edittext_background_white"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/apps_produk_fragment_search_btn"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_keyboard_search_blue" />
-
-            <EditText
-                android:id="@+id/apps_produk_fragment_search_et"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="6"
-                android:ems="10"
-                android:hint="Search..."
-                android:inputType="textPersonName" />
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/apps_produk_fragment_filter_btn"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingTop="24dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_apps_filter_white" />
-
-        <ImageButton
-            android:id="@+id/apps_produk_fragment_add_btn"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingTop="24dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_keyboard_add_white" />
-
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:textSize="25dp"
+        android:text="Produk"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+
+    <Spinner
+        android:id="@+id/apps_produk_fragment_kategori_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/apps_produk_fragment_add_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        android:background="@drawable/style_gradient_color_rounded_box_new_blue"
         android:orientation="horizontal">
 
-        <FrameLayout
+        <ImageButton
             android:layout_width="0dp"
-            android:layout_height="1dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginStart="10dp"
-            android:background="@color/dark_grey"
-            android:layout_gravity="center_vertical"/>
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_apps_add_filled_white"/>
 
         <TextView
-            android:id="@+id/apps_produk_fragment_judul"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="ALL (9)"
-            android:gravity="center"
-            android:textSize="25dp" />
-
-        <FrameLayout
             android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="10dp"
-            android:background="@color/dark_grey"
-            android:layout_gravity="center_vertical"/>
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="start"
+            android:textSize="18dp"
+            android:text="Tambah Produk"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/apps_produk_fragment_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
 </LinearLayout>
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    xmlns:tools="http://schemas.android.com/tools"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent"-->
+    <!--    android:orientation="vertical"-->
+    <!--    android:background="@color/dark_white">-->
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/apps_produk_fragment_actionbar_layout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="60dp"-->
+    <!--        android:background="@drawable/style_gradient_color_rounded_bottom_box"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        android:padding="10dp"-->
+    <!--        android:weightSum="10">-->
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_weight="8"-->
+    <!--            android:paddingEnd="10dp"-->
+    <!--            android:background="@drawable/style_edittext_background_white"-->
+    <!--            android:orientation="horizontal">-->
+
+    <!--            <ImageButton-->
+    <!--                android:id="@+id/apps_produk_fragment_search_btn"-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:background="@android:color/transparent"-->
+    <!--                android:src="@drawable/ic_keyboard_search_blue" />-->
+
+    <!--            <EditText-->
+    <!--                android:id="@+id/apps_produk_fragment_search_et"-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:layout_weight="6"-->
+    <!--                android:ems="10"-->
+    <!--                android:hint="Search..."-->
+    <!--                android:inputType="textPersonName" />-->
+    <!--        </LinearLayout>-->
+
+    <!--        <ImageButton-->
+    <!--            android:id="@+id/apps_produk_fragment_filter_btn"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:background="@android:color/transparent"-->
+    <!--            android:src="@drawable/ic_apps_filter_white" />-->
+
+    <!--        <ImageButton-->
+    <!--            android:id="@+id/apps_produk_fragment_add_btn"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:background="@android:color/transparent"-->
+    <!--            android:src="@drawable/ic_keyboard_add_white" />-->
+
+    <!--    </LinearLayout>-->
+
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:layout_marginBottom="20dp"-->
+    <!--        android:orientation="horizontal">-->
+
+    <!--        <FrameLayout-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="1dp"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:layout_marginStart="10dp"-->
+    <!--            android:background="@color/dark_grey"-->
+    <!--            android:layout_gravity="center_vertical"/>-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/apps_produk_fragment_judul"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginStart="10dp"-->
+    <!--            android:layout_marginEnd="10dp"-->
+    <!--            android:text="ALL (9)"-->
+    <!--            android:gravity="center"-->
+    <!--            android:textSize="25dp" />-->
+
+    <!--        <FrameLayout-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="1dp"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:layout_marginEnd="10dp"-->
+    <!--            android:background="@color/dark_grey"-->
+    <!--            android:layout_gravity="center_vertical"/>-->
+
+    <!--    </LinearLayout>-->
+
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+    <!--        android:id="@+id/apps_produk_fragment_recyclerview"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent" />-->
+
+    <!--</LinearLayout>-->
