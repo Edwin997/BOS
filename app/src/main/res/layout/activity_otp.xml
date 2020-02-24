@@ -18,6 +18,18 @@
         android:textSize="20dp"
         android:textStyle="bold"/>
 
+    <TextView
+        android:id="@+id/textViewOTP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"
+        android:text="OTP"
+        android:textColor="@color/dark_blue"
+        android:textSize="10dp"
+        android:textStyle="bold"
+        android:visibility="invisible"/>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,17 +39,16 @@
         android:layout_marginLeft="32dp">
 
         <EditText
-            android:id="@+id/editTextPassword"
+            android:id="@+id/editTextOTP"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@android:color/transparent"
-            android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:textColor="@color/black"
             android:textAlignment="center"
             android:textColorHint="@color/grey"
-            android:hint="Password"
+            android:hint="OTP"
             android:inputType="numberPassword"
             android:maxLength="6"/>
 
