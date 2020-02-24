@@ -153,6 +153,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
                 g_percentage = 100;
                 drawPieChart(new int[]{R.color.black, R.color.black},
                         g_list_transaksi.size() + "\nTransaksi");
+                tmpAdapter.setListTransaksi(getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 g_transaksi_fragment_recyclerview.setAdapter(tmpAdapter);
                 setTabBar();
                 break;

@@ -38,6 +38,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.bca_bos.adapters.KirimFormProdukAdapter;
 import com.example.bca_bos.adapters.MutasiRekeningAdapter;
 import com.example.bca_bos.adapters.StokProdukAdapter;
 
@@ -89,7 +90,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     //FEATURE
     private LinearLayout g_feature_layout;
     private ImageButton g_btn_feature_back;
-    private Button g_btn_feature_ongkir, g_btn_feature_stok, g_btn_feature_mutasi;
+    private Button g_btn_feature_ongkir, g_btn_feature_stok, g_btn_feature_mutasi, g_btn_feature_kirimform;
 
     //ONGKIR
     private LinearLayout g_ongkir_layout, g_ongkir_berat_layout, g_ongkir_asal_layout, g_ongkir_tujuan_layout, g_ongkir_cekongkir_layout;
@@ -121,6 +122,16 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     private ImageButton g_btn_stok_back;
     private EditText g_et_stok_search;
 
+    //KIRIM FORM
+    private LinearLayout g_kirimform_layout, g_kirimform_search_layout, g_kirimform_produk_layout, g_kirimform_produk_button_layout;
+    private RecyclerView g_rv_kirimform_produk;
+    private LinearLayoutManager g_kirimform_produk_item_layout;
+    private KirimFormProdukAdapter g_kirimform_produk_adapter;
+    private ImageButton g_btn_kirimform_back;
+    private Button g_btn_kirimform_next;
+    private EditText g_et_kirimform_search;
+    private int g_kirimform_produk_total = 0;
+
     //MUTASI REKENING
     private LinearLayout g_mutasi_layout;
     private RecyclerView g_mutasi_recyclerview;
@@ -140,6 +151,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             initiateFeature();
             initiateOngkir();
             initiateStok();
+            initiateKirimForm();
             initiateMutasi();
         } catch (Exception ex){
             ex.printStackTrace();
@@ -218,6 +230,14 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             @Override
             public void onClick(View view) {
                 showStok();
+            }
+        });
+
+        g_btn_feature_kirimform = g_viewparent.findViewById(R.id.bcabos_extended_feature_form_button);
+        g_btn_feature_kirimform.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showKirimForm();
             }
         });
 
@@ -466,6 +486,63 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         });
     }
 
+    private void initiateKirimForm(){
+        g_kirimform_produk_total = 0;
+        g_kirimform_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_layout);
+        g_kirimform_search_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_search_layout);
+        g_kirimform_produk_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_produk_layout);
+        g_kirimform_produk_button_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_produk_button_layout);
+        g_rv_kirimform_produk = g_viewparent.findViewById(R.id.bcabos_kirimform_recyclerview);
+
+        g_kirimform_produk_item_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
+        g_kirimform_produk_adapter = new KirimFormProdukAdapter();
+        g_kirimform_produk_adapter.setParentOnCallBack(this);
+
+        g_rv_kirimform_produk.setLayoutManager(g_kirimform_produk_item_layout);
+        g_rv_kirimform_produk.setAdapter(g_kirimform_produk_adapter);
+
+        //BAGIAN SEARCH
+        g_et_kirimform_search = g_viewparent.findViewById(R.id.bcabos_kirimform_search_edittext);
+        g_et_kirimform_search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    focusedEditText = "g_et_kirimform_search";
+                    typedCharacters.setLength(0);
+                }
+            }
+        });
+        g_et_kirimform_search.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                showKirimFormSearch();
+                IS_ALPHABET = true;
+                KEYCODE_DONE_TYPE = KEY_DEFAULT;
+                setKeyboardType();
+                return false;
+            }
+        });
+
+//        BAGIAN BACK & NEXT
+        g_btn_kirimform_back = g_viewparent.findViewById(R.id.bcabos_kirimform_produk_button_back_button);
+        g_btn_kirimform_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                focusedEditText = "g_et_external";
+                showFeatureMenu();
+            }
+        });
+
+        g_btn_kirimform_next = g_viewparent.findViewById(R.id.bcabos_kirimform_produk_button_next_button);
+        g_btn_kirimform_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                focusedEditText = "g_et_external";
+                showFeatureMenu();
+            }
+        });
+    }
+
     private void initiateMutasi() {
         g_mutasi_layout = g_viewparent.findViewById(R.id.bcabos_extended_mutasi_layout);
 
@@ -550,6 +627,21 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         changeLayoutStatus(false);
     }
 
+    private void showKirimForm() {
+        refreshDisplay();
+        g_keyboardview.setVisibility(View.GONE);
+        g_kirimform_layout.setVisibility(View.VISIBLE);
+        changeLayoutStatus(false);
+    }
+
+    private void showKirimFormSearch() {
+        refreshDisplay();
+        g_kirimform_layout.setVisibility(View.VISIBLE);
+        g_kirimform_produk_layout.setVisibility(View.GONE);
+        g_kirimform_produk_button_layout.setVisibility(View.GONE);
+        changeLayoutStatus(false);
+    }
+
     private void showMutasi() {
         refreshDisplay();
         g_mutasi_layout.setVisibility(View.VISIBLE);
@@ -567,6 +659,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_ongkir_layout.setVisibility(View.GONE);
         g_stok_layout.setVisibility(View.GONE);
         g_mutasi_layout.setVisibility(View.GONE);
+        g_kirimform_layout.setVisibility(View.GONE);
 
         //inside ongkir layout
         g_ongkir_berat_layout.setVisibility(View.VISIBLE);
@@ -580,6 +673,11 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         //inside stok layout
         g_stok_produk_layout.setVisibility(View.VISIBLE);
         g_stok_search_layout.setVisibility(View.VISIBLE);
+
+        //inside kirim form layout
+        g_kirimform_produk_layout.setVisibility(View.VISIBLE);
+        g_kirimform_search_layout.setVisibility(View.VISIBLE);
+        g_kirimform_produk_button_layout.setVisibility(View.VISIBLE);
 
         //inside mutasi rekening
     }
@@ -918,6 +1016,10 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                 g_et_stok_search.setText(typedCharacters);
                 g_et_stok_search.setSelection(g_et_stok_search.getText().length());
                 break;
+            case "g_et_kirimform_search":
+                g_et_kirimform_search.setText(typedCharacters);
+                g_et_kirimform_search.setSelection(g_et_kirimform_search.getText().length());
+                break;
             default:
                 InputConnection inputConnection = getCurrentInputConnection();
                 inputConnection.commitText(character, 1);
@@ -965,6 +1067,26 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                     }
                     g_actv_ongkir_tujuan.setSelection(g_actv_ongkir_tujuan.getText().length());
                     break;
+                case "g_et_stok_search":
+                    int etStokLength = g_et_stok_search.getText().length();
+                    if (etStokLength > 0) {
+                        g_actv_ongkir_tujuan.getText().delete(etStokLength - 1, etStokLength);
+                        if(typedCharacters.length()>0){
+                            typedCharacters.deleteCharAt(etStokLength - 1);
+                        }
+                    }
+                    g_et_stok_search.setSelection(g_et_stok_search.getText().length());
+                    break;
+                case "g_et_kirimform_search":
+                    int etKirimFormSearchLength = g_et_kirimform_search.getText().length();
+                    if (etKirimFormSearchLength > 0) {
+                        g_et_kirimform_search.getText().delete(etKirimFormSearchLength - 1, etKirimFormSearchLength);
+                        if(typedCharacters.length()>0){
+                            typedCharacters.deleteCharAt(etKirimFormSearchLength - 1);
+                        }
+                    }
+                    g_et_kirimform_search.setSelection(g_et_kirimform_search.getText().length());
+                    break;
 
             }
         }
@@ -984,6 +1106,12 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         }
         else if(tmpText[0].equals("TEXT")){
             commitTextToBOSKeyboardEditText(tmpText[1]);
+        }
+        else if(tmpText[0].equals("SUBTOTAL")){
+            g_kirimform_produk_total -= Integer.parseInt(tmpText[1]);
+            g_kirimform_produk_total += Integer.parseInt(tmpText[2]);
+            String tmpString = "NEXT (TOTAL : " + Method.getIndoCurrency(g_kirimform_produk_total) + ")";
+            g_btn_kirimform_next.setText(tmpString);
         }
 
     }

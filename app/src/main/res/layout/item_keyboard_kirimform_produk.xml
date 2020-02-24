@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_kirimform_produk_item"
+    android:orientation="vertical"
+    android:layout_width="150dp"
+    android:layout_height="200dp"
+    android:padding="10dp"
+    android:layout_margin="10dp"
+    android:background="@drawable/style_item_stokproduk">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv_kirimform_produk_item_foto"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        android:src="@drawable/produk_dummy_garcia"
+        app:riv_oval="true"/>
+
+    <TextView
+        android:id="@+id/et_kirimform_produk_item_nama"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:text="Gracia" />
+
+    <TextView
+        android:id="@+id/et_kirimform_produk_item_harga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/blue"
+        android:text="10000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btn_kirimform_produk_item_minus_count"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_keyboard_minus_fill_blue"/>
+
+        <TextView
+            android:id="@+id/tv_kirimform_produk_item_show_count"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+        <ImageButton
+            android:id="@+id/btn_kirimform_produk_item_add_count"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_keyboard_add_circle_fill_blue"/>
+
+    </LinearLayout>
+
+</LinearLayout>
