@@ -583,7 +583,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/bcabos_ongkir_tujuan_layout"
+            android:id="@+id/bcabos_kirimform_next_tujuan_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="top"
@@ -591,7 +591,7 @@
             android:visibility="visible">
 
             <ImageButton
-                android:id="@+id/bcabos_ongkir_tujuan_back_button"
+                android:id="@+id/bcabos_kirimform_next_tujuan_back_button"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -613,7 +613,7 @@
                 android:layout_marginLeft="16dp">
 
                 <AutoCompleteTextView
-                    android:id="@+id/bcabos_ongkir_tujuan_auto_complete_text_view"
+                    android:id="@+id/bcabos_kirimform_next_tujuan_auto_complete_text_view"
                     style="@style/editText_style_white"
                     android:dropDownHeight="200dp"
                     android:layout_width="match_parent"
@@ -675,7 +675,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/bcabos_ongkir_kurir_layout"
+            android:id="@+id/bcabos_kirimform_next_kurir_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center_vertical"
@@ -683,7 +683,7 @@
             android:visibility="visible">
 
             <ImageButton
-                android:id="@+id/bcabos_ongkir_kurir_back_button"
+                android:id="@+id/bcabos_kirimform_next_kurir_back_button"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -704,7 +704,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/jneButton"
+                    android:id="@+id/bcabos_kirimform_next_jne_btn"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
@@ -716,7 +716,7 @@
                     android:textStyle="bold"/>
 
                 <Button
-                    android:id="@+id/tikiButton"
+                    android:id="@+id/bcabos_kirimform_next_tiki_btn"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
@@ -728,7 +728,7 @@
                     android:textStyle="bold"/>
 
                 <Button
-                    android:id="@+id/posButton"
+                    android:id="@+id/bcabos_kirimform_next_pos_btn"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
@@ -744,7 +744,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/bcabos_ongkir_cekongkir_layout"
+            android:id="@+id/bcabos_kirimform_next_kirim_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -755,7 +755,7 @@
             android:visibility="visible">
 
             <ImageButton
-                android:id="@+id/bcabos_ongkir_cekongkir_back_button"
+                android:id="@+id/bcabos_kirimform_next_back_button"
                 android:layout_gravity="top"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -766,7 +766,7 @@
                 android:src="@drawable/ic_keyboard_back_gradient" />
 
             <Button
-                android:id="@+id/bcabos_ongkir_cekongkir_check_button"
+                android:id="@+id/bcabos_kirimform_next_kirim_button"
                 android:layout_weight="9"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -781,159 +781,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <!--KIRIM FORM NEXT PAGE-->
-<!--    <LinearLayout-->
-<!--        android:id="@+id/bcabos_kirimform_next_layout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/light_grey"-->
-<!--        android:gravity="center"-->
-<!--        android:orientation="vertical"-->
-<!--        android:visibility="gone">-->
-
-    <!--        <LinearLayout-->
-    <!--            android:id="@+id/bcabos_kirimform_next_asal_layout"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="70dp"-->
-    <!--            android:paddingTop="10dp"-->
-    <!--            android:gravity="top"-->
-    <!--            android:orientation="horizontal"-->
-    <!--            android:visibility="visible">-->
-
-    <!--            <ImageButton-->
-    <!--                android:id="@+id/bcabos_kirimform_next_asal_back_button"-->
-    <!--                android:layout_gravity="top"-->
-    <!--                android:layout_weight="1"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="65dp"-->
-    <!--                android:background="@android:color/transparent"-->
-    <!--                android:paddingLeft="16dp"-->
-    <!--                android:paddingRight="16dp"-->
-    <!--                android:src="@drawable/ic_keyboard_back_gradient"/>-->
-
-    <!--            <AutoCompleteTextView-->
-    <!--                android:id="@+id/bcabos_kirimform_next_asal_auto_complete_text_view"-->
-    <!--                style="@style/editText_style_white"-->
-    <!--                android:dropDownHeight="200dp"-->
-    <!--                android:layout_weight="9"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="50dp"-->
-    <!--                android:textColorHint="@color/grey"-->
-    <!--                android:textSize="16dp"-->
-    <!--                android:textStyle="bold"-->
-    <!--                android:completionThreshold="1"-->
-    <!--                android:hint="Asal pengiriman*"/>-->
-
-    <!--        </LinearLayout>-->
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/bcabos_kirimform_next_berat_layout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="70dp"-->
-<!--            android:paddingTop="10dp"-->
-<!--            android:gravity="top"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:visibility="visible">-->
-
-<!--            <ImageButton-->
-<!--                android:id="@+id/bcabos_kirimform_next_berat_back_button"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="65dp"-->
-<!--                android:background="@android:color/transparent"-->
-<!--                android:paddingLeft="16dp"-->
-<!--                android:paddingRight="16dp"-->
-<!--                android:src="@drawable/ic_keyboard_back_gradient"/>-->
-
-<!--            <EditText-->
-<!--                android:id="@+id/bcabos_kirimform_next_berat_text"-->
-<!--                style="@style/editText_style_white"-->
-<!--                android:layout_weight="9"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:textColorHint="@color/grey"-->
-<!--                android:textSize="16dp"-->
-<!--                android:textStyle="bold"-->
-<!--                android:hint="Berat(kg)*"-->
-<!--                android:inputType="number"/>-->
-
-<!--        </LinearLayout>-->
-
-
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/bcabos_kirimform_next_tujuan_layout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="70dp"-->
-<!--            android:paddingTop="10dp"-->
-<!--            android:gravity="top"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:visibility="visible">-->
-
-<!--            <ImageButton-->
-<!--                android:id="@+id/bcabos_kirimform_next_tujuan_back_button"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="65dp"-->
-<!--                android:background="@android:color/transparent"-->
-<!--                android:paddingLeft="16dp"-->
-<!--                android:paddingRight="16dp"-->
-<!--                android:src="@drawable/ic_keyboard_back_gradient"/>-->
-
-<!--            <AutoCompleteTextView-->
-<!--                android:id="@+id/bcabos_kirimform_next_tujuan_auto_complete_text_view"-->
-<!--                style="@style/editText_style_white"-->
-<!--                android:dropDownHeight="200dp"-->
-<!--                android:layout_weight="9"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:textColorHint="@color/grey"-->
-<!--                android:textSize="16dp"-->
-<!--                android:textStyle="bold"-->
-<!--                android:completionThreshold="1"-->
-<!--                android:hint="Tujuan Pengiriman*"/>-->
-
-<!--        </LinearLayout>-->
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/bcabos_kirimform_next_kirim_layout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:gravity="center"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:paddingRight="8dp"-->
-<!--            android:layout_marginBottom="10dp"-->
-<!--            android:paddingTop="10dp"-->
-<!--            android:visibility="visible">-->
-
-<!--            <ImageButton-->
-<!--                android:id="@+id/bcabos_kirimform_next_back_button"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:background="@android:color/transparent"-->
-<!--                android:paddingLeft="16dp"-->
-<!--                android:paddingRight="16dp"-->
-<!--                android:src="@drawable/ic_keyboard_back_gradient" />-->
-
-<!--            <Button-->
-<!--                android:id="@+id/bcabos_kirimform_next_kirim_button"-->
-<!--                android:layout_weight="9"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:background="@drawable/style_gradient_color_rounded_box"-->
-<!--                android:paddingLeft="8dp"-->
-<!--                android:paddingRight="8dp"-->
-<!--                android:text="CEK ONGKOS KIRIM"-->
-<!--                android:textAlignment="center"-->
-<!--                android:textColor="@color/dark_white"-->
-<!--                android:textSize="16dp"-->
-<!--                android:textStyle="bold" />-->
-
-<!--        </LinearLayout>-->
-
-<!--    </LinearLayout>-->
 
     <!--MUTASI REKENING-->
     <LinearLayout
