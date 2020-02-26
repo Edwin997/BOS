@@ -43,7 +43,9 @@
             android:name=".ApplicationContainer"
             android:label="@string/title_activity_application_container">
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity" >
+
+        </activity>
     </application>
 
 </manifest>

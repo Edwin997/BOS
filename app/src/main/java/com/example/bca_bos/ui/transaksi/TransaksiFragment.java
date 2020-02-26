@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bca_bos.ListProdukDummy;
 import com.example.bca_bos.ListTransaksiDetailDummy;
 import com.example.bca_bos.ListTransaksiDummy;
 import com.example.bca_bos.Method;
@@ -154,6 +155,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
                 drawPieChart(new int[]{R.color.black, R.color.black},
                         g_list_transaksi.size() + "\nTransaksi");
                 g_transaksi_fragment_recyclerview.setAdapter(tmpAdapter);
+                tmpAdapter.setListTransaksi(getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 setTabBar();
                 break;
         }
@@ -237,10 +239,17 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
 
     public List<Transaksi> getListTransaksiByType(int p_type){
         List<Transaksi> tmpListTransaksi = new ArrayList<>();
-        for(int i = 0; i < g_list_transaksi.size(); i++){
-            if(g_list_transaksi.get(i).getStatus() == p_type)
-                tmpListTransaksi.add(g_list_transaksi.get(i));
+
+        if(p_type == KEY_STATUS_SEMUA){
+            tmpListTransaksi = ListTransaksiDummy.transaksiList;
         }
+        else{
+            for(int i = 0; i < g_list_transaksi.size(); i++){
+                if(g_list_transaksi.get(i).getStatus() == p_type)
+                    tmpListTransaksi.add(g_list_transaksi.get(i));
+            }
+        }
+
         return tmpListTransaksi;
     }
 

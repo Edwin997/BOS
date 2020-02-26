@@ -7,9 +7,9 @@ import java.util.List;
 
 public class ListKategoriDummy {
     public static List<Kategori> kategoriList = new ArrayList<Kategori>() {{
-        add(new Kategori(1, "Makanan"));
-        add(new Kategori(2, "Minuman"));
-        add(new Kategori(3, "Elektronik"));
+        add(new Kategori(1, "Nike"));
+        add(new Kategori(2, "Adidas"));
+        add(new Kategori(3, "Balenciaga"));
     }};
 
     public static String[] getListTypeString(){

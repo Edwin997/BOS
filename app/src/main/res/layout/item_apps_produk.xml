@@ -22,9 +22,9 @@
             android:id="@+id/iv_apps_produk_item"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.75"
             android:scaleType="fitXY"
-            android:src="@drawable/produk_dummy_garcia"/>
+            android:src="@drawable/shoes_red_jordan"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -32,17 +32,18 @@
             android:layout_height="match_parent"
             android:paddingStart="10dp"
             android:orientation="vertical"
+            android:gravity="center_vertical"
             android:background="@color/white">
 
             <TextView
                 android:id="@+id/tv_apps_produk_nama_item"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
+                android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="bottom"
                 android:paddingEnd="30dp"
                 android:maxLines="2"
+                android:text="Winstok"
                 android:textColor="@color/black"
                 android:textSize="18dp"
                 android:textStyle="bold" />
@@ -50,8 +51,7 @@
             <TextView
                 android:id="@+id/tv_apps_produk_harga_item"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="Harga"
                 android:textColor="@color/blue"
@@ -61,8 +61,7 @@
             <TextView
                 android:id="@+id/tv_apps_produk_stok_item"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1.5"
+                android:layout_height="wrap_content"
                 android:gravity="top"
                 android:text="Stok"
                 android:textColor="@color/black"

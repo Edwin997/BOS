@@ -4,6 +4,7 @@ import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -22,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +40,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.bca_bos.adapters.KirimFormProdukAdapter;
 import com.example.bca_bos.adapters.MutasiRekeningAdapter;
 import com.example.bca_bos.adapters.StokProdukAdapter;
 
@@ -52,6 +55,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
 
 public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKeyboardActionListener, OnCallBackListener {
 
@@ -89,11 +93,11 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     //FEATURE
     private LinearLayout g_feature_layout;
     private ImageButton g_btn_feature_back;
-    private Button g_btn_feature_ongkir, g_btn_feature_stok, g_btn_feature_mutasi;
+    private Button g_btn_feature_ongkir, g_btn_feature_stok, g_btn_feature_mutasi, g_btn_feature_kirimform;
 
     //ONGKIR
-    private LinearLayout g_ongkir_layout, g_ongkir_berat_layout, g_ongkir_asal_layout, g_ongkir_tujuan_layout, g_ongkir_cekongkir_layout;
-    private ImageButton g_btn_ongkir_berat_back,g_btn_ongkir_asal_back, g_btn_ongkir_tujuan_back, g_btn_ongkir_back;
+    private LinearLayout g_ongkir_layout, g_ongkir_berat_layout, g_ongkir_asal_layout, g_ongkir_tujuan_layout, g_ongkir_kurir_layout, g_ongkir_cekongkir_layout;
+    private ImageButton g_btn_ongkir_berat_back,g_btn_ongkir_asal_back, g_btn_ongkir_tujuan_back, g_btn_ongkir_kurir_back,  g_btn_ongkir_back;
     private AutoCompleteTextView g_actv_ongkir_asal, g_actv_ongkir_tujuan;
     private EditText g_et_ongkir_berat;
     private Button g_btn_ongkir_cekongkir;
@@ -111,7 +115,10 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     private ArrayAdapter<String> asalAdapter;
     private ArrayAdapter<String> tujuanAdapter;
 
-    private String gAsal, gTujuan, gBerat;
+    private String gAsal, gTujuan, gBerat, gKurir;
+
+    private Button g_btn_ongkir_jne, g_btn_ongkir_tiki, g_btn_ongkir_pos;
+    private Boolean g_ongkir_kurir_jne = false, g_ongkir_kurir_tiki = false, g_ongkir_kurir_pos = false;
 
     //STOK
     private LinearLayout g_stok_layout, g_stok_search_layout, g_stok_produk_layout;
@@ -120,6 +127,23 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     private StokProdukAdapter g_stok_adapter;
     private ImageButton g_btn_stok_back;
     private EditText g_et_stok_search;
+
+    //KIRIM FORM
+    private LinearLayout g_kirimform_layout, g_kirimform_search_layout, g_kirimform_produk_layout, g_kirimform_produk_button_layout;
+    private RecyclerView g_rv_kirimform_produk;
+    private LinearLayoutManager g_kirimform_produk_item_layout;
+    private KirimFormProdukAdapter g_kirimform_produk_adapter;
+    private ImageButton g_btn_kirimform_back;
+    private Button g_btn_kirimform_next;
+    private EditText g_et_kirimform_search;
+    private int g_kirimform_produk_total = 0;
+
+    //KIRIM FORM NEXT
+    private LinearLayout g_kirimform_next_layout, g_kirimform_next_berat_layout, g_kirimform_next_asal_layout, g_kirimform_next_tujuan_layout, g_kirimform_next_kirim_layout;
+    private ImageButton g_btn_kirimform_next_berat_back,g_btn_kirimform_next_asal_back, g_btn_kirimform_next_tujuan_back, g_btn_kirimform_next_back;
+    private AutoCompleteTextView g_actv_kirimform_next_asal, g_actv_kirimform_next_tujuan;
+    private EditText g_et_kirimform_next_berat;
+    private Button g_btn_kirimform_next_kirim;
 
     //MUTASI REKENING
     private LinearLayout g_mutasi_layout;
@@ -140,10 +164,10 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             initiateFeature();
             initiateOngkir();
             initiateStok();
+            initiateKirimForm();
             initiateMutasi();
         } catch (Exception ex){
             ex.printStackTrace();
-            Log.i("EHS", ex.toString());
         }
 
         return g_viewparent;
@@ -221,6 +245,14 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             }
         });
 
+        g_btn_feature_kirimform = g_viewparent.findViewById(R.id.bcabos_extended_feature_form_button);
+        g_btn_feature_kirimform.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showKirimForm();
+            }
+        });
+
         g_btn_feature_mutasi = g_viewparent.findViewById(R.id.bcabos_extended_feature_mutasi_button);
         g_btn_feature_mutasi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,12 +268,432 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_ongkir_berat_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_berat_layout);
         g_ongkir_asal_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_asal_layout);
         g_ongkir_tujuan_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_tujuan_layout);
+        g_ongkir_kurir_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_kurir_layout);
         g_ongkir_cekongkir_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_layout);
+
+        cityNameList = new ArrayList<>();
+        serviceList = new ArrayList<>();
+        estimationDayList = new ArrayList<>();
+        costList = new ArrayList<>();
+
+//        asalAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, cityNameList);
+//        tujuanAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, cityNameList);
+
+        asalAdapter = RajaOngkir.getRajaOngkirCity(KeyboardBOS.this);
+        tujuanAdapter = RajaOngkir.getRajaOngkirCity(KeyboardBOS.this);
+
+        //BAGIAN ASAL
+        g_actv_ongkir_asal = g_viewparent.findViewById(R.id.bcabos_ongkir_asal_auto_complete_text_view);
+        g_actv_ongkir_asal.setAdapter(asalAdapter);
+        g_actv_ongkir_asal.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus){
+                    focusedEditText = "g_et_ongkir_asal";
+                    typedCharacters.setLength(0);
+                    typedCharacters.delete(0, typedCharacters.length());
+                }
+            }
+        });
+        g_actv_ongkir_asal.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                focusedEditText = "g_et_ongkir_asal";
+                showAsalMenu();
+                IS_ALPHABET = true;
+                KEYCODE_DONE_TYPE = KEY_NEXT;
+                setKeyboardType();
+                return false;
+            }
+        });
+        g_actv_ongkir_asal.addTextChangedListener(new TextWatcher() {
+
+//            final android.os.Handler handler = new android.os.Handler();
+//            Runnable runnable;
+//            int count = 0;
+            long delay = 1000; // 1 seconds after user stops typing
+            long last_text_edit = 0;
+            Handler handler = new Handler();
+
+            int longs = 0;
+
+            private Runnable input_finish_checker = new Runnable() {
+                public void run() {
+                    if (System.currentTimeMillis() > (last_text_edit + delay - 500)) {
+                        g_actv_ongkir_asal.showDropDown();
+                        g_keyboardview.setVisibility(View.INVISIBLE);
+                    }
+                }
+            };
+
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                asalAdapter.notifyDataSetChanged();
+                longs = charSequence.length();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                handler.removeCallbacks(input_finish_checker);
+
+            }
+
+            @Override
+            public void afterTextChanged(final Editable editable) {
+                if (editable.length() > 0) {
+                    if(longs != editable.length()){
+                        last_text_edit = System.currentTimeMillis();
+                        handler.postDelayed(input_finish_checker, delay);
+                    }
+                }
+
+//                runnable = new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                        try {
+//                            count++;
+//                            if (count >= 1){
+//                                g_actv_ongkir_asal.showDropDown();
+//                                g_keyboardview.setVisibility(View.INVISIBLE);
+//
+//                            }
+//                            Log.d("COBA", "run: " + count);
+//                            wait(1000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                };
+////                handler.postDelayed(runnable, 1000);
+//
+            }
+        });
+        g_actv_ongkir_asal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                g_keyboardview.setVisibility(View.VISIBLE);
+            }
+        });
+
+        g_btn_ongkir_asal_back = g_viewparent.findViewById(R.id.bcabos_ongkir_asal_back_button);
+        g_btn_ongkir_asal_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showOngkir();
+                IS_ALPHABET = true;
+                KEYCODE_DONE_TYPE = KEY_DEFAULT;
+                setKeyboardType();
+            }
+        });
+
+        //BAGIAN TUJUAN
+        g_actv_ongkir_tujuan = g_viewparent.findViewById(R.id.bcabos_ongkir_tujuan_auto_complete_text_view);
+        g_actv_ongkir_tujuan.setAdapter(tujuanAdapter);
+        g_actv_ongkir_tujuan.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    focusedEditText = "g_et_ongkir_tujuan";
+                    typedCharacters.setLength(0);
+                }
+            }
+        });
+        g_actv_ongkir_tujuan.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                focusedEditText = "g_et_ongkir_tujuan";
+                showTujuanMenu();
+                IS_ALPHABET = true;
+                KEYCODE_DONE_TYPE = KEY_NEXT;
+                setKeyboardType();
+                return false;
+            }
+        });
+        g_actv_ongkir_tujuan.addTextChangedListener(new TextWatcher() {
+
+            long delay = 1000; // 1 seconds after user stops typing
+            long last_text_edit = 0;
+            Handler handler = new Handler();
+
+            int longs = 0;
+
+            private Runnable input_finish_checker = new Runnable() {
+                public void run() {
+                    if (System.currentTimeMillis() > (last_text_edit + delay - 500)) {
+                        g_actv_ongkir_tujuan.showDropDown();
+                        g_keyboardview.setVisibility(View.INVISIBLE);
+                    }
+                }
+            };
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                tujuanAdapter.notifyDataSetChanged();
+                longs = charSequence.length();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                handler.removeCallbacks(input_finish_checker);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > 0) {
+                    if(longs != editable.length()){
+                        last_text_edit = System.currentTimeMillis();
+                        handler.postDelayed(input_finish_checker, delay);
+                    }
+                }
+            }
+        });
+        g_actv_ongkir_tujuan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                g_keyboardview.setVisibility(View.VISIBLE);
+            }
+        });
+
+        g_btn_ongkir_tujuan_back = g_viewparent.findViewById(R.id.bcabos_ongkir_tujuan_back_button);
+        g_btn_ongkir_tujuan_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showOngkir();
+                IS_ALPHABET = true;
+                KEYCODE_DONE_TYPE = KEY_DEFAULT;
+                setKeyboardType();
+            }
+        });
+
+        //BAGIAN BERAT
+        g_et_ongkir_berat = g_viewparent.findViewById(R.id.bcabos_ongkir_berat_text);
+        g_et_ongkir_berat.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    focusedEditText = "g_et_ongkir_berat";
+                    typedCharacters.setLength(0);
+                    typedCharacters.delete(0, typedCharacters.length());
+                }
+            }
+        });
+        g_et_ongkir_berat.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                focusedEditText = "g_et_ongkir_berat";
+                showBeratMenu();
+                g_keyboardview.setKeyboard(g_keyboard_number);
+                return false;
+            }
+        });
+        g_btn_ongkir_berat_back = g_viewparent.findViewById(R.id.bcabos_ongkir_berat_back_button);
+        g_btn_ongkir_berat_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showOngkir();
+                IS_ALPHABET = true;
+                KEYCODE_DONE_TYPE = KEY_DEFAULT;
+                setKeyboardType();
+            }
+        });
+
+        //BAGIAN KURIR
+        g_btn_ongkir_jne = g_viewparent.findViewById(R.id.jneButton);
+        g_btn_ongkir_jne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!g_ongkir_kurir_jne){
+                    g_ongkir_kurir_jne = true;
+                    g_btn_ongkir_jne.setBackgroundResource(R.drawable.style_gradient_color_rounded_box);
+                }else {
+                    g_ongkir_kurir_jne = false;
+                    g_btn_ongkir_jne.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
+                }
+            }
+        });
+
+        g_btn_ongkir_tiki = g_viewparent.findViewById(R.id.tikiButton);
+        g_btn_ongkir_tiki.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!g_ongkir_kurir_tiki){
+                    g_ongkir_kurir_tiki = true;
+                    g_btn_ongkir_tiki.setBackgroundResource(R.drawable.style_gradient_color_rounded_box);
+                }else {
+                    g_ongkir_kurir_tiki = false;
+                    g_btn_ongkir_tiki.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
+                }
+            }
+        });
+
+        g_btn_ongkir_pos = g_viewparent.findViewById(R.id.posButton);
+        g_btn_ongkir_pos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!g_ongkir_kurir_pos){
+                    g_ongkir_kurir_pos = true;
+                    g_btn_ongkir_pos.setBackgroundResource(R.drawable.style_gradient_color_rounded_box);
+                }else {
+                    g_ongkir_kurir_pos = false;
+                    g_btn_ongkir_pos.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
+                }
+            }
+        });
+
+        g_btn_ongkir_kurir_back = g_viewparent.findViewById(R.id.bcabos_ongkir_kurir_back_button);
+        g_btn_ongkir_kurir_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showOngkir();
+            }
+        });
+
+        //BAGIAN BUTTON
+        g_btn_ongkir_back = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_back_button);
+        g_btn_ongkir_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                focusedEditText = "g_et_external";
+                emptyOngkirEditText();
+                showFeatureMenu();
+            }
+        });
+
+        g_btn_ongkir_cekongkir = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_check_button);
+        g_btn_ongkir_cekongkir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getAsalCityId();
+                getTujuanCityId();
+                gBerat = g_et_ongkir_berat.getText().toString();
+                focusedEditText = "g_et_external";
+                String temp = RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, gAsal, gTujuan, gBerat, "jne", KeyboardBOS.this);
+//                commitTextToBOSKeyboardEditText(temp);
+                emptyOngkirEditText();
+                showOngkir();
+
+            }
+        });
+
+    }
+
+    private void initiateStok(){
+        g_stok_layout = g_viewparent.findViewById(R.id.bcabos_stok_layout);
+        g_stok_search_layout = g_viewparent.findViewById(R.id.bcabos_stok_search_layout);
+        g_stok_produk_layout = g_viewparent.findViewById(R.id.bcabos_stok_produk_layout);
+        g_rv_stok = g_viewparent.findViewById(R.id.bcabos_stok_recyclerview);
+
+        g_stok_item_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
+        g_stok_adapter = new StokProdukAdapter();
+        g_stok_adapter.setParentOnCallBack(this);
+
+        g_rv_stok.setLayoutManager(g_stok_item_layout);
+        g_rv_stok.setAdapter(g_stok_adapter);
+
+        //BAGIAN SEARCH
+        g_et_stok_search = g_viewparent.findViewById(R.id.bcabos_stok_search_edittext);
+        g_et_stok_search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    focusedEditText = "g_et_stok_search";
+                    typedCharacters.setLength(0);
+                }
+            }
+        });
+        g_et_stok_search.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                showStokSearch();
+                IS_ALPHABET = true;
+                KEYCODE_DONE_TYPE = KEY_DEFAULT;
+                setKeyboardType();
+                return false;
+            }
+        });
+
+        //BAGIAN BACK
+        g_btn_stok_back = g_viewparent.findViewById(R.id.bcabos_stok_search_back_button);
+        g_btn_stok_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                focusedEditText = "g_et_external";
+                showFeatureMenu();
+            }
+        });
+    }
+
+    private void initiateKirimForm(){
+        g_kirimform_produk_total = 0;
+        g_kirimform_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_layout);
+        g_kirimform_search_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_search_layout);
+        g_kirimform_produk_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_produk_layout);
+        g_kirimform_produk_button_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_produk_button_layout);
+        g_rv_kirimform_produk = g_viewparent.findViewById(R.id.bcabos_kirimform_recyclerview);
+
+        g_kirimform_produk_item_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
+        g_kirimform_produk_adapter = new KirimFormProdukAdapter();
+        g_kirimform_produk_adapter.setParentOnCallBack(this);
+
+        g_rv_kirimform_produk.setLayoutManager(g_kirimform_produk_item_layout);
+        g_rv_kirimform_produk.setAdapter(g_kirimform_produk_adapter);
+
+        //BAGIAN SEARCH
+        g_et_kirimform_search = g_viewparent.findViewById(R.id.bcabos_kirimform_search_edittext);
+        g_et_kirimform_search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    focusedEditText = "g_et_kirimform_search";
+                    typedCharacters.setLength(0);
+                }
+            }
+        });
+        g_et_kirimform_search.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                showKirimFormSearch();
+                IS_ALPHABET = true;
+                KEYCODE_DONE_TYPE = KEY_DEFAULT;
+                setKeyboardType();
+                return false;
+            }
+        });
+
+//        BAGIAN BACK & NEXT
+        g_btn_kirimform_back = g_viewparent.findViewById(R.id.bcabos_kirimform_produk_button_back_button);
+        g_btn_kirimform_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                focusedEditText = "g_et_external";
+                showFeatureMenu();
+            }
+        });
+
+        g_btn_kirimform_next = g_viewparent.findViewById(R.id.bcabos_kirimform_produk_button_next_button);
+        g_btn_kirimform_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                focusedEditText = "g_et_external";
+                showFeatureMenu();
+            }
+        });
+    }
+
+    private void initiateKirimFormNext(){
+        g_kirimform_next_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_layout);
+        g_kirimform_next_berat_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_berat_layout);
+        g_kirimform_next_asal_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_asal_layout);
+        g_kirimform_next_tujuan_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_tujuan_layout);
+        g_kirimform_next_kirim_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_kirim_layout);
 
         asalAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, cityNameList);
         tujuanAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, cityNameList);
 
-        getRajaOngkirCity();
+//        getRajaOngkirCity();
 
         //BAGIAN BERAT
         g_et_ongkir_berat = g_viewparent.findViewById(R.id.bcabos_ongkir_berat_text);
@@ -411,59 +863,13 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                 getTujuanCityId();
                 gBerat = g_et_ongkir_berat.getText().toString();
                 focusedEditText = "g_et_external";
-                getRajaOngkirCost();
+//                getRajaOngkirCost();
                 emptyOngkirEditText();
                 showOngkir();
 
             }
         });
 
-    }
-
-    private void initiateStok(){
-        g_stok_layout = g_viewparent.findViewById(R.id.bcabos_stok_layout);
-        g_stok_search_layout = g_viewparent.findViewById(R.id.bcabos_stok_search_layout);
-        g_stok_produk_layout = g_viewparent.findViewById(R.id.bcabos_stok_produk_layout);
-        g_rv_stok = g_viewparent.findViewById(R.id.bcabos_stok_recyclerview);
-
-        g_stok_item_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
-        g_stok_adapter = new StokProdukAdapter();
-        g_stok_adapter.setParentOnCallBack(this);
-
-        g_rv_stok.setLayoutManager(g_stok_item_layout);
-        g_rv_stok.setAdapter(g_stok_adapter);
-
-        //BAGIAN SEARCH
-        g_et_stok_search = g_viewparent.findViewById(R.id.bcabos_stok_search_edittext);
-        g_et_stok_search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    focusedEditText = "g_et_stok_search";
-                    typedCharacters.setLength(0);
-                }
-            }
-        });
-        g_et_stok_search.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                showStokSearch();
-                IS_ALPHABET = true;
-                KEYCODE_DONE_TYPE = KEY_DEFAULT;
-                setKeyboardType();
-                return false;
-            }
-        });
-
-        //BAGIAN BACK
-        g_btn_stok_back = g_viewparent.findViewById(R.id.bcabos_stok_search_back_button);
-        g_btn_stok_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                focusedEditText = "g_et_external";
-                showFeatureMenu();
-            }
-        });
     }
 
     private void initiateMutasi() {
@@ -505,6 +911,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_btn_ongkir_berat_back.setVisibility(View.GONE);
         g_btn_ongkir_asal_back.setVisibility(View.GONE);
         g_btn_ongkir_tujuan_back.setVisibility(View.GONE);
+        g_btn_ongkir_kurir_back.setVisibility(View.GONE);
         g_ongkir_layout.setVisibility(View.VISIBLE);
         changeLayoutStatus(false);
     }
@@ -514,6 +921,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_ongkir_layout.setVisibility(View.VISIBLE);
         g_ongkir_asal_layout.setVisibility(View.GONE);
         g_ongkir_tujuan_layout.setVisibility(View.GONE);
+        g_ongkir_kurir_layout.setVisibility(View.GONE);
         g_ongkir_cekongkir_layout.setVisibility(View.GONE);
         changeLayoutStatus(false);
     }
@@ -523,6 +931,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_ongkir_layout.setVisibility(View.VISIBLE);
         g_ongkir_berat_layout.setVisibility(View.GONE);
         g_ongkir_tujuan_layout.setVisibility(View.GONE);
+        g_ongkir_kurir_layout.setVisibility(View.GONE);
         g_ongkir_cekongkir_layout.setVisibility(View.GONE);
         changeLayoutStatus(false);
     }
@@ -532,6 +941,17 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_ongkir_layout.setVisibility(View.VISIBLE);
         g_ongkir_berat_layout.setVisibility(View.GONE);
         g_ongkir_asal_layout.setVisibility(View.GONE);
+        g_ongkir_kurir_layout.setVisibility(View.GONE);
+        g_ongkir_cekongkir_layout.setVisibility(View.GONE);
+        changeLayoutStatus(false);
+    }
+
+    private void showKurirMenu() {
+        refreshDisplay();
+        g_ongkir_layout.setVisibility(View.VISIBLE);
+        g_ongkir_berat_layout.setVisibility(View.GONE);
+        g_ongkir_asal_layout.setVisibility(View.GONE);
+        g_ongkir_tujuan_layout.setVisibility(View.GONE);
         g_ongkir_cekongkir_layout.setVisibility(View.GONE);
         changeLayoutStatus(false);
     }
@@ -547,6 +967,21 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         refreshDisplay();
         g_stok_layout.setVisibility(View.VISIBLE);
         g_stok_produk_layout.setVisibility(View.GONE);
+        changeLayoutStatus(false);
+    }
+
+    private void showKirimForm() {
+        refreshDisplay();
+        g_keyboardview.setVisibility(View.GONE);
+        g_kirimform_layout.setVisibility(View.VISIBLE);
+        changeLayoutStatus(false);
+    }
+
+    private void showKirimFormSearch() {
+        refreshDisplay();
+        g_kirimform_layout.setVisibility(View.VISIBLE);
+        g_kirimform_produk_layout.setVisibility(View.GONE);
+        g_kirimform_produk_button_layout.setVisibility(View.GONE);
         changeLayoutStatus(false);
     }
 
@@ -567,6 +1002,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_ongkir_layout.setVisibility(View.GONE);
         g_stok_layout.setVisibility(View.GONE);
         g_mutasi_layout.setVisibility(View.GONE);
+        g_kirimform_layout.setVisibility(View.GONE);
 
         //inside ongkir layout
         g_ongkir_berat_layout.setVisibility(View.VISIBLE);
@@ -575,11 +1011,18 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_btn_ongkir_asal_back.setVisibility(View.VISIBLE);
         g_ongkir_tujuan_layout.setVisibility(View.VISIBLE);
         g_btn_ongkir_tujuan_back.setVisibility(View.VISIBLE);
+        g_ongkir_kurir_layout.setVisibility(View.VISIBLE);
+        g_btn_ongkir_kurir_back.setVisibility(View.VISIBLE);
         g_ongkir_cekongkir_layout.setVisibility(View.VISIBLE);
 
         //inside stok layout
         g_stok_produk_layout.setVisibility(View.VISIBLE);
         g_stok_search_layout.setVisibility(View.VISIBLE);
+
+        //inside kirim form layout
+        g_kirimform_produk_layout.setVisibility(View.VISIBLE);
+        g_kirimform_search_layout.setVisibility(View.VISIBLE);
+        g_kirimform_produk_button_layout.setVisibility(View.VISIBLE);
 
         //inside mutasi rekening
     }
@@ -596,140 +1039,15 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_actv_ongkir_tujuan.setText("");
     }
 
-    //koneksi ke API RajaOngkir
-    private void getRajaOngkirCity() {
-
-        RequestQueue queue = Volley.newRequestQueue(KeyboardBOS.this);
-
-        StringRequest sr = new StringRequest(Request.Method.GET, urlGetCityRajaOngkir, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                String cityResponseJSON = response;
-                try {
-                    cityJSON = new JSONObject(cityResponseJSON);
-                    cityRajaOngkirJSON = cityJSON.getJSONObject("rajaongkir");
-                    cityResultsArray = cityRajaOngkirJSON.getJSONArray("results");
-
-                    for (int i =0; i < cityResultsArray.length(); i++){
-                        cityResultsJSON = cityResultsArray.getJSONObject(i);
-                        cityNameList.add(cityResultsJSON.getString("city_name"));
-                    }
-                    asalAdapter.notifyDataSetChanged();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener(){
-
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                String message = "";
-                if (volleyError instanceof NetworkError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
-                } else if (volleyError instanceof ServerError) {
-                    message = "The server could not be found. Please try again after some time!!";
-                } else if (volleyError instanceof AuthFailureError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
-                } else if (volleyError instanceof ParseError) {
-                    message = "Parsing error! Please try again after some time!!";
-                } else if (volleyError instanceof NoConnectionError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
-                } else if (volleyError instanceof TimeoutError) {
-                    message = "Connection TimeOut! Please check your internet connection.";
-                }
-                commitTextToBOSKeyboardEditText(message);
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String>  params = new HashMap<String, String>();
-                params.put("key", "63ab191d920c76c31dc6cfc441b5da33");
-                return params;
-            }
-        };
-        sr.setTag("getdata");
-        queue.add(sr);
-
-    }
-
-    private void getRajaOngkirCost(){
-
-        RequestQueue queue = Volley.newRequestQueue(KeyboardBOS.this);
-
-        StringRequest sr = new StringRequest(Request.Method.POST, urlPostCostRajaOngkir, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                String costResponseJSON = response;
-                try {
-                    costJSON = new JSONObject(costResponseJSON);
-                    costRajaOngkirJSON = costJSON.getJSONObject("rajaongkir");
-                    costResultArray = costRajaOngkirJSON.getJSONArray("results");
-                    costResultJSON = costResultArray.getJSONObject(0);
-                    costCostsArray = costResultJSON.getJSONArray("costs");
-                    String tmpOngkir = "Daftar Ongkir:";
-
-                    for (int i = 0; i < costCostsArray.length(); i++){
-
-                        costCostsJSON = costCostsArray.getJSONObject(i);
-                        serviceList.add(costCostsJSON.getString("service"));
-                        costCostArray = costCostsJSON.getJSONArray("cost");
-                        costCostJSON = costCostArray.getJSONObject(0);
-                        estimationDayList.add(costCostJSON.getString("etd"));
-                        costList.add(costCostJSON.getString("value"));
-                        tmpOngkir = tmpOngkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i)+" hari - "+costList.get(i);
-
-                    }
-                    commitTextToBOSKeyboardEditText(tmpOngkir);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        },
-                new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d("volley", "Error: " + error.getMessage());
-                        error.printStackTrace();
-                    }
-                }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
-                headers.put("key", "63ab191d920c76c31dc6cfc441b5da33");
-                headers.put("content-type", "application/x-www-form-urlencoded");
-                return headers;
-            }
-
-            @Override
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=UTF-8";
-            }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("origin", gAsal);
-                params.put("destination", gTujuan);
-                params.put("weight", gBerat);
-                params.put("courier", "jne");
-                return params;
-            }
-
-        };
-
-        queue.add(sr);
-
-    }
-
+    //Mendapatkan ID dari City
     private void getAsalCityId(){
-        gAsal = String.valueOf(cityNameList.indexOf(g_actv_ongkir_asal.getText().toString())+1);
+        gAsal = String.valueOf(RajaOngkir.cityNameList.indexOf(g_actv_ongkir_asal.getText().toString())+1);
+        Log.d("COBA", gAsal);
     }
 
     private void getTujuanCityId(){
-        gTujuan = String.valueOf(cityNameList.indexOf(g_actv_ongkir_tujuan.getText().toString())+1);
+        gTujuan = String.valueOf(RajaOngkir.cityNameList.indexOf(g_actv_ongkir_tujuan.getText().toString())+1);
+        Log.d("COBA", gTujuan);
     }
 
     @Override
@@ -759,19 +1077,25 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                 break;
             case Keyboard.KEYCODE_DONE:
                 switch (focusedEditText){
-                    case "g_et_ongkir_berat":
-                        focusedEditText = "g_et_ongkir_asal";
-                        showAsalMenu();
-                        KEYCODE_DONE_TYPE = KEY_NEXT;
-                        setKeyboardType();
-                        break;
                     case "g_et_ongkir_asal":
                         focusedEditText = "g_et_ongkir_tujuan";
                         showTujuanMenu();
-                        KEYCODE_DONE_TYPE = KEY_OK;
+                        KEYCODE_DONE_TYPE = KEY_NEXT;
                         setKeyboardType();
                         break;
                     case "g_et_ongkir_tujuan":
+                        focusedEditText = "g_et_ongkir_berat";
+                        showBeratMenu();
+                        KEYCODE_DONE_TYPE = KEY_NEXT;
+                        setKeyboardType();
+                        break;
+                    case "g_et_ongkir_berat":
+                        focusedEditText = "g_et_ongkir_kurir";
+                        showKurirMenu();
+                        KEYCODE_DONE_TYPE = KEY_OK;
+                        setKeyboardType();
+                        break;
+                    case "g_et_ongkir_kurir":
                         focusedEditText = "g_et_external";
                         showOngkir();
                         KEYCODE_DONE_TYPE = KEY_DEFAULT;
@@ -898,14 +1222,10 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     }
 
-    private void commitTextToBOSKeyboardEditText(String character){
+    public void commitTextToBOSKeyboardEditTextWoy(String character){
         typedCharacters.append(character);
 
         switch (focusedEditText) {
-            case "g_et_ongkir_berat":
-                g_et_ongkir_berat.setText(typedCharacters);
-                g_et_ongkir_berat.setSelection(g_et_ongkir_berat.getText().length());
-                break;
             case "g_et_ongkir_asal":
                 g_actv_ongkir_asal.setText(typedCharacters);
                 g_actv_ongkir_asal.setSelection(g_actv_ongkir_asal.getText().length());
@@ -914,9 +1234,49 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                 g_actv_ongkir_tujuan.setText(typedCharacters);
                 g_actv_ongkir_tujuan.setSelection(g_actv_ongkir_tujuan.getText().length());
                 break;
+            case "g_et_ongkir_berat":
+                g_et_ongkir_berat.setText(typedCharacters);
+                g_et_ongkir_berat.setSelection(g_et_ongkir_berat.getText().length());
+                break;
             case "g_et_stok_search":
                 g_et_stok_search.setText(typedCharacters);
                 g_et_stok_search.setSelection(g_et_stok_search.getText().length());
+                break;
+            case "g_et_kirimform_search":
+                g_et_kirimform_search.setText(typedCharacters);
+                g_et_kirimform_search.setSelection(g_et_kirimform_search.getText().length());
+                break;
+            default:
+                InputConnection inputConnection = getCurrentInputConnection();
+                inputConnection.commitText(character, 1);
+                break;
+        }
+
+    }
+
+    private void commitTextToBOSKeyboardEditText(String character){
+        typedCharacters.append(character);
+
+        switch (focusedEditText) {
+            case "g_et_ongkir_asal":
+                g_actv_ongkir_asal.setText(typedCharacters);
+                g_actv_ongkir_asal.setSelection(g_actv_ongkir_asal.getText().length());
+                break;
+            case "g_et_ongkir_tujuan":
+                g_actv_ongkir_tujuan.setText(typedCharacters);
+                g_actv_ongkir_tujuan.setSelection(g_actv_ongkir_tujuan.getText().length());
+                break;
+            case "g_et_ongkir_berat":
+                g_et_ongkir_berat.setText(typedCharacters);
+                g_et_ongkir_berat.setSelection(g_et_ongkir_berat.getText().length());
+                break;
+            case "g_et_stok_search":
+                g_et_stok_search.setText(typedCharacters);
+                g_et_stok_search.setSelection(g_et_stok_search.getText().length());
+                break;
+            case "g_et_kirimform_search":
+                g_et_kirimform_search.setText(typedCharacters);
+                g_et_kirimform_search.setSelection(g_et_kirimform_search.getText().length());
                 break;
             default:
                 InputConnection inputConnection = getCurrentInputConnection();
@@ -965,7 +1325,26 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                     }
                     g_actv_ongkir_tujuan.setSelection(g_actv_ongkir_tujuan.getText().length());
                     break;
-
+                case "g_et_stok_search":
+                    int etStokLength = g_et_stok_search.getText().length();
+                    if (etStokLength > 0) {
+                        g_actv_ongkir_tujuan.getText().delete(etStokLength - 1, etStokLength);
+                        if(typedCharacters.length()>0){
+                            typedCharacters.deleteCharAt(etStokLength - 1);
+                        }
+                    }
+                    g_et_stok_search.setSelection(g_et_stok_search.getText().length());
+                    break;
+                case "g_et_kirimform_search":
+                    int etKirimFormSearchLength = g_et_kirimform_search.getText().length();
+                    if (etKirimFormSearchLength > 0) {
+                        g_et_kirimform_search.getText().delete(etKirimFormSearchLength - 1, etKirimFormSearchLength);
+                        if(typedCharacters.length()>0){
+                            typedCharacters.deleteCharAt(etKirimFormSearchLength - 1);
+                        }
+                    }
+                    g_et_kirimform_search.setSelection(g_et_kirimform_search.getText().length());
+                    break;
             }
         }
     }
@@ -984,6 +1363,12 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         }
         else if(tmpText[0].equals("TEXT")){
             commitTextToBOSKeyboardEditText(tmpText[1]);
+        }
+        else if(tmpText[0].equals("SUBTOTAL")){
+            g_kirimform_produk_total -= Integer.parseInt(tmpText[1]);
+            g_kirimform_produk_total += Integer.parseInt(tmpText[2]);
+            String tmpString = "NEXT (TOTAL : " + Method.getIndoCurrency(g_kirimform_produk_total) + ")";
+            g_btn_kirimform_next.setText(tmpString);
         }
 
     }
