@@ -111,6 +111,13 @@
         android:text="Produk terlaris bulan ini"
         android:textColor="@color/black"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/apps_beranda_produk_fragment_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -118,5 +125,12 @@
         android:paddingLeft="24dp"
         android:text="Pembeli setia bulan ini "
         android:textColor="@color/black"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/apps_beranda_pembeli_fragment_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
 
 </LinearLayout>

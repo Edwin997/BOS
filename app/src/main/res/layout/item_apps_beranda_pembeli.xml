@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/style_gradient_color_rounded_box_white"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    app:cardCornerRadius="50dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:id="@+id/ll_apps_beranda_pembeli_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="3"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/style_gradient_color_rounded_box"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_apps_beranda_pembeli_transaksi_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="32"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="transaksi"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="8dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_apps_beranda_pembeli_nama_item"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingStart="5dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:text="Winstock"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_apps_beranda_pembeli_nominal_item"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingStart="5dp"
+            android:gravity="center_vertical"
+            android:text="Nominal Transaksi"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:textSize="14dp" />
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
