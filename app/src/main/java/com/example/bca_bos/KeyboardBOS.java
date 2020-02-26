@@ -570,14 +570,25 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                 getTujuanCityId();
                 gBerat = g_et_ongkir_berat.getText().toString();
                 focusedEditText = "g_et_external";
-                String temp = RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, gAsal, gTujuan, gBerat, "jne", KeyboardBOS.this);
-//                commitTextToBOSKeyboardEditText(temp);
+                getOngkirByCourier();
                 emptyOngkirEditText();
                 showOngkir();
 
             }
         });
 
+    }
+
+    private void getOngkirByCourier() {
+        if (g_ongkir_kurir_jne){
+            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, gAsal, gTujuan, gBerat, "jne", KeyboardBOS.this);
+        }if (g_ongkir_kurir_tiki){
+            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, gAsal, gTujuan, gBerat, "tiki", KeyboardBOS.this);
+        }if (g_ongkir_kurir_pos){
+            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, gAsal, gTujuan, gBerat, "pos", KeyboardBOS.this);
+        }if (!g_ongkir_kurir_jne && !g_ongkir_kurir_tiki && !g_ongkir_kurir_pos){
+            commitTextToBOSKeyboardEditTextWoy("Masukin kurirnya anjeng");
+        }
     }
 
     private void initiateStok(){

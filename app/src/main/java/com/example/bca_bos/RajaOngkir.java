@@ -131,7 +131,12 @@ public class RajaOngkir {
                         costCostJSON = costCostArray.getJSONObject(0);
                         estimationDayList.add(costCostJSON.getString("etd"));
                         costList.add(costCostJSON.getString("value"));
-                        tmpOngkir = tmpOngkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i)+" hari - "+costList.get(i);
+                        if (!gKurir.equals("pos")){
+                            tmpOngkir = tmpOngkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i)+" hari - "+costList.get(i);
+                        }else {
+                            tmpOngkir = tmpOngkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i).toLowerCase()+" - "+costList.get(i);
+                        }
+
                         Log.d("COBA", tmpOngkir);
                     }
 
