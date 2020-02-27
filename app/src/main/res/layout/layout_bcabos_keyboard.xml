@@ -118,7 +118,7 @@
         android:background="@color/light_grey"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/bcabos_ongkir_asal_layout"
