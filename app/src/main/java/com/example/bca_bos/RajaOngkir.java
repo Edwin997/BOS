@@ -143,6 +143,7 @@ public class RajaOngkir {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                tmpOngkir = tmpOngkir + "\n";
                 parent.commitTextToBOSKeyboardEditTextWoy(tmpOngkir);
             }
         },
