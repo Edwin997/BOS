@@ -79,8 +79,6 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     private EditText g_et_ongkir_berat;
     private Button g_btn_ongkir_cekongkir;
 
-    private List<String> g_ongkir_cityNameList = new ArrayList<>();
-
     private ArrayAdapter<String> g_ongkir_asaladapter;
     private ArrayAdapter<String> g_ongkir_tujuanadapter;
 
@@ -113,8 +111,6 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     private AutoCompleteTextView g_actv_kirimform_next_asal, g_actv_kirimform_next_tujuan;
     private EditText g_et_kirimform_next_berat;
     private Button g_btn_kirimform_next_kirim;
-
-    private List<String> g_kirimform_next_cityNameList = new ArrayList<>();
 
     private ArrayAdapter<String> g_kirimform_next_asaladapter;
     private ArrayAdapter<String> g_kirimform_next_tujuanadapter;
@@ -249,8 +245,6 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_ongkir_tujuan_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_tujuan_layout);
         g_ongkir_kurir_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_kurir_layout);
         g_ongkir_cekongkir_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_layout);
-
-        g_ongkir_cityNameList = new ArrayList<>();
 
         g_ongkir_asaladapter = RajaOngkir.getRajaOngkirCity(KeyboardBOS.this);
         g_ongkir_tujuanadapter = RajaOngkir.getRajaOngkirCity(KeyboardBOS.this);
@@ -661,8 +655,6 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_kirimform_next_tujuan_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_tujuan_layout);
         g_kirimform_next_kirim_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_kirim_layout);
         g_kirimform_next_kurir_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_kurir_layout);
-
-        g_kirimform_next_cityNameList = new ArrayList<>();
 
         g_kirimform_next_asaladapter = RajaOngkir.getRajaOngkirCity(KeyboardBOS.this);
         g_kirimform_next_tujuanadapter = RajaOngkir.getRajaOngkirCity(KeyboardBOS.this);
