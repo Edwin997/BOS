@@ -15,12 +15,26 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ApplicationContainer extends AppCompatActivity  {
 
+    public static final String KEY_OPEN_APPS = "open_apps";
+
+    public static final int ID_BERANDA = 0;
+    public static final int ID_TEMPLATE = 1;
+    public static final int ID_PRODUK = 2;
+    public static final int ID_TRANSAKSI = 3;
+    public static final int ID_PROFILE = 4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_application_container);
+
+        int tmpTypeOpen = ID_BERANDA;
+//
+//        if(getIntent().hasExtra(KEY_OPEN_APPS)){
+//            tmpTypeOpen = getIntent().getExtras().getInt(KEY_OPEN_APPS);
+//        }
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -32,7 +46,26 @@ public class ApplicationContainer extends AppCompatActivity  {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
 
-        //        VolleyClass.getProduk(this, "http://10.1.125.119:9000/projectbos/getProduct");
+        switch (tmpTypeOpen){
+            case ID_BERANDA:
+                navController.navigate(R.id.navigation_beranda);
+                break;
+            case ID_TEMPLATE:
+                navController.navigate(R.id.navigation_template);
+                break;
+            case ID_PRODUK:
+                navController.navigate(R.id.navigation_produk);
+                break;
+            case ID_TRANSAKSI:
+                navController.navigate(R.id.navigation_transaksi);
+                break;
+            case ID_PROFILE:
+                navController.navigate(R.id.navigation_profile);
+                break;
+            default:
+                navController.navigate(R.id.navigation_beranda);
+        }
+
     }
 
 }

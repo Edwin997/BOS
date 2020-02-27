@@ -1,5 +1,6 @@
 package com.example.bca_bos;
 
+import android.content.Intent;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -63,7 +64,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     //HOME
     private LinearLayout g_home_layout;
-    private ImageButton g_btn_home;
+    private ImageButton g_btn_home, g_btn_template_openapps;
     private RecyclerView g_templatedtext_recyclerview;
     private LinearLayoutManager g_linear_layout;
 
@@ -188,6 +189,17 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             @Override
             public void onClick(View view) {
                 showFeatureMenu();
+            }
+        });
+
+        g_btn_template_openapps = g_viewparent.findViewById(R.id.bcabos_extended_home_button_add_template);
+        g_btn_template_openapps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent tmpIntent = new Intent();
+//                tmpIntent.putExtra(ApplicationContainer.KEY_OPEN_APPS, ApplicationContainer.ID_TEMPLATE);
+                tmpIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(tmpIntent);
             }
         });
 
