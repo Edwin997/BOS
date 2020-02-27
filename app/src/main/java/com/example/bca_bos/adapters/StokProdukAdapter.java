@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bca_bos.ListProdukDummy;
+import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Produk;
@@ -88,8 +89,8 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
             l_produk = produk;
             iv_stokproduk.setImageResource(produk.getGambar());
             tv_nama.setText(produk.getNama());
-            tv_harga.setText(String.valueOf(produk.getHarga()));
-            tv_stok.setText(String.valueOf(produk.getStok()));
+            tv_harga.setText(Method.getIndoCurrency(produk.getHarga()));
+            tv_stok.setText("Stok : " + produk.getStok());
         }
 
         public void setParentOnCallBack(OnCallBackListener p_oncallback){

@@ -65,7 +65,7 @@ public class KirimFormProdukAdapter extends RecyclerView.Adapter<KirimFormProduk
 
         private LinearLayout ll_kirimformproduk;
 
-        private RoundedImageView iv_kirimformproduk;
+        private ImageView iv_kirimformproduk;
         private TextView tv_nama;
         private TextView tv_harga;
         private TextView tv_jumlah;

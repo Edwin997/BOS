@@ -31,10 +31,10 @@ public class ApplicationContainer extends AppCompatActivity  {
         setContentView(R.layout.activity_application_container);
 
         int tmpTypeOpen = ID_BERANDA;
-//
-//        if(getIntent().hasExtra(KEY_OPEN_APPS)){
-//            tmpTypeOpen = getIntent().getExtras().getInt(KEY_OPEN_APPS);
-//        }
+
+        if(getIntent().hasExtra(KEY_OPEN_APPS)){
+            tmpTypeOpen = getIntent().getExtras().getInt(KEY_OPEN_APPS);
+        }
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

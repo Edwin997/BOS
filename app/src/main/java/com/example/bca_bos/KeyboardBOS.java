@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -95,6 +96,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     private StokProdukAdapter g_stok_adapter;
     private ImageButton g_btn_stok_back;
     private EditText g_et_stok_search;
+    private boolean g_et_stok_keyboard_fokus = false;
 
     //KIRIM FORM
     private LinearLayout g_kirimform_layout, g_kirimform_search_layout, g_kirimform_produk_layout, g_kirimform_produk_button_layout;
@@ -105,6 +107,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     private Button g_btn_kirimform_next;
     private EditText g_et_kirimform_search;
     private int g_kirimform_produk_total = 0;
+    private boolean g_et_kirimform_keyboard_fokus = false;
 
     //KIRIM FORM NEXT
     private LinearLayout g_kirimform_next_layout, g_kirimform_next_berat_layout, g_kirimform_next_asal_layout, g_kirimform_next_tujuan_layout, g_kirimform_next_kurir_layout, g_kirimform_next_kirim_layout;
@@ -196,8 +199,8 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_btn_template_openapps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent tmpIntent = new Intent();
-//                tmpIntent.putExtra(ApplicationContainer.KEY_OPEN_APPS, ApplicationContainer.ID_TEMPLATE);
+                Intent tmpIntent = new Intent(KeyboardBOS.this, ApplicationContainer.class);
+                tmpIntent.putExtra(ApplicationContainer.KEY_OPEN_APPS, ApplicationContainer.ID_TEMPLATE);
                 tmpIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(tmpIntent);
             }
@@ -576,6 +579,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_et_stok_search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
+                g_et_stok_keyboard_fokus = hasFocus;
                 if (hasFocus) {
                     focusedEditText = "g_et_stok_search";
                     typedCharacters.setLength(0);
@@ -599,7 +603,10 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             @Override
             public void onClick(View view) {
                 focusedEditText = "g_et_external";
-                showFeatureMenu();
+                if(g_et_stok_keyboard_fokus)
+                    showStok();
+                else
+                    showFeatureMenu();
             }
         });
     }
@@ -624,6 +631,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_et_kirimform_search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
+                g_et_kirimform_keyboard_fokus = hasFocus;
                 if (hasFocus) {
                     focusedEditText = "g_et_kirimform_search";
                     typedCharacters.setLength(0);
@@ -647,7 +655,11 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             @Override
             public void onClick(View view) {
                 focusedEditText = "g_et_external";
-                showFeatureMenu();
+                if(g_et_kirimform_keyboard_fokus)
+                    showKirimForm();
+                else
+                    showFeatureMenu();
+
             }
         });
 
@@ -869,13 +881,9 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_btn_kirimform_next_jne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!g_kirimform_next_kurir_jne){
-                    g_kirimform_next_kurir_jne = true;
-                    g_btn_kirimform_next_jne.setBackgroundResource(R.drawable.style_gradient_color_rounded_box);
-                }else {
-                    g_kirimform_next_kurir_jne = false;
-                    g_btn_kirimform_next_jne.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
-                }
+                clearSelectedCourier();
+                g_kirimform_next_kurir_jne = true;
+                g_btn_kirimform_next_jne.setBackgroundResource(R.drawable.style_gradient_color_rounded_box);
             }
         });
 
@@ -883,13 +891,9 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_btn_kirimform_next_tiki.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!g_kirimform_next_kurir_tiki){
-                    g_kirimform_next_kurir_tiki = true;
-                    g_btn_kirimform_next_tiki.setBackgroundResource(R.drawable.style_gradient_color_rounded_box);
-                }else {
-                    g_kirimform_next_kurir_tiki = false;
-                    g_btn_kirimform_next_tiki.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
-                }
+                clearSelectedCourier();
+                g_kirimform_next_kurir_tiki = true;
+                g_btn_kirimform_next_tiki.setBackgroundResource(R.drawable.style_gradient_color_rounded_box);
             }
         });
 
@@ -897,13 +901,9 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_btn_kirimform_next_pos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!g_kirimform_next_kurir_pos){
-                    g_kirimform_next_kurir_pos = true;
-                    g_btn_kirimform_next_pos.setBackgroundResource(R.drawable.style_gradient_color_rounded_box);
-                }else {
-                    g_kirimform_next_kurir_pos = false;
-                    g_btn_kirimform_next_pos.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
-                }
+                clearSelectedCourier();
+                g_kirimform_next_kurir_pos = true;
+                g_btn_kirimform_next_pos.setBackgroundResource(R.drawable.style_gradient_color_rounded_box);
             }
         });
 
@@ -941,6 +941,15 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             }
         });
 
+    }
+
+    private void clearSelectedCourier(){
+        g_kirimform_next_kurir_jne = false;
+        g_kirimform_next_kurir_pos = false;
+        g_kirimform_next_kurir_tiki = false;
+        g_btn_kirimform_next_tiki.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
+        g_btn_kirimform_next_jne.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
+        g_btn_kirimform_next_pos.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
     }
 
     private void initiateMutasi() {
@@ -1374,6 +1383,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     @Override
     public void swipeLeft() {
+        Toast.makeText(this, "TEST COY", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -1522,7 +1532,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                 case "g_et_stok_search":
                     int etStokLength = g_et_stok_search.getText().length();
                     if (etStokLength > 0) {
-                        g_actv_ongkir_tujuan.getText().delete(etStokLength - 1, etStokLength);
+                        g_et_stok_search.getText().delete(etStokLength - 1, etStokLength);
                         if(typedCharacters.length()>0){
                             typedCharacters.deleteCharAt(etStokLength - 1);
                         }

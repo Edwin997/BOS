@@ -39,7 +39,12 @@ public class TemplatedTextAdapter extends RecyclerView.Adapter<TemplatedTextAdap
 
     @Override
     public void onBindViewHolder(@NonNull TemplatedTextViewHolder holder, int position) {
-        holder.bind(g_list_templatedtext.get(position));
+        if(position == g_list_templatedtext.size()-1){
+            holder.bind(g_list_templatedtext.get(position), false);
+        }else{
+            holder.bind(g_list_templatedtext.get(position), true);
+        }
+
     }
 
     @Override
@@ -60,6 +65,8 @@ public class TemplatedTextAdapter extends RecyclerView.Adapter<TemplatedTextAdap
 
     public class TemplatedTextViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        private View l_view_template;
+
         private Button l_btn_templatedtext;
         private OnCallBackListener l_parent_oncallbacklistener;
         private TemplatedText l_templatedtext;
@@ -67,13 +74,19 @@ public class TemplatedTextAdapter extends RecyclerView.Adapter<TemplatedTextAdap
         public TemplatedTextViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            l_view_template = itemView.findViewById(R.id.keyboard_template_divider);
+
             l_btn_templatedtext = itemView.findViewById(R.id.btn_templatedtext);
             l_btn_templatedtext.setOnClickListener(this);
         }
 
-        public void bind(TemplatedText p_templatedtext){
+        public void bind(TemplatedText p_templatedtext, Boolean p_showdivider){
             l_templatedtext = p_templatedtext;
             l_btn_templatedtext.setText(l_templatedtext.getLabel().toUpperCase());
+            if(p_showdivider)
+                l_view_template.setVisibility(View.VISIBLE);
+            else
+                l_view_template.setVisibility(View.GONE);
         }
 
         @Override

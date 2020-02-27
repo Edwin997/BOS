@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp">
+    android:layout_height="wrap_content">
 
     <Button
         android:id="@+id/btn_templatedtext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Selamat Datang"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
         android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textAlignment="center"
         android:textColor="@color/white"
         android:background="@android:color/transparent"/>
+
+    <View
+        android:id="@+id/keyboard_template_divider"
+        android:layout_width="1dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center_vertical"
+        android:background="@color/dark_white"/>
 </LinearLayout>
