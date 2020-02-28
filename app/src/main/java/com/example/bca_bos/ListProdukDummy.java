@@ -19,6 +19,10 @@ public class ListProdukDummy {
         add(new Produk(6, "Balenciaga Triple S - Black Red", 30, R.drawable.shoes_black_red_balenciaga, 9000000, list.get(2)));
     }};
 
+    public static List<Produk> getProduks(){
+        return produkList;
+    }
+
     public static List<Produk> getProdukByKategory(String p_kategori){
         List<Produk> tmpResult = new ArrayList<>();
 

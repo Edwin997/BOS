@@ -9,9 +9,11 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -32,6 +34,7 @@ import com.example.bca_bos.adapters.StokProdukAdapter;
 
 import com.example.bca_bos.adapters.TemplatedTextAdapter;
 import com.example.bca_bos.interfaces.OnCallBackListener;
+import com.example.bca_bos.models.Produk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -199,10 +202,10 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         g_btn_template_openapps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent tmpIntent = new Intent(KeyboardBOS.this, ApplicationContainer.class);
-                tmpIntent.putExtra(ApplicationContainer.KEY_OPEN_APPS, ApplicationContainer.ID_TEMPLATE);
-                tmpIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(tmpIntent);
+//                Intent tmpIntent = new Intent(KeyboardBOS.this, ApplicationContainer.class);
+//                tmpIntent.putExtra(ApplicationContainer.KEY_OPEN_APPS, ApplicationContainer.ID_TEMPLATE);
+//                tmpIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(tmpIntent);
             }
         });
 
@@ -273,6 +276,9 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                 if (hasFocus){
                     focusedEditText = "g_et_ongkir_asal";
                     typedCharacters.setLength(0);
+                }
+                else
+                {
                     typedCharacters.delete(0, typedCharacters.length());
                 }
             }
@@ -356,6 +362,10 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                     focusedEditText = "g_et_ongkir_tujuan";
                     typedCharacters.setLength(0);
                 }
+                else
+                {
+                    typedCharacters.delete(0, typedCharacters.length());
+                }
             }
         });
         g_actv_ongkir_tujuan.setOnTouchListener(new View.OnTouchListener() {
@@ -434,6 +444,9 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                 if (hasFocus) {
                     focusedEditText = "g_et_ongkir_berat";
                     typedCharacters.setLength(0);
+                }
+                else
+                {
                     typedCharacters.delete(0, typedCharacters.length());
                 }
             }
@@ -987,6 +1000,9 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     private void showOngkir() {
         refreshDisplay();
+        int tmpheightdp = (int)TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP, 285,
+                getResources().getDisplayMetrics() );
+        g_ongkir_layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, tmpheightdp));
         g_keyboardview.setVisibility(View.GONE);
         g_btn_ongkir_berat_back.setVisibility(View.GONE);
         g_btn_ongkir_asal_back.setVisibility(View.GONE);
@@ -998,6 +1014,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     private void showBeratMenu() {
         refreshDisplay();
+        g_ongkir_layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         g_ongkir_layout.setVisibility(View.VISIBLE);
         g_ongkir_asal_layout.setVisibility(View.GONE);
         g_ongkir_tujuan_layout.setVisibility(View.GONE);
@@ -1008,6 +1025,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     private void showAsalMenu() {
         refreshDisplay();
+        g_ongkir_layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         g_ongkir_layout.setVisibility(View.VISIBLE);
         g_ongkir_berat_layout.setVisibility(View.GONE);
         g_ongkir_tujuan_layout.setVisibility(View.GONE);
@@ -1018,6 +1036,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     private void showTujuanMenu() {
         refreshDisplay();
+        g_ongkir_layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         g_ongkir_layout.setVisibility(View.VISIBLE);
         g_ongkir_berat_layout.setVisibility(View.GONE);
         g_ongkir_asal_layout.setVisibility(View.GONE);
@@ -1028,6 +1047,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     private void showKurirMenu() {
         refreshDisplay();
+        g_ongkir_layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         g_ongkir_layout.setVisibility(View.VISIBLE);
         g_ongkir_berat_layout.setVisibility(View.GONE);
         g_ongkir_asal_layout.setVisibility(View.GONE);
@@ -1585,24 +1605,36 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     @Override
     public void OnCallBack(Object p_obj) {
-        String p_text = p_obj.toString();
-        String[] tmpText = p_text.split(";");
 
-        if(tmpText[0].equals("STOK")){
-            if(Integer.parseInt(tmpText[1]) <= 0){
-                commitTextToBOSKeyboardEditText("Maaf, stok kami untuk produk tersebut sudah habis. \nTerima kasih.");
-            }else{
-                commitTextToBOSKeyboardEditText("Stok kami untuk produk tersebut masih tersisa : " + Integer.parseInt(tmpText[1]) + " buah. \nTerima kasih.");
+        if(p_obj instanceof Produk){
+            Produk tmpProduk = (Produk) p_obj;
+            if(tmpProduk.getId() == -1){
+                Intent tmpIntent = new Intent(KeyboardBOS.this, ApplicationContainer.class);
+                tmpIntent.putExtra(ApplicationContainer.KEY_OPEN_APPS, ApplicationContainer.ID_PRODUK);
+                tmpIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(tmpIntent);
+            }
+            else {
+                if(tmpProduk.getStok() <= 0){
+                    commitTextToBOSKeyboardEditText("Maaf, stok kami untuk produk tersebut sudah habis. \nTerima kasih.");
+                }else{
+                    commitTextToBOSKeyboardEditText("Stok kami untuk produk tersebut masih ada. \nTerima kasih.");
+                }
             }
         }
-        else if(tmpText[0].equals("TEXT")){
-            commitTextToBOSKeyboardEditText(tmpText[1]);
-        }
-        else if(tmpText[0].equals("SUBTOTAL")){
-            g_kirimform_produk_total -= Integer.parseInt(tmpText[1]);
-            g_kirimform_produk_total += Integer.parseInt(tmpText[2]);
-            String tmpString = "NEXT (TOTAL : " + Method.getIndoCurrency(g_kirimform_produk_total) + ")";
-            g_btn_kirimform_next.setText(tmpString);
+        else if(p_obj instanceof String){
+            String p_text = p_obj.toString();
+            String[] tmpText = p_text.split(";");
+
+            if(tmpText[0].equals("TEXT")){
+                commitTextToBOSKeyboardEditText(tmpText[1]);
+            }
+            else if(tmpText[0].equals("SUBTOTAL")){
+                g_kirimform_produk_total -= Integer.parseInt(tmpText[1]);
+                g_kirimform_produk_total += Integer.parseInt(tmpText[2]);
+                String tmpString = "NEXT (TOTAL : " + Method.getIndoCurrency(g_kirimform_produk_total) + ")";
+                g_btn_kirimform_next.setText(tmpString);
+            }
         }
 
     }

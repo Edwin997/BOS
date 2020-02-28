@@ -431,7 +431,6 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingRight="16dp"
             android:layout_marginBottom="8dp"
             android:visibility="visible">
             <androidx.recyclerview.widget.RecyclerView
@@ -448,7 +447,7 @@
         android:layout_width="match_parent"
         android:layout_height="285dp"
         android:paddingTop="8dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/bcabos_kirimform_search_layout"
