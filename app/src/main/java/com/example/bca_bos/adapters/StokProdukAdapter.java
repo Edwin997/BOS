@@ -1,5 +1,6 @@
 package com.example.bca_bos.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bca_bos.ListKategoriDummy;
 import com.example.bca_bos.ListProdukDummy;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
+import com.example.bca_bos.models.Kategori;
 import com.example.bca_bos.models.Produk;
 
 import org.w3c.dom.Text;
@@ -27,7 +30,8 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
     private OnCallBackListener g_parent_oncallbacklistener;
 
     public StokProdukAdapter(){
-        g_list_produk = ListProdukDummy.produkList;
+        g_list_produk = ListProdukDummy.getProduks();
+        g_list_produk.add(0, new Produk(-1, "...", 0, R.drawable.ic_keyboard_add_fill_blue, 0, new Kategori(-1, "kosong")));
     }
 
     @NonNull
@@ -58,7 +62,7 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
     @Override
     public void OnCallBack(Object p_obj) {
         if(g_parent_oncallbacklistener != null){
-            g_parent_oncallbacklistener.OnCallBack("STOK;"+p_obj.toString());
+            g_parent_oncallbacklistener.OnCallBack(p_obj);
         }
     }
 
@@ -101,7 +105,7 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
         public void onClick(View view) {
             if(l_parent_oncallbacklistener != null)
             {
-                l_parent_oncallbacklistener.OnCallBack(String.valueOf(l_produk.getStok()));
+                l_parent_oncallbacklistener.OnCallBack(l_produk);
             }
         }
     }

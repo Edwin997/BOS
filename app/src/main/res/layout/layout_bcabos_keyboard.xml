@@ -415,17 +415,30 @@
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_keyboard_back_gradient" />
 
-            <EditText
-                android:id="@+id/bcabos_stok_search_edittext"
+            <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
-                android:layout_weight="8"
-                android:layout_height="match_parent"
-                android:background="@drawable/style_edittext_background_white"
-                android:paddingLeft="16dp"
-                android:textColorHint="@color/grey"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:hint="Search..."/>
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="@color/white"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp">
+
+                <EditText
+                    android:id="@+id/bcabos_stok_search_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/style_edittext_background_white"
+                    android:hint="Search..."
+                    android:paddingLeft="16dp"
+                    android:textColorHint="@color/grey"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+
+            </androidx.cardview.widget.CardView>
+
 
             <ImageButton
                 android:id="@+id/bcabos_stok_search_button"
@@ -469,7 +482,6 @@
             android:orientation="horizontal"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:layout_marginBottom="8dp"
             android:visibility="visible">
 
             <ImageButton
@@ -482,17 +494,29 @@
                 android:paddingRight="16dp"
                 android:src="@drawable/ic_keyboard_back_gradient" />
 
-            <EditText
-                android:id="@+id/bcabos_kirimform_search_edittext"
+            <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
-                android:layout_weight="8"
-                android:layout_height="match_parent"
-                android:background="@drawable/style_edittext_background_white"
-                android:paddingLeft="16dp"
-                android:textColorHint="@color/grey"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:hint="Search..."/>
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="@color/white"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp">
+
+                <EditText
+                    android:id="@+id/bcabos_kirimform_search_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/style_edittext_background_white"
+                    android:hint="Search..."
+                    android:paddingLeft="16dp"
+                    android:textColorHint="@color/grey"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+            </androidx.cardview.widget.CardView>
 
             <ImageButton
                 android:id="@+id/bcabos_kirimform_search_button"
@@ -524,7 +548,10 @@
             android:layout_weight="3"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:visibility="visible">
 
             <Button

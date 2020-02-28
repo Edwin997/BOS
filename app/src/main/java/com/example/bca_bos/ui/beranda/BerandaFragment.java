@@ -31,7 +31,7 @@ public class BerandaFragment extends Fragment {
 
         //Set Produk RecyclerView
         g_beranda_produk_fragment_recyclerview = g_view.findViewById(R.id.apps_beranda_produk_fragment_recyclerview);
-        g_linearlayoutmanager_produk = new LinearLayoutManager(g_context, RecyclerView.HORIZONTAL, false);
+        g_linearlayoutmanager_produk = new LinearLayoutManager(g_context, RecyclerView.HORIZONTAL, true);
         g_beranda_produk_adapter = new BerandaProdukAdapter();
 
         g_beranda_produk_fragment_recyclerview.setAdapter(g_beranda_produk_adapter);

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bca_bos.ListProdukDummy;
+import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Produk;
@@ -99,7 +100,7 @@ public class KirimFormProdukAdapter extends RecyclerView.Adapter<KirimFormProduk
             l_produk = produk;
             iv_kirimformproduk.setImageResource(produk.getGambar());
             tv_nama.setText(produk.getNama());
-            tv_harga.setText(String.valueOf(produk.getHarga()));
+            tv_harga.setText(Method.getIndoCurrency(produk.getHarga()));
 
             if(Integer.parseInt(tv_jumlah.getText().toString()) == 0){
                 btn_minus_count.setVisibility(View.INVISIBLE);
