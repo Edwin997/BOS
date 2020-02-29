@@ -84,6 +84,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     private AutoCompleteTextView g_actv_ongkir_asal, g_actv_ongkir_tujuan;
     private EditText g_et_ongkir_berat;
     private Button g_btn_ongkir_cekongkir;
+    
 
     private ArrayAdapter<String> g_ongkir_asaladapter;
     private ArrayAdapter<String> g_ongkir_tujuanadapter;
