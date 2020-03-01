@@ -243,7 +243,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         switch (primaryCode){
             case KEYCODE_CHANGE_NUMBER_SYMBOL:
                 IS_SYMBOL1 = !IS_SYMBOL1;
-                setKeyboardType();
+                setKeyboardType(selectedText.length());
                 break;
             case Keyboard.KEYCODE_DONE:
                 doneAction(l_inputconnection);
@@ -251,7 +251,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             case Keyboard.KEYCODE_MODE_CHANGE :
                 IS_SYMBOL1 = true;
                 IS_ALPHABET = !IS_ALPHABET;
-                setKeyboardType();
+                setKeyboardType(selectedText.length());
                 break;
             case Keyboard.KEYCODE_DELETE :
                 deleteKeyPressed(l_inputconnection, selectedText);
@@ -271,9 +271,20 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 break;
             default :
                 IS_FILLED = false;
+
                 char code = (char) primaryCode;
-                if(Character.isLetter(code) && IS_CAPS){
+                if(Character.isLetter(code) && (IS_CAPS || IS_FIRST_CAPS)){
                     code = Character.toUpperCase(code);
+
+                    if(IS_FIRST_CAPS){
+                        g_keyboard_alphabet_default.setShifted(IS_CAPS);
+                        g_keyboard_alphabet_next.setShifted(IS_CAPS);
+                        g_keyboard_alphabet_ok.setShifted(IS_CAPS);
+
+                        IS_FIRST_CAPS = false;
+
+                        g_keyboardview.invalidateAllKeys();
+                    }
                 }
                 commitTextToBOSKeyboardEditText(String.valueOf(code));
 
@@ -672,19 +683,19 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 showOngkir();
                 IS_ALPHABET = true;
                 KEYCODE_DONE_TYPE = KEY_DEFAULT;
-                setKeyboardType();
+                setKeyboardType(0);
                 break;
             case R.id.bcabos_ongkir_tujuan_back_button:
                 showOngkir();
                 IS_ALPHABET = true;
                 KEYCODE_DONE_TYPE = KEY_DEFAULT;
-                setKeyboardType();
+                setKeyboardType(0);
                 break;
             case R.id.bcabos_ongkir_berat_back_button:
                 showOngkir();
                 IS_ALPHABET = true;
                 KEYCODE_DONE_TYPE = KEY_DEFAULT;
-                setKeyboardType();
+                setKeyboardType(0);
                 break;
             case R.id.jneButton:
                 IS_CHOOSE_JNE = !IS_CHOOSE_JNE;
@@ -747,19 +758,19 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 showKirimFormNext();
                 IS_ALPHABET = true;
                 KEYCODE_DONE_TYPE = KEY_DEFAULT;
-                setKeyboardType();
+                setKeyboardType(0);
                 break;
             case R.id.bcabos_kirimform_next_tujuan_back_button:
                 showKirimFormNext();
                 IS_ALPHABET = true;
                 KEYCODE_DONE_TYPE = KEY_DEFAULT;
-                setKeyboardType();
+                setKeyboardType(0);
                 break;
             case R.id.bcabos_kirimform_next_berat_back_button:
                 showKirimFormNext();
                 IS_ALPHABET = true;
                 KEYCODE_DONE_TYPE = KEY_DEFAULT;
-                setKeyboardType();
+                setKeyboardType(0);
                 break;
             case R.id.bcabos_kirimform_next_jne_btn:
                 clearSelectedCourier();
@@ -872,14 +883,14 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 showAsalMenu();
                 IS_ALPHABET = true;
                 KEYCODE_DONE_TYPE = KEY_NEXT;
-                setKeyboardType();
+                setKeyboardType(g_actv_ongkir_asal.getText().length());
                 break;
             case R.id.bcabos_ongkir_tujuan_auto_complete_text_view:
                 focusedEditText = KEY_ET_ONGKIR_TUJUAN;
                 showTujuanMenu();
                 IS_ALPHABET = true;
                 KEYCODE_DONE_TYPE = KEY_NEXT;
-                setKeyboardType();
+                setKeyboardType(g_actv_ongkir_tujuan.getText().length());
                 break;
             case R.id.bcabos_ongkir_berat_text:
                 focusedEditText = KEY_ET_ONGKIR_BERAT;
@@ -893,7 +904,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 showStokSearch();
                 IS_ALPHABET = true;
                 KEYCODE_DONE_TYPE = KEY_DEFAULT;
-                setKeyboardType();
+                setKeyboardType(g_et_stok_search.getText().length());
                 break;
             //endregion
 
@@ -902,7 +913,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 showKirimFormSearch();
                 IS_ALPHABET = true;
                 KEYCODE_DONE_TYPE = KEY_DEFAULT;
-                setKeyboardType();
+                setKeyboardType(g_et_kirimform_search.getText().length());
                 break;
             //endregion
 
@@ -912,14 +923,14 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 showAsalKirimFormNext();
                 IS_ALPHABET = true;
                 KEYCODE_DONE_TYPE = KEY_NEXT;
-                setKeyboardType();
+                setKeyboardType(g_actv_kirimform_next_asal.getText().length());
                 break;
             case R.id.bcabos_kirimform_next_tujuan_auto_complete_text_view:
                 focusedEditText = KEY_ET_KIRIMFORM_NEXT_TUJUAN;
                 showTujuanKirimFormNext();
                 IS_ALPHABET = true;
                 KEYCODE_DONE_TYPE = KEY_NEXT;
-                setKeyboardType();
+                setKeyboardType(g_actv_kirimform_next_tujuan.getText().length());
                 break;
             case R.id.bcabos_kirimform_next_berat_text:
                 focusedEditText = KEY_ET_KIRIMFORM_NEXT_BERAT;
@@ -1214,8 +1225,17 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_tujuan_id_city = String.valueOf(RajaOngkir.cityNameList.indexOf(p_autocomplete.getText().toString())+1);
     }
 
-    private void setKeyboardType(){
+    private void setKeyboardType(int p_length){
         if(IS_ALPHABET){
+            if(p_length == 0){
+                IS_FIRST_CAPS = true;
+                g_keyboard_alphabet_default.setShifted(true);
+                g_keyboard_alphabet_next.setShifted(true);
+                g_keyboard_alphabet_ok.setShifted(true);
+
+                g_keyboardview.invalidateAllKeys();
+            }
+
             if(KEYCODE_DONE_TYPE == KEY_DEFAULT){
                 g_keyboardview.setKeyboard(g_keyboard_alphabet_default);
             }
@@ -1395,7 +1415,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 focusedEditText = KEY_ET_ONGKIR_TUJUAN;
                 showTujuanMenu();
                 KEYCODE_DONE_TYPE = KEY_NEXT;
-                setKeyboardType();
+                setKeyboardType(0);
                 break;
             case KEY_ET_ONGKIR_TUJUAN:
                 focusedEditText = KEY_ET_ONGKIR_BERAT;
@@ -1407,43 +1427,43 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 focusedEditText = KEY_ET_ONGKIR_KURIR;
                 showKurirMenu();
                 KEYCODE_DONE_TYPE = KEY_OK;
-                setKeyboardType();
+                setKeyboardType(0);
                 break;
             case KEY_ET_ONGKIR_KURIR:
                 focusedEditText = KEY_ET_EXTERNAL;
                 showOngkir();
                 KEYCODE_DONE_TYPE = KEY_DEFAULT;
-                setKeyboardType();
+                setKeyboardType(0);
                 break;
             case KEY_ET_KIRIMFORM_NEXT_ASAL:
                 focusedEditText = KEY_ET_KIRIMFORM_NEXT_TUJUAN;
                 showTujuanKirimFormNext();
                 KEYCODE_DONE_TYPE = KEY_NEXT;
-                setKeyboardType();
+                setKeyboardType(0);
                 break;
             case KEY_ET_KIRIMFORM_NEXT_TUJUAN:
                 focusedEditText = KEY_ET_KIRIMFORM_NEXT_BERAT;
                 showBeratKirimFormNext();
                 g_keyboardview.setKeyboard(g_keyboard_number);
                 KEYCODE_DONE_TYPE = KEY_NEXT;
-                setKeyboardType();
+                setKeyboardType(0);
                 break;
             case KEY_ET_KIRIMFORM_NEXT_BERAT:
                 focusedEditText = KEY_ET_KIRIMFORM_NEXT_KURIR;
                 showKurirKirimFormNext();
                 KEYCODE_DONE_TYPE = KEY_OK;
-                setKeyboardType();
+                setKeyboardType(0);
                 break;
             case KEY_ET_KIRIMFORM_NEXT_KURIR:
                 focusedEditText = KEY_ET_EXTERNAL;
                 showKirimFormNext();
                 KEYCODE_DONE_TYPE = KEY_DEFAULT;
-                setKeyboardType();
+                setKeyboardType(0);
                 break;
             default:
                 ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
                 KEYCODE_DONE_TYPE = KEY_DEFAULT;
-                setKeyboardType();
+                setKeyboardType(0);
         }
     }
 
