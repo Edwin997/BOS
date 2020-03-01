@@ -45,7 +45,7 @@ public class RajaOngkir {
 
     //DATA MEMBER getRajaOngkirCity()
     private static ArrayAdapter<String> g_rajaongkir_city_adapter;
-    public static List<String> g_city_name_list;
+    public static List<String> g_city_name_list = new ArrayList<>();;
 
     public static ArrayAdapter<String> getRajaOngkirCity(Context context) {
 
@@ -53,7 +53,7 @@ public class RajaOngkir {
         StringRequest sr = new StringRequest(Request.Method.GET, URL_GET_CITY_RAJA_ONGKIR, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                g_city_name_list = new ArrayList<>();
+                g_city_name_list.clear();
 
                 String cityResponseJSON = response;
 
@@ -70,6 +70,7 @@ public class RajaOngkir {
 
                     g_rajaongkir_city_adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
+                    Log.d(TAG_VOLLEY, "onResponse: ");
                     e.printStackTrace();
                 }
 
@@ -103,9 +104,9 @@ public class RajaOngkir {
             public void onResponse(String response) {
                 g_textongkir = "Daftar Ongkir "+ gKurir.toUpperCase() +":";
 
-                serviceList = new ArrayList<>();
-                estimationDayList = new ArrayList<>();
-                costList = new ArrayList<>();
+                serviceList.clear();
+                estimationDayList.clear();
+                costList.clear();
 
                 String costResponseJSON = response;
 

@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -379,7 +380,6 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_ongkir_cekongkir_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_layout);
 
         g_autocompleteadapter = RajaOngkir.getRajaOngkirCity(this);
-
         //inisiasi edittext
         g_actv_ongkir_asal = g_viewparent.findViewById(R.id.bcabos_ongkir_asal_auto_complete_text_view);
         g_actv_ongkir_asal.setAdapter(g_autocompleteadapter);
@@ -977,8 +977,6 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         }
         return false;
     }
-
-
 
     //region KEYBOARD BOS SHOW VIEW UTIL
     private void refreshDisplay(){
