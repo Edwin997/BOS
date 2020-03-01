@@ -1,4 +1,4 @@
-package com.example.bca_bos;
+package com.example.bca_bos.dummy;
 
 import com.example.bca_bos.models.Kategori;
 

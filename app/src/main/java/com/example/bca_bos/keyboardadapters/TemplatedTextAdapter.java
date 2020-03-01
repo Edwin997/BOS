@@ -1,4 +1,4 @@
-package com.example.bca_bos.adapters;
+package com.example.bca_bos.keyboardadapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bca_bos.ListTemplatedTextDummy;
+import com.example.bca_bos.dummy.ListTemplatedTextDummy;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.TemplatedText;

@@ -1,4 +1,4 @@
-package com.example.bca_bos.adapters;
+package com.example.bca_bos.keyboardadapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,12 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bca_bos.ListMutasiRekeningDummy;
+import com.example.bca_bos.dummy.ListMutasiRekeningDummy;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.MutasiRekening;
-import com.example.bca_bos.models.TemplatedText;
 
 import java.util.List;
 
