@@ -23,10 +23,10 @@
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_gravity="center"
-        android:background="@drawable/style_gradient_color_circle_new_blue"
+        android:background="@drawable/style_gradient_color_rounded_box_blue"
         android:scaleType="fitXY"
         android:src="@drawable/ic_apps_add_filled_white"
-        app:riv_oval="true"/>
+        app:riv_corner_radius="20dp"/>
 
     <TextView
         android:layout_width="match_parent"

@@ -585,27 +585,27 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     }
 
     private void getOngkirByCourier() {
-        if (g_ongkir_kurir_jne){
-            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_ongkir_asal, g_ongkir_tujuan, g_ongkir_berat, "jne", KeyboardBOS.this);
-        }if (g_ongkir_kurir_tiki){
-            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_ongkir_asal, g_ongkir_tujuan, g_ongkir_berat, "tiki", KeyboardBOS.this);
-        }if (g_ongkir_kurir_pos){
-            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_ongkir_asal, g_ongkir_tujuan, g_ongkir_berat, "pos", KeyboardBOS.this);
-        }if (!g_ongkir_kurir_jne && !g_ongkir_kurir_tiki && !g_ongkir_kurir_pos){
-            commitTextToBOSKeyboardEditTextWoy("Masukan kurir terlebih dahulu");
-        }
+//        if (g_ongkir_kurir_jne){
+//            RajaOngkir.getRajaOngkirCost(this, g_ongkir_asal, g_ongkir_tujuan, g_ongkir_berat, "jne");
+//        }if (g_ongkir_kurir_tiki){
+//            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_ongkir_asal, g_ongkir_tujuan, g_ongkir_berat, "tiki");
+//        }if (g_ongkir_kurir_pos){
+//            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_ongkir_asal, g_ongkir_tujuan, g_ongkir_berat, "pos");
+//        }if (!g_ongkir_kurir_jne && !g_ongkir_kurir_tiki && !g_ongkir_kurir_pos){
+//            commitTextToBOSKeyboardEditTextWoy("Masukan kurir terlebih dahulu");
+//        }
     }
 
     private void getKirimFormNextByCourier() {
-        if (g_kirimform_next_kurir_jne){
-            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_kirimform_next_asal, g_kirimform_next_tujuan, g_kirimform_next_berat, "jne", KeyboardBOS.this);
-        }if (g_kirimform_next_kurir_tiki){
-            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_kirimform_next_asal, g_kirimform_next_tujuan, g_kirimform_next_berat, "tiki", KeyboardBOS.this);
-        }if (g_kirimform_next_kurir_pos){
-            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_kirimform_next_asal, g_kirimform_next_tujuan, g_kirimform_next_berat, "pos", KeyboardBOS.this);
-        }if (!g_kirimform_next_kurir_jne && !g_kirimform_next_kurir_tiki && !g_kirimform_next_kurir_pos){
-            commitTextToBOSKeyboardEditTextWoy("Masukan kurir terlebih dahulu");
-        }
+//        if (g_kirimform_next_kurir_jne){
+//            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_kirimform_next_asal, g_kirimform_next_tujuan, g_kirimform_next_berat, "jne", KeyboardBOS.this);
+//        }if (g_kirimform_next_kurir_tiki){
+//            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_kirimform_next_asal, g_kirimform_next_tujuan, g_kirimform_next_berat, "tiki", KeyboardBOS.this);
+//        }if (g_kirimform_next_kurir_pos){
+//            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_kirimform_next_asal, g_kirimform_next_tujuan, g_kirimform_next_berat, "pos", KeyboardBOS.this);
+//        }if (!g_kirimform_next_kurir_jne && !g_kirimform_next_kurir_tiki && !g_kirimform_next_kurir_pos){
+//            commitTextToBOSKeyboardEditTextWoy("Masukan kurir terlebih dahulu");
+//        }
     }
 
     private void initiateStok(){
