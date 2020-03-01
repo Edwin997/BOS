@@ -203,12 +203,11 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 }
             }
             else if(requestCode == ChooseImageFromDialog.CODE_CAMERA_ADD_PRODUK){
-                Uri path = data.getData();
-
                 try {
-                    g_bmp_bottom_sheet_produk_add = MediaStore.Images.Media.getBitmap(g_context.getContentResolver(), path);
+                    Bundle extras = data.getExtras();
+                    g_bmp_bottom_sheet_produk_add = (Bitmap) extras.get("data");
                     g_iv_bottom_sheet_produk_add_gambar.setImageBitmap(g_bmp_bottom_sheet_produk_add);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -223,12 +222,11 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 }
             }
             else if(requestCode == ChooseImageFromDialog.CODE_CAMERA_EDIT_PRODUK){
-                Uri path = data.getData();
-
                 try {
-                    g_bmp_bottom_sheet_produk_edit = MediaStore.Images.Media.getBitmap(g_context.getContentResolver(), path);
+                    Bundle extras = data.getExtras();
+                    g_bmp_bottom_sheet_produk_edit = (Bitmap) extras.get("data");
                     g_iv_bottom_sheet_produk_edit_gambar.setImageBitmap(g_bmp_bottom_sheet_produk_edit);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
