@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bca_bos.ListProdukDummy;
+import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;

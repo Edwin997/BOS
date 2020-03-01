@@ -7,7 +7,6 @@ import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
 import android.os.Handler;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.TypedValue;
@@ -29,16 +28,13 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bca_bos.adapters.KirimFormProdukAdapter;
-import com.example.bca_bos.adapters.MutasiRekeningAdapter;
-import com.example.bca_bos.adapters.StokProdukAdapter;
+import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
+import com.example.bca_bos.keyboardadapters.MutasiRekeningAdapter;
+import com.example.bca_bos.keyboardadapters.StokProdukAdapter;
 
-import com.example.bca_bos.adapters.TemplatedTextAdapter;
+import com.example.bca_bos.keyboardadapters.TemplatedTextAdapter;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Produk;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKeyboardActionListener, OnCallBackListener {
 
@@ -84,7 +80,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     private AutoCompleteTextView g_actv_ongkir_asal, g_actv_ongkir_tujuan;
     private EditText g_et_ongkir_berat;
     private Button g_btn_ongkir_cekongkir;
-    
+
 
     private ArrayAdapter<String> g_ongkir_asaladapter;
     private ArrayAdapter<String> g_ongkir_tujuanadapter;

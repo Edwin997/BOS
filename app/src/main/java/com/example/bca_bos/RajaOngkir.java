@@ -14,7 +14,6 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -203,5 +202,105 @@ public class RajaOngkir {
         return tmpOngkir;
     }
 
+
+    public static String getRajaOngkirCost(Context context, final String gAsal, final String gTujuan, final String gBerat, final String gKurir, final KeyboardBOSnew parent){
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        StringRequest sr = new StringRequest(Request.Method.POST, urlPostCostRajaOngkir, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                tmpOngkir = "Daftar Ongkir "+ gKurir.toUpperCase() +":";
+                serviceList.clear();
+                estimationDayList.clear();
+                costList.clear();
+                String costResponseJSON = response;
+                Log.d("COBA", response);
+                try {
+                    costJSON = new JSONObject(costResponseJSON);
+                    costRajaOngkirJSON = costJSON.getJSONObject("rajaongkir");
+                    costResultArray = costRajaOngkirJSON.getJSONArray("results");
+                    costResultJSON = costResultArray.getJSONObject(0);
+                    costCostsArray = costResultJSON.getJSONArray("costs");
+
+                    for (int i = 0; i < costCostsArray.length(); i++){
+
+                        costCostsJSON = costCostsArray.getJSONObject(i);
+                        serviceList.add(costCostsJSON.getString("service"));
+                        costCostArray = costCostsJSON.getJSONArray("cost");
+                        costCostJSON = costCostArray.getJSONObject(0);
+                        estimationDayList.add(costCostJSON.getString("etd"));
+                        costList.add(costCostJSON.getString("value"));
+                        if (!gKurir.equals("pos")){
+                            tmpOngkir = tmpOngkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i)+" hari - "+costList.get(i);
+                        }else {
+                            tmpOngkir = tmpOngkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i).toLowerCase()+" - "+costList.get(i);
+                        }
+
+                        Log.d("COBA", tmpOngkir);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                tmpOngkir = tmpOngkir + "\n";
+                parent.commitTextToBOSKeyboardEditText(tmpOngkir);
+            }
+        },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String message = "";
+                        if (error instanceof NetworkError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (error instanceof ServerError) {
+                            message = "The server could not be found. Please try again after some time!!";
+                        } else if (error instanceof AuthFailureError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (error instanceof ParseError) {
+                            message = "Parsing error! Please try again after some time!!";
+                        } else if (error instanceof NoConnectionError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (error instanceof TimeoutError) {
+                            message = "Connection TimeOut! Please check your internet connection.";
+                        }
+                        Log.d("COBA", message);
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("key", "63ab191d920c76c31dc6cfc441b5da33");
+                headers.put("content-type", "application/x-www-form-urlencoded");
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Log.d("COBA", gAsal);
+                Log.d("COBA", gTujuan);
+                Log.d("COBA", gBerat);
+                Log.d("COBA", gKurir);
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("origin", gAsal);
+                params.put("destination", gTujuan);
+                params.put("weight", gBerat);
+                params.put("courier", gKurir);
+                return params;
+            }
+
+        };
+
+        queue.add(sr);
+
+        return tmpOngkir;
+    }
 
 }
