@@ -28,34 +28,46 @@ import java.util.Map;
 
 public class RajaOngkir {
 
-    static ArrayAdapter<String> asalAdapter;
-    static ArrayAdapter<String> tujuanAdapter;
-    public static List<String> cityNameList  = new ArrayList<>();
+    private static String TAG_VOLLEY = "volley";
+
+    //DATA MEMBER API KEY + URL
+    private static final String API_KEY_RAJA_ONGKIR = "63ab191d920c76c31dc6cfc441b5da33";
+
+    private static final String URL_GET_CITY_RAJA_ONGKIR = "https://api.rajaongkir.com/starter/city";
+    private static final String URL_POST_COST_RAJA_ONGKIR = "https://api.rajaongkir.com/starter/cost";
+
+    //DATA MEMBER getRajaOngkirCost()
+    private static List<String> serviceList = new ArrayList<>();
+    private static List<String> estimationDayList = new ArrayList<>();
+    private static List<String> costList = new ArrayList<>();
+    private static String g_textongkir;
+
+    //DATA MEMBER getRajaOngkirCity()
+    private static ArrayAdapter<String> g_rajaongkir_city_adapter;
+    public static List<String> g_city_name_list;
 
     public static ArrayAdapter<String> getRajaOngkirCity(Context context) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
-        String urlGetCityRajaOngkir = "https://api.rajaongkir.com/starter/city";
-        final JSONObject[] cityJSON = new JSONObject[1];
-        final JSONObject[] cityRajaOngkirJSON = new JSONObject[1];
-        final JSONObject[] cityResultsJSON = new JSONObject[1];
-        final JSONArray[] cityResultsArray = new JSONArray[1];
-
-        StringRequest sr = new StringRequest(Request.Method.GET, urlGetCityRajaOngkir, new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.GET, URL_GET_CITY_RAJA_ONGKIR, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                String cityResponseJSON = response;
-                try {
-                    cityNameList.clear();
-                    cityJSON[0] = new JSONObject(cityResponseJSON);
-                    cityRajaOngkirJSON[0] = cityJSON[0].getJSONObject("rajaongkir");
-                    cityResultsArray[0] = cityRajaOngkirJSON[0].getJSONArray("results");
+                g_city_name_list = new ArrayList<>();
 
-                    for (int i = 0; i < cityResultsArray[0].length(); i++){
-                        cityResultsJSON[0] = cityResultsArray[0].getJSONObject(i);
-                        cityNameList.add(cityResultsJSON[0].getString("city_name"));
+                String cityResponseJSON = response;
+
+                try {
+                    JSONObject cityJSON = new JSONObject(cityResponseJSON);
+                    JSONObject cityRajaOngkirJSON = cityJSON.getJSONObject("rajaongkir");
+
+                    JSONArray cityResultsArray = cityRajaOngkirJSON.getJSONArray("results");
+                    for (int i = 0; i < cityResultsArray.length(); i++){
+                        JSONObject cityResultsJSON = cityResultsArray.getJSONObject(i);
+
+                        g_city_name_list.add(cityResultsJSON.getString("city_name"));
                     }
-                    asalAdapter.notifyDataSetChanged();
+
+                    g_rajaongkir_city_adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -65,113 +77,84 @@ public class RajaOngkir {
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                String message = "";
-                if (volleyError instanceof NetworkError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
-                } else if (volleyError instanceof ServerError) {
-                    message = "The server could not be found. Please try again after some time!!";
-                } else if (volleyError instanceof AuthFailureError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
-                } else if (volleyError instanceof ParseError) {
-                    message = "Parsing error! Please try again after some time!!";
-                } else if (volleyError instanceof NoConnectionError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
-                } else if (volleyError instanceof TimeoutError) {
-                    message = "Connection TimeOut! Please check your internet connection.";
-                }
+                Log.d(TAG_VOLLEY, checkErrorMessage(volleyError));
             }
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("key", "63ab191d920c76c31dc6cfc441b5da33");
+                params.put("key", API_KEY_RAJA_ONGKIR);
                 return params;
             }
         };
         sr.setTag("getdata");
         queue.add(sr);
-        asalAdapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, cityNameList);
-        return asalAdapter;
+
+        g_rajaongkir_city_adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, g_city_name_list);
+        return g_rajaongkir_city_adapter;
     }
 
-    static final String urlPostCostRajaOngkir = "https://api.rajaongkir.com/starter/cost";
-    static List<String> serviceList = new ArrayList<>();
-    static List<String> estimationDayList = new ArrayList<>();
-    static List<String> costList = new ArrayList<>();
-    private static JSONObject costJSON, costRajaOngkirJSON, costResultJSON, costCostsJSON, costCostJSON;
-    private static JSONArray costResultArray, costCostsArray, costCostArray;
-    static String namaKurir, tmpOngkir;
+    public static String getRajaOngkirCost(final KeyboardBOSnew parent, final String gAsal, final String gTujuan, final String gBerat, final String gKurir){
 
-    public static String getRajaOngkirCost(Context context, final String gAsal, final String gTujuan, final String gBerat, final String gKurir, final KeyboardBOS parent){
-
-        RequestQueue queue = Volley.newRequestQueue(context);
-
-        StringRequest sr = new StringRequest(Request.Method.POST, urlPostCostRajaOngkir, new Response.Listener<String>() {
+        RequestQueue queue = Volley.newRequestQueue(parent.getApplicationContext());
+        StringRequest sr = new StringRequest(Request.Method.POST, URL_POST_COST_RAJA_ONGKIR, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                tmpOngkir = "Daftar Ongkir "+ gKurir.toUpperCase() +":";
-                serviceList.clear();
-                estimationDayList.clear();
-                costList.clear();
+                g_textongkir = "Daftar Ongkir "+ gKurir.toUpperCase() +":";
+
+                serviceList = new ArrayList<>();
+                estimationDayList = new ArrayList<>();
+                costList = new ArrayList<>();
+
                 String costResponseJSON = response;
-                Log.d("COBA", response);
+
                 try {
-                    costJSON = new JSONObject(costResponseJSON);
-                    costRajaOngkirJSON = costJSON.getJSONObject("rajaongkir");
-                    costResultArray = costRajaOngkirJSON.getJSONArray("results");
-                    costResultJSON = costResultArray.getJSONObject(0);
-                    costCostsArray = costResultJSON.getJSONArray("costs");
+                    JSONObject costJSON = new JSONObject(costResponseJSON);
+                    JSONObject costRajaOngkirJSON = costJSON.getJSONObject("rajaongkir");
 
+                    JSONArray costResultArray = costRajaOngkirJSON.getJSONArray("results");
+
+                    JSONObject costResultJSON = costResultArray.getJSONObject(0);
+
+                    JSONArray costCostsArray = costResultJSON.getJSONArray("costs");
                     for (int i = 0; i < costCostsArray.length(); i++){
-
-                        costCostsJSON = costCostsArray.getJSONObject(i);
+                        JSONObject costCostsJSON = costCostsArray.getJSONObject(i);
                         serviceList.add(costCostsJSON.getString("service"));
-                        costCostArray = costCostsJSON.getJSONArray("cost");
-                        costCostJSON = costCostArray.getJSONObject(0);
+
+                        JSONArray costCostArray = costCostsJSON.getJSONArray("cost");
+
+                        JSONObject costCostJSON = costCostArray.getJSONObject(0);
+
                         estimationDayList.add(costCostJSON.getString("etd"));
                         costList.add(costCostJSON.getString("value"));
-                        if (!gKurir.equals("pos")){
-                            tmpOngkir = tmpOngkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i)+" hari - "+costList.get(i);
-                        }else {
-                            tmpOngkir = tmpOngkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i).toLowerCase()+" - "+costList.get(i);
-                        }
 
-                        Log.d("COBA", tmpOngkir);
+                        if (!gKurir.equals("pos")){
+                            g_textongkir = g_textongkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i)+" hari - "+costList.get(i);
+                        }else {
+                            g_textongkir = g_textongkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i).toLowerCase()+" - "+costList.get(i);
+                        }
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                tmpOngkir = tmpOngkir + "\n";
-                parent.commitTextToBOSKeyboardEditTextWoy(tmpOngkir);
+
+                g_textongkir = g_textongkir + "\n";
+                parent.commitTextToBOSKeyboardEditText(g_textongkir);
             }
         },
                 new Response.ErrorListener() {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        String message = "";
-                        if (error instanceof NetworkError) {
-                            message = "Cannot connect to Internet...Please check your connection!";
-                        } else if (error instanceof ServerError) {
-                            message = "The server could not be found. Please try again after some time!!";
-                        } else if (error instanceof AuthFailureError) {
-                            message = "Cannot connect to Internet...Please check your connection!";
-                        } else if (error instanceof ParseError) {
-                            message = "Parsing error! Please try again after some time!!";
-                        } else if (error instanceof NoConnectionError) {
-                            message = "Cannot connect to Internet...Please check your connection!";
-                        } else if (error instanceof TimeoutError) {
-                            message = "Connection TimeOut! Please check your internet connection.";
-                        }
-                        Log.d("COBA", message);
+                        Log.d(TAG_VOLLEY, checkErrorMessage(error));
                     }
                 }) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<String, String>();
-                headers.put("key", "63ab191d920c76c31dc6cfc441b5da33");
+                headers.put("key", API_KEY_RAJA_ONGKIR);
                 headers.put("content-type", "application/x-www-form-urlencoded");
                 return headers;
             }
@@ -183,10 +166,6 @@ public class RajaOngkir {
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Log.d("COBA", gAsal);
-                Log.d("COBA", gTujuan);
-                Log.d("COBA", gBerat);
-                Log.d("COBA", gKurir);
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("origin", gAsal);
                 params.put("destination", gTujuan);
@@ -198,109 +177,24 @@ public class RajaOngkir {
         };
 
         queue.add(sr);
-
-        return tmpOngkir;
+        return g_textongkir;
     }
 
-
-    public static String getRajaOngkirCost(Context context, final String gAsal, final String gTujuan, final String gBerat, final String gKurir, final KeyboardBOSnew parent){
-
-        RequestQueue queue = Volley.newRequestQueue(context);
-
-        StringRequest sr = new StringRequest(Request.Method.POST, urlPostCostRajaOngkir, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                tmpOngkir = "Daftar Ongkir "+ gKurir.toUpperCase() +":";
-                serviceList.clear();
-                estimationDayList.clear();
-                costList.clear();
-                String costResponseJSON = response;
-                Log.d("COBA", response);
-                try {
-                    costJSON = new JSONObject(costResponseJSON);
-                    costRajaOngkirJSON = costJSON.getJSONObject("rajaongkir");
-                    costResultArray = costRajaOngkirJSON.getJSONArray("results");
-                    costResultJSON = costResultArray.getJSONObject(0);
-                    costCostsArray = costResultJSON.getJSONArray("costs");
-
-                    for (int i = 0; i < costCostsArray.length(); i++){
-
-                        costCostsJSON = costCostsArray.getJSONObject(i);
-                        serviceList.add(costCostsJSON.getString("service"));
-                        costCostArray = costCostsJSON.getJSONArray("cost");
-                        costCostJSON = costCostArray.getJSONObject(0);
-                        estimationDayList.add(costCostJSON.getString("etd"));
-                        costList.add(costCostJSON.getString("value"));
-                        if (!gKurir.equals("pos")){
-                            tmpOngkir = tmpOngkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i)+" hari - "+costList.get(i);
-                        }else {
-                            tmpOngkir = tmpOngkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i).toLowerCase()+" - "+costList.get(i);
-                        }
-
-                        Log.d("COBA", tmpOngkir);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                tmpOngkir = tmpOngkir + "\n";
-                parent.commitTextToBOSKeyboardEditText(tmpOngkir);
-            }
-        },
-                new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        String message = "";
-                        if (error instanceof NetworkError) {
-                            message = "Cannot connect to Internet...Please check your connection!";
-                        } else if (error instanceof ServerError) {
-                            message = "The server could not be found. Please try again after some time!!";
-                        } else if (error instanceof AuthFailureError) {
-                            message = "Cannot connect to Internet...Please check your connection!";
-                        } else if (error instanceof ParseError) {
-                            message = "Parsing error! Please try again after some time!!";
-                        } else if (error instanceof NoConnectionError) {
-                            message = "Cannot connect to Internet...Please check your connection!";
-                        } else if (error instanceof TimeoutError) {
-                            message = "Connection TimeOut! Please check your internet connection.";
-                        }
-                        Log.d("COBA", message);
-                    }
-                }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
-                headers.put("key", "63ab191d920c76c31dc6cfc441b5da33");
-                headers.put("content-type", "application/x-www-form-urlencoded");
-                return headers;
-            }
-
-            @Override
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=UTF-8";
-            }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Log.d("COBA", gAsal);
-                Log.d("COBA", gTujuan);
-                Log.d("COBA", gBerat);
-                Log.d("COBA", gKurir);
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("origin", gAsal);
-                params.put("destination", gTujuan);
-                params.put("weight", gBerat);
-                params.put("courier", gKurir);
-                return params;
-            }
-
-        };
-
-        queue.add(sr);
-
-        return tmpOngkir;
+    private static String checkErrorMessage(VolleyError error){
+        String message = "";
+        if (error instanceof NetworkError) {
+            message = "Cannot connect to Internet...Please check your connection!";
+        } else if (error instanceof ServerError) {
+            message = "The server could not be found. Please try again after some time!!";
+        } else if (error instanceof AuthFailureError) {
+            message = "Cannot connect to Internet...Please check your connection!";
+        } else if (error instanceof ParseError) {
+            message = "Parsing error! Please try again after some time!!";
+        } else if (error instanceof NoConnectionError) {
+            message = "Cannot connect to Internet...Please check your connection!";
+        } else if (error instanceof TimeoutError) {
+            message = "Connection TimeOut! Please check your internet connection.";
+        }
+        return message;
     }
-
 }

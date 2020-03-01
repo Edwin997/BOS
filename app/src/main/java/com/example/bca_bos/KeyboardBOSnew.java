@@ -25,11 +25,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bca_bos.dummy.ListKategoriDummy;
+import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
 import com.example.bca_bos.keyboardadapters.MutasiRekeningAdapter;
@@ -118,6 +121,8 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private StokProdukAdapter g_stok_adapter;
     private ImageButton g_btn_stok_back;
     private EditText g_et_stok_search;
+    private Spinner g_sp_stok_filter;
+    private ArrayAdapter g_sp_stok_filter_adapter;
 
     private boolean IS_STOK_FOCUS = false;
     //endregion
@@ -138,7 +143,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     //region KIRIM FORM NEXT DATA MEMBER
     private LinearLayout g_kirimform_next_layout, g_kirimform_next_berat_layout, g_kirimform_next_asal_layout, g_kirimform_next_tujuan_layout, g_kirimform_next_kurir_layout, g_kirimform_next_kirim_layout;
-    private ImageButton g_btn_kirimform_next_berat_back,g_btn_kirimform_next_asal_back, g_btn_kirimform_next_tujuan_back, g_btn_kirimform_next_kurir_back,  g_btn_kirimform_next_back;
+    private ImageButton g_btn_kirimform_next_berat_back,g_btn_kirimform_next_asal_back, g_btn_kirimform_next_tujuan_back, g_btn_kirimform_next_kurir_back,  g_btn_kirimform_next_back, g_btn_kirimform_next_refresh;
     private AutoCompleteTextView g_actv_kirimform_next_asal, g_actv_kirimform_next_tujuan;
     private EditText g_et_kirimform_next_berat;
     private Button g_btn_kirimform_next_kirim;
@@ -456,6 +461,9 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         //inisiasi recyclerview
         g_rv_stok = g_viewparent.findViewById(R.id.bcabos_stok_recyclerview);
 
+        //inisiasi spinner
+        g_sp_stok_filter = g_viewparent.findViewById(R.id.bcabos_stok_spinner_filter);
+
         //inisiasi edittext
         g_et_stok_search = g_viewparent.findViewById(R.id.bcabos_stok_search_edittext);
 
@@ -468,6 +476,23 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_stok_adapter.setParentOnCallBack(this);
         g_rv_stok.setLayoutManager(g_stok_item_layout);
         g_rv_stok.setAdapter(g_stok_adapter);
+
+        //config spinner
+        g_sp_stok_filter_adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ListKategoriDummy.getListTypeString());
+        g_sp_stok_filter_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        g_sp_stok_filter.setAdapter(g_sp_stok_filter_adapter);
+        g_sp_stok_filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String idx = ListKategoriDummy.getListTypeString()[position];
+                g_stok_adapter.setDatasetProduk(ListProdukDummy.getProdukByKategory(idx));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                g_stok_adapter.setDatasetProduk(ListProdukDummy.produkList);
+            }
+        });
 
         //config edittext
         g_et_stok_search.setOnFocusChangeListener(this);
@@ -541,6 +566,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_btn_kirimform_next_kurir_back = g_viewparent.findViewById(R.id.bcabos_kirimform_next_kurir_back_button);
         g_btn_kirimform_next_back = g_viewparent.findViewById(R.id.bcabos_kirimform_next_back_button);
         g_btn_kirimform_next_kirim = g_viewparent.findViewById(R.id.bcabos_kirimform_next_kirim_button);
+        g_btn_kirimform_next_refresh = g_viewparent.findViewById(R.id.bcabos_kirimform_next_refresh_button);
 
         //config edittext
         //ASAL
@@ -550,6 +576,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_actv_kirimform_next_asal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                IS_FILLED = true;
                 g_keyboardview.setVisibility(View.VISIBLE);
             }
         });
@@ -561,6 +588,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_actv_kirimform_next_tujuan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                IS_FILLED = true;
                 g_keyboardview.setVisibility(View.VISIBLE);
             }
         });
@@ -589,6 +617,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         //SUBMIT
         g_btn_kirimform_next_back.setOnClickListener(this);
         g_btn_kirimform_next_kirim.setOnClickListener(this);
+        g_btn_kirimform_next_refresh.setOnClickListener(this);
     }
 
     private void initiateMutasi() {
@@ -800,9 +829,11 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 getAsalCityId(g_actv_kirimform_next_asal);
                 getTujuanCityId(g_actv_kirimform_next_tujuan);
                 g_berat = g_et_kirimform_next_berat.getText().toString();
-                getOngkirByCourier();;
-                refreshKirimFormNext();;
+                getOngkirByCourier();
                 showKirimForm();
+                break;
+            case R.id.bcabos_kirimform_next_refresh_button:
+                refreshKirimFormNext();
                 break;
             //endregion
 
@@ -1218,11 +1249,11 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     //Mendapatkan ID dari City
     private void getAsalCityId(AutoCompleteTextView p_autocomplete){
-        g_asal_id_city = String.valueOf(RajaOngkir.cityNameList.indexOf(p_autocomplete.getText().toString())+1);
+        g_asal_id_city = String.valueOf(RajaOngkir.g_city_name_list.indexOf(p_autocomplete.getText().toString())+1);
     }
 
     private void getTujuanCityId(AutoCompleteTextView p_autocomplete){
-        g_tujuan_id_city = String.valueOf(RajaOngkir.cityNameList.indexOf(p_autocomplete.getText().toString())+1);
+        g_tujuan_id_city = String.valueOf(RajaOngkir.g_city_name_list.indexOf(p_autocomplete.getText().toString())+1);
     }
 
     private void setKeyboardType(int p_length){
@@ -1451,8 +1482,8 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             case KEY_ET_KIRIMFORM_NEXT_BERAT:
                 focusedEditText = KEY_ET_KIRIMFORM_NEXT_KURIR;
                 showKurirKirimFormNext();
+                g_keyboardview.setKeyboard(g_keyboard_number);
                 KEYCODE_DONE_TYPE = KEY_OK;
-                setKeyboardType(0);
                 break;
             case KEY_ET_KIRIMFORM_NEXT_KURIR:
                 focusedEditText = KEY_ET_EXTERNAL;
@@ -1469,13 +1500,13 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     private void getOngkirByCourier() {
         if (IS_CHOOSE_JNE){
-            RajaOngkir.getRajaOngkirCost(this, g_asal_id_city, g_tujuan_id_city, g_berat, "jne", this);
+            RajaOngkir.getRajaOngkirCost(this, g_asal_id_city, g_tujuan_id_city, g_berat, "jne");
         }
         if (IS_CHOOSE_TIKI){
-            RajaOngkir.getRajaOngkirCost(this, g_asal_id_city, g_tujuan_id_city, g_berat, "tiki", this);
+            RajaOngkir.getRajaOngkirCost(this, g_asal_id_city, g_tujuan_id_city, g_berat, "tiki");
         }
         if (IS_CHOOSE_POS){
-            RajaOngkir.getRajaOngkirCost(this, g_asal_id_city, g_tujuan_id_city, g_berat, "pos", this);
+            RajaOngkir.getRajaOngkirCost(this, g_asal_id_city, g_tujuan_id_city, g_berat, "pos");
         }
         if (!IS_CHOOSE_JNE && !IS_CHOOSE_TIKI && !IS_CHOOSE_POS){
             commitTextToBOSKeyboardEditText("Masukan kurir terlebih dahulu");

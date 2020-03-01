@@ -50,6 +50,11 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
         return g_list_produk.size();
     }
 
+    public void setDatasetProduk(List<Produk> p_list){
+        g_list_produk = p_list;
+        notifyDataSetChanged();
+    }
+
     public void setParentOnCallBack(OnCallBackListener p_oncallback){
         this.g_parent_oncallbacklistener = p_oncallback;
     }

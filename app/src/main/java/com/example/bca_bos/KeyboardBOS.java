@@ -1253,19 +1253,19 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     //Mendapatkan ID dari City
     private void getAsalCityId(){
-        g_ongkir_asal = String.valueOf(RajaOngkir.cityNameList.indexOf(g_actv_ongkir_asal.getText().toString())+1);
+        g_ongkir_asal = String.valueOf(RajaOngkir.g_city_name_list.indexOf(g_actv_ongkir_asal.getText().toString())+1);
     }
 
     private void getAsalCityIdKirim(){
-        g_kirimform_next_asal = String.valueOf(RajaOngkir.cityNameList.indexOf(g_actv_kirimform_next_asal.getText().toString())+1);
+        g_kirimform_next_asal = String.valueOf(RajaOngkir.g_city_name_list.indexOf(g_actv_kirimform_next_asal.getText().toString())+1);
     }
 
     private void getTujuanCityId(){
-        g_ongkir_tujuan = String.valueOf(RajaOngkir.cityNameList.indexOf(g_actv_ongkir_tujuan.getText().toString())+1);
+        g_ongkir_tujuan = String.valueOf(RajaOngkir.g_city_name_list.indexOf(g_actv_ongkir_tujuan.getText().toString())+1);
     }
 
     private void getTujuanCityIdKirim(){
-        g_kirimform_next_tujuan = String.valueOf(RajaOngkir.cityNameList.indexOf(g_actv_kirimform_next_tujuan.getText().toString())+1);
+        g_kirimform_next_tujuan = String.valueOf(RajaOngkir.g_city_name_list.indexOf(g_actv_kirimform_next_tujuan.getText().toString())+1);
     }
 
     @Override
