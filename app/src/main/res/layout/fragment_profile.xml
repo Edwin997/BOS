@@ -94,6 +94,7 @@
                 android:textSize="16dp"/>
 
             <Button
+                android:id="@+id/profile_change_password_button"
                 android:layout_width="wrap_content"
                 android:layout_height="16dp"
                 android:background="@drawable/style_red_gradient_color_box"

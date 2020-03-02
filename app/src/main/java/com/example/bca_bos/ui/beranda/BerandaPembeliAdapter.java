@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bca_bos.Method;
 import com.example.bca_bos.dummy.ListPembeliDummy;
 import com.example.bca_bos.R;
 import com.example.bca_bos.models.Pembeli;
@@ -59,7 +60,7 @@ public class BerandaPembeliAdapter extends RecyclerView.Adapter<BerandaPembeliAd
         public void setData(Pembeli pembeli){
             l_tv_beranda_pembeli_nama.setText(pembeli.getNama());
             l_tv_beranda_pembeli_transaksi.setText(String.valueOf(pembeli.getJumlahTransaksi()));
-            l_tv_beranda_pembeli_nominal.setText(String.valueOf(pembeli.getNominalTransaksi()));
+            l_tv_beranda_pembeli_nominal.setText(Method.getIndoCurrency(pembeli.getNominalTransaksi()));
         }
     }
 }

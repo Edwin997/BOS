@@ -92,7 +92,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ekspedisi Pilihan"
+        android:text="Kurir Pilihan"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:layout_marginTop="15dp"
@@ -100,20 +100,69 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="5dp"/>
 
-    <EditText
-        android:id="@+id/apps_bottom_sheet_et_stok_edit_produk"
+    <LinearLayout
+        android:id="@+id/profile_kurir_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/style_gradient_color_rounded_box_white"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:maxLines="1"
-        android:inputType="number"
-        />
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_weight="9"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:weightSum="3"
+        android:visibility="visible">
+
+            <Button
+                android:id="@+id/profile_jne_button"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/style_gradient_color_rounded_box_grey"
+                android:text="JNE"
+                android:textColor="@color/white"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/profile_tiki_button"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/style_gradient_color_rounded_box_grey"
+                android:text="TIKI"
+                android:textColor="@color/white"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/profile_pos_button"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/style_gradient_color_rounded_box_grey"
+                android:text="POS"
+                android:textColor="@color/white"
+                android:textStyle="bold"/>
+
+    </LinearLayout>
+
+<!--    <EditText-->
+<!--        android:id="@+id/apps_bottom_sheet_et_stok_edit_produk"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/style_gradient_color_rounded_box_white"-->
+<!--        android:paddingStart="30dp"-->
+<!--        android:paddingEnd="30dp"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:paddingBottom="10dp"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:layout_marginEnd="20dp"-->
+<!--        android:maxLines="1"-->
+<!--        />-->
 
 
 
