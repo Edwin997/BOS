@@ -7,7 +7,6 @@ import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
 import android.os.Handler;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.TypedValue;
@@ -29,16 +28,14 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bca_bos.adapters.KirimFormProdukAdapter;
-import com.example.bca_bos.adapters.MutasiRekeningAdapter;
-import com.example.bca_bos.adapters.StokProdukAdapter;
+import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
+import com.example.bca_bos.keyboardadapters.MutasiRekeningAdapter;
+import com.example.bca_bos.keyboardadapters.StokProdukAdapter;
 
-import com.example.bca_bos.adapters.TemplatedTextAdapter;
+import com.example.bca_bos.keyboardadapters.TemplatedTextAdapter;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Produk;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.bca_bos.networks.RajaOngkir;
 
 public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKeyboardActionListener, OnCallBackListener {
 
@@ -84,6 +81,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     private AutoCompleteTextView g_actv_ongkir_asal, g_actv_ongkir_tujuan;
     private EditText g_et_ongkir_berat;
     private Button g_btn_ongkir_cekongkir;
+
 
     private ArrayAdapter<String> g_ongkir_asaladapter;
     private ArrayAdapter<String> g_ongkir_tujuanadapter;
@@ -587,27 +585,27 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     }
 
     private void getOngkirByCourier() {
-        if (g_ongkir_kurir_jne){
-            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_ongkir_asal, g_ongkir_tujuan, g_ongkir_berat, "jne", KeyboardBOS.this);
-        }if (g_ongkir_kurir_tiki){
-            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_ongkir_asal, g_ongkir_tujuan, g_ongkir_berat, "tiki", KeyboardBOS.this);
-        }if (g_ongkir_kurir_pos){
-            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_ongkir_asal, g_ongkir_tujuan, g_ongkir_berat, "pos", KeyboardBOS.this);
-        }if (!g_ongkir_kurir_jne && !g_ongkir_kurir_tiki && !g_ongkir_kurir_pos){
-            commitTextToBOSKeyboardEditTextWoy("Masukan kurir terlebih dahulu");
-        }
+//        if (g_ongkir_kurir_jne){
+//            RajaOngkir.getRajaOngkirCost(this, g_ongkir_asal, g_ongkir_tujuan, g_ongkir_berat, "jne");
+//        }if (g_ongkir_kurir_tiki){
+//            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_ongkir_asal, g_ongkir_tujuan, g_ongkir_berat, "tiki");
+//        }if (g_ongkir_kurir_pos){
+//            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_ongkir_asal, g_ongkir_tujuan, g_ongkir_berat, "pos");
+//        }if (!g_ongkir_kurir_jne && !g_ongkir_kurir_tiki && !g_ongkir_kurir_pos){
+//            commitTextToBOSKeyboardEditTextWoy("Masukan kurir terlebih dahulu");
+//        }
     }
 
     private void getKirimFormNextByCourier() {
-        if (g_kirimform_next_kurir_jne){
-            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_kirimform_next_asal, g_kirimform_next_tujuan, g_kirimform_next_berat, "jne", KeyboardBOS.this);
-        }if (g_kirimform_next_kurir_tiki){
-            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_kirimform_next_asal, g_kirimform_next_tujuan, g_kirimform_next_berat, "tiki", KeyboardBOS.this);
-        }if (g_kirimform_next_kurir_pos){
-            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_kirimform_next_asal, g_kirimform_next_tujuan, g_kirimform_next_berat, "pos", KeyboardBOS.this);
-        }if (!g_kirimform_next_kurir_jne && !g_kirimform_next_kurir_tiki && !g_kirimform_next_kurir_pos){
-            commitTextToBOSKeyboardEditTextWoy("Masukan kurir terlebih dahulu");
-        }
+//        if (g_kirimform_next_kurir_jne){
+//            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_kirimform_next_asal, g_kirimform_next_tujuan, g_kirimform_next_berat, "jne", KeyboardBOS.this);
+//        }if (g_kirimform_next_kurir_tiki){
+//            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_kirimform_next_asal, g_kirimform_next_tujuan, g_kirimform_next_berat, "tiki", KeyboardBOS.this);
+//        }if (g_kirimform_next_kurir_pos){
+//            RajaOngkir.getRajaOngkirCost(KeyboardBOS.this, g_kirimform_next_asal, g_kirimform_next_tujuan, g_kirimform_next_berat, "pos", KeyboardBOS.this);
+//        }if (!g_kirimform_next_kurir_jne && !g_kirimform_next_kurir_tiki && !g_kirimform_next_kurir_pos){
+//            commitTextToBOSKeyboardEditTextWoy("Masukan kurir terlebih dahulu");
+//        }
     }
 
     private void initiateStok(){
@@ -1256,19 +1254,19 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
 
     //Mendapatkan ID dari City
     private void getAsalCityId(){
-        g_ongkir_asal = String.valueOf(RajaOngkir.cityNameList.indexOf(g_actv_ongkir_asal.getText().toString())+1);
+        g_ongkir_asal = String.valueOf(RajaOngkir.g_city_name_list.indexOf(g_actv_ongkir_asal.getText().toString())+1);
     }
 
     private void getAsalCityIdKirim(){
-        g_kirimform_next_asal = String.valueOf(RajaOngkir.cityNameList.indexOf(g_actv_kirimform_next_asal.getText().toString())+1);
+        g_kirimform_next_asal = String.valueOf(RajaOngkir.g_city_name_list.indexOf(g_actv_kirimform_next_asal.getText().toString())+1);
     }
 
     private void getTujuanCityId(){
-        g_ongkir_tujuan = String.valueOf(RajaOngkir.cityNameList.indexOf(g_actv_ongkir_tujuan.getText().toString())+1);
+        g_ongkir_tujuan = String.valueOf(RajaOngkir.g_city_name_list.indexOf(g_actv_ongkir_tujuan.getText().toString())+1);
     }
 
     private void getTujuanCityIdKirim(){
-        g_kirimform_next_tujuan = String.valueOf(RajaOngkir.cityNameList.indexOf(g_actv_kirimform_next_tujuan.getText().toString())+1);
+        g_kirimform_next_tujuan = String.valueOf(RajaOngkir.g_city_name_list.indexOf(g_actv_kirimform_next_tujuan.getText().toString())+1);
     }
 
     @Override

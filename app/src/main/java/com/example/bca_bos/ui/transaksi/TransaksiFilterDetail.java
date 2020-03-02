@@ -8,10 +8,8 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
-import com.example.bca_bos.ListTransaksiDummy;
+import com.example.bca_bos.dummy.ListTransaksiDummy;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;

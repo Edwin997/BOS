@@ -25,7 +25,8 @@
         android:layout_gravity="center"
         android:scaleType="fitXY"
         android:src="@drawable/produk_dummy_indomie"
-        app:riv_oval="true"/>
+        app:riv_corner_radius="20dp"
+        />
 
     <TextView
         android:layout_width="match_parent"

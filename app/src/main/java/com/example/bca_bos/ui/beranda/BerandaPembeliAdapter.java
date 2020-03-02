@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bca_bos.ListPembeliDummy;
+import com.example.bca_bos.dummy.ListPembeliDummy;
 import com.example.bca_bos.R;
 import com.example.bca_bos.models.Pembeli;
 

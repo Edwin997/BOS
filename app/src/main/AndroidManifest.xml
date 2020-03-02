@@ -3,6 +3,7 @@
     package="com.example.bca_bos">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -25,7 +26,7 @@
         </activity>
 
         <service
-            android:name=".KeyboardBOS"
+            android:name=".KeyboardBOSnew"
             android:label="BCABOS"
             android:permission="android.permission.BIND_INPUT_METHOD">
             <meta-data
@@ -42,6 +43,7 @@
         <activity
             android:name=".ApplicationContainer"
             android:label="@string/title_activity_application_container">
+
         </activity>
         <activity android:name=".MainActivity" >
 

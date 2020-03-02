@@ -391,9 +391,9 @@
     <!--STOK PRODUK-->
     <LinearLayout
         android:id="@+id/bcabos_stok_layout"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:paddingTop="8dp"
         android:visibility="gone">
 
@@ -401,30 +401,30 @@
             android:id="@+id/bcabos_stok_search_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:gravity="center"
             android:orientation="horizontal"
-            android:weightSum="10"
-            android:layout_marginBottom="8dp"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:weightSum="10">
 
             <ImageButton
                 android:id="@+id/bcabos_stok_search_back_button"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_keyboard_back_gradient" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="7"
-                app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="@color/white"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginLeft="8dp">
+                android:layout_marginBottom="5dp"
+                android:layout_weight="7"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp">
 
                 <EditText
                     android:id="@+id/bcabos_stok_search_edittext"
@@ -435,7 +435,7 @@
                     android:paddingLeft="16dp"
                     android:textColorHint="@color/grey"
                     android:textSize="16dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
             </androidx.cardview.widget.CardView>
 
@@ -443,8 +443,8 @@
             <ImageButton
                 android:id="@+id/bcabos_stok_search_button"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_keyboard_search_blue" />
         </LinearLayout>
@@ -453,15 +453,23 @@
             android:id="@+id/bcabos_stok_produk_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingRight="16dp"
             android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingRight="16dp"
             android:visibility="visible">
+
+            <Spinner
+                android:id="@+id/bcabos_stok_spinner_filter"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/bcabos_stok_recyclerview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="0dp"
+                android:layout_weight="8" />
         </LinearLayout>
     </LinearLayout>
 
@@ -575,7 +583,7 @@
         android:id="@+id/bcabos_kirimform_next_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
+        android:paddingTop="8dp"
         android:background="@color/light_grey"
         android:gravity="center"
         android:orientation="vertical"
@@ -712,7 +720,7 @@
                     android:textColorHint="@color/grey"
                     android:textSize="16dp"
                     android:textStyle="bold"
-                    android:hint="Berat(kg)*"
+                    android:hint="Berat(gram)*"
                     android:inputType="number"/>
 
             </androidx.cardview.widget.CardView>
@@ -722,8 +730,8 @@
         <LinearLayout
             android:id="@+id/bcabos_kirimform_next_kurir_layout"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:gravity="top"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:visibility="visible">
 
@@ -794,15 +802,15 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingRight="16dp"
             android:layout_marginBottom="10dp"
             android:paddingTop="10dp"
+            android:weightSum="10"
             android:visibility="visible">
 
             <ImageButton
                 android:id="@+id/bcabos_kirimform_next_back_button"
                 android:layout_gravity="top"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:background="@android:color/transparent"
@@ -812,16 +820,27 @@
 
             <Button
                 android:id="@+id/bcabos_kirimform_next_kirim_button"
-                android:layout_weight="9"
+                android:layout_weight="7"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:background="@drawable/style_gradient_color_rounded_box"
                 android:text="KIRIM FORM"
                 android:textAlignment="center"
                 android:textColor="@color/dark_white"
                 android:textSize="16dp"
                 android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/bcabos_kirimform_next_refresh_button"
+                android:layout_gravity="top"
+                android:layout_weight="1.5"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="8dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_keyboard_refresh_refresh" />
 
         </LinearLayout>
 
