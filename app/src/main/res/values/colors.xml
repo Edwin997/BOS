@@ -14,9 +14,15 @@
     <color name="light_blue">#269BC3</color>
     <color name="dark_blue">#1D61AE</color>
 
-    <color name="blue">#1D62AF</color>
-    <color name="green">#1CAD50</color>
-    <color name="yellow">#D59029</color>
-    <color name="red">#C91F4B</color>
+    //old color
+<!--    <color name="blue">#1D62AF</color>-->
+<!--    <color name="green">#1CAD50</color>-->
+<!--    <color name="yellow">#D59029</color>-->
+<!--    <color name="red">#C91F4B</color>-->
+
+    <color name="blue">#1aa6df</color>
+    <color name="green">#00a79e</color>
+    <color name="yellow">#dece00</color>
+    <color name="red">#ec2161</color>
 
 </resources>

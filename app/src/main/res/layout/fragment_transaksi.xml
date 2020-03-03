@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:paddingTop="24dp">
+    android:layout_marginTop="-4dp"
+    android:orientation="vertical">
 
 <!--    <TextView-->
 <!--        android:layout_width="match_parent"-->
@@ -17,100 +18,112 @@
 <!--        android:textColor="@color/black"-->
 <!--        android:textStyle="bold"/>-->
 
+    <ImageView
+        android:id="@+id/apps_transaksi_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="315dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/apps_transaksi_filterdetail_piechart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@android:color/transparent">
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/apps_transaksi_image_view"
+        app:layout_constraintEnd_toEndOf="@+id/apps_transaksi_image_view"
+        app:layout_constraintStart_toStartOf="@+id/apps_transaksi_image_view"
+        app:layout_constraintTop_toTopOf="parent">
 
     </com.github.mikephil.charting.charts.PieChart>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:weightSum="5"
+        android:layout_margin="20dp"
         android:orientation="horizontal"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:weightSum="5"
+        app:layout_constraintTop_toBottomOf="@+id/apps_transaksi_image_view"
+        tools:layout_editor_absoluteX="20dp">
 
         <Button
             android:id="@+id/apps_transaksi_fragment_tab_btn_semua_transaksi"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@color/white"
             android:fontFamily="@font/montserrat_bold"
             android:text="Semua\nTransaksi"
-            android:textSize="8dp"
-            android:textStyle="bold"
             android:textAllCaps="false"
             android:textColor="@color/black"
-            style="?android:attr/borderlessButtonStyle"/>
+            android:textSize="8dp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/apps_transaksi_fragment_tab_btn_pesanan_baru"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@color/white"
             android:fontFamily="@font/montserrat_bold"
             android:text="Pesanan\nBaru"
-            android:textSize="8dp"
-            android:textStyle="bold"
             android:textAllCaps="false"
             android:textColor="@color/red"
-            style="?android:attr/borderlessButtonStyle"/>
+            android:textSize="8dp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/apps_transaksi_fragment_tab_btn_pesanan_dibayar"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@color/white"
             android:fontFamily="@font/montserrat_bold"
             android:text="Pesanan\nDibayar"
-            android:textSize="8dp"
-            android:textStyle="bold"
             android:textAllCaps="false"
             android:textColor="@color/yellow"
-            style="?android:attr/borderlessButtonStyle"/>
+            android:textSize="8dp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/apps_transaksi_fragment_tab_btn_pesanan_dikirim"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@color/white"
-            android:fontFamily="@font/montserrat_bold"
 
+            android:fontFamily="@font/montserrat_bold"
             android:text="Pesanan\nDikirim"
-            android:textSize="8dp"
-            android:textStyle="bold"
             android:textAllCaps="false"
             android:textColor="@color/blue"
-            style="?android:attr/borderlessButtonStyle"/>
+            android:textSize="8dp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/apps_transaksi_fragment_tab_btn_transaksi_selesai"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@color/white"
             android:fontFamily="@font/montserrat_bold"
             android:text="Transaksi\nSelesai"
-            android:textSize="8dp"
-            android:textStyle="bold"
             android:textAllCaps="false"
             android:textColor="@color/green"
-            style="?android:attr/borderlessButtonStyle"/>
+            android:textSize="8dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -119,7 +132,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="6"
-        android:layout_marginTop="10dp"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <!--    <LinearLayout-->
     <!--        android:id="@+id/apps_transaksi_fragment_actionbar_layout"-->
@@ -246,4 +260,4 @@
     <!--        android:layout_width="match_parent"-->
     <!--        android:layout_height="0dp"-->
     <!--        android:layout_weight="2"/>-->
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -103,22 +103,22 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
             tv_total_transaksi.setText(Method.getIndoCurrency(l_transaksi.getTotal_payment()));
 
             if(l_transaksi.getStatus() == g_parent.KEY_STATUS_SELESAI){
-                ll_transaksi_left.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_green));
+                ll_transaksi_left.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_green_layered));
                 tv_total_transaksi.setTextColor(g_context.getResources().getColor(R.color.green));
                 tv_status_transaksi.setText("Transaksi Selesai");
             }
             else if(l_transaksi.getStatus() == g_parent.KEY_STATUS_SUDAHDIKIRIM){
-                ll_transaksi_left.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_blue));
+                ll_transaksi_left.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_blue_layered));
                 tv_total_transaksi.setTextColor(g_context.getResources().getColor(R.color.blue));
                 tv_status_transaksi.setText("Pesanan Dikirim");
             }
             else if(l_transaksi.getStatus() == g_parent.KEY_STATUS_SUDAHDIBAYAR){
-                ll_transaksi_left.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_yellow));
+                ll_transaksi_left.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_yellow_layered));
                 tv_total_transaksi.setTextColor(g_context.getResources().getColor(R.color.yellow));
                 tv_status_transaksi.setText("Pesanan Dibayar");
             }
             else if(l_transaksi.getStatus() == g_parent.KEY_STATUS_BARUMASUK){
-                ll_transaksi_left.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_red));
+                ll_transaksi_left.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_red_layered));
                 tv_total_transaksi.setTextColor(g_context.getResources().getColor(R.color.red));
                 tv_status_transaksi.setText("Pesanan Baru");
             } else {

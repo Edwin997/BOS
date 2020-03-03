@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,8 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
 
     private Button g_btn_tab_semua, g_btn_tab_pesanan_baru, g_btn_tab_pesanan_dibayar,
             g_btn_tab_pesanan_dikirim, g_btn_tab_selesai;
+
+    private ImageView g_transaksi_iv;
 
     private RecyclerView g_transaksi_fragment_recyclerview;
     private LinearLayoutManager g_linearlayoutmanager;
@@ -90,6 +93,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         g_btn_tab_pesanan_dikirim = g_view.findViewById(R.id.apps_transaksi_fragment_tab_btn_pesanan_dikirim);
         g_btn_tab_selesai = g_view.findViewById(R.id.apps_transaksi_fragment_tab_btn_transaksi_selesai);
         g_btn_tab_semua = g_view.findViewById(R.id.apps_transaksi_fragment_tab_btn_semua_transaksi);
+        g_transaksi_iv = g_view.findViewById(R.id.apps_transaksi_image_view);
 
         g_btn_tab_pesanan_baru.setOnClickListener(this);
         g_btn_tab_pesanan_dikirim.setOnClickListener(this);
@@ -103,7 +107,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         if (getArguments()!= null){
             FLAG_FRAGMENT_TYPE = getArguments().getInt("flag");
             g_percentage = getPersentaseTransaksiSudahDiBayar();
-            drawPieChart(new int[]{R.color.yellow, R.color.black},
+            drawPieChart(new int[]{R.color.yellow, R.color.white},
                     countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
             g_transaksiadapter.setListTransaksi(getListTransaksiByType(FLAG_FRAGMENT_TYPE));
             g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapter);
@@ -111,7 +115,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         } else {
             FLAG_FRAGMENT_TYPE = KEY_STATUS_SEMUA;
             g_percentage = 100;
-            drawPieChart(new int[]{R.color.black, R.color.black},
+            drawPieChart(new int[]{R.color.white, R.color.white},
                     g_list_transaksi.size() + "\nTransaksi");
             g_transaksiadapter.setListTransaksi(g_list_transaksi);
             g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapter);
@@ -128,7 +132,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
             case R.id.apps_transaksi_fragment_tab_btn_pesanan_baru:
                 FLAG_FRAGMENT_TYPE = KEY_STATUS_BARUMASUK;
                 g_percentage = getPersentaseTransaksiBaruMasuk();
-                drawPieChart(new int[]{R.color.red, R.color.black},
+                drawPieChart(new int[]{R.color.red, R.color.white},
                         countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
                 tmpAdapter.setListTransaksi(getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 g_transaksi_fragment_recyclerview.setAdapter(tmpAdapter);
@@ -137,7 +141,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
             case R.id.apps_transaksi_fragment_tab_btn_pesanan_dibayar:
                 FLAG_FRAGMENT_TYPE = KEY_STATUS_SUDAHDIBAYAR;
                 g_percentage = getPersentaseTransaksiSudahDiBayar();
-                drawPieChart(new int[]{R.color.yellow, R.color.black},
+                drawPieChart(new int[]{R.color.yellow, R.color.white},
                         countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
                 tmpAdapter.setListTransaksi(getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 g_transaksi_fragment_recyclerview.setAdapter(tmpAdapter);
@@ -146,7 +150,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
             case R.id.apps_transaksi_fragment_tab_btn_pesanan_dikirim:
                 FLAG_FRAGMENT_TYPE = KEY_STATUS_SUDAHDIKIRIM;
                 g_percentage = getPersentaseTransaksiSudahDikirim();
-                drawPieChart(new int[]{R.color.blue, R.color.black},
+                drawPieChart(new int[]{R.color.blue, R.color.white},
                         countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
                 tmpAdapter.setListTransaksi(getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 g_transaksi_fragment_recyclerview.setAdapter(tmpAdapter);
@@ -155,7 +159,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
             case R.id.apps_transaksi_fragment_tab_btn_transaksi_selesai:
                 FLAG_FRAGMENT_TYPE = KEY_STATUS_SELESAI;
                 g_percentage = getPersentaseTransaksiSudahSelesai();
-                drawPieChart(new int[]{R.color.green, R.color.black},
+                drawPieChart(new int[]{R.color.green, R.color.white},
                         countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
                 tmpAdapter.setListTransaksi(getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 g_transaksi_fragment_recyclerview.setAdapter(tmpAdapter);
@@ -164,7 +168,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
             case R.id.apps_transaksi_fragment_tab_btn_semua_transaksi:
                 FLAG_FRAGMENT_TYPE = KEY_STATUS_SEMUA;
                 g_percentage = 100;
-                drawPieChart(new int[]{R.color.black, R.color.black},
+                drawPieChart(new int[]{R.color.white, R.color.white},
                         g_list_transaksi.size() + "\nTransaksi");
                 g_transaksi_fragment_recyclerview.setAdapter(tmpAdapter);
                 tmpAdapter.setListTransaksi(getListTransaksiByType(FLAG_FRAGMENT_TYPE));
@@ -176,22 +180,27 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
     private void setTabBar(){
         refreshButton();
         if(FLAG_FRAGMENT_TYPE == KEY_STATUS_BARUMASUK){
+            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_red_layered);
             g_btn_tab_pesanan_baru.setTextColor(g_context.getResources().getColor(R.color.white));
             g_btn_tab_pesanan_baru.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_red));
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIBAYAR){
+            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_yellow_layered);
             g_btn_tab_pesanan_dibayar.setTextColor(g_context.getResources().getColor(R.color.white));
             g_btn_tab_pesanan_dibayar.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_yellow));
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIKIRIM){
+            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_blue_layered);
             g_btn_tab_pesanan_dikirim.setTextColor(g_context.getResources().getColor(R.color.white));
             g_btn_tab_pesanan_dikirim.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_blue));
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SELESAI){
+            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_green_layered);
             g_btn_tab_selesai.setTextColor(g_context.getResources().getColor(R.color.white));
             g_btn_tab_selesai.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_green));
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SEMUA){
+            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_black_layered);
             g_btn_tab_semua.setTextColor(g_context.getResources().getColor(R.color.white));
             g_btn_tab_semua.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
         }
@@ -235,7 +244,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         l_transaksi_piechart_dataset.setColors(ColorTemplate.createColors(getResources(), p_colortemplate));
         g_transaksi_fragment_piechart.setCenterText(tmpCustomSizeText);
         g_transaksi_fragment_piechart.setCenterTextSize(18);
-        g_transaksi_fragment_piechart.setCenterTextColor(getResources().getColor(R.color.black));
+        g_transaksi_fragment_piechart.setCenterTextColor(getResources().getColor(R.color.white));
 
         g_transaksi_fragment_piechart.setData(l_transaksi_piechart_data);
         g_transaksi_fragment_piechart.setDrawEntryLabels(false);
