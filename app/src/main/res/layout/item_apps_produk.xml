@@ -45,7 +45,7 @@
                 android:maxLines="2"
                 android:text="Winstok"
                 android:textColor="@color/black"
-                android:textSize="18dp"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -56,16 +56,17 @@
                 android:text="Harga"
                 android:textColor="@color/blue"
                 android:textStyle="bold"
-                android:textSize="18dp" />
+                android:textSize="16dp" />
 
             <TextView
                 android:id="@+id/tv_apps_produk_stok_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top"
+                android:fontFamily="@font/montserrat_regular"
                 android:text="Stok"
                 android:textColor="@color/black"
-                android:textSize="15dp" />
+                android:textSize="12dp" />
 
         </LinearLayout>
 

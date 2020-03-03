@@ -26,7 +26,7 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
 
     public StokProdukAdapter(){
         g_list_produk = ListProdukDummy.getProduks();
-        g_list_produk.add(0, new Produk(-1, "...", 0, R.drawable.ic_keyboard_add_fill_blue, 0, new Kategori(-1, "kosong")));
+//        g_list_produk.add(0, new Produk(-1, "...", 0, R.drawable.ic_keyboard_add_fill_blue, 0, new Kategori(-1, "kosong")));
     }
 
     @NonNull

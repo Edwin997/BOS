@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:fontFamily="@font/montserrat_bold"
         android:text="Masukan OTP :"
         android:textColor="@color/black"
         android:textSize="20dp"
@@ -71,6 +72,7 @@
         android:layout_marginLeft="64dp"
         android:layout_marginRight="64dp"
         android:background="@drawable/style_gradient_color_rounded_box"
+        android:fontFamily="@font/montserrat_bold"
         android:text="Login"
         android:textColor="@color/white"
         android:textStyle="bold" />

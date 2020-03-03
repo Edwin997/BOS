@@ -8,17 +8,17 @@
     android:layout_height="wrap_content"
     android:weightSum="7"
     android:orientation="horizontal"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp">
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="20dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="7"
         android:background="@drawable/style_gradient_color_rounded_box_white"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginStart="5dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="2dp">
 
@@ -26,8 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="10dp"
-            android:paddingTop="10dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="16dp"
             android:paddingEnd="35dp"
             android:paddingBottom="8dp">
 
@@ -39,7 +39,7 @@
                 android:layout_weight="1"
                 android:text="Edwin"
                 android:textColor="@color/black"
-                android:textSize="18dp"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -50,9 +50,10 @@
                 android:ellipsize="end"
                 android:gravity="top|start"
                 android:maxLines="1"
+                android:fontFamily="@font/montserrat_regular"
                 android:text="2018-02-20"
                 android:textColor="@color/black"
-                android:textSize="15dp" />
+                android:textSize="12dp" />
 
         </LinearLayout>
 

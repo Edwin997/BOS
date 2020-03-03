@@ -28,10 +28,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="6"
             android:layout_gravity="center"
+            android:fontFamily="@font/montserrat_bold"
             android:text="Register"
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:textStyle="bold"/>
         <ImageButton
             android:layout_width="0dp"
@@ -214,6 +215,7 @@
             android:layout_marginRight="64dp"
             android:layout_marginLeft="64dp"
             android:background="@drawable/style_gradient_color_rounded_box"
+            android:fontFamily="@font/montserrat_bold"
             android:text="Register"
             android:textColor="@color/white"
             android:textStyle="bold" />

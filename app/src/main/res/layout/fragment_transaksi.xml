@@ -7,15 +7,15 @@
     android:orientation="vertical"
     android:paddingTop="24dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:textSize="25dp"
-        android:text="Transaksi"
-        android:textColor="@color/black"
-        android:textStyle="bold"/>
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:gravity="center"-->
+<!--        android:textSize="25dp"-->
+<!--        android:text="Transaksi"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textStyle="bold"/>-->
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/apps_transaksi_filterdetail_piechart"
@@ -24,8 +24,8 @@
         android:layout_weight="5"
         android:layout_marginTop="25dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:background="@android:color/transparent">
 
     </com.github.mikephil.charting.charts.PieChart>
@@ -47,8 +47,9 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:background="@color/white"
+            android:fontFamily="@font/montserrat_bold"
             android:text="Semua\nTransaksi"
-            android:textSize="10dp"
+            android:textSize="8dp"
             android:textStyle="bold"
             android:textAllCaps="false"
             android:textColor="@color/black"
@@ -60,8 +61,9 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:background="@color/white"
+            android:fontFamily="@font/montserrat_bold"
             android:text="Pesanan\nBaru"
-            android:textSize="10dp"
+            android:textSize="8dp"
             android:textStyle="bold"
             android:textAllCaps="false"
             android:textColor="@color/red"
@@ -73,8 +75,9 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:background="@color/white"
+            android:fontFamily="@font/montserrat_bold"
             android:text="Pesanan\nDibayar"
-            android:textSize="10dp"
+            android:textSize="8dp"
             android:textStyle="bold"
             android:textAllCaps="false"
             android:textColor="@color/yellow"
@@ -86,8 +89,10 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:background="@color/white"
+            android:fontFamily="@font/montserrat_bold"
+
             android:text="Pesanan\nDikirim"
-            android:textSize="10dp"
+            android:textSize="8dp"
             android:textStyle="bold"
             android:textAllCaps="false"
             android:textColor="@color/blue"
@@ -99,8 +104,9 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:background="@color/white"
+            android:fontFamily="@font/montserrat_bold"
             android:text="Transaksi\nSelesai"
-            android:textSize="10dp"
+            android:textSize="8dp"
             android:textStyle="bold"
             android:textAllCaps="false"
             android:textColor="@color/green"

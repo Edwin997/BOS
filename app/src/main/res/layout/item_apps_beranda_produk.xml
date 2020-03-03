@@ -41,9 +41,10 @@
                 android:gravity="bottom"
                 android:paddingEnd="30dp"
                 android:maxLines="2"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="Winstok"
                 android:textColor="@color/black"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -61,9 +62,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top"
+                android:fontFamily="@font/montserrat_regular"
                 android:text="Stok"
                 android:textColor="@color/black"
-                android:textSize="14dp" />
+                android:textSize="12dp" />
 
         </LinearLayout>
 

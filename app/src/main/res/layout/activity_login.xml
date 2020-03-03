@@ -26,9 +26,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
             android:text="Selamat Datang"
             android:textColor="@color/white"
-            android:textSize="18dp"
+            android:textSize="14dp"
             app:layout_constraintBottom_toTopOf="@+id/imageView2"
             app:layout_constraintEnd_toEndOf="@+id/imageViewLogin"
             app:layout_constraintHorizontal_bias="0.189"
@@ -149,6 +150,7 @@
             android:layout_marginRight="64dp"
             android:layout_marginLeft="64dp"
             android:background="@drawable/style_gradient_color_rounded_box"
+            android:fontFamily="@font/montserrat_bold"
             android:text="Login"
             android:textColor="@color/white"
             android:textStyle="bold" />
@@ -163,18 +165,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_regular"
                 android:text="Don't have an account ? "
                 android:textColor="@color/dark_grey"
-                android:textSize="16dp"/>
+                android:textSize="14dp"/>
 
             <TextView
                 android:id="@+id/login_register_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_semi_bold"
                 android:text="Register"
                 android:textColor="@color/dark_blue"
-                android:textSize="16dp"/>
+                android:textSize="14dp"/>
 
 
         </LinearLayout>

@@ -6,30 +6,21 @@
     android:layout_height="match_parent"
     android:paddingTop="24dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:textSize="25dp"
-        android:text="Produk"
-        android:textColor="@color/black"
-        android:textStyle="bold"/>
-
-    <Spinner
-        android:id="@+id/apps_produk_fragment_kategori_filter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        />
-
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:gravity="center"-->
+<!--        android:textSize="25dp"-->
+<!--        android:text="Produk"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textStyle="bold"/>-->
     <LinearLayout
         android:id="@+id/apps_produk_fragment_add_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:paddingTop="10dp"
@@ -51,12 +42,25 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="start"
-            android:textSize="18dp"
+            android:textSize="16dp"
+            android:fontFamily="@font/montserrat_bold"
             android:text="Tambah Produk"
             android:textColor="@color/white"
             android:textStyle="bold"/>
 
     </LinearLayout>
+
+    <Spinner
+        android:id="@+id/apps_produk_fragment_kategori_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        />
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/apps_produk_fragment_recyclerview"

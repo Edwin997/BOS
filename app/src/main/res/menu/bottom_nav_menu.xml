@@ -5,7 +5,7 @@
     <item
         android:id="@+id/navigation_beranda"
         android:icon="@drawable/ic_apps_home"
-        android:title="@string/title_beranda" />
+        android:title="@string/title_beranda"/>
 
     <item
         android:id="@+id/navigation_template"

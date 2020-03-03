@@ -170,7 +170,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:paddingLeft="24dp"
-                android:text="Ekspedisi Pilihan"
+                android:text="Kurir Pilihan"
                 android:textAlignment="textStart"
                 android:textStyle="bold"
                 android:textColor="@color/black"
