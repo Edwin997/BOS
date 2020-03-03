@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_height="24dp"
-        android:paddingLeft="24dp"
+        android:layout_gravity="center"
         android:src="@drawable/bos_logo_gradient"/>
 
     <TextView
@@ -33,15 +33,15 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="40dp"
+        app:cardCornerRadius="10dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="24dp"
         android:layout_marginLeft="24dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/style_gradient_color_rounded_box"
+            android:layout_height="115dp"
+            android:background="@drawable/style_gradient_blue_layered"
             android:orientation="vertical">
 
             <TextView
@@ -79,29 +79,21 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
+    <Button
+        android:id="@+id/beranda_btn_pesanan_belum_dikirim"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="20dp"
+        android:layout_height="20dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="24dp"
-        android:layout_marginLeft="24dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:background="@drawable/style_red_gradient_color_box"
-            android:text="Ada 3 pesanan yang belum dikirim"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="10dp"/>
-
-    </androidx.cardview.widget.CardView>
+        android:layout_marginLeft="24dp"
+        android:background="@drawable/style_red_gradient_color_box"
+        android:text="Ada 3 pesanan yang belum dikirim"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="10dp"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -115,8 +107,7 @@
         android:id="@+id/apps_beranda_produk_fragment_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginTop="10dp"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -130,7 +121,6 @@
         android:id="@+id/apps_beranda_pembeli_fragment_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginTop="10dp"/>
 
 </LinearLayout>

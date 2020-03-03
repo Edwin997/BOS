@@ -9,7 +9,7 @@
     android:layout_marginEnd="20dp"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
-    app:cardCornerRadius="50dp"
+    app:cardCornerRadius="20dp"
     app:cardElevation="2dp">
 
     <LinearLayout
@@ -24,15 +24,14 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/style_gradient_color_rounded_box"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:layout_weight="0.6"
+            android:background="@drawable/style_gradient_color_half_round_right"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_apps_beranda_pembeli_transaksi_item"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="32"
                 android:textAlignment="center"
@@ -41,9 +40,10 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="transaksi"
+                android:layout_marginBottom="2dp"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="8dp"/>
@@ -54,7 +54,7 @@
             android:id="@+id/tv_apps_beranda_pembeli_nama_item"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:paddingStart="5dp"
             android:ellipsize="end"
             android:gravity="center_vertical"
@@ -68,7 +68,7 @@
             android:id="@+id/tv_apps_beranda_pembeli_nominal_item"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:paddingStart="5dp"
             android:gravity="center_vertical"
             android:text="Nominal Transaksi"

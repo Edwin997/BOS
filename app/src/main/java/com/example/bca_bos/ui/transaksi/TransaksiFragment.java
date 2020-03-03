@@ -8,6 +8,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
     public final int KEY_STATUS_SELESAI = 3;
     public final int KEY_STATUS_SEMUA = 4;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -72,15 +74,13 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         g_list_transaksi = ListTransaksiDummy.transaksiList;
         g_view = inflater.inflate(R.layout.fragment_transaksi, container, false);
 
+
         g_linearlayoutmanager = new LinearLayoutManager(g_context);
         g_transaksiadapter = new TransaksiAdapter(this);
         g_transaksiadapter.setParentOnCallBack(this);
-        g_transaksiadapter.setListTransaksi(g_list_transaksi);
-        FLAG_FRAGMENT_TYPE = KEY_STATUS_SEMUA;
 
         g_transaksi_fragment_recyclerview = g_view.findViewById(R.id.apps_transaksi_fragment_recyclerview);
         g_transaksi_fragment_recyclerview.setLayoutManager(g_linearlayoutmanager);
-        g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapter);
 
         g_transaksi_fragment_piechart = g_view.findViewById(R.id.apps_transaksi_filterdetail_piechart);
         g_percentage = g_list_transaksi.size();
@@ -99,8 +99,24 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
 
         g_bottomsheet_dialog = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
 
-        drawPieChart(new int[]{R.color.black, R.color.black}, g_transaksiadapter.getItemCount() + "\nTransaksi");
-        setTabBar();
+
+        if (getArguments()!= null){
+            FLAG_FRAGMENT_TYPE = getArguments().getInt("flag");
+            g_percentage = getPersentaseTransaksiSudahDiBayar();
+            drawPieChart(new int[]{R.color.yellow, R.color.black},
+                    countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
+            g_transaksiadapter.setListTransaksi(getListTransaksiByType(FLAG_FRAGMENT_TYPE));
+            g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapter);
+            setTabBar();
+        } else {
+            FLAG_FRAGMENT_TYPE = KEY_STATUS_SEMUA;
+            g_percentage = 100;
+            drawPieChart(new int[]{R.color.black, R.color.black},
+                    g_list_transaksi.size() + "\nTransaksi");
+            g_transaksiadapter.setListTransaksi(g_list_transaksi);
+            g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapter);
+            setTabBar();
+        }
 
         return g_view;
     }
