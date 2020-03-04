@@ -1,7 +1,9 @@
-package com.example.bca_bos.models;
+package com.example.bca_bos.models.products;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.example.bca_bos.models.Seller;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

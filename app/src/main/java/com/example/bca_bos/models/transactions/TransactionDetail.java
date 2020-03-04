@@ -1,63 +1,27 @@
 package com.example.bca_bos.models.transactions;
 
-import com.example.bca_bos.models.Produk;
+import com.example.bca_bos.models.products.Product;
 
-public class TransaksiDetail {
-    private int id;
-    private int quantity;
-    private Produk produk;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class TransactionDetail {
+    private int id_transaction_dtl;
     private Transaction transaction;
+    private Product product;
+    private int quantity;
     private int sell_price;
 
-    public TransaksiDetail(){
-
-    }
-
-    public TransaksiDetail(int p_id, int p_quantity, Produk p_produk, Transaction p_transaction, int p_sell_price){
-        this.setId(p_id);
-        this.setQuantity(p_quantity);
-        this.setProduk(p_produk);
+    public TransactionDetail(Transaction p_transaction, Product p_product, int p_quantity, int p_sell_price){
         this.setTransaction(p_transaction);
+        this.setProduct(p_product);
+        this.setQuantity(p_quantity);
         this.setSell_price(p_sell_price);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public Produk getProduk() {
-        return produk;
-    }
-
-    public void setProduk(Produk produk) {
-        this.produk = produk;
-    }
-
-    public Transaction getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
-    }
-
-    public int getSell_price() {
-        return sell_price;
-    }
-
-    public void setSell_price(int sell_price) {
-        this.sell_price = sell_price;
     }
 }

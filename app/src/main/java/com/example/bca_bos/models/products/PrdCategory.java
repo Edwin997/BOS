@@ -1,4 +1,4 @@
-package com.example.bca_bos.models;
+package com.example.bca_bos.models.products;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
