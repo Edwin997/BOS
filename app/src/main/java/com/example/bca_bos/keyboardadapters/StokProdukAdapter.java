@@ -14,19 +14,18 @@ import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
-import com.example.bca_bos.models.Kategori;
-import com.example.bca_bos.models.Produk;
+import com.example.bca_bos.models.products.Product;
 
 import java.util.List;
 
 public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.StokProdukItemViewHolder> implements OnCallBackListener {
 
-    private List<Produk> g_list_produk;
+    private List<Product> g_list_product;
     private OnCallBackListener g_parent_oncallbacklistener;
 
     public StokProdukAdapter(){
-        g_list_produk = ListProdukDummy.getProduks();
-        g_list_produk.add(0, new Produk(-1, "...", 0, R.drawable.ic_keyboard_add_fill_blue, 0, new Kategori(-1, "kosong")));
+        g_list_product = ListProdukDummy.getProduks();
+//        g_list_product.add(0, new Product(-1, "...", 0, R.drawable.ic_keyboard_add_fill_blue, 0, new PrdCategory(-1, "kosong")));
     }
 
     @NonNull
@@ -42,16 +41,16 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
 
     @Override
     public void onBindViewHolder(@NonNull StokProdukItemViewHolder holder, int position) {
-        holder.setData(g_list_produk.get(position));
+        holder.setData(g_list_product.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return g_list_produk.size();
+        return g_list_product.size();
     }
 
-    public void setDatasetProduk(List<Produk> p_list){
-        g_list_produk = p_list;
+    public void setDatasetProduk(List<Product> p_list){
+        g_list_product = p_list;
         notifyDataSetChanged();
     }
 
@@ -74,7 +73,7 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
         private TextView tv_stok;
         private LinearLayout ll_stokproduk;
 
-        private Produk l_produk;
+        private Product l_product;
         private OnCallBackListener l_parent_oncallbacklistener;
 
         public StokProdukItemViewHolder(@NonNull View itemView) {
@@ -89,12 +88,12 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
             ll_stokproduk.setOnClickListener(this);
         }
 
-        public void setData(Produk produk){
-            l_produk = produk;
-            iv_stokproduk.setImageResource(produk.getGambar());
-            tv_nama.setText(produk.getNama());
-            tv_harga.setText(Method.getIndoCurrency(produk.getHarga()));
-            tv_stok.setText("Stok : " + produk.getStok());
+        public void setData(Product product){
+            l_product = product;
+//            iv_stokproduk.setImageResource(product.getBase64StringImage());
+            tv_nama.setText(product.getProduct_name());
+            tv_harga.setText(Method.getIndoCurrency(product.getPrice()));
+            tv_stok.setText("Stok : " + product.getStock());
         }
 
         public void setParentOnCallBack(OnCallBackListener p_oncallback){
@@ -105,7 +104,7 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
         public void onClick(View view) {
             if(l_parent_oncallbacklistener != null)
             {
-                l_parent_oncallbacklistener.OnCallBack(l_produk);
+                l_parent_oncallbacklistener.OnCallBack(l_product);
             }
         }
     }

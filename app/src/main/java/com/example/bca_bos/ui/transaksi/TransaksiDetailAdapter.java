@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
-import com.example.bca_bos.models.TransaksiDetail;
+import com.example.bca_bos.models.transactions.TransactionDetail;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class TransaksiDetailAdapter extends RecyclerView.Adapter<TransaksiDetail
 
     private Context g_context;
 
-    private List<TransaksiDetail> g_list_transaksidetail;
+    private List<TransactionDetail> g_list_transaksidetail;
 
     @NonNull
     @Override
@@ -42,7 +42,7 @@ public class TransaksiDetailAdapter extends RecyclerView.Adapter<TransaksiDetail
         return g_list_transaksidetail.size();
     }
 
-    public void setListTransaksiDetail(List<TransaksiDetail> p_list){
+    public void setListTransaksiDetail(List<TransactionDetail> p_list){
         g_list_transaksidetail = p_list;
         notifyDataSetChanged();
     }
@@ -53,7 +53,7 @@ public class TransaksiDetailAdapter extends RecyclerView.Adapter<TransaksiDetail
         private TextView tv_jumlah_transaksi;
         private TextView tv_subtotal_transaksi;
 
-        private TransaksiDetail l_transaksidetail;
+        private TransactionDetail l_transaksidetail;
 
         public TransaksiDetailViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,10 +63,10 @@ public class TransaksiDetailAdapter extends RecyclerView.Adapter<TransaksiDetail
             tv_subtotal_transaksi = itemView.findViewById(R.id.item_apps_transaksi_bottom_sheet_detail_subharga);
         }
 
-        public void setData(TransaksiDetail transaksidetail) {
+        public void setData(TransactionDetail transaksidetail) {
             l_transaksidetail = transaksidetail;
 
-            tv_nama_transaksi.setText(l_transaksidetail.getProduk().getNama());
+            tv_nama_transaksi.setText(l_transaksidetail.getProduct().getProduct_name());
             tv_jumlah_transaksi.setText("x" + l_transaksidetail.getQuantity());
             tv_subtotal_transaksi.setText(Method.getIndoCurrency(l_transaksidetail.getQuantity() * l_transaksidetail.getSell_price()));
 

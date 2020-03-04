@@ -41,7 +41,7 @@
             android:layout_width="75dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:src="@drawable/bos_logo_white"
+            android:src="@drawable/ic_bos_logo_white"
             app:layout_constraintBottom_toBottomOf="@+id/imageViewLogin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.16"
@@ -130,7 +130,7 @@
 
 
         <!--    <TextView-->
-        <!--        android:id="@+id/textViewError"-->
+        <!--        android:id_template_text="@+id_template_text/textViewError"-->
         <!--        android:layout_width="wrap_content"-->
         <!--        android:layout_height="wrap_content"-->
         <!--        android:text="Error"-->

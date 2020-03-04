@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -103,8 +102,8 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
             Button l_btn_templated_simpan_edit = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_btn_simpan_edit);
             Button l_btn_templated_hapus_edit = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_btn_hapus_edit);
 
-            l_et_edit_templated_label_edit.setText(l_template.getLabel());
-            l_et_edit_templated_deskripsi_edit.setText(l_template.getDescription());
+            l_et_edit_templated_label_edit.setText(l_template.getTemplate_code());
+            l_et_edit_templated_deskripsi_edit.setText(l_template.getText());
 
             l_btn_templated_simpan_edit.setOnClickListener(new View.OnClickListener() {
                 @Override

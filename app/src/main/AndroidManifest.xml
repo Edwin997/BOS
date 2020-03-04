@@ -6,10 +6,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_bcabos_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_bcabos_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
         <activity android:name=".ui.transaksi.TransaksiFilterDetail"></activity>
@@ -19,15 +20,14 @@
             android:name=".OTPActivity" />
         <activity
             android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
 
         <service
             android:name=".KeyboardBOSnew"
-            android:label="BCABOS"
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_bcabos_launcher"
+            android:roundIcon="@mipmap/ic_bcabos_launcher_round"
             android:permission="android.permission.BIND_INPUT_METHOD">
             <meta-data
                 android:name="android.view.im"
@@ -41,9 +41,11 @@
         <activity android:name=".ui.produk.EditProdukActivity" />
         <activity android:name=".ui.produk.AddProdukActivity" />
         <activity
-            android:name=".ApplicationContainer"
-            android:label="@string/title_activity_application_container">
-
+            android:name=".ApplicationContainer">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".MainActivity" >
 

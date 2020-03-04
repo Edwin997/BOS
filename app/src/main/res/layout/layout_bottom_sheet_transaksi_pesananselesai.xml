@@ -86,7 +86,7 @@
         <!--                />-->
 
         <!--            <TextView-->
-        <!--                android:id="@+id/tv_apps_bottom_sheet_transaksi_pesananselesai_totals"-->
+        <!--                android:id_template_text="@+id_template_text/tv_apps_bottom_sheet_transaksi_pesananselesai_totals"-->
         <!--                android:layout_width="0dp"-->
         <!--                android:layout_height="match_parent"-->
         <!--                android:layout_weight="2"-->

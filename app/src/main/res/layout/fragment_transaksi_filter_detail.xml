@@ -74,7 +74,7 @@
     <!--    android:layout_height="match_parent">-->
 
     <!--    <LinearLayout-->
-    <!--        android:id="@+id/apps_transaksi_filterdetail_actionbar_layout"-->
+    <!--        android:id_template_text="@+id_template_text/apps_transaksi_filterdetail_actionbar_layout"-->
     <!--        android:layout_width="match_parent"-->
     <!--        android:layout_height="60dp"-->
     <!--        android:background="@drawable/style_gradient_color_rounded_bottom_box"-->
@@ -82,7 +82,7 @@
     <!--        android:padding="10dp">-->
 
     <!--        <ImageButton-->
-    <!--            android:id="@+id/apps_transaksi_filterdetail_back_btn"-->
+    <!--            android:id_template_text="@+id_template_text/apps_transaksi_filterdetail_back_btn"-->
     <!--            android:layout_width="0dp"-->
     <!--            android:layout_height="match_parent"-->
     <!--            android:layout_weight="1"-->
@@ -90,7 +90,7 @@
     <!--            android:src="@drawable/ic_apps_back_white"/>-->
 
     <!--        <TextView-->
-    <!--            android:id="@+id/apps_transaksi_filterdetail_judul_tv"-->
+    <!--            android:id_template_text="@+id_template_text/apps_transaksi_filterdetail_judul_tv"-->
     <!--            android:layout_width="0dp"-->
     <!--            android:layout_height="match_parent"-->
     <!--            android:layout_weight="8"-->
@@ -101,7 +101,7 @@
     <!--            android:textStyle="bold"/>-->
 
     <!--        <ImageButton-->
-    <!--            android:id="@+id/apps_transaksi_filterdetail_next_btn"-->
+    <!--            android:id_template_text="@+id_template_text/apps_transaksi_filterdetail_next_btn"-->
     <!--            android:layout_width="0dp"-->
     <!--            android:layout_height="match_parent"-->
     <!--            android:layout_weight="1"-->
@@ -112,7 +112,7 @@
     <!--    </LinearLayout>-->
 
     <!--    <com.github.mikephil.charting.charts.PieChart-->
-    <!--        android:id="@+id/apps_transaksi_filterdetail_piechart"-->
+    <!--        android:id_template_text="@+id_template_text/apps_transaksi_filterdetail_piechart"-->
     <!--        android:layout_width="match_parent"-->
     <!--        android:layout_height="0dp"-->
     <!--        android:layout_weight="1"-->
@@ -128,7 +128,7 @@
     <!--        android:layout_gravity="center_vertical"/>-->
 
     <!--    <androidx.recyclerview.widget.RecyclerView-->
-    <!--        android:id="@+id/apps_transaksi_filterdetail_recyclerview"-->
+    <!--        android:id_template_text="@+id_template_text/apps_transaksi_filterdetail_recyclerview"-->
     <!--        android:layout_width="match_parent"-->
     <!--        android:layout_height="0dp"-->
     <!--        android:layout_weight="1"-->

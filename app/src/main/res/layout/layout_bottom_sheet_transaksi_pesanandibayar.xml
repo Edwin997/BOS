@@ -83,7 +83,7 @@
             />
 
         <!--        <com.google.android.material.textfield.TextInputLayout-->
-        <!--            android:id="@+id/et_apps_bottom_sheet_transaksi_pesanandibayar_resi"-->
+        <!--            android:id_template_text="@+id_template_text/et_apps_bottom_sheet_transaksi_pesanandibayar_resi"-->
         <!--            android:layout_width="match_parent"-->
         <!--            android:layout_height="wrap_content"-->
         <!--            android:background="@drawable/style_gradient_color_rounded_box_white"-->

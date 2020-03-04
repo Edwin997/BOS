@@ -2,7 +2,6 @@ package com.example.bca_bos.ui.transaksi;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -19,13 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
-import com.example.bca_bos.models.Transaksi;
+import com.example.bca_bos.models.transactions.Transaction;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -45,14 +43,14 @@ public class TransaksiFilterDetailFragment extends Fragment implements View.OnCl
     private PieChart g_transaksi_fragment_piechart;
     private float g_percentage;
 
-    private List<Transaksi> g_list_transaksi;
+    private List<Transaction> g_list_transaction;
 
     private OnCallBackListener g_transaksi_filterdetail_oncallback;
 
     private int TRANSAKSI_FRAGMENT_TYPE;
 
-    public TransaksiFilterDetailFragment(List<Transaksi> p_list, int p_type, float p_persen, OnCallBackListener p_parent){
-        g_list_transaksi = p_list;
+    public TransaksiFilterDetailFragment(List<Transaction> p_list, int p_type, float p_persen, OnCallBackListener p_parent){
+        g_list_transaction = p_list;
         g_percentage = p_persen;
         TRANSAKSI_FRAGMENT_TYPE = p_type;
         g_transaksi_filterdetail_oncallback = p_parent;
@@ -78,7 +76,7 @@ public class TransaksiFilterDetailFragment extends Fragment implements View.OnCl
         g_transaksi_fiturdetail_recyclerview.setLayoutManager(g_linearlayoutmanager);
         g_transaksi_fiturdetail_recyclerview.setAdapter(g_transaksiadapter);
 
-        g_transaksiadapter.setListTransaksi(g_list_transaksi);
+        g_transaksiadapter.setListTransaksi(g_list_transaction);
 
         g_btn_transaksi_filterdetail_next.setOnClickListener(this);
         g_btn_transaksi_filterdetail_back.setOnClickListener(this);
@@ -94,29 +92,29 @@ public class TransaksiFilterDetailFragment extends Fragment implements View.OnCl
 //                g_tv_transaksi_filterdetail.setText("BARU MASUK");
 //                drawCircleDisplay(
 //                        new int[]{R.color.white, R.color.white_disable},
-//                        g_list_transaksi.size() + "\nBARU MASUK");
+//                        g_list_transaction.size() + "\nBARU MASUK");
 ////                drawPieChart(
 ////                        new int[]{R.color.pink, R.color.dark_grey},
-////                        g_list_transaksi.size() + "\nBARU MASUK");
+////                        g_list_transaction.size() + "\nBARU MASUK");
 //                break;
 //            case TransaksiFilterDetail.KEY_STATUS_SUDAHDIBAYAR:
 //                g_tv_transaksi_filterdetail.setText("SUDAH DIBAYAR");
 //                drawPieChart(
 //                        new int[]{R.color.yellow, R.color.dark_grey},
-//                        g_list_transaksi.size() + "\nSUDAH DIBAYAR");
+//                        g_list_transaction.size() + "\nSUDAH DIBAYAR");
 //                break;
 //            case TransaksiFilterDetail.KEY_STATUS_SUDAHDIKIRIM:
 //                g_tv_transaksi_filterdetail.setText("PROSES PENGIRIMAN");
 //                drawPieChart(
 //                        new int[]{R.color.turqoise, R.color.dark_grey},
-//                        g_list_transaksi.size() + "\nPROSES PENGIRIMAN");
+//                        g_list_transaction.size() + "\nPROSES PENGIRIMAN");
 //
 //                break;
 //            case TransaksiFilterDetail.KEY_STATUS_SELESAI:
 //                g_tv_transaksi_filterdetail.setText("TRANSAKSI SELESAI");
 //                drawPieChart(
 //                        new int[]{R.color.green, R.color.dark_grey},
-//                        g_list_transaksi.size() + "\nTRANSAKSI SELESAI");
+//                        g_list_transaction.size() + "\nTRANSAKSI SELESAI");
 //                break;
 //        }
     }

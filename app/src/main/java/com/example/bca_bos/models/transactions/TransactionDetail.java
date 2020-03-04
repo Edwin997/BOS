@@ -1,21 +1,23 @@
-package com.example.bca_bos.models;
+package com.example.bca_bos.models.transactions;
+
+import com.example.bca_bos.models.Produk;
 
 public class TransaksiDetail {
     private int id;
     private int quantity;
     private Produk produk;
-    private Transaksi transaksi;
+    private Transaction transaction;
     private int sell_price;
 
     public TransaksiDetail(){
 
     }
 
-    public TransaksiDetail(int p_id, int p_quantity, Produk p_produk, Transaksi p_transaksi, int p_sell_price){
+    public TransaksiDetail(int p_id, int p_quantity, Produk p_produk, Transaction p_transaction, int p_sell_price){
         this.setId(p_id);
         this.setQuantity(p_quantity);
         this.setProduk(p_produk);
-        this.setTransaksi(p_transaksi);
+        this.setTransaction(p_transaction);
         this.setSell_price(p_sell_price);
     }
 
@@ -43,12 +45,12 @@ public class TransaksiDetail {
         this.produk = produk;
     }
 
-    public Transaksi getTransaksi() {
-        return transaksi;
+    public Transaction getTransaction() {
+        return transaction;
     }
 
-    public void setTransaksi(Transaksi transaksi) {
-        this.transaksi = transaksi;
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
     }
 
     public int getSell_price() {

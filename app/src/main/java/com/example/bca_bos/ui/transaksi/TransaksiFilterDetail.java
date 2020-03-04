@@ -13,7 +13,7 @@ import com.example.bca_bos.dummy.ListTransaksiDummy;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
-import com.example.bca_bos.models.Transaksi;
+import com.example.bca_bos.models.transactions.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class TransaksiFilterDetail extends AppCompatActivity implements OnCallBa
     private PagerAdapter g_pageradapter_transaksi_filterdetail;
     private List<Fragment> g_list_fragment_transaksi;
 
-    private List<Transaksi> g_list_transaksi;
+    private List<Transaction> g_list_transaction;
 
     public static final int KEY_STATUS_BARUMASUK = 0;
     public static final int KEY_STATUS_SUDAHDIBAYAR = 1;
@@ -37,7 +37,7 @@ public class TransaksiFilterDetail extends AppCompatActivity implements OnCallBa
         setContentView(R.layout.activity_transaksi_filter_detail);
         Method.callback(this);
 
-        g_list_transaksi = ListTransaksiDummy.transaksiList;
+        g_list_transaction = ListTransaksiDummy.transactionList;
 
         g_list_fragment_transaksi = new ArrayList<>();
         g_list_fragment_transaksi.add(new TransaksiFilterDetailFragment(getListTransaksiByType(KEY_STATUS_BARUMASUK), KEY_STATUS_BARUMASUK, getPersentaseTransaksiBaruMasuk(),this));
@@ -52,43 +52,43 @@ public class TransaksiFilterDetail extends AppCompatActivity implements OnCallBa
         g_vp_transaksi_filterdetail.setCurrentItem(getIntent().getExtras().getInt("TRANSAKSI_PAGE"));
     }
 
-    public List<Transaksi> getListTransaksiByType(int p_type){
-        List<Transaksi> tmpListTransaksi = new ArrayList<>();
-        for(int i = 0; i < g_list_transaksi.size(); i++){
-            if(g_list_transaksi.get(i).getStatus() == p_type)
-                tmpListTransaksi.add(g_list_transaksi.get(i));
+    public List<Transaction> getListTransaksiByType(int p_type){
+        List<Transaction> tmpListTransaction = new ArrayList<>();
+        for(int i = 0; i < g_list_transaction.size(); i++){
+            if(g_list_transaction.get(i).getStatus() == p_type)
+                tmpListTransaction.add(g_list_transaction.get(i));
         }
-        return tmpListTransaksi;
+        return tmpListTransaction;
     }
 
     public float getPersentaseTransaksiSudahSelesai(){
         float tmpHasil = 0f;
-        if(g_list_transaksi.size() > 0){
-            tmpHasil = (countTransaksibyStatus(KEY_STATUS_SELESAI) / g_list_transaksi.size()) * 100;
+        if(g_list_transaction.size() > 0){
+            tmpHasil = (countTransaksibyStatus(KEY_STATUS_SELESAI) / g_list_transaction.size()) * 100;
         }
         return tmpHasil;
     }
 
     public float getPersentaseTransaksiSudahDikirim(){
         float tmpHasil = 0f;
-        if(g_list_transaksi.size() > 0){
-            tmpHasil = (countTransaksibyStatus(KEY_STATUS_SUDAHDIKIRIM) / g_list_transaksi.size()) * 100;
+        if(g_list_transaction.size() > 0){
+            tmpHasil = (countTransaksibyStatus(KEY_STATUS_SUDAHDIKIRIM) / g_list_transaction.size()) * 100;
         }
         return tmpHasil;
     }
 
     public float getPersentaseTransaksiSudahDiBayar(){
         float tmpHasil = 0f;
-        if(g_list_transaksi.size() > 0){
-            tmpHasil = (countTransaksibyStatus(KEY_STATUS_SUDAHDIBAYAR) / g_list_transaksi.size()) * 100;
+        if(g_list_transaction.size() > 0){
+            tmpHasil = (countTransaksibyStatus(KEY_STATUS_SUDAHDIBAYAR) / g_list_transaction.size()) * 100;
         }
         return tmpHasil;
     }
 
     public float getPersentaseTransaksiBaruMasuk(){
         float tmpHasil = 0f;
-        if(g_list_transaksi.size() > 0){
-            tmpHasil = (countTransaksibyStatus(KEY_STATUS_BARUMASUK) / g_list_transaksi.size()) * 100;
+        if(g_list_transaction.size() > 0){
+            tmpHasil = (countTransaksibyStatus(KEY_STATUS_BARUMASUK) / g_list_transaction.size()) * 100;
         }
         return tmpHasil;
     }
@@ -96,8 +96,8 @@ public class TransaksiFilterDetail extends AppCompatActivity implements OnCallBa
     public float countTransaksibyStatus(int p_type){
         float count = 0;
 
-        for(int i = 0; i < g_list_transaksi.size(); i++){
-            if(g_list_transaksi.get(i).getStatus() == p_type)
+        for(int i = 0; i < g_list_transaction.size(); i++){
+            if(g_list_transaction.get(i).getStatus() == p_type)
                 count++;
         }
 

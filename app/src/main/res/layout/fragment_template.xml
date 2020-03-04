@@ -59,7 +59,7 @@
 
 
     <!--    <LinearLayout-->
-    <!--        android:id="@+id/apps_template_fragment_actionbar_layout"-->
+    <!--        android:id_template_text="@+id_template_text/apps_template_fragment_actionbar_layout"-->
     <!--        android:layout_width="match_parent"-->
     <!--        android:layout_height="60dp"-->
     <!--        android:background="@drawable/style_gradient_color_rounded_bottom_box"-->
@@ -84,7 +84,7 @@
     <!--            android:textStyle="bold"/>-->
 
     <!--        <ImageButton-->
-    <!--            android:id="@+id/apps_template_fragment_add_btn"-->
+    <!--            android:id_template_text="@+id_template_text/apps_template_fragment_add_btn"-->
     <!--            android:layout_width="0dp"-->
     <!--            android:layout_height="match_parent"-->
     <!--            android:layout_weight="1"-->
@@ -95,7 +95,7 @@
     <!--    </LinearLayout>-->
 
     <!--    <androidx.recyclerview.widget.RecyclerView-->
-    <!--        android:id="@+id/apps_template_fragment_recyclerview"-->
+    <!--        android:id_template_text="@+id_template_text/apps_template_fragment_recyclerview"-->
     <!--        android:layout_width="match_parent"-->
     <!--        android:layout_height="match_parent" />-->
 </LinearLayout>

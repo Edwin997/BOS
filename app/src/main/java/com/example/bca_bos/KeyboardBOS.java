@@ -34,7 +34,7 @@ import com.example.bca_bos.keyboardadapters.StokProdukAdapter;
 
 import com.example.bca_bos.keyboardadapters.TemplatedTextAdapter;
 import com.example.bca_bos.interfaces.OnCallBackListener;
-import com.example.bca_bos.models.Produk;
+import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.networks.RajaOngkir;
 
 public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKeyboardActionListener, OnCallBackListener {
@@ -1649,19 +1649,19 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     @Override
     public void OnCallBack(Object p_obj) {
 
-        if(p_obj instanceof Produk){
-            Produk tmpProduk = (Produk) p_obj;
-            if(tmpProduk.getId() == -1){
+        if(p_obj instanceof Product){
+            Product tmpProduct = (Product) p_obj;
+            if(tmpProduct.getId_product() == -1){
                 Intent tmpIntent = new Intent(KeyboardBOS.this, ApplicationContainer.class);
                 tmpIntent.putExtra(ApplicationContainer.KEY_OPEN_APPS, ApplicationContainer.ID_PRODUK);
                 tmpIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(tmpIntent);
             }
             else {
-                if(tmpProduk.getStok() <= 0){
-                    commitTextToBOSKeyboardEditText("Maaf, stok kami untuk produk tersebut sudah habis. \nTerima kasih.");
+                if(tmpProduct.getStock() <= 0){
+                    commitTextToBOSKeyboardEditText("Maaf, stok kami untuk product tersebut sudah habis. \nTerima kasih.");
                 }else{
-                    commitTextToBOSKeyboardEditText("Stok kami untuk produk tersebut masih ada. \nTerima kasih.");
+                    commitTextToBOSKeyboardEditText("Stok kami untuk product tersebut masih ada. \nTerima kasih.");
                 }
             }
         }

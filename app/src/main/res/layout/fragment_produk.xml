@@ -77,7 +77,7 @@
     <!--    android:background="@color/dark_white">-->
 
     <!--    <LinearLayout-->
-    <!--        android:id="@+id/apps_produk_fragment_actionbar_layout"-->
+    <!--        android:id_template_text="@+id_template_text/apps_produk_fragment_actionbar_layout"-->
     <!--        android:layout_width="match_parent"-->
     <!--        android:layout_height="60dp"-->
     <!--        android:background="@drawable/style_gradient_color_rounded_bottom_box"-->
@@ -94,7 +94,7 @@
     <!--            android:orientation="horizontal">-->
 
     <!--            <ImageButton-->
-    <!--                android:id="@+id/apps_produk_fragment_search_btn"-->
+    <!--                android:id_template_text="@+id_template_text/apps_produk_fragment_search_btn"-->
     <!--                android:layout_width="0dp"-->
     <!--                android:layout_height="match_parent"-->
     <!--                android:layout_weight="1"-->
@@ -102,7 +102,7 @@
     <!--                android:src="@drawable/ic_keyboard_search_blue" />-->
 
     <!--            <EditText-->
-    <!--                android:id="@+id/apps_produk_fragment_search_et"-->
+    <!--                android:id_template_text="@+id_template_text/apps_produk_fragment_search_et"-->
     <!--                android:layout_width="0dp"-->
     <!--                android:layout_height="match_parent"-->
     <!--                android:layout_weight="6"-->
@@ -112,7 +112,7 @@
     <!--        </LinearLayout>-->
 
     <!--        <ImageButton-->
-    <!--            android:id="@+id/apps_produk_fragment_filter_btn"-->
+    <!--            android:id_template_text="@+id_template_text/apps_produk_fragment_filter_btn"-->
     <!--            android:layout_width="0dp"-->
     <!--            android:layout_height="match_parent"-->
     <!--            android:layout_weight="1"-->
@@ -120,7 +120,7 @@
     <!--            android:src="@drawable/ic_apps_filter_white" />-->
 
     <!--        <ImageButton-->
-    <!--            android:id="@+id/apps_produk_fragment_add_btn"-->
+    <!--            android:id_template_text="@+id_template_text/apps_produk_fragment_add_btn"-->
     <!--            android:layout_width="0dp"-->
     <!--            android:layout_height="match_parent"-->
     <!--            android:layout_weight="1"-->
@@ -145,7 +145,7 @@
     <!--            android:layout_gravity="center_vertical"/>-->
 
     <!--        <TextView-->
-    <!--            android:id="@+id/apps_produk_fragment_judul"-->
+    <!--            android:id_template_text="@+id_template_text/apps_produk_fragment_judul"-->
     <!--            android:layout_width="wrap_content"-->
     <!--            android:layout_height="wrap_content"-->
     <!--            android:layout_marginStart="10dp"-->
@@ -165,7 +165,7 @@
     <!--    </LinearLayout>-->
 
     <!--    <androidx.recyclerview.widget.RecyclerView-->
-    <!--        android:id="@+id/apps_produk_fragment_recyclerview"-->
+    <!--        android:id_template_text="@+id_template_text/apps_produk_fragment_recyclerview"-->
     <!--        android:layout_width="match_parent"-->
     <!--        android:layout_height="match_parent" />-->
 

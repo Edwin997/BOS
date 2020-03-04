@@ -151,7 +151,7 @@
     <!--        android:orientation="vertical">-->
 
     <!--        <EditText-->
-    <!--            android:id="@+id/apps_bottom_sheet_et_label_edit"-->
+    <!--            android:id_template_text="@+id_template_text/apps_bottom_sheet_et_label_edit"-->
     <!--            android:layout_width="match_parent"-->
     <!--            android:layout_height="wrap_content"-->
     <!--            android:hint="Label Template Teks"-->
@@ -159,7 +159,7 @@
     <!--            android:inputType="textPersonName"/>-->
 
     <!--        <EditText-->
-    <!--            android:id="@+id/apps_bottom_sheet_et_deskripsi_edit"-->
+    <!--            android:id_template_text="@+id_template_text/apps_bottom_sheet_et_deskripsi_edit"-->
     <!--            android:layout_width="match_parent"-->
     <!--            android:layout_height="wrap_content"-->
     <!--            android:layout_marginTop="10dp"-->
@@ -171,7 +171,7 @@
     <!--            android:inputType="textPersonName|textMultiLine"/>-->
 
     <!--        <Button-->
-    <!--            android:id="@+id/apps_bottom_sheet_btn_simpan_edit"-->
+    <!--            android:id_template_text="@+id_template_text/apps_bottom_sheet_btn_simpan_edit"-->
     <!--            android:layout_width="match_parent"-->
     <!--            android:layout_height="wrap_content"-->
     <!--            android:layout_marginTop="10dp"-->

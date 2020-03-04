@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -29,7 +28,7 @@ import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
-import com.example.bca_bos.models.Produk;
+import com.example.bca_bos.models.products.Product;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -42,7 +41,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
     //region DATA MEMBER
     //FINAL STATIC DATA MEMBER
-    public final static String KEY_PRODUK = "produk";
+    public final static String KEY_PRODUK = "product";
 
     //VIEW DATA MEMBER
     private Context g_context;
@@ -115,7 +114,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                g_produkadapter.setDatasetProduk(ListProdukDummy.produkList);
+                g_produkadapter.setDatasetProduk(ListProdukDummy.productList);
             }
         });
 
@@ -124,9 +123,9 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
     @Override
     public void OnCallBack(Object p_obj) {
-        if(p_obj instanceof Produk) {
-            Produk tmpProduk = (Produk) p_obj;
-            showBottomSheetEditProduk(tmpProduk);
+        if(p_obj instanceof Product) {
+            Product tmpProduct = (Product) p_obj;
+            showBottomSheetEditProduk(tmpProduct);
         }
         else if(p_obj instanceof Integer){
             int tmpCode = (int)p_obj;
@@ -234,7 +233,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     }
 
     //region BOTTOM SHEET METHOD
-    private void showBottomSheetEditProduk(Produk p_produk){
+    private void showBottomSheetEditProduk(Product p_product){
         //inisiasi view
         View l_bottomsheet_view_add = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_edit_produk,
@@ -255,13 +254,13 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_btn_bottom_sheet_produk_edit_hapus = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_btn_hapus_edit_produk);
 
         //config imageview
-        g_iv_bottom_sheet_produk_edit_gambar.setImageDrawable(getResources().getDrawable(p_produk.getGambar()));
+        g_iv_bottom_sheet_produk_edit_gambar.setImageDrawable(getResources().getDrawable(p_product.getBase64StringImage()));
         g_iv_bottom_sheet_produk_edit_gambar.setOnClickListener(this);
 
         //config edittext
-        g_tv_bottom_sheet_produk_edit_nama.setText(p_produk.getNama());
-        g_tv_bottom_sheet_produk_edit_harga.setText(Method.getIndoCurrency(p_produk.getHarga()));
-        g_tv_bottom_sheet_produk_edit_stok.setText(String.valueOf(p_produk.getStok()));
+        g_tv_bottom_sheet_produk_edit_nama.setText(p_product.getProduct_name());
+        g_tv_bottom_sheet_produk_edit_harga.setText(Method.getIndoCurrency(p_product.getPrice()));
+        g_tv_bottom_sheet_produk_edit_stok.setText(String.valueOf(p_product.getStock()));
         g_tv_bottom_sheet_produk_edit_berat.setText(String.valueOf(0));
 
         //config button

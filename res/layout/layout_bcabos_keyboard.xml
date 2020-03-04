@@ -7,7 +7,7 @@
 
     <!--HOME KEYBOARD-->
     <LinearLayout
-        android:id="@+id/bcabos_extended_home_layout"
+        android:id_template_text="@+id_template_text/bcabos_extended_home_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="start"
@@ -15,7 +15,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/bcabos_extended_home_button"
+            android:id_template_text="@+id_template_text/bcabos_extended_home_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
@@ -23,7 +23,7 @@
             android:src="@drawable/ic_bcabos_text_white" />
 
         <Button
-            android:id="@+id/bcabos_extended_templatedtext_button"
+            android:id_template_text="@+id_template_text/bcabos_extended_templatedtext_button"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:padding="4dp"
@@ -37,7 +37,7 @@
 
     <!--FITUR KEYBOARD-->
     <LinearLayout
-        android:id="@+id/bcabos_extended_feature_layout"
+        android:id_template_text="@+id_template_text/bcabos_extended_feature_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
@@ -46,7 +46,7 @@
         android:visibility="gone">
 
         <ImageButton
-            android:id="@+id/bcabos_extended_feature_back_button"
+            android:id_template_text="@+id_template_text/bcabos_extended_feature_back_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingLeft="16dp"
@@ -55,7 +55,7 @@
             android:src="@drawable/ic_keyboard_arrow_back_white_24dp" />
 
         <Button
-            android:id="@+id/bcabos_extended_feature_stok_button"
+            android:id_template_text="@+id_template_text/bcabos_extended_feature_stok_button"
             android:layout_weight="1"
             android:layout_height="fill_parent"
             android:layout_width="0dp"
@@ -70,7 +70,7 @@
             android:background="@android:color/transparent"/>
 
         <Button
-            android:id="@+id/bcabos_extended_feature_ongkir_button"
+            android:id_template_text="@+id_template_text/bcabos_extended_feature_ongkir_button"
             android:layout_weight="1"
             android:layout_height="fill_parent"
             android:layout_width="0dp"
@@ -85,7 +85,7 @@
             android:background="@android:color/transparent"/>
 
         <Button
-            android:id="@+id/bcabos_extended_feature_form_button"
+            android:id_template_text="@+id_template_text/bcabos_extended_feature_form_button"
             android:layout_weight="1"
             android:layout_height="fill_parent"
             android:layout_width="0dp"
@@ -100,7 +100,7 @@
             android:background="@android:color/transparent"/>
 
         <Button
-            android:id="@+id/bcabos_extended_feature_mutasi_button"
+            android:id_template_text="@+id_template_text/bcabos_extended_feature_mutasi_button"
             android:layout_weight="1"
             android:layout_height="fill_parent"
             android:layout_width="0dp"
@@ -117,7 +117,7 @@
 
     <!--KEYBOARD-->
     <android.inputmethodservice.KeyboardView
-        android:id="@+id/bcabos_keyboard_view"
+        android:id_template_text="@+id_template_text/bcabos_keyboard_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"

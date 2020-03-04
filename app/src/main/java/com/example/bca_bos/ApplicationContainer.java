@@ -17,6 +17,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 
+import com.android.volley.VolleyError;
+import com.example.bca_bos.networks.VolleyClass;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.internal.NavigationMenuItemView;
@@ -47,6 +49,7 @@ public class ApplicationContainer extends AppCompatActivity  {
             tmpTypeOpen = getIntent().getExtras().getInt(KEY_OPEN_APPS);
         }
 
+//        VolleyClass.getTemplatedText(this);
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.

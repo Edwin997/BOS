@@ -216,7 +216,7 @@
     <!--        android:orientation="vertical">-->
 
     <!--        <Edit_produkText-->
-    <!--            android:id="@+id/apps_bottom_sheet_et_label_edit_produk"-->
+    <!--            android:id_template_text="@+id_template_text/apps_bottom_sheet_et_label_edit_produk"-->
     <!--            android:layout_width="match_parent"-->
     <!--            android:layout_height="wrap_content"-->
     <!--            android:hint="Label Template Teks"-->
@@ -224,7 +224,7 @@
     <!--            android:inputType="textPersonName"/>-->
 
     <!--        <Edit_produkText-->
-    <!--            android:id="@+id/apps_bottom_sheet_et_deskripsi_edit_produk"-->
+    <!--            android:id_template_text="@+id_template_text/apps_bottom_sheet_et_deskripsi_edit_produk"-->
     <!--            android:layout_width="match_parent"-->
     <!--            android:layout_height="wrap_content"-->
     <!--            android:layout_marginTop="10dp"-->
@@ -236,7 +236,7 @@
     <!--            android:inputType="textPersonName|textMultiLine"/>-->
 
     <!--        <Button-->
-    <!--            android:id="@+id/apps_bottom_sheet_btn_simpan_edit_produk"-->
+    <!--            android:id_template_text="@+id_template_text/apps_bottom_sheet_btn_simpan_edit_produk"-->
     <!--            android:layout_width="match_parent"-->
     <!--            android:layout_height="wrap_content"-->
     <!--            android:layout_marginTop="10dp"-->

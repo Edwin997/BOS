@@ -29,7 +29,7 @@ public class BerandaFragment extends Fragment {
         g_context = container.getContext();
         g_view = inflater.inflate(R.layout.fragment_beranda, container, false);
 
-        //Set Produk RecyclerView
+        //Set Product RecyclerView
         g_beranda_produk_fragment_recyclerview = g_view.findViewById(R.id.apps_beranda_produk_fragment_recyclerview);
         g_linearlayoutmanager_produk = new LinearLayoutManager(g_context, RecyclerView.HORIZONTAL, true);
         g_beranda_produk_adapter = new BerandaProdukAdapter();
@@ -37,7 +37,7 @@ public class BerandaFragment extends Fragment {
         g_beranda_produk_fragment_recyclerview.setAdapter(g_beranda_produk_adapter);
         g_beranda_produk_fragment_recyclerview.setLayoutManager(g_linearlayoutmanager_produk);
 
-        //Set Pembeli RecyclerView
+        //Set Buyer RecyclerView
         g_beranda_pembeli_fragment_recyclerview = g_view.findViewById(R.id.apps_beranda_pembeli_fragment_recyclerview);
         g_linearlayoutmanager_pembeli = new LinearLayoutManager(g_context);
         g_beranda_pembeli_adapter = new BerandaPembeliAdapter();

@@ -10,16 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bca_bos.dummy.ListPembeliDummy;
 import com.example.bca_bos.R;
-import com.example.bca_bos.models.Pembeli;
+import com.example.bca_bos.models.Buyer;
 
 import java.util.List;
 
 public class BerandaPembeliAdapter extends RecyclerView.Adapter<BerandaPembeliAdapter.BerandaPembeliViewHolder> {
 
-    private List<Pembeli> g_list_pembeli;
+    private List<Buyer> g_list_buyer;
 
     public BerandaPembeliAdapter(){
-        g_list_pembeli = ListPembeliDummy.pembeliList;
+        g_list_buyer = ListPembeliDummy.buyerList;
     }
 
     @NonNull
@@ -35,12 +35,12 @@ public class BerandaPembeliAdapter extends RecyclerView.Adapter<BerandaPembeliAd
 
     @Override
     public void onBindViewHolder(@NonNull BerandaPembeliViewHolder holder, int position) {
-        holder.setData(g_list_pembeli.get(position));
+        holder.setData(g_list_buyer.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return g_list_pembeli.size();
+        return g_list_buyer.size();
     }
 
     public class BerandaPembeliViewHolder extends RecyclerView.ViewHolder {
@@ -56,10 +56,10 @@ public class BerandaPembeliAdapter extends RecyclerView.Adapter<BerandaPembeliAd
 
         }
 
-        public void setData(Pembeli pembeli){
-            l_tv_beranda_pembeli_nama.setText(pembeli.getNama());
-            l_tv_beranda_pembeli_transaksi.setText(String.valueOf(pembeli.getJumlahTransaksi()));
-            l_tv_beranda_pembeli_nominal.setText(String.valueOf(pembeli.getNominalTransaksi()));
+        public void setData(Buyer buyer){
+            l_tv_beranda_pembeli_nama.setText(buyer.getBuyer_name());
+            l_tv_beranda_pembeli_transaksi.setText(String.valueOf(buyer.getJumlahTransaksi()));
+            l_tv_beranda_pembeli_nominal.setText(String.valueOf(buyer.getNominalTransaksi()));
         }
     }
 }

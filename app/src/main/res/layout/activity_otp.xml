@@ -56,7 +56,7 @@
     </androidx.cardview.widget.CardView>
 
     <!--    <TextView-->
-    <!--        android:id="@+id/textViewError"-->
+    <!--        android:id_template_text="@+id_template_text/textViewError"-->
     <!--        android:layout_width="wrap_content"-->
     <!--        android:layout_height="wrap_content"-->
     <!--        android:text="Error"-->
