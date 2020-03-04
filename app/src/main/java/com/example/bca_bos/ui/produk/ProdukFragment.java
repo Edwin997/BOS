@@ -7,12 +7,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,11 +30,17 @@ import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
+import com.example.bca_bos.models.Seller;
+import com.example.bca_bos.models.products.PrdCategory;
 import com.example.bca_bos.models.products.Product;
+import com.example.bca_bos.networks.VolleyClass;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
@@ -61,14 +69,15 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
     //ADD BOTTOM SHEET PRODUK DATA MEMBER
     private RoundedImageView g_iv_bottom_sheet_produk_add_gambar;
-    private TextView g_tv_bottom_sheet_produk_add_nama, g_tv_bottom_sheet_produk_add_harga,
+    private EditText g_tv_bottom_sheet_produk_add_nama, g_tv_bottom_sheet_produk_add_harga,
             g_tv_bottom_sheet_produk_add_stok, g_tv_bottom_sheet_produk_add_berat;
     private Button g_btn_bottom_sheet_produk_add_tambah, g_btn_bottom_sheet_produk_add_batal;
     private Bitmap g_bmp_bottom_sheet_produk_add;
+    private Uri pathh;
 
     //EDIT BOTTOM SHEET PRODUK DATA MEMBER
     private RoundedImageView g_iv_bottom_sheet_produk_edit_gambar;
-    private TextView g_tv_bottom_sheet_produk_edit_nama, g_tv_bottom_sheet_produk_edit_harga,
+    private EditText g_tv_bottom_sheet_produk_edit_nama, g_tv_bottom_sheet_produk_edit_harga,
             g_tv_bottom_sheet_produk_edit_stok, g_tv_bottom_sheet_produk_edit_berat;
     private Button g_btn_bottom_sheet_produk_edit_simpan, g_btn_bottom_sheet_produk_edit_hapus;
     private Bitmap g_bmp_bottom_sheet_produk_edit;
@@ -164,6 +173,22 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 g_choose_dialog.showChooseDialogAdd(g_context);
                 break;
             case R.id.apps_bottom_sheet_btn_tambah_add_produk:
+                Seller seller = new Seller();
+                seller.setId_seller(2);
+
+                PrdCategory prdCategory = new PrdCategory();
+                prdCategory.setId_prd_category(1);
+
+                Product tmpProduct = new Product();
+                tmpProduct.setProduct_name(g_tv_bottom_sheet_produk_add_nama.getText().toString());
+                tmpProduct.setPrice(Integer.parseInt(g_tv_bottom_sheet_produk_add_harga.getText().toString()));
+                tmpProduct.setStock(Integer.parseInt(g_tv_bottom_sheet_produk_add_stok.getText().toString()));
+                tmpProduct.setImage_path(encoder(pathh.toString()));
+                tmpProduct.setPrdCategory(prdCategory);
+                tmpProduct.setSeller(seller);
+
+                VolleyClass.insertProduct(g_context, tmpProduct);
+
                 g_bottomsheet_dialog.dismiss();
                 break;
             case R.id.apps_bottom_sheet_btn_batal_add_produk:
@@ -192,10 +217,10 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
         if(resultCode == RESULT_OK && data != null){
             if(requestCode == ChooseImageFromDialog.CODE_GALLERY_ADD_PRODUK){
-                Uri path = data.getData();
+                pathh = data.getData();
 
                 try {
-                    g_bmp_bottom_sheet_produk_add = MediaStore.Images.Media.getBitmap(g_context.getContentResolver(), path);
+                    g_bmp_bottom_sheet_produk_add = MediaStore.Images.Media.getBitmap(g_context.getContentResolver(), pathh);
                     g_iv_bottom_sheet_produk_add_gambar.setImageBitmap(g_bmp_bottom_sheet_produk_add);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -254,7 +279,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_btn_bottom_sheet_produk_edit_hapus = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_btn_hapus_edit_produk);
 
         //config imageview
-        g_iv_bottom_sheet_produk_edit_gambar.setImageDrawable(getResources().getDrawable(p_product.getBase64StringImage()));
+//        g_iv_bottom_sheet_produk_edit_gambar.setImageDrawable(getResources().getDrawable(p_product.getBase64StringImage()));
         g_iv_bottom_sheet_produk_edit_gambar.setOnClickListener(this);
 
         //config edittext
@@ -305,46 +330,28 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     }
     //endregion
 
-//    private void uploadImage(){
-//        RequestQueue rq = Volley.newRequestQueue(this);
-//        StringRequest stringRequest = new StringRequest(
-//                Request.Method.POST,
-//                "http://192.168.43.228:80/server/server.php",
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-//                            JSONObject obj = new JSONObject(response);
-//                            String res = obj.getString("response");
-//                            Toast.makeText(AddProdukActivity.this, res, Toast.LENGTH_SHORT).show();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                error.printStackTrace();
-//            }
-//        }
-//        ){
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> params = new HashMap<>();
-//                params.put("name", "coba");
-//                params.put("image", imageToString(bmp));
-//                return params;
-//            }
-//        };
-//
-//        rq.add(stringRequest);
-//    }
-
     public String imageToString(Bitmap bitmap){
         ByteArrayOutputStream bost = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100 ,bost);
         byte[] img = bost.toByteArray();
-        return Base64.encodeToString(img, Base64.DEFAULT);
+        return Base64.encodeToString(img, Base64.NO_WRAP);
+    }
+
+    public String encoder(String imagePath){
+        String base64Image = "";
+        File file = new File(imagePath);
+
+        try (FileInputStream imagee = new FileInputStream(file)){
+            byte imageData[] = new byte[(int) file.length()];
+            imagee.read(imageData);
+            base64Image = Base64.encodeToString(imageData, Base64.NO_WRAP);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return base64Image;
     }
 
 }

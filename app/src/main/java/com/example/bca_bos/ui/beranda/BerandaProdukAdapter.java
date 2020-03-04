@@ -62,7 +62,7 @@ public class BerandaProdukAdapter extends RecyclerView.Adapter<BerandaProdukAdap
         }
 
         public void setData(Product product){
-            l_iv_beranda_produk.setImageResource(product.getBase64StringImage());
+//            l_iv_beranda_produk.setImageResource(product.getBase64StringImage());
             l_tv_beranda_produk_nama.setText(product.getProduct_name());
             l_tv_beranda_produk_harga.setText(Method.getIndoCurrency(product.getPrice()));
             l_tv_beranda_produk_stok.setText("Stok : " + product.getStock());

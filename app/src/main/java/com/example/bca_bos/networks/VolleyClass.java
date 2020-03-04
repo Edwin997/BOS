@@ -1,7 +1,10 @@
 package com.example.bca_bos.networks;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -19,23 +22,35 @@ import com.android.volley.toolbox.Volley;
 import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.TemplatedText;
+import com.example.bca_bos.ui.template.TemplateAdapter;
+import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class VolleyClass {
 
+    private static final String TAG = "VOLLEY";
+    private static final String ERROR_MESSAGE_BERHASIL = "Berhasil";
+    private static final String ERROR_MESSAGE_GAGAL = "Gagal";
     private static RequestQueue g_requestqueue;
+    private static Gson gson = new Gson();
 
-    private final static  String BASE_URL = "http://10.1.132.151:8321";
+    private final static  String BASE_URL = "http://10.26.34.119:8321";
+//    private final static  String BASE_URL = "http://10.1.132.28/server/server.php";
     private final static String URL_TEMPLATED_TEXT = BASE_URL + "/bos/templateText";
     private final static String URL_PRODUCT = BASE_URL + "/bos/product";
     private final static String URL_LOGIN = BASE_URL + "/bos/login";
     private final static String URL_PROFILE = BASE_URL + "/bos/profile";
 
     //region TEMPLATED TEXT
-    public static void getTemplatedText(Context p_context, int p_id_seller){
+    public static void getTemplatedText(Context p_context, int p_id_seller, final TemplateAdapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         StringRequest request_json = new StringRequest(Request.Method.GET ,URL_TEMPLATED_TEXT + "/" + p_id_seller,
@@ -43,7 +58,16 @@ public class VolleyClass {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Log.d("VOLLEY", response);
+                            Log.d(TAG, response);
+
+                            String output = getOutputSchema(response);
+                            Log.d(TAG, output);
+
+//                            TemplatedText tempObject = gson.fromJson(response, TemplatedText.class);
+
+                            List<TemplatedText> tempObject = Arrays.asList(gson.fromJson(output, TemplatedText[].class));
+                            p_adapter.setListTemplate(tempObject);
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -58,7 +82,7 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
-    public static void insertTemplatedText(Context p_context, TemplatedText p_templatedtext){
+    public static void insertTemplatedText(final Context p_context, TemplatedText p_templatedtext){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -71,7 +95,16 @@ public class VolleyClass {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Log.d("VOLLEY", response.toString());
+                            Log.d(TAG, response.toString());
+                            String message = getErrorMessage(response.toString());
+                            if(message.equals(ERROR_MESSAGE_BERHASIL)){
+                                Toast.makeText(p_context, "Penambahan data template text berhasil", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(p_context, "Penambahan data template text gagal", Toast.LENGTH_SHORT).show();
+                            }
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -87,7 +120,7 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
-    public static void updateTemplatedText(Context p_context, TemplatedText p_templatedtext){
+    public static void updateTemplatedText(final Context p_context, TemplatedText p_templatedtext){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -101,7 +134,15 @@ public class VolleyClass {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Log.d("VOLLEY", response.toString());
+                            Log.d(TAG, response.toString());
+                            String message = getErrorMessage(response.toString());
+                            if(message.equals(ERROR_MESSAGE_BERHASIL)){
+                                Toast.makeText(p_context, "Pengubahan data template text berhasil", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(p_context, "Pengubahan data template text gagal", Toast.LENGTH_SHORT).show();
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -113,6 +154,37 @@ public class VolleyClass {
             }
         });
 
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void deleteTemplatedText(final Context p_context, int p_id_seller){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.DELETE ,URL_TEMPLATED_TEXT + "/" + p_id_seller,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            String message = getErrorMessage(response.toString());
+                            if(message.equals(ERROR_MESSAGE_BERHASIL)){
+                                Toast.makeText(p_context, "Hapus data template text berhasil", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(p_context, "Hapus data template text gagal", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                setErrorMessage(error);
+            }
+        });
 
         g_requestqueue.add(request_json);
     }
@@ -127,7 +199,7 @@ public class VolleyClass {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Log.d("VOLLEY", response);
+                            Log.d(TAG, response);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -142,7 +214,7 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
-    public static void insertProduct(Context p_context, Product p_product){
+    public static void insertProduct(final Context p_context, Product p_product){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -157,11 +229,16 @@ public class VolleyClass {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            Log.d("VOLLEY", response.toString());
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        Log.d(TAG, response.toString());
+                        String message = getErrorMessage(response.toString());
+                        if(message.equals(ERROR_MESSAGE_BERHASIL)){
+                            Toast.makeText(p_context, "Penambahan data product berhasil", Toast.LENGTH_SHORT).show();
                         }
+                        else
+                        {
+                            Toast.makeText(p_context, "Penambahan data product gagal", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -191,7 +268,7 @@ public class VolleyClass {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Log.d("VOLLEY", response.toString());
+                            Log.d(TAG, response.toString());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -221,7 +298,7 @@ public class VolleyClass {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Log.d("VOLLEY", response.toString());
+                            Log.d(TAG, response.toString());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -247,7 +324,7 @@ public class VolleyClass {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Log.d("VOLLEY", response);
+                            Log.d(TAG, response);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -278,7 +355,7 @@ public class VolleyClass {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Log.d("VOLLEY", response.toString());
+                            Log.d(TAG, response.toString());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -295,7 +372,7 @@ public class VolleyClass {
     }
     //endregion
 
-    private static void setErrorMessage(VolleyError volleyError){
+    public static void setErrorMessage(VolleyError volleyError){
         String message = "";
         if (volleyError instanceof NetworkError) {
             message = "Cannot connect to Internet...Please check your connection! (Network Error)";
@@ -310,6 +387,40 @@ public class VolleyClass {
         } else if (volleyError instanceof TimeoutError) {
             message = "Connection TimeOut! Please check your internet connection.";
         }
-        Log.d("COBA", message);
+        Log.d(TAG, message);
     }
+
+    public static String getOutputSchema(String p_response){
+        try {
+            JSONObject objGeneral = new JSONObject(p_response);
+            if(objGeneral.get("output_schema") instanceof JSONObject){
+                JSONObject tmpObject = objGeneral.getJSONObject("output_schema");
+                return tmpObject.toString();
+            }else if(objGeneral.get("output_schema") instanceof JSONArray){
+                JSONArray tmpArray = objGeneral.getJSONArray("output_schema");
+                return tmpArray.toString();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public static String getErrorMessage(String p_response){
+        try {
+            JSONObject objGeneral = new JSONObject(p_response);
+            if(objGeneral.get("error_schema") instanceof JSONObject){
+                JSONObject tmpObject = objGeneral.getJSONObject("error_schema");
+                JSONObject error_message = tmpObject.getJSONObject("error_message");
+
+                return error_message.getString("indonesian");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
 }
+
