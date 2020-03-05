@@ -13,7 +13,7 @@
         android:id="@+id/iv_popup_beranda_produk_item"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        app:riv_corner_radius="50dp"
+        app:riv_corner_radius="10dp"
         android:scaleType="fitXY"
         android:src="@drawable/shoes_red_jordan"/>
 
