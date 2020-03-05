@@ -69,10 +69,11 @@
             android:padding="4dp"
             android:drawableLeft="@drawable/ic_keyboard_stok_produk"
             android:gravity="left|center_vertical"
-            android:text="Stok Produk"
-            android:textAlignment="center"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/montserrat_black"
+            android:text="Stok\nProduk"
             android:textColor="@color/dark_white"
-            android:textSize="8dp"
+            android:textSize="7dp"
             android:textStyle="bold"
             android:background="@android:color/transparent"/>
 
@@ -83,11 +84,12 @@
             android:layout_width="0dp"
             android:padding="4dp"
             android:drawableLeft="@drawable/ic_bcabos_cek_ongkir"
+            android:drawablePadding="8dp"
             android:gravity="left|center_vertical"
-            android:text=" Cek Ongkir"
-            android:textAlignment="center"
+            android:fontFamily="@font/montserrat_black"
+            android:text="Cek\nOngkir"
             android:textColor="@color/dark_white"
-            android:textSize="8dp"
+            android:textSize="7dp"
             android:textStyle="bold"
             android:background="@android:color/transparent"/>
 
@@ -98,11 +100,12 @@
             android:layout_width="0dp"
             android:padding="4dp"
             android:drawableLeft="@drawable/ic_bcabos_kirim_form"
+            android:drawablePadding="8dp"
             android:gravity="left|center_vertical"
-            android:text="Kirim Formulir"
-            android:textAlignment="center"
+            android:fontFamily="@font/montserrat_black"
+            android:text="Kirim\nFormulir"
             android:textColor="@color/dark_white"
-            android:textSize="8dp"
+            android:textSize="7dp"
             android:textStyle="bold"
             android:background="@android:color/transparent"/>
 
@@ -113,11 +116,12 @@
             android:layout_width="0dp"
             android:padding="4dp"
             android:drawableLeft="@drawable/ic_bcabos_cek_mutasi"
+            android:drawablePadding="8dp"
             android:gravity="left|center_vertical"
-            android:text="Cek Mutasi"
-            android:textAlignment="center"
+            android:fontFamily="@font/montserrat_black"
+            android:text="Cek\nMutasi"
             android:textColor="@color/dark_white"
-            android:textSize="8dp"
+            android:textSize="7dp"
             android:textStyle="bold"
             android:background="@android:color/transparent"/>
     </LinearLayout>
@@ -370,10 +374,11 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:background="@drawable/style_gradient_color_rounded_box"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="CEK ONGKOS KIRIM"
                 android:textAlignment="center"
                 android:textColor="@color/dark_white"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
             <ImageButton
@@ -403,7 +408,6 @@
             android:id="@+id/bcabos_stok_search_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:gravity="center"
             android:orientation="horizontal"
             android:visibility="visible"
@@ -458,7 +462,6 @@
             android:layout_marginBottom="8dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingRight="16dp"
             android:visibility="visible">
 
             <Spinner
@@ -571,10 +574,11 @@
                 android:background="@drawable/style_gradient_color_rounded_box"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="NEXT"
                 android:textAlignment="center"
                 android:textColor="@color/dark_white"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -828,10 +832,11 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:background="@drawable/style_gradient_color_rounded_box"
-                android:text="KIRIM FORM"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="KIRIM FORMULIR"
                 android:textAlignment="center"
                 android:textColor="@color/dark_white"
-                android:textSize="16dp"
+                android:textSize="13dp"
                 android:textStyle="bold" />
 
             <ImageButton
@@ -877,15 +882,15 @@
                 android:src="@drawable/ic_keyboard_back_gradient"/>
 
             <TextView
-                android:layout_weight="8"
+                android:layout_weight="6"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="Mutasi Rekening"
                 android:textColor="@color/dark_blue"
                 android:textSize="16dp"
-                android:textStyle="bold"
-                android:inputType="number"/>
+                android:textStyle="bold"/>
 
         </LinearLayout>
 

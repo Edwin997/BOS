@@ -6,6 +6,8 @@
     android:layout_height="wrap_content"
     android:paddingLeft="4dp"
     android:paddingRight="4dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
     app:cardCornerRadius="10dp"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true"
@@ -44,11 +46,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
+                android:layout_marginTop="-4dp"
+                android:fontFamily="@font/montserrat_regular"
                 android:text="12/12/2020"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/white"
-                android:textSize="14dp"/>
+                android:textSize="12dp"/>
 
         </LinearLayout>
 
@@ -79,12 +83,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="14dp"
+                android:layout_marginTop="-4dp"
                 android:layout_gravity="end"
+                android:fontFamily="@font/montserrat_regular"
                 android:text="Done"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/black"
-                android:textSize="14dp" />
+                android:textSize="12dp" />
 
 
         </LinearLayout>
