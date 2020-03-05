@@ -14,6 +14,8 @@
         android:background="@drawable/style_gradient_color_box"
         android:orientation="horizontal">
 
+
+
         <ImageButton
             android:id="@+id/bcabos_extended_home_button"
             android:layout_width="0dp"
@@ -21,7 +23,7 @@
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:padding="16dp"
-            android:src="@drawable/bos_logo_white" />
+            android:src="@drawable/bos_logo_round" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/bcabos_extended_home_recyclerview"

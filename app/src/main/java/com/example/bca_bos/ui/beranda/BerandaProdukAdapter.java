@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,13 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
+import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Produk;
 
 import java.util.List;
 
-public class BerandaProdukAdapter extends RecyclerView.Adapter<BerandaProdukAdapter.BerandaProdukViewHolder> {
+public class BerandaProdukAdapter extends RecyclerView.Adapter<BerandaProdukAdapter.BerandaProdukViewHolder> implements OnCallBackListener {
 
     private List<Produk> g_list_produk;
+    private OnCallBackListener g_parent_oncallbacklistener;
 
     public BerandaProdukAdapter(){
         g_list_produk = ListProdukDummy.produkList;
@@ -31,7 +34,7 @@ public class BerandaProdukAdapter extends RecyclerView.Adapter<BerandaProdukAdap
         View l_view = tmp_layout.inflate(R.layout.item_apps_beranda_produk, parent, false);
 
         BerandaProdukAdapter.BerandaProdukViewHolder tmpHolder = new BerandaProdukAdapter.BerandaProdukViewHolder(l_view);
-//        tmpHolder.setParentOnCallBack(this);
+        tmpHolder.setParentOnCallBack(this);
         return tmpHolder;
     }
 
@@ -45,27 +48,59 @@ public class BerandaProdukAdapter extends RecyclerView.Adapter<BerandaProdukAdap
         return g_list_produk.size();
     }
 
-    public class BerandaProdukViewHolder extends RecyclerView.ViewHolder {
+    public void setParentOnCallBack(OnCallBackListener p_oncallback){
+        this.g_parent_oncallbacklistener = p_oncallback;
+    }
+
+    @Override
+    public void OnCallBack(Object p_obj) {
+        if(g_parent_oncallbacklistener != null){
+            g_parent_oncallbacklistener.OnCallBack(p_obj);
+        }
+    }
+
+    public class BerandaProdukViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private LinearLayout l_ll_container_beranda_produk;
 
         private ImageView l_iv_beranda_produk;
         private TextView l_tv_beranda_produk_nama, l_tv_beranda_produk_harga, l_tv_beranda_produk_stok;
         private Produk l_produk;
 
+        private OnCallBackListener l_parent_oncallbacklistener;
+
         public BerandaProdukViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            l_ll_container_beranda_produk = itemView.findViewById(R.id.ll_apps_beranda_produk_item);
             l_iv_beranda_produk = itemView.findViewById(R.id.iv_apps_beranda_produk_item);
             l_tv_beranda_produk_nama = itemView.findViewById(R.id.tv_apps_beranda_produk_nama_item);
             l_tv_beranda_produk_harga = itemView.findViewById(R.id.tv_apps_beranda_produk_harga_item);
             l_tv_beranda_produk_stok = itemView.findViewById(R.id.tv_apps_beranda_produk_stok_item);
 
+            l_ll_container_beranda_produk.setOnClickListener(this);
+
         }
 
         public void setData(Produk produk){
+            l_produk = produk;
             l_iv_beranda_produk.setImageResource(produk.getGambar());
             l_tv_beranda_produk_nama.setText(produk.getNama());
             l_tv_beranda_produk_harga.setText(Method.getIndoCurrency(produk.getHarga()));
             l_tv_beranda_produk_stok.setText("Stok : " + produk.getStok());
+        }
+
+        public void setParentOnCallBack(OnCallBackListener p_oncallback){
+            this.l_parent_oncallbacklistener = p_oncallback;
+        }
+
+        @Override
+        public void onClick(View view) {
+            if(view == l_ll_container_beranda_produk){
+                if(l_parent_oncallbacklistener != null){
+                    l_parent_oncallbacklistener.OnCallBack(l_produk);
+                }
+            }
         }
     }
 }

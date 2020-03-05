@@ -23,10 +23,8 @@
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_gravity="center"
-        android:background="@drawable/style_gradient_color_rounded_box_blue"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_apps_add_filled_white"
-        app:riv_corner_radius="20dp"/>
+        android:background="@drawable/ic_apps_add_filled_white"
+        app:riv_corner_radius="40dp"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -137,7 +135,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 

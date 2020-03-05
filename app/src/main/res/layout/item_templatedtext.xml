@@ -9,6 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Selamat Datang"
+        android:textSize="12dp"
+        android:textStyle="bold"
         android:layout_gravity="center"
         android:gravity="center"
         android:paddingStart="10dp"
@@ -19,8 +21,8 @@
 
     <View
         android:id="@+id/keyboard_template_divider"
-        android:layout_width="1dp"
-        android:layout_height="25dp"
+        android:layout_width="2dp"
+        android:layout_height="8dp"
         android:layout_gravity="center_vertical"
         android:background="@color/dark_white"/>
 </LinearLayout>

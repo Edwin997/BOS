@@ -1,22 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:appt="http://schemas.android.com/aapt"
-    android:width="24dp"
-    android:height="24dp"
-    android:viewportWidth="24.0"
-    android:viewportHeight="24.0">
-    <path
-        android:pathData="M11,9l1.42,1.42L8.83,14H18V4h2v12H8.83l3.59,3.58L11,21l-6,-6 6,-6z">
+    android:width="18dp"
+    android:height="18dp"
+    android:viewportWidth="484.5"
+    android:viewportHeight="484.5">
 
-        <appt:attr name="android:fillColor">
+<path
+    android:pathData="M392.79,0H381.33a34,34,0,0,0-34,34V261.55H157l69.1-69.1a34,34,0,0,0,0-48.12l-8.1-8.1a34,34,0,0,0-48.12,0l-145,145a34.21,34.21,0,0,0,0,48.27l145,145a34,34,0,0,0,48.12,0l8.1-8.1a34,34,0,0,0,0-48.12l-77.27-77.27H392.79a34,34,0,0,0,34-34V34A34,34,0,0,0,392.79,0Z">
 
-            <gradient
-                android:gradientRadius="12"
-                android:type="radial"
-                android:angle="0"
-                android:endColor="#1485D1"
-                android:startColor="#005FAF" />
+    <appt:attr name="android:fillColor">
 
-        </appt:attr>
+        <gradient
+            android:gradientRadius="550"
+            android:type="radial"
+            android:angle="0"
+            android:endColor="#1485D1"
+            android:startColor="#005FAF" />
 
-    </path>
+    </appt:attr>
+
+</path>
 </vector>

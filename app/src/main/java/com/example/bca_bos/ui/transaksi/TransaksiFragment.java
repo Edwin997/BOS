@@ -238,13 +238,15 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
 
         SpannableString tmpCustomSizeText=  new SpannableString(p_centertext);
         tmpCustomSizeText.setSpan(new RelativeSizeSpan(2f), 0, tmpLength, 0);
-        tmpCustomSizeText.setSpan(new ForegroundColorSpan(getResources().getColor(p_colortemplate[0])), 0, tmpLength, 0);
+//        tmpCustomSizeText.setSpan(new ForegroundColorSpan(getResources().getColor(p_colortemplate[0])), 0, tmpLength, 0);
         tmpCustomSizeText.setSpan(new StyleSpan(Typeface.BOLD), 0, tmpLength, 0);
 
         l_transaksi_piechart_dataset.setColors(ColorTemplate.createColors(getResources(), p_colortemplate));
         g_transaksi_fragment_piechart.setCenterText(tmpCustomSizeText);
         g_transaksi_fragment_piechart.setCenterTextSize(18);
         g_transaksi_fragment_piechart.setCenterTextColor(getResources().getColor(R.color.white));
+
+
 
         g_transaksi_fragment_piechart.setData(l_transaksi_piechart_data);
         g_transaksi_fragment_piechart.setDrawEntryLabels(false);

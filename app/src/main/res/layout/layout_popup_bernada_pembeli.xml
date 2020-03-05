@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_gravity="center"
+    android:gravity="center_horizontal"
+    android:background="@drawable/style_gradient_color_rounded_box_black">
+
+    <TextView
+        android:id="@+id/tv_popup_beranda_pembeli_nama_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="2"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="William"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_popup_beranda_pembeli_nominal_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Rp.200.000"
+        android:textColor="@color/blue"
+        android:textStyle="bold"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/tv_popup_beranda_pembeli_transaksi_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:fontFamily="@font/montserrat_regular"
+        android:text="20 Transaksi"
+        android:textColor="@color/white"
+        android:textSize="12dp" />
+
+    <Button
+        android:id="@+id/btn_popup_beranda_pembeli_close"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/style_gradient_color_rounded_box_new_red"
+        android:text="Close"
+        android:textColor="@color/white"
+        android:textStyle="bold"/>
+
+</LinearLayout>
