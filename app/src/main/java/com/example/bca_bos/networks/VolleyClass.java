@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.TemplatedText;
+import com.example.bca_bos.ui.produk.ProdukAdapter;
 import com.example.bca_bos.ui.template.TemplateAdapter;
 import com.google.gson.Gson;
 
@@ -82,7 +83,7 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
-    public static void insertTemplatedText(final Context p_context, TemplatedText p_templatedtext){
+    public static void insertTemplatedText(final Context p_context, final TemplatedText p_templatedtext, final TemplateAdapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -99,6 +100,7 @@ public class VolleyClass {
                             String message = getErrorMessage(response.toString());
                             if(message.equals(ERROR_MESSAGE_BERHASIL)){
                                 Toast.makeText(p_context, "Penambahan data template text berhasil", Toast.LENGTH_SHORT).show();
+                                getTemplatedText(p_context, p_templatedtext.getId_template_text(), p_adapter);
                             }
                             else
                             {
@@ -120,7 +122,7 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
-    public static void updateTemplatedText(final Context p_context, TemplatedText p_templatedtext){
+    public static void updateTemplatedText(final Context p_context, final TemplatedText p_templatedtext, final TemplateAdapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -138,6 +140,7 @@ public class VolleyClass {
                             String message = getErrorMessage(response.toString());
                             if(message.equals(ERROR_MESSAGE_BERHASIL)){
                                 Toast.makeText(p_context, "Pengubahan data template text berhasil", Toast.LENGTH_SHORT).show();
+                                getTemplatedText(p_context, p_templatedtext.getId_template_text(), p_adapter);
                             }
                             else
                             {
@@ -158,7 +161,7 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
-    public static void deleteTemplatedText(final Context p_context, int p_id_seller){
+    public static void deleteTemplatedText(final Context p_context, final int p_id_seller, final TemplateAdapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         StringRequest request_json = new StringRequest(Request.Method.DELETE ,URL_TEMPLATED_TEXT + "/" + p_id_seller,
@@ -169,6 +172,7 @@ public class VolleyClass {
                             String message = getErrorMessage(response.toString());
                             if(message.equals(ERROR_MESSAGE_BERHASIL)){
                                 Toast.makeText(p_context, "Hapus data template text berhasil", Toast.LENGTH_SHORT).show();
+                                getTemplatedText(p_context, p_id_seller, p_adapter);
                             }
                             else
                             {
@@ -191,7 +195,7 @@ public class VolleyClass {
     //endregion
 
     //region PRODUCT
-    public static void getProduct(Context p_context, int p_id_seller){
+    public static void getProduct(Context p_context, int p_id_seller, final ProdukAdapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PRODUCT + "/" + p_id_seller,
@@ -200,6 +204,14 @@ public class VolleyClass {
                     public void onResponse(String response) {
                         try {
                             Log.d(TAG, response);
+
+                            String output = getOutputSchema(response);
+                            Log.d(TAG, output);
+
+//                            TemplatedText tempObject = gson.fromJson(response, TemplatedText.class);
+
+                            List<Product> tempObject = Arrays.asList(gson.fromJson(output, Product[].class));
+                            p_adapter.setDatasetProduk(tempObject);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -214,8 +226,10 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
-    public static void insertProduct(final Context p_context, Product p_product){
+    public static void insertProduct(final Context p_context, final Product p_product, final ProdukAdapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
+
+        Log.d(TAG, p_product.getImage_path());
 
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("id_seller", String.valueOf(p_product.getSeller().getId_seller()));
@@ -223,7 +237,7 @@ public class VolleyClass {
         params.put("product_name", p_product.getProduct_name());
         params.put("price", String.valueOf(p_product.getPrice()));
         params.put("stock", String.valueOf(p_product.getStock()));
-        params.put("base64StringImage", String.valueOf(p_product.getImage_path()));
+        params.put("base64StringImage", p_product.getImage_path());
 
         JsonObjectRequest request_json = new JsonObjectRequest(URL_PRODUCT, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
@@ -233,6 +247,7 @@ public class VolleyClass {
                         String message = getErrorMessage(response.toString());
                         if(message.equals(ERROR_MESSAGE_BERHASIL)){
                             Toast.makeText(p_context, "Penambahan data product berhasil", Toast.LENGTH_SHORT).show();
+                            getProduct(p_context, p_product.getSeller().getId_seller(), p_adapter);
                         }
                         else
                         {
@@ -251,7 +266,7 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
-    public static void updateProduct(Context p_context, Product p_product){
+    public static void updateProduct(final Context p_context, final Product p_product, final ProdukAdapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -261,16 +276,21 @@ public class VolleyClass {
         params.put("product_name", p_product.getProduct_name());
         params.put("price", String.valueOf(p_product.getPrice()));
         params.put("stock", String.valueOf(p_product.getStock()));
-        params.put("base64StringImage", String.valueOf(p_product.getImage_path()));
+        params.put("base64StringImage", p_product.getImage_path());
 
         JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.PUT, URL_PRODUCT, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            Log.d(TAG, response.toString());
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        Log.d(TAG, response.toString());
+                        String message = getErrorMessage(response.toString());
+                        if(message.equals(ERROR_MESSAGE_BERHASIL)){
+                            Toast.makeText(p_context, "Pengubahan data product berhasil", Toast.LENGTH_SHORT).show();
+                            getProduct(p_context, p_product.getSeller().getId_seller(), p_adapter);
+                        }
+                        else
+                        {
+                            Toast.makeText(p_context, "Pengubahan data product gagal", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {

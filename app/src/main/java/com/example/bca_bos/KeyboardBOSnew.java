@@ -249,7 +249,12 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         switch (primaryCode){
             case KEYCODE_CHANGE_NUMBER_SYMBOL:
                 IS_SYMBOL1 = !IS_SYMBOL1;
-                setKeyboardType(selectedText.length());
+                if(selectedText != null){
+                    setKeyboardType(selectedText.length());
+                }else{
+                    setKeyboardType(0);
+                }
+
                 break;
             case Keyboard.KEYCODE_DONE:
                 doneAction(l_inputconnection);
@@ -257,7 +262,11 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             case Keyboard.KEYCODE_MODE_CHANGE :
                 IS_SYMBOL1 = true;
                 IS_ALPHABET = !IS_ALPHABET;
-                setKeyboardType(selectedText.length());
+                if(selectedText != null){
+                    setKeyboardType(selectedText.length());
+                }else{
+                    setKeyboardType(0);
+                }
                 break;
             case Keyboard.KEYCODE_DELETE :
                 deleteKeyPressed(l_inputconnection, selectedText);
@@ -914,7 +923,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 showAsalMenu();
                 IS_ALPHABET = true;
                 KEYCODE_DONE_TYPE = KEY_NEXT;
-                setKeyboardType(g_actv_ongkir_asal.getText().length());
+                    setKeyboardType(g_actv_ongkir_asal.getText().length());
                 break;
             case R.id.bcabos_ongkir_tujuan_auto_complete_text_view:
                 focusedEditText = KEY_ET_ONGKIR_TUJUAN;

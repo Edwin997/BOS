@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,10 +36,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -56,6 +52,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     private View g_view;
     private ChooseImageFromDialog g_choose_dialog;
     private BottomSheetDialog g_bottomsheet_dialog;
+    Product g_product_onclick;
 
     //FRAGMENT SECTION DATA MEMBER
     private LinearLayout g_produk_fragment_ll_add_button;
@@ -74,6 +71,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     private Button g_btn_bottom_sheet_produk_add_tambah, g_btn_bottom_sheet_produk_add_batal;
     private Bitmap g_bmp_bottom_sheet_produk_add;
     private Uri pathh;
+    private URI pathhhh;
 
     //EDIT BOTTOM SHEET PRODUK DATA MEMBER
     private RoundedImageView g_iv_bottom_sheet_produk_edit_gambar;
@@ -106,6 +104,9 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         //config recyclerview
         g_linearlayoutmanager = new LinearLayoutManager(g_context);
         g_produkadapter = new ProdukAdapter();
+
+        VolleyClass.getProduct(g_context, 2, g_produkadapter);
+
         g_produkadapter.setParentOnCallBack(this);
         g_produkfragment_recyclerview.setAdapter(g_produkadapter);
         g_produkfragment_recyclerview.setLayoutManager(g_linearlayoutmanager);
@@ -133,8 +134,8 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     @Override
     public void OnCallBack(Object p_obj) {
         if(p_obj instanceof Product) {
-            Product tmpProduct = (Product) p_obj;
-            showBottomSheetEditProduk(tmpProduct);
+            g_product_onclick = (Product) p_obj;
+            showBottomSheetEditProduk(g_product_onclick);
         }
         else if(p_obj instanceof Integer){
             int tmpCode = (int)p_obj;
@@ -183,11 +184,11 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 tmpProduct.setProduct_name(g_tv_bottom_sheet_produk_add_nama.getText().toString());
                 tmpProduct.setPrice(Integer.parseInt(g_tv_bottom_sheet_produk_add_harga.getText().toString()));
                 tmpProduct.setStock(Integer.parseInt(g_tv_bottom_sheet_produk_add_stok.getText().toString()));
-                tmpProduct.setImage_path(encoder(pathh.toString()));
+                tmpProduct.setImage_path(imageToString(g_bmp_bottom_sheet_produk_add));
                 tmpProduct.setPrdCategory(prdCategory);
                 tmpProduct.setSeller(seller);
 
-                VolleyClass.insertProduct(g_context, tmpProduct);
+                VolleyClass.insertProduct(g_context, tmpProduct, g_produkadapter);
 
                 g_bottomsheet_dialog.dismiss();
                 break;
@@ -201,7 +202,22 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 g_choose_dialog.showChooseDialogEdit(g_context);
                 break;
             case R.id.apps_bottom_sheet_btn_simpan_edit_produk:
+                Seller selleredit = new Seller();
+                selleredit.setId_seller(2);
+
+                PrdCategory prdCategoryedit = new PrdCategory();
+                prdCategoryedit.setId_prd_category(1);
+
+                Product tmpProductedit = new Product();
+                tmpProductedit.setId_product(g_product_onclick.getId_product());
+                tmpProductedit.setProduct_name(g_tv_bottom_sheet_produk_edit_nama.getText().toString());
+                tmpProductedit.setPrice(Integer.parseInt(g_tv_bottom_sheet_produk_edit_harga.getText().toString()));
+                tmpProductedit.setStock(Integer.parseInt(g_tv_bottom_sheet_produk_edit_stok.getText().toString()));
+                tmpProductedit.setImage_path(imageToString(g_bmp_bottom_sheet_produk_edit));
+                tmpProductedit.setPrdCategory(prdCategoryedit);
+                tmpProductedit.setSeller(selleredit);
                 g_bottomsheet_dialog.dismiss();
+                VolleyClass.updateProduct(g_context, tmpProductedit, g_produkadapter);
                 break;
             case R.id.apps_bottom_sheet_btn_hapus_edit_produk:
                 g_bottomsheet_dialog.dismiss();
@@ -334,24 +350,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         ByteArrayOutputStream bost = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100 ,bost);
         byte[] img = bost.toByteArray();
-        return Base64.encodeToString(img, Base64.NO_WRAP);
+        String temp = Base64.encodeToString(img, Base64.NO_WRAP);
+        return temp;
     }
-
-    public String encoder(String imagePath){
-        String base64Image = "";
-        File file = new File(imagePath);
-
-        try (FileInputStream imagee = new FileInputStream(file)){
-            byte imageData[] = new byte[(int) file.length()];
-            imagee.read(imageData);
-            base64Image = Base64.encodeToString(imageData, Base64.NO_WRAP);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return base64Image;
-    }
-
 }

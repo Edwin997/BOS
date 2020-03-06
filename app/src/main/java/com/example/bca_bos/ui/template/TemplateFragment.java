@@ -84,7 +84,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
                     tmpTemplate.setTemplate_code(l_et_edit_templated_label_add.getText().toString());
                     tmpTemplate.setText(l_et_edit_templated_deskripsi_add.getText().toString());
                     tmpTemplate.setSeller(s);
-                    VolleyClass.insertTemplatedText(g_context, tmpTemplate);
+                    VolleyClass.insertTemplatedText(g_context, tmpTemplate, g_templateadapter);
                     refreshData();
                     g_bottomsheet_dialog.dismiss();
                 }
@@ -132,7 +132,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
                     tmpTemplate.setTemplate_code(l_et_edit_templated_label_edit.getText().toString());
                     tmpTemplate.setText(l_et_edit_templated_deskripsi_edit.getText().toString());
                     tmpTemplate.setSeller(s);
-                    VolleyClass.updateTemplatedText(g_context, tmpTemplate);
+                    VolleyClass.updateTemplatedText(g_context, tmpTemplate, g_templateadapter);
                     refreshData();
                     g_bottomsheet_dialog.dismiss();
                 }
@@ -141,7 +141,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
             l_btn_templated_hapus_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    VolleyClass.deleteTemplatedText(g_context, l_template.getId_template_text());
+                    VolleyClass.deleteTemplatedText(g_context, l_template.getId_template_text(), g_templateadapter);
                     g_bottomsheet_dialog.dismiss();
                 }
             });
