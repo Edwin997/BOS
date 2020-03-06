@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View p_view) {
         switch (p_view.getId()){
             case R.id.login_login_button:
-                Intent tmp_login_intent = new Intent(LoginActivity.this, OTPActivity.class);
+                Intent tmp_login_intent = new Intent(LoginActivity.this, ApplicationContainer.class);
                 startActivity(tmp_login_intent);
                 overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
                 break;

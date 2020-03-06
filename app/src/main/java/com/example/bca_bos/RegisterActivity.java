@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
                 break;
             case R.id.register_register_button:
-                Intent tmp_register_intent = new Intent(RegisterActivity.this, ApplicationContainer.class);
+                Intent tmp_register_intent = new Intent(RegisterActivity.this, OTPActivity.class);
                 startActivity(tmp_register_intent);
                 overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                 finish();

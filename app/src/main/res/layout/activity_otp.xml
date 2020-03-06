@@ -73,7 +73,7 @@
         android:layout_marginRight="64dp"
         android:background="@drawable/style_gradient_color_rounded_box"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Login"
+        android:text="Register"
         android:textColor="@color/white"
         android:textStyle="bold" />
 

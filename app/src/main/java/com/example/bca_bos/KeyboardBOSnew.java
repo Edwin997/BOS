@@ -258,7 +258,11 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             case Keyboard.KEYCODE_MODE_CHANGE :
                 IS_SYMBOL1 = true;
                 IS_ALPHABET = !IS_ALPHABET;
-                setKeyboardType(selectedText.length());
+                if (selectedText == null){
+                    setKeyboardType(0);
+                }else if (selectedText != null){
+                    setKeyboardType(selectedText.length());
+                }
                 break;
             case Keyboard.KEYCODE_DELETE :
                 deleteKeyPressed(l_inputconnection, selectedText);
