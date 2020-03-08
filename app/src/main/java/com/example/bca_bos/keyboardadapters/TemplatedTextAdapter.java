@@ -31,7 +31,7 @@ public class TemplatedTextAdapter extends RecyclerView.Adapter<TemplatedTextAdap
     public TemplatedTextViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         g_context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(g_context);
-        View view = inflater.inflate(R.layout.item_templatedtext, parent, false);
+        View view = inflater.inflate(R.layout.item_keyboard_templatedtext, parent, false);
         TemplatedTextViewHolder ttvh = new TemplatedTextViewHolder(view);
         ttvh.setParentOnCallBack(this);
         return ttvh;

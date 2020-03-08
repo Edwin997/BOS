@@ -46,8 +46,11 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
     private Context g_context;
     private View g_view;
 
+    //Tombol tab status transaksi
     private Button g_btn_tab_semua, g_btn_tab_pesanan_baru, g_btn_tab_pesanan_dibayar,
             g_btn_tab_pesanan_dikirim, g_btn_tab_selesai;
+    private View g_view_tab_semua, g_view_tab_pesanan_baru, g_view_tab_pesanan_dibayar,
+            g_view_tab_pesanan_dikirim, g_view_tab_selesai;
 
     private ImageView g_transaksi_iv;
 
@@ -70,6 +73,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
     public final int KEY_STATUS_SEMUA = 4;
 
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -88,12 +92,19 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         g_transaksi_fragment_piechart = g_view.findViewById(R.id.apps_transaksi_filterdetail_piechart);
         g_percentage = g_list_transaksi.size();
 
+        //Inisialisasi Tab
         g_btn_tab_pesanan_baru = g_view.findViewById(R.id.apps_transaksi_fragment_tab_btn_pesanan_baru);
         g_btn_tab_pesanan_dibayar = g_view.findViewById(R.id.apps_transaksi_fragment_tab_btn_pesanan_dibayar);
         g_btn_tab_pesanan_dikirim = g_view.findViewById(R.id.apps_transaksi_fragment_tab_btn_pesanan_dikirim);
         g_btn_tab_selesai = g_view.findViewById(R.id.apps_transaksi_fragment_tab_btn_transaksi_selesai);
         g_btn_tab_semua = g_view.findViewById(R.id.apps_transaksi_fragment_tab_btn_semua_transaksi);
         g_transaksi_iv = g_view.findViewById(R.id.apps_transaksi_image_view);
+        g_view_tab_pesanan_baru = g_view.findViewById(R.id.apps_transaksi_underline_pesanan_baru);
+        g_view_tab_pesanan_dibayar = g_view.findViewById(R.id.apps_transaksi_underline_pesanan_dibayar);
+        g_view_tab_pesanan_dikirim = g_view.findViewById(R.id.apps_transaksi_underline_pesanan_dikirim);
+        g_view_tab_selesai = g_view.findViewById(R.id.apps_transaksi_underline_transaksi_selesai);
+        g_view_tab_semua = g_view.findViewById(R.id.apps_transaksi_underline_semua_transaksi);
+
 
         g_btn_tab_pesanan_baru.setOnClickListener(this);
         g_btn_tab_pesanan_dikirim.setOnClickListener(this);
@@ -181,42 +192,47 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         refreshButton();
         if(FLAG_FRAGMENT_TYPE == KEY_STATUS_BARUMASUK){
             g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_red_layered);
-            g_btn_tab_pesanan_baru.setTextColor(g_context.getResources().getColor(R.color.white));
-            g_btn_tab_pesanan_baru.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_red));
+            g_btn_tab_pesanan_baru.setTextColor(g_context.getResources().getColor(R.color.red));
+//            g_btn_tab_pesanan_baru.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_red));
+            g_view_tab_pesanan_baru.setVisibility(View.VISIBLE);
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIBAYAR){
             g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_yellow_layered);
-            g_btn_tab_pesanan_dibayar.setTextColor(g_context.getResources().getColor(R.color.white));
-            g_btn_tab_pesanan_dibayar.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_yellow));
+            g_btn_tab_pesanan_dibayar.setTextColor(g_context.getResources().getColor(R.color.yellow));
+//            g_btn_tab_pesanan_dibayar.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_yellow));
+            g_view_tab_pesanan_dibayar.setVisibility(View.VISIBLE);
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIKIRIM){
             g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_blue_layered);
-            g_btn_tab_pesanan_dikirim.setTextColor(g_context.getResources().getColor(R.color.white));
-            g_btn_tab_pesanan_dikirim.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_blue));
+            g_btn_tab_pesanan_dikirim.setTextColor(g_context.getResources().getColor(R.color.blue));
+//            g_btn_tab_pesanan_dikirim.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_blue));
+            g_view_tab_pesanan_dikirim.setVisibility(View.VISIBLE);
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SELESAI){
             g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_green_layered);
-            g_btn_tab_selesai.setTextColor(g_context.getResources().getColor(R.color.white));
-            g_btn_tab_selesai.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_green));
+            g_btn_tab_selesai.setTextColor(g_context.getResources().getColor(R.color.green));
+//            g_btn_tab_selesai.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_green));
+            g_view_tab_selesai.setVisibility(View.VISIBLE);
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SEMUA){
             g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_black_layered);
-            g_btn_tab_semua.setTextColor(g_context.getResources().getColor(R.color.white));
-            g_btn_tab_semua.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
+            g_btn_tab_semua.setTextColor(g_context.getResources().getColor(R.color.black));
+//            g_btn_tab_semua.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
+            g_view_tab_semua.setVisibility(View.VISIBLE);
         }
     }
 
     private void refreshButton(){
-        g_btn_tab_pesanan_baru.setTextColor(g_context.getResources().getColor(R.color.red));
-        g_btn_tab_pesanan_baru.setBackgroundColor(g_context.getResources().getColor(R.color.white));
-        g_btn_tab_pesanan_dibayar.setTextColor(g_context.getResources().getColor(R.color.yellow));
-        g_btn_tab_pesanan_dibayar.setBackgroundColor(g_context.getResources().getColor(R.color.white));
-        g_btn_tab_pesanan_dikirim.setTextColor(g_context.getResources().getColor(R.color.blue));
-        g_btn_tab_pesanan_dikirim.setBackgroundColor(g_context.getResources().getColor(R.color.white));
-        g_btn_tab_selesai.setTextColor(g_context.getResources().getColor(R.color.green));
-        g_btn_tab_selesai.setBackgroundColor(g_context.getResources().getColor(R.color.white));
-        g_btn_tab_semua.setTextColor(g_context.getResources().getColor(R.color.black));
-        g_btn_tab_semua.setBackgroundColor(g_context.getResources().getColor(R.color.white));
+        g_btn_tab_pesanan_baru.setTextColor(g_context.getResources().getColor(R.color.grey));
+        g_view_tab_pesanan_baru.setVisibility(View.GONE);
+        g_btn_tab_pesanan_dibayar.setTextColor(g_context.getResources().getColor(R.color.grey));
+        g_view_tab_pesanan_dibayar.setVisibility(View.GONE);
+        g_btn_tab_pesanan_dikirim.setTextColor(g_context.getResources().getColor(R.color.grey));
+        g_view_tab_pesanan_dikirim.setVisibility(View.GONE);
+        g_btn_tab_selesai.setTextColor(g_context.getResources().getColor(R.color.grey));
+        g_view_tab_selesai.setVisibility(View.GONE);
+        g_btn_tab_semua.setTextColor(g_context.getResources().getColor(R.color.grey));
+        g_view_tab_semua.setVisibility(View.GONE);
     }
 
     public void drawPieChart(int[] p_colortemplate, String p_centertext){

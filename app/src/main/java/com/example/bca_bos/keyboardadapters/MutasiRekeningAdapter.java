@@ -47,7 +47,7 @@ public class MutasiRekeningAdapter extends RecyclerView.Adapter<MutasiRekeningAd
     public MutasiRekeningViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         g_context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(g_context);
-        View view = inflater.inflate(R.layout.item_mutasirekening, parent, false);
+        View view = inflater.inflate(R.layout.item_keyboard_mutasirekening, parent, false);
         MutasiRekeningAdapter.MutasiRekeningViewHolder mrvh = new MutasiRekeningAdapter.MutasiRekeningViewHolder(view);
 
         return mrvh;
