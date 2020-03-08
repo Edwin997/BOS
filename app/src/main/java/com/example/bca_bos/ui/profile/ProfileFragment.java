@@ -24,7 +24,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private ImageButton g_profile_ib_edit;
     private Button g_profile_btn_change_password, g_profile_button_jne, g_profile_button_tiki, g_profile_button_pos;
 
+    //BottomSheet
     private BottomSheetDialog g_bottomsheet_dialog_edit_profile, g_bottomsheet_dialog_change_password;
+    private Button g_bottomsheet_simpan_profil, g_bottomsheet_simpan_password;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         g_profile_btn_change_password = g_view.findViewById(R.id.profile_change_password_button);
         g_profile_btn_change_password.setOnClickListener(this);
+
 
         return g_view;
     }
@@ -57,10 +60,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 g_profile_button_jne = l_bottomsheet_view_edit_profile.findViewById(R.id.profile_jne_button);
                 g_profile_button_tiki = l_bottomsheet_view_edit_profile.findViewById(R.id.profile_tiki_button);
                 g_profile_button_pos = l_bottomsheet_view_edit_profile.findViewById(R.id.profile_pos_button);
+                g_bottomsheet_simpan_profil = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_btn_simpan_profil);
 
                 g_profile_button_jne.setOnClickListener(this);
                 g_profile_button_tiki.setOnClickListener(this);
                 g_profile_button_pos.setOnClickListener(this);
+                g_bottomsheet_simpan_profil.setOnClickListener(this);
 
                 g_bottomsheet_dialog_edit_profile.setContentView(l_bottomsheet_view_edit_profile);
                 g_bottomsheet_dialog_edit_profile.show();
@@ -70,6 +75,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         R.layout.layout_bottom_sheet_change_password,
                         (LinearLayout)g_view.findViewById(R.id.layout_apps_bottom_sheet_container_change_password)
                 );
+
+                g_bottomsheet_simpan_password = l_bottomsheet_view_change_password.findViewById(R.id.apps_bottom_sheet_btn_simpan_password);
+                g_bottomsheet_simpan_password.setOnClickListener(this);
 
                 g_bottomsheet_dialog_change_password.setContentView(l_bottomsheet_view_change_password);
                 g_bottomsheet_dialog_change_password.show();
@@ -85,6 +93,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             case R.id.profile_pos_button:
                 IS_CHOOSE_POS = !IS_CHOOSE_POS;
                 configChooseCourierButton(p_view, IS_CHOOSE_POS);
+                break;
+            case R.id.apps_bottom_sheet_btn_simpan_profil:
+                g_bottomsheet_dialog_edit_profile.dismiss();
+                break;
+            case R.id.apps_bottom_sheet_btn_simpan_password:
+                g_bottomsheet_dialog_change_password.dismiss();
                 break;
         }
     }

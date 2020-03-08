@@ -178,7 +178,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/apps_bottom_sheet_btn_simpan_edit_produk"
+            android:id="@+id/apps_bottom_sheet_btn_simpan_profil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/style_gradient_color_rounded_box_new_green"

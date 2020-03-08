@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BCA BOS</string>
+    <string name="app_name">BOS</string>
     <string name="title_activity_application_container">ApplicationContainer</string>
     <string name="title_beranda">Beranda</string>
     <string name="title_template">Template</string>
