@@ -67,6 +67,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
         //Error
         g_otp_tv_error = findViewById(R.id.apps_otp_error_text_view);
+        g_otp_tv_error.setText("");
 
 
     }
@@ -149,7 +150,6 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     private void changeFlag(){
         if (g_otp_flag.equals("zero")){
             g_otp_flag = "first";
-
         }else if (g_otp_flag.equals("first")){
             g_otp_flag = "second";
         }else if (g_otp_flag.equals("second")){
@@ -158,6 +158,8 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             g_otp_flag = "fourth";
             if (tmp_otp.equals("1234")){
                 moveToMainMenuActivity();
+            }else {
+                g_otp_tv_error.setText("Wrong Password");
             }
         }else if (g_otp_flag.equals("fourth")){
 
@@ -184,18 +186,22 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         }else if (g_otp_flag.equals("first")){
             tmp_otp = deleteLastCharacter(tmp_otp);
             g_otp_iv_first_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_outline));
+            g_otp_tv_error.setText("");
             g_otp_flag = "zero";
         }else if (g_otp_flag.equals("second")){
             tmp_otp = deleteLastCharacter(tmp_otp);
             g_otp_iv_second_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_outline));
+            g_otp_tv_error.setText("");
             g_otp_flag = "first";
         }else if (g_otp_flag.equals("third")){
             tmp_otp = deleteLastCharacter(tmp_otp);
             g_otp_iv_third_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_outline));
+            g_otp_tv_error.setText("");
             g_otp_flag = "second";
         }else if (g_otp_flag.equals("fourth")){
             tmp_otp = deleteLastCharacter(tmp_otp);
             g_otp_iv_fourth_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_outline));
+            g_otp_tv_error.setText("");
             g_otp_flag = "third";
         }
     }

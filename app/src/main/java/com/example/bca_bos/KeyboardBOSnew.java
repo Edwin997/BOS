@@ -144,14 +144,10 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     //endregion
 
     //region KIRIM FORM NEXT DATA MEMBER
-    private LinearLayout g_kirimform_next_layout, g_kirimform_next_berat_layout, g_kirimform_next_asal_layout, g_kirimform_next_tujuan_layout, g_kirimform_next_kurir_layout, g_kirimform_next_kirim_layout;
-    private ImageButton g_btn_kirimform_next_berat_back,g_btn_kirimform_next_asal_back, g_btn_kirimform_next_tujuan_back, g_btn_kirimform_next_kurir_back,  g_btn_kirimform_next_back, g_btn_kirimform_next_refresh;
-    private AutoCompleteTextView g_actv_kirimform_next_asal, g_actv_kirimform_next_tujuan;
-    private EditText g_et_kirimform_next_berat;
-    private Button g_btn_kirimform_next_kirim;
+    private LinearLayout g_kirimform_next_layout, g_kirimform_next_asal_layout;
+    private ImageButton g_btn_kirimform_next_asal_back, g_btn_kirimform_next_send;
+    private AutoCompleteTextView g_actv_kirimform_next_asal;
 
-    private Button g_btn_kirimform_next_jne, g_btn_kirimform_next_tiki, g_btn_kirimform_next_pos;
-    private Boolean IS_CHOOSE_JNE_KIRIM = false, IS_CHOOSE_TIKI_KIRIM = false, IS_CHOOSE_POS_KIRIM = false;
     //endregion
 
     //region MUTASI DATA MEMBER
@@ -546,32 +542,17 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private void initiateKirimFormNext(){
         //inisiasi layout
         g_kirimform_next_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_layout);
-        g_kirimform_next_berat_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_berat_layout);
         g_kirimform_next_asal_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_asal_layout);
-        g_kirimform_next_tujuan_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_tujuan_layout);
-        g_kirimform_next_kirim_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_kirim_layout);
-        g_kirimform_next_kurir_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_kurir_layout);
-
         g_autocompleteadapter = RajaOngkir.getRajaOngkirCity(this);
 
         //inisiasi edittext
         g_actv_kirimform_next_asal = g_viewparent.findViewById(R.id.bcabos_kirimform_next_asal_auto_complete_text_view);
         g_actv_kirimform_next_asal.setAdapter(g_autocompleteadapter);
-        g_actv_kirimform_next_tujuan = g_viewparent.findViewById(R.id.bcabos_kirimform_next_tujuan_auto_complete_text_view);
-        g_actv_kirimform_next_tujuan.setAdapter(g_autocompleteadapter);
-        g_et_kirimform_next_berat = g_viewparent.findViewById(R.id.bcabos_kirimform_next_berat_text);
 
         //inisiasi button
         g_btn_kirimform_next_asal_back = g_viewparent.findViewById(R.id.bcabos_kirimform_next_asal_back_button);
-        g_btn_kirimform_next_tujuan_back = g_viewparent.findViewById(R.id.bcabos_kirimform_next_tujuan_back_button);
-        g_btn_kirimform_next_berat_back = g_viewparent.findViewById(R.id.bcabos_kirimform_next_berat_back_button);
-        g_btn_kirimform_next_jne = g_viewparent.findViewById(R.id.bcabos_kirimform_next_jne_btn);
-        g_btn_kirimform_next_tiki = g_viewparent.findViewById(R.id.bcabos_kirimform_next_tiki_btn);
-        g_btn_kirimform_next_pos = g_viewparent.findViewById(R.id.bcabos_kirimform_next_pos_btn);
-        g_btn_kirimform_next_kurir_back = g_viewparent.findViewById(R.id.bcabos_kirimform_next_kurir_back_button);
-        g_btn_kirimform_next_back = g_viewparent.findViewById(R.id.bcabos_kirimform_next_back_button);
-        g_btn_kirimform_next_kirim = g_viewparent.findViewById(R.id.bcabos_kirimform_next_kirim_button);
-        g_btn_kirimform_next_refresh = g_viewparent.findViewById(R.id.bcabos_kirimform_next_refresh_button);
+        g_btn_kirimform_next_send = g_viewparent.findViewById(R.id.bcabos_kirimform_send_button);
+
 
         //config edittext
         //ASAL
@@ -586,43 +567,10 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             }
         });
 
-        //TUJUAN
-        g_actv_kirimform_next_tujuan.setOnFocusChangeListener(this);
-        g_actv_kirimform_next_tujuan.setOnTouchListener(this);
-        g_actv_kirimform_next_tujuan.addTextChangedListener(new KeyboardBosTextWatcher(g_actv_kirimform_next_tujuan));
-        g_actv_kirimform_next_tujuan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                IS_FILLED = true;
-                g_keyboardview.setVisibility(View.VISIBLE);
-            }
-        });
-
-        //BERAT
-        g_et_kirimform_next_berat.addTextChangedListener(new KeyboardBosTextWatcher(g_et_kirimform_next_berat));
-        g_et_kirimform_next_berat.setOnFocusChangeListener(this);
-        g_et_kirimform_next_berat.setOnTouchListener(this);
-
         //config button
         //ASAL
         g_btn_kirimform_next_asal_back.setOnClickListener(this);
 
-        //TUJUAN
-        g_btn_kirimform_next_tujuan_back.setOnClickListener(this);
-
-        //BERAT
-        g_btn_kirimform_next_berat_back.setOnClickListener(this);
-
-        //KURIR
-        g_btn_kirimform_next_jne.setOnClickListener(this);
-        g_btn_kirimform_next_tiki.setOnClickListener(this);
-        g_btn_kirimform_next_pos.setOnClickListener(this);
-        g_btn_kirimform_next_kurir_back.setOnClickListener(this);
-
-        //SUBMIT
-        g_btn_kirimform_next_back.setOnClickListener(this);
-        g_btn_kirimform_next_kirim.setOnClickListener(this);
-        g_btn_kirimform_next_refresh.setOnClickListener(this);
     }
 
     private void initiateMutasi() {
@@ -789,56 +737,10 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
             //region ONCLICK AT KIRIMFORM NEXT
             case R.id.bcabos_kirimform_next_asal_back_button:
-                showKirimFormNext();
-                IS_ALPHABET = true;
-                KEYCODE_DONE_TYPE = KEY_DEFAULT;
-                setKeyboardType(0);
-                break;
-            case R.id.bcabos_kirimform_next_tujuan_back_button:
-                showKirimFormNext();
-                IS_ALPHABET = true;
-                KEYCODE_DONE_TYPE = KEY_DEFAULT;
-                setKeyboardType(0);
-                break;
-            case R.id.bcabos_kirimform_next_berat_back_button:
-                showKirimFormNext();
-                IS_ALPHABET = true;
-                KEYCODE_DONE_TYPE = KEY_DEFAULT;
-                setKeyboardType(0);
-                break;
-            case R.id.bcabos_kirimform_next_jne_btn:
-                clearSelectedCourier();
-                IS_CHOOSE_JNE_KIRIM = true;
-                configChooseCourierButton(g_btn_kirimform_next_jne, IS_CHOOSE_JNE_KIRIM);
-                break;
-            case R.id.bcabos_kirimform_next_tiki_btn:
-                clearSelectedCourier();
-                IS_CHOOSE_TIKI_KIRIM = true;
-                configChooseCourierButton(g_btn_kirimform_next_tiki, IS_CHOOSE_TIKI_KIRIM);
-                break;
-            case R.id.bcabos_kirimform_next_pos_btn:
-                clearSelectedCourier();
-                IS_CHOOSE_POS_KIRIM = true;
-                configChooseCourierButton(g_btn_kirimform_next_pos, IS_CHOOSE_POS_KIRIM);
-                break;
-            case R.id.bcabos_kirimform_next_kurir_back_button:
-                showKirimFormNext();
-                break;
-            case R.id.bcabos_kirimform_next_back_button:
-                focusedEditText = KEY_ET_EXTERNAL;
-                refreshKirimFormNext();
                 showKirimForm();
-                break;
-            case R.id.bcabos_kirimform_next_kirim_button:
-                focusedEditText = KEY_ET_EXTERNAL;
-                getAsalCityId(g_actv_kirimform_next_asal);
-                getTujuanCityId(g_actv_kirimform_next_tujuan);
-                g_berat = g_et_kirimform_next_berat.getText().toString();
-                getOngkirByCourier();
-                showKirimForm();
-                break;
-            case R.id.bcabos_kirimform_next_refresh_button:
-                refreshKirimFormNext();
+                IS_ALPHABET = true;
+                KEYCODE_DONE_TYPE = KEY_DEFAULT;
+                setKeyboardType(0);
                 break;
             //endregion
 
@@ -891,12 +793,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             case R.id.bcabos_kirimform_next_asal_auto_complete_text_view:
                 configOnFocusChangeEdittext(KEY_ET_KIRIMFORM_NEXT_ASAL, hasFocus);
                 break;
-            case R.id.bcabos_kirimform_next_tujuan_auto_complete_text_view:
-                configOnFocusChangeEdittext(KEY_ET_KIRIMFORM_NEXT_TUJUAN, hasFocus);
-                break;
-            case R.id.bcabos_kirimform_next_berat_text:
-                configOnFocusChangeEdittext(KEY_ET_KIRIMFORM_NEXT_BERAT, hasFocus);
-                break;
+
             //endregion
         }
     }
@@ -953,31 +850,6 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 break;
             //endregion
 
-            //region ONTOUCH KIRIMFORM NEXT
-            case R.id.bcabos_kirimform_next_asal_auto_complete_text_view:
-                focusedEditText = KEY_ET_KIRIMFORM_NEXT_ASAL;
-                showAsalKirimFormNext();
-                IS_ALPHABET = true;
-                KEYCODE_DONE_TYPE = KEY_NEXT;
-                setKeyboardType(g_actv_kirimform_next_asal.getText().length());
-                break;
-            case R.id.bcabos_kirimform_next_tujuan_auto_complete_text_view:
-                focusedEditText = KEY_ET_KIRIMFORM_NEXT_TUJUAN;
-                showTujuanKirimFormNext();
-                IS_ALPHABET = true;
-                KEYCODE_DONE_TYPE = KEY_NEXT;
-                setKeyboardType(g_actv_kirimform_next_tujuan.getText().length());
-                break;
-            case R.id.bcabos_kirimform_next_berat_text:
-                focusedEditText = KEY_ET_KIRIMFORM_NEXT_BERAT;
-                showBeratKirimFormNext();
-                InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(g_et_ongkir_berat, InputMethodManager.SHOW_IMPLICIT);
-                g_keyboardview.setKeyboard(g_keyboard_number);
-                break;
-
-            //endregion
-
         }
         return false;
     }
@@ -1017,15 +889,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_kirimform_produk_button_layout.setVisibility(View.VISIBLE);
 
         //inside kirim form next layout
-        g_kirimform_next_berat_layout.setVisibility(View.VISIBLE);
-        g_btn_kirimform_next_berat_back.setVisibility(View.VISIBLE);
         g_kirimform_next_asal_layout.setVisibility(View.VISIBLE);
-        g_btn_kirimform_next_asal_back.setVisibility(View.VISIBLE);
-        g_kirimform_next_tujuan_layout.setVisibility(View.VISIBLE);
-        g_btn_kirimform_next_tujuan_back.setVisibility(View.VISIBLE);
-        g_kirimform_next_kurir_layout.setVisibility(View.VISIBLE);
-        g_btn_kirimform_next_kurir_back.setVisibility(View.VISIBLE);
-        g_kirimform_next_kirim_layout.setVisibility(View.VISIBLE);
     }
 
     private void showHomeMenu() {
@@ -1143,63 +1007,13 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     //region SHOW KIRIMFORM NEXT
     private void showKirimFormNext() {
         refreshDisplay();
-        g_kirimform_next_layout.setLayoutParams(setHeight283());
         g_kirimform_next_layout.setVisibility(View.VISIBLE);
-        g_keyboardview.setVisibility(View.GONE);
-
-        g_btn_kirimform_next_asal_back.setVisibility(View.GONE);
-        g_btn_kirimform_next_tujuan_back.setVisibility(View.GONE);
-        g_btn_kirimform_next_berat_back.setVisibility(View.GONE);
-        g_btn_kirimform_next_kurir_back.setVisibility(View.GONE);
-        changeLayoutStatus(false);
-    }
-
-    private void showBeratKirimFormNext() {
-        refreshDisplay();
-        g_kirimform_next_layout.setLayoutParams(setHeightDefault());
-        g_kirimform_next_layout.setVisibility(View.VISIBLE);
-
-        goneKirimFormNextMenu();
-        g_kirimform_next_berat_layout.setVisibility(View.VISIBLE);
-        changeLayoutStatus(false);
-    }
-
-    private void showAsalKirimFormNext() {
-        refreshDisplay();
-        g_kirimform_next_layout.setLayoutParams(setHeightDefault());
-        g_kirimform_next_layout.setVisibility(View.VISIBLE);
-
-        goneKirimFormNextMenu();
-        g_kirimform_next_asal_layout.setVisibility(View.VISIBLE);
-        changeLayoutStatus(false);
-    }
-
-    private void showTujuanKirimFormNext() {
-        refreshDisplay();
-        g_kirimform_next_layout.setLayoutParams(setHeightDefault());
-        g_kirimform_next_layout.setVisibility(View.VISIBLE);
-
-        goneKirimFormNextMenu();
-        g_kirimform_next_tujuan_layout.setVisibility(View.VISIBLE);
-        changeLayoutStatus(false);
-    }
-
-    private void showKurirKirimFormNext() {
-        refreshDisplay();
-        g_kirimform_next_layout.setLayoutParams(setHeightDefault());
-        g_kirimform_next_layout.setVisibility(View.VISIBLE);
-
-        goneKirimFormNextMenu();
-        g_kirimform_next_kurir_layout.setVisibility(View.VISIBLE);
         changeLayoutStatus(false);
     }
 
     private void goneKirimFormNextMenu(){
         g_kirimform_next_asal_layout.setVisibility(View.GONE);
-        g_kirimform_next_tujuan_layout.setVisibility(View.GONE);
-        g_kirimform_next_berat_layout.setVisibility(View.GONE);
-        g_kirimform_next_kurir_layout.setVisibility(View.GONE);
-        g_kirimform_next_kirim_layout.setVisibility(View.GONE);
+        g_keyboardview.setVisibility(View.GONE);
     }
     //endregion
 
@@ -1231,23 +1045,6 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_btn_ongkir_tiki.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
         IS_CHOOSE_POS = false;
         g_btn_ongkir_pos.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
-    }
-
-    private void refreshKirimFormNext() {
-        g_et_kirimform_next_berat.setText("");
-        g_actv_kirimform_next_asal.setText("");
-        g_actv_kirimform_next_tujuan.setText("");
-
-        clearSelectedCourier();
-    }
-
-    private void clearSelectedCourier(){
-        IS_CHOOSE_JNE_KIRIM = false;
-        IS_CHOOSE_POS_KIRIM = false;
-        IS_CHOOSE_TIKI_KIRIM = false;
-        g_btn_kirimform_next_tiki.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
-        g_btn_kirimform_next_jne.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
-        g_btn_kirimform_next_pos.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
     }
 
     //Mendapatkan ID dari City
@@ -1334,14 +1131,6 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 g_actv_kirimform_next_asal.setText(typedCharacters);
                 g_actv_kirimform_next_asal.setSelection(g_actv_kirimform_next_asal.getText().length());
                 break;
-            case KEY_ET_KIRIMFORM_NEXT_TUJUAN:
-                g_actv_kirimform_next_tujuan.setText(typedCharacters);
-                g_actv_kirimform_next_tujuan.setSelection(g_actv_kirimform_next_tujuan.getText().length());
-                break;
-            case KEY_ET_KIRIMFORM_NEXT_BERAT:
-                g_et_kirimform_next_berat.setText(typedCharacters);
-                g_et_kirimform_next_berat.setSelection(g_et_kirimform_next_berat.getText().length());
-                break;
             default:
                 InputConnection inputConnection = getCurrentInputConnection();
                 inputConnection.commitText(character, 1);
@@ -1419,26 +1208,6 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                     }
                     g_actv_kirimform_next_asal.setSelection(g_actv_kirimform_next_asal.getText().length());
                     break;
-                case KEY_ET_KIRIMFORM_NEXT_TUJUAN:
-                    int etTujuanNextLength = g_actv_kirimform_next_tujuan.getText().length();
-                    if (etTujuanNextLength > 0) {
-                        g_actv_kirimform_next_tujuan.getText().delete(etTujuanNextLength - 1, etTujuanNextLength);
-                        if(typedCharacters.length()>0){
-                            typedCharacters.deleteCharAt(etTujuanNextLength - 1);
-                        }
-                    }
-                    g_actv_kirimform_next_tujuan.setSelection(g_actv_kirimform_next_tujuan.getText().length());
-                    break;
-                case KEY_ET_KIRIMFORM_NEXT_BERAT:
-                    int etBeratNextLength = g_et_kirimform_next_berat.getText().length();
-                    if (etBeratNextLength > 0) {
-                        g_et_kirimform_next_berat.getText().delete(etBeratNextLength - 1, etBeratNextLength);
-                        if(typedCharacters.length()>0){
-                            typedCharacters.deleteCharAt(etBeratNextLength - 1);
-                        }
-                    }
-                    g_et_kirimform_next_berat.setSelection(g_et_kirimform_next_berat.getText().length());
-                    break;
             }
         }
     }
@@ -1468,25 +1237,6 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 showOngkir();
                 KEYCODE_DONE_TYPE = KEY_DEFAULT;
                 setKeyboardType(0);
-                break;
-            case KEY_ET_KIRIMFORM_NEXT_ASAL:
-                focusedEditText = KEY_ET_KIRIMFORM_NEXT_TUJUAN;
-                showTujuanKirimFormNext();
-                KEYCODE_DONE_TYPE = KEY_NEXT;
-                setKeyboardType(0);
-                break;
-            case KEY_ET_KIRIMFORM_NEXT_TUJUAN:
-                focusedEditText = KEY_ET_KIRIMFORM_NEXT_BERAT;
-                showBeratKirimFormNext();
-                g_keyboardview.setKeyboard(g_keyboard_number);
-                KEYCODE_DONE_TYPE = KEY_NEXT;
-                setKeyboardType(0);
-                break;
-            case KEY_ET_KIRIMFORM_NEXT_BERAT:
-                focusedEditText = KEY_ET_KIRIMFORM_NEXT_KURIR;
-                showKurirKirimFormNext();
-                g_keyboardview.setKeyboard(g_keyboard_number);
-                KEYCODE_DONE_TYPE = KEY_OK;
                 break;
             case KEY_ET_KIRIMFORM_NEXT_KURIR:
                 focusedEditText = KEY_ET_EXTERNAL;
