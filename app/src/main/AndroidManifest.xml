@@ -26,7 +26,7 @@
         </activity>
 
         <service
-            android:name=".KeyboardBOSnew"
+            android:name=".KeyboardBOS"
             android:label="BCABOS"
             android:permission="android.permission.BIND_INPUT_METHOD">
             <meta-data

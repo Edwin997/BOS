@@ -16,7 +16,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.bca_bos.KeyboardBOSnew;
+import com.example.bca_bos.KeyboardBOS;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -96,7 +96,7 @@ public class RajaOngkir {
         return g_rajaongkir_city_adapter;
     }
 
-    public static String getRajaOngkirCost(final KeyboardBOSnew parent, final String gAsal, final String gTujuan, final String gBerat, final String gKurir){
+    public static String getRajaOngkirCost(final KeyboardBOS parent, final String gAsal, final String gTujuan, final String gBerat, final String gKurir){
 
         RequestQueue queue = Volley.newRequestQueue(parent.getApplicationContext());
         StringRequest sr = new StringRequest(Request.Method.POST, URL_POST_COST_RAJA_ONGKIR, new Response.Listener<String>() {
