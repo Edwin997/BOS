@@ -418,6 +418,8 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 IS_FILLED = true;
+                typedCharacters.delete(0, typedCharacters.length());
+                typedCharacters.append(g_autocompleteadapter.getItem(i));
                 g_keyboardview.setVisibility(View.VISIBLE);
             }
         });
@@ -909,9 +911,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         if (p_focus){
             focusedEditText = p_key;
             typedCharacters.setLength(0);
-            typedCharacters.append(p_text);
-        } else {
-            typedCharacters.delete(0, typedCharacters.length());
+            refreshTypeCharacters(p_text);
         }
     }
 
@@ -1347,95 +1347,101 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     }
 
     private void deleteKeyPressed(InputConnection ic, CharSequence selectedText){
-        if(IS_INPUT_CONNECTION_EXTERNAL){
-            if(TextUtils.isEmpty(selectedText)) {
-                ic.deleteSurroundingText(1, 0);
-            } else {
-                ic.commitText("", 1);
+        try {
+            if (IS_INPUT_CONNECTION_EXTERNAL) {
+                if (TextUtils.isEmpty(selectedText)) {
+                    ic.deleteSurroundingText(1, 0);
+                } else {
+                    ic.commitText("", 1);
+                }
+            } else if (!IS_INPUT_CONNECTION_EXTERNAL) {
+                IS_FILLED = false;
+                int startPosition = 0;
+                int endPosition = 0;
+                switch (focusedEditText) {
+                    case KEY_ET_ONGKIR_BERAT:
+                        startPosition = g_et_ongkir_berat.getSelectionStart();
+                        endPosition = g_et_ongkir_berat.getSelectionEnd();
+
+                        g_et_ongkir_berat.getText().delete(startPosition, endPosition);
+                        refreshTypeCharacters(g_et_ongkir_berat.getText().toString());
+
+                        g_et_ongkir_berat.setSelection(endPosition);
+                        break;
+                    case KEY_ET_ONGKIR_ASAL:
+                        startPosition = g_actv_ongkir_asal.getSelectionStart();
+                        endPosition = g_actv_ongkir_asal.getSelectionEnd();
+
+                        g_actv_ongkir_asal.getText().delete(startPosition, endPosition);
+                        refreshTypeCharacters(g_actv_ongkir_asal.getText().toString());
+
+                        g_actv_ongkir_asal.setSelection(endPosition);
+                        break;
+                    case KEY_ET_ONGKIR_TUJUAN:
+                        startPosition = g_actv_ongkir_tujuan.getSelectionStart();
+                        endPosition = g_actv_ongkir_tujuan.getSelectionEnd();
+
+                        g_actv_ongkir_tujuan.getText().delete(startPosition, endPosition);
+                        refreshTypeCharacters(g_actv_ongkir_tujuan.getText().toString());
+
+                        g_actv_ongkir_tujuan.setSelection(endPosition);
+                        break;
+                    case KEY_ET_STOK_SEARCH:
+                        int etStokLength = g_et_stok_search.getText().length();
+                        if (etStokLength > 0) {
+                            g_et_stok_search.getText().delete(etStokLength - 1, etStokLength);
+                            if (typedCharacters.length() > 0) {
+                                typedCharacters.deleteCharAt(etStokLength - 1);
+                            }
+                        }
+                        g_et_stok_search.setSelection(g_et_stok_search.getText().length());
+                        break;
+                    case KEY_ET_KIRIMFORM_SEARCH:
+                        int etKirimFormSearchLength = g_et_kirimform_search.getText().length();
+                        if (etKirimFormSearchLength > 0) {
+                            g_et_kirimform_search.getText().delete(etKirimFormSearchLength - 1, etKirimFormSearchLength);
+                            if (typedCharacters.length() > 0) {
+                                typedCharacters.deleteCharAt(etKirimFormSearchLength - 1);
+                            }
+                        }
+                        g_et_kirimform_search.setSelection(g_et_kirimform_search.getText().length());
+                        break;
+                    case KEY_ET_KIRIMFORM_NEXT_ASAL:
+                        int etAsalNextLength = g_actv_kirimform_next_asal.getText().length();
+                        if (etAsalNextLength > 0) {
+                            g_actv_kirimform_next_asal.getText().delete(etAsalNextLength - 1, etAsalNextLength);
+                            if (typedCharacters.length() > 0) {
+                                typedCharacters.deleteCharAt(etAsalNextLength - 1);
+                            }
+                        }
+                        g_actv_kirimform_next_asal.setSelection(g_actv_kirimform_next_asal.getText().length());
+                        break;
+                    case KEY_ET_KIRIMFORM_NEXT_TUJUAN:
+                        int etTujuanNextLength = g_actv_kirimform_next_tujuan.getText().length();
+                        if (etTujuanNextLength > 0) {
+                            g_actv_kirimform_next_tujuan.getText().delete(etTujuanNextLength - 1, etTujuanNextLength);
+                            if (typedCharacters.length() > 0) {
+                                typedCharacters.deleteCharAt(etTujuanNextLength - 1);
+                            }
+                        }
+                        g_actv_kirimform_next_tujuan.setSelection(g_actv_kirimform_next_tujuan.getText().length());
+                        break;
+                    case KEY_ET_KIRIMFORM_NEXT_BERAT:
+                        int etBeratNextLength = g_et_kirimform_next_berat.getText().length();
+                        if (etBeratNextLength > 0) {
+                            g_et_kirimform_next_berat.getText().delete(etBeratNextLength - 1, etBeratNextLength);
+                            if (typedCharacters.length() > 0) {
+                                typedCharacters.deleteCharAt(etBeratNextLength - 1);
+                            }
+                        }
+                        g_et_kirimform_next_berat.setSelection(g_et_kirimform_next_berat.getText().length());
+                        break;
+                }
             }
-        } else if(!IS_INPUT_CONNECTION_EXTERNAL){
-            switch (focusedEditText) {
-                case KEY_ET_ONGKIR_BERAT:
-                    int etBeratLength = g_et_ongkir_berat.getText().length();
-                    if (etBeratLength > 0) {
-                        g_et_ongkir_berat.getText().delete(etBeratLength - 1, etBeratLength);
-                        if(typedCharacters.length()>0){
-                            typedCharacters.deleteCharAt(etBeratLength - 1);
-                        }
-                    }
-                    g_et_ongkir_berat.setSelection(g_et_ongkir_berat.getText().length());
-                    break;
-                case KEY_ET_ONGKIR_ASAL:
-                    int etAsalLength = g_actv_ongkir_asal.getText().length();
-                    if (etAsalLength > 0) {
-                        g_actv_ongkir_asal.getText().delete(etAsalLength - 1, etAsalLength);
-                        if(typedCharacters.length()>0){
-                            typedCharacters.deleteCharAt(etAsalLength - 1);
-                        }
-                    }
-                    g_actv_ongkir_asal.setSelection(g_actv_ongkir_asal.getText().length());
-                    break;
-                case KEY_ET_ONGKIR_TUJUAN:
-                    int etTujuanLength = g_actv_ongkir_tujuan.getText().length();
-                    if (etTujuanLength > 0) {
-                        g_actv_ongkir_tujuan.getText().delete(etTujuanLength - 1, etTujuanLength);
-                        if(typedCharacters.length()>0){
-                            typedCharacters.deleteCharAt(etTujuanLength - 1);
-                        }
-                    }
-                    g_actv_ongkir_tujuan.setSelection(g_actv_ongkir_tujuan.getText().length());
-                    break;
-                case KEY_ET_STOK_SEARCH:
-                    int etStokLength = g_et_stok_search.getText().length();
-                    if (etStokLength > 0) {
-                        g_et_stok_search.getText().delete(etStokLength - 1, etStokLength);
-                        if(typedCharacters.length()>0){
-                            typedCharacters.deleteCharAt(etStokLength - 1);
-                        }
-                    }
-                    g_et_stok_search.setSelection(g_et_stok_search.getText().length());
-                    break;
-                case KEY_ET_KIRIMFORM_SEARCH:
-                    int etKirimFormSearchLength = g_et_kirimform_search.getText().length();
-                    if (etKirimFormSearchLength > 0) {
-                        g_et_kirimform_search.getText().delete(etKirimFormSearchLength - 1, etKirimFormSearchLength);
-                        if(typedCharacters.length()>0){
-                            typedCharacters.deleteCharAt(etKirimFormSearchLength - 1);
-                        }
-                    }
-                    g_et_kirimform_search.setSelection(g_et_kirimform_search.getText().length());
-                    break;
-                case KEY_ET_KIRIMFORM_NEXT_ASAL:
-                    int etAsalNextLength = g_actv_kirimform_next_asal.getText().length();
-                    if (etAsalNextLength > 0) {
-                        g_actv_kirimform_next_asal.getText().delete(etAsalNextLength - 1, etAsalNextLength);
-                        if(typedCharacters.length()>0){
-                            typedCharacters.deleteCharAt(etAsalNextLength - 1);
-                        }
-                    }
-                    g_actv_kirimform_next_asal.setSelection(g_actv_kirimform_next_asal.getText().length());
-                    break;
-                case KEY_ET_KIRIMFORM_NEXT_TUJUAN:
-                    int etTujuanNextLength = g_actv_kirimform_next_tujuan.getText().length();
-                    if (etTujuanNextLength > 0) {
-                        g_actv_kirimform_next_tujuan.getText().delete(etTujuanNextLength - 1, etTujuanNextLength);
-                        if(typedCharacters.length()>0){
-                            typedCharacters.deleteCharAt(etTujuanNextLength - 1);
-                        }
-                    }
-                    g_actv_kirimform_next_tujuan.setSelection(g_actv_kirimform_next_tujuan.getText().length());
-                    break;
-                case KEY_ET_KIRIMFORM_NEXT_BERAT:
-                    int etBeratNextLength = g_et_kirimform_next_berat.getText().length();
-                    if (etBeratNextLength > 0) {
-                        g_et_kirimform_next_berat.getText().delete(etBeratNextLength - 1, etBeratNextLength);
-                        if(typedCharacters.length()>0){
-                            typedCharacters.deleteCharAt(etBeratNextLength - 1);
-                        }
-                    }
-                    g_et_kirimform_next_berat.setSelection(g_et_kirimform_next_berat.getText().length());
-                    break;
-            }
+        }
+        catch (Exception ex){
+            Log.d("BOS", ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -1517,6 +1523,13 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
         }
         if (!IS_CHOOSE_JNE && !IS_CHOOSE_TIKI && !IS_CHOOSE_POS){
             commitTextToBOSKeyboardEditText("Masukan kurir terlebih dahulu");
+        }
+    }
+
+    private void refreshTypeCharacters(String newTyped){
+        if(typedCharacters != null && typedCharacters.length() > 0){
+            typedCharacters.delete(0, typedCharacters.length());
+            typedCharacters.append(newTyped);
         }
     }
 
