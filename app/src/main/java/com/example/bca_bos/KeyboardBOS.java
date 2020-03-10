@@ -418,8 +418,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 IS_FILLED = true;
-                typedCharacters.delete(0, typedCharacters.length());
-                typedCharacters.append(g_autocompleteadapter.getItem(i));
+                refreshTypeCharacters(g_autocompleteadapter.getItem(i));
                 g_keyboardview.setVisibility(View.VISIBLE);
             }
         });
@@ -432,6 +431,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 IS_FILLED = true;
+                refreshTypeCharacters(g_autocompleteadapter.getItem(i));
                 g_keyboardview.setVisibility(View.VISIBLE);
             }
         });
@@ -588,6 +588,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 IS_FILLED = true;
+                refreshTypeCharacters(g_autocompleteadapter.getItem(i));
                 g_keyboardview.setVisibility(View.VISIBLE);
             }
         });
@@ -600,6 +601,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 IS_FILLED = true;
+                refreshTypeCharacters(g_autocompleteadapter.getItem(i));
                 g_keyboardview.setVisibility(View.VISIBLE);
             }
         });
@@ -1363,7 +1365,13 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                         startPosition = g_et_ongkir_berat.getSelectionStart();
                         endPosition = g_et_ongkir_berat.getSelectionEnd();
 
-                        g_et_ongkir_berat.getText().delete(startPosition, endPosition);
+                        if(endPosition > 0) {
+                            if (startPosition == endPosition)
+                                g_et_ongkir_berat.getText().delete(endPosition - 2, endPosition-1);
+                            else
+                                g_et_ongkir_berat.getText().delete(startPosition, endPosition);
+                        }
+
                         refreshTypeCharacters(g_et_ongkir_berat.getText().toString());
 
                         g_et_ongkir_berat.setSelection(endPosition);
@@ -1372,75 +1380,104 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
                         startPosition = g_actv_ongkir_asal.getSelectionStart();
                         endPosition = g_actv_ongkir_asal.getSelectionEnd();
 
-                        g_actv_ongkir_asal.getText().delete(startPosition, endPosition);
+                        if(endPosition > 0) {
+                            if (startPosition == endPosition)
+                                g_actv_ongkir_asal.getText().delete(endPosition - 1, endPosition);
+                            else
+                                g_actv_ongkir_asal.getText().delete(startPosition, endPosition);
+                        }
                         refreshTypeCharacters(g_actv_ongkir_asal.getText().toString());
 
-                        g_actv_ongkir_asal.setSelection(endPosition);
+                        g_actv_ongkir_asal.setSelection(endPosition - 1);
                         break;
                     case KEY_ET_ONGKIR_TUJUAN:
                         startPosition = g_actv_ongkir_tujuan.getSelectionStart();
                         endPosition = g_actv_ongkir_tujuan.getSelectionEnd();
 
-                        g_actv_ongkir_tujuan.getText().delete(startPosition, endPosition);
+                        if(endPosition > 0) {
+                            if (startPosition == endPosition)
+                                g_actv_ongkir_tujuan.getText().delete(endPosition - 1, endPosition);
+                            else
+                                g_actv_ongkir_tujuan.getText().delete(startPosition, endPosition);
+                        }
                         refreshTypeCharacters(g_actv_ongkir_tujuan.getText().toString());
 
-                        g_actv_ongkir_tujuan.setSelection(endPosition);
+                        g_actv_ongkir_tujuan.setSelection(endPosition - 1);
                         break;
                     case KEY_ET_STOK_SEARCH:
-                        int etStokLength = g_et_stok_search.getText().length();
-                        if (etStokLength > 0) {
-                            g_et_stok_search.getText().delete(etStokLength - 1, etStokLength);
-                            if (typedCharacters.length() > 0) {
-                                typedCharacters.deleteCharAt(etStokLength - 1);
-                            }
+                        startPosition = g_et_stok_search.getSelectionStart();
+                        endPosition = g_et_stok_search.getSelectionEnd();
+
+                        if(endPosition > 0) {
+                            if (startPosition == endPosition)
+                                g_et_stok_search.getText().delete(endPosition - 1, endPosition);
+                            else
+                                g_et_stok_search.getText().delete(startPosition, endPosition);
                         }
-                        g_et_stok_search.setSelection(g_et_stok_search.getText().length());
+                        refreshTypeCharacters(g_et_stok_search.getText().toString());
+
+                        g_et_stok_search.setSelection(endPosition);
                         break;
                     case KEY_ET_KIRIMFORM_SEARCH:
-                        int etKirimFormSearchLength = g_et_kirimform_search.getText().length();
-                        if (etKirimFormSearchLength > 0) {
-                            g_et_kirimform_search.getText().delete(etKirimFormSearchLength - 1, etKirimFormSearchLength);
-                            if (typedCharacters.length() > 0) {
-                                typedCharacters.deleteCharAt(etKirimFormSearchLength - 1);
-                            }
+                        startPosition = g_et_kirimform_search.getSelectionStart();
+                        endPosition = g_et_kirimform_search.getSelectionEnd();
+
+                        if(endPosition > 0) {
+                            if (startPosition == endPosition)
+                                g_et_kirimform_search.getText().delete(endPosition - 1, endPosition);
+                            else
+                                g_et_kirimform_search.getText().delete(startPosition, endPosition);
                         }
-                        g_et_kirimform_search.setSelection(g_et_kirimform_search.getText().length());
+                        refreshTypeCharacters(g_et_kirimform_search.getText().toString());
+
+                        g_et_kirimform_search.setSelection(endPosition);
                         break;
                     case KEY_ET_KIRIMFORM_NEXT_ASAL:
-                        int etAsalNextLength = g_actv_kirimform_next_asal.getText().length();
-                        if (etAsalNextLength > 0) {
-                            g_actv_kirimform_next_asal.getText().delete(etAsalNextLength - 1, etAsalNextLength);
-                            if (typedCharacters.length() > 0) {
-                                typedCharacters.deleteCharAt(etAsalNextLength - 1);
-                            }
+                        startPosition = g_actv_kirimform_next_asal.getSelectionStart();
+                        endPosition = g_actv_kirimform_next_asal.getSelectionEnd();
+
+                        if(endPosition > 0) {
+                            if (startPosition == endPosition)
+                                g_actv_kirimform_next_asal.getText().delete(endPosition - 1, endPosition);
+                            else
+                                g_actv_kirimform_next_asal.getText().delete(startPosition, endPosition);
                         }
-                        g_actv_kirimform_next_asal.setSelection(g_actv_kirimform_next_asal.getText().length());
+                        refreshTypeCharacters(g_actv_kirimform_next_asal.getText().toString());
+
+                        g_actv_kirimform_next_asal.setSelection(endPosition);
                         break;
                     case KEY_ET_KIRIMFORM_NEXT_TUJUAN:
-                        int etTujuanNextLength = g_actv_kirimform_next_tujuan.getText().length();
-                        if (etTujuanNextLength > 0) {
-                            g_actv_kirimform_next_tujuan.getText().delete(etTujuanNextLength - 1, etTujuanNextLength);
-                            if (typedCharacters.length() > 0) {
-                                typedCharacters.deleteCharAt(etTujuanNextLength - 1);
-                            }
+                        startPosition = g_actv_kirimform_next_tujuan.getSelectionStart();
+                        endPosition = g_actv_kirimform_next_tujuan.getSelectionEnd();
+
+                        if(endPosition > 0) {
+                            if (startPosition == endPosition)
+                                g_actv_kirimform_next_tujuan.getText().delete(endPosition - 1, endPosition);
+                            else
+                                g_actv_kirimform_next_tujuan.getText().delete(startPosition, endPosition);
                         }
-                        g_actv_kirimform_next_tujuan.setSelection(g_actv_kirimform_next_tujuan.getText().length());
+                        refreshTypeCharacters(g_actv_kirimform_next_tujuan.getText().toString());
+
+                        g_actv_kirimform_next_tujuan.setSelection(endPosition);
                         break;
                     case KEY_ET_KIRIMFORM_NEXT_BERAT:
-                        int etBeratNextLength = g_et_kirimform_next_berat.getText().length();
-                        if (etBeratNextLength > 0) {
-                            g_et_kirimform_next_berat.getText().delete(etBeratNextLength - 1, etBeratNextLength);
-                            if (typedCharacters.length() > 0) {
-                                typedCharacters.deleteCharAt(etBeratNextLength - 1);
-                            }
+                        startPosition = g_et_kirimform_next_berat.getSelectionStart();
+                        endPosition = g_et_kirimform_next_berat.getSelectionEnd();
+
+                        if(endPosition > 0) {
+                            if (startPosition == endPosition)
+                                g_et_kirimform_next_berat.getText().delete(endPosition - 1, endPosition);
+                            else
+                                g_et_kirimform_next_berat.getText().delete(startPosition, endPosition);
                         }
-                        g_et_kirimform_next_berat.setSelection(g_et_kirimform_next_berat.getText().length());
+                        refreshTypeCharacters(g_et_kirimform_next_berat.getText().toString());
+
+                        g_et_kirimform_next_berat.setSelection(endPosition);
                         break;
                 }
             }
         }
         catch (Exception ex){
-            Log.d("BOS", ex.getMessage());
             ex.printStackTrace();
         }
     }
@@ -1527,6 +1564,7 @@ public class KeyboardBOS extends InputMethodService implements KeyboardView.OnKe
     }
 
     private void refreshTypeCharacters(String newTyped){
+        Toast.makeText(this, newTyped, Toast.LENGTH_SHORT).show();
         if(typedCharacters != null && typedCharacters.length() > 0){
             typedCharacters.delete(0, typedCharacters.length());
             typedCharacters.append(newTyped);

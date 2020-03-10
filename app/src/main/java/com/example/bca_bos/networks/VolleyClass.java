@@ -19,6 +19,8 @@ import com.android.volley.toolbox.Volley;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class VolleyClass {
 
     private static RequestQueue g_requestqueue;
