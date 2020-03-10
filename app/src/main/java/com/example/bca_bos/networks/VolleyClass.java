@@ -43,7 +43,8 @@ public class VolleyClass {
     private static RequestQueue g_requestqueue;
     private static Gson gson = new Gson();
 
-    private final static  String BASE_URL = "http://10.26.34.119:8321";
+//    private final static  String BASE_URL = "http://10.26.34.119:8321";
+    private final static  String BASE_URL = "https://templatetext.apps.pcf.dti.co.id";
 //    private final static  String BASE_URL = "http://10.1.132.28/server/server.php";
     private final static String URL_TEMPLATED_TEXT = BASE_URL + "/bos/templateText";
     private final static String URL_PRODUCT = BASE_URL + "/bos/product";
