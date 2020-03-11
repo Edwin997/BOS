@@ -5,10 +5,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -197,7 +195,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
             g_view_tab_pesanan_baru.setVisibility(View.VISIBLE);
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIBAYAR){
-            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_yellow_layered);
+            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_orange_layered);
             g_btn_tab_pesanan_dibayar.setTextColor(g_context.getResources().getColor(R.color.yellow));
 //            g_btn_tab_pesanan_dibayar.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_yellow));
             g_view_tab_pesanan_dibayar.setVisibility(View.VISIBLE);
