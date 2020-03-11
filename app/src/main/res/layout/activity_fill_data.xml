@@ -4,67 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white"
-    android:gravity="top"
-    tools:context=".LoginActivity">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayoutLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/imageViewLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="400dp"
-            android:background="@drawable/style_login_background"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="Selamat Datang"
-            android:textColor="@color/white"
-            android:textSize="14dp"
-            app:layout_constraintBottom_toTopOf="@+id/imageView2"
-            app:layout_constraintEnd_toEndOf="@+id/imageViewLogin"
-            app:layout_constraintHorizontal_bias="0.189"
-            app:layout_constraintStart_toStartOf="@+id/imageViewLogin"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="75dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:src="@drawable/bos_logo_white"
-            app:layout_constraintBottom_toBottomOf="@+id/imageViewLogin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.16"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.614" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    tools:context=".FillDataActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayoutLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/login_tv_bos_id"
+            android:id="@+id/filldata_tv_nama_toko"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="BOS ID"
+            android:text="Nama Toko"
             android:textColor="@color/dark_blue"
+            android:layout_marginTop="8dp"
             android:textSize="10dp"
             android:textStyle="bold"
             android:visibility="invisible"/>
@@ -78,7 +33,44 @@
             android:layout_marginLeft="32dp">
 
             <EditText
-                android:id="@+id/login_et_bos_id"
+                android:id="@+id/filldata_et_nama_toko"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@android:color/transparent"
+                android:hint="Nama Toko"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey" />
+
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/filldata_tv_kota"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Kota"
+            android:textColor="@color/dark_blue"
+            android:layout_marginTop="8dp"
+            android:textSize="10dp"
+            android:textStyle="bold"
+            android:visibility="invisible"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="@color/white"
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp">
+
+            <EditText
+                android:id="@+id/filldata_et_kota"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@android:color/transparent"
@@ -87,7 +79,7 @@
                 android:textColor="@color/black"
                 android:textAlignment="center"
                 android:textColorHint="@color/grey"
-                android:hint="BOS ID"
+                android:hint="Kota"
                 android:imeOptions="actionNext"
                 android:singleLine="true"/>
 
@@ -95,16 +87,16 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/login_tv_password"
+            android:id="@+id/filldata_tv_kurir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_gravity="center"
-            android:text="Password"
+            android:layout_marginTop="8dp"
+            android:text="Kurir Pilihan"
             android:textColor="@color/dark_blue"
             android:textSize="10dp"
             android:textStyle="bold"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -115,7 +107,7 @@
             android:layout_marginLeft="32dp">
 
             <EditText
-                android:id="@+id/login_et_password"
+                android:id="@+id/filldata_et_kurir"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@android:color/transparent"
@@ -124,13 +116,12 @@
                 android:textColor="@color/black"
                 android:textAlignment="center"
                 android:textColorHint="@color/grey"
-                android:hint="Password"
-                android:imeOptions="actionDone"
+                android:hint="Kurir Pilihan"
+                android:imeOptions="actionNext"
                 android:singleLine="true"/>
 
 
         </androidx.cardview.widget.CardView>
-
 
         <!--    <TextView-->
         <!--        android:id="@+id/textViewError"-->
@@ -141,7 +132,7 @@
         <!--        android:textSize="16dp"/>-->
 
         <Button
-            android:id="@+id/login_login_button"
+            android:id="@+id/filldata_submit_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -149,39 +140,27 @@
             android:layout_marginLeft="64dp"
             android:background="@drawable/style_gradient_color_rounded_box"
             android:fontFamily="@font/montserrat_bold"
-            android:text="Login"
+            android:text="SUBMIT"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/filldata_tv_nanti_saja"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/montserrat_regular"
-                android:text="Don't have an account ? "
-                android:textColor="@color/dark_grey"
-                android:textSize="14dp"/>
-
-            <TextView
-                android:id="@+id/login_register_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/montserrat_semi_bold"
-                android:text="Register"
-                android:textColor="@color/dark_blue"
-                android:textSize="14dp"/>
-
-
-        </LinearLayout>
+            android:layout_marginTop="16dp"
+            android:text="nanti saja"
+            android:textColor="@color/grey"
+            android:textSize="12dp"
+            android:textAlignment="center"/>
+        <View
+            android:layout_width="53dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="-2dp"
+            android:background="@color/grey" />
 
     </LinearLayout>
-
 
 </LinearLayout>

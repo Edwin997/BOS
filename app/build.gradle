@@ -37,4 +37,11 @@ dependencies {
     //Circle Imageview
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
+    //Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+    //Gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+
 }

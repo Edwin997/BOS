@@ -91,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Nomor Kartu"
+            android:text="Nomor Rekening"
             android:textColor="@color/dark_blue"
             android:layout_marginTop="8dp"
             android:textSize="10dp"
@@ -116,7 +116,7 @@
                 android:textColor="@color/black"
                 android:textAlignment="center"
                 android:textColorHint="@color/grey"
-                android:hint="Nomor Kartu"
+                android:hint="Nomor Rekening"
                 android:imeOptions="actionNext"
                 android:singleLine="true"/>
 

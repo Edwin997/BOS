@@ -214,7 +214,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void moveToMainMenuActivity(){
-        Intent tmp_register_intent = new Intent(OTPActivity.this, ApplicationContainer.class);
+        Intent tmp_register_intent = new Intent(OTPActivity.this, FillDataActivity.class);
         startActivity(tmp_register_intent);
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         finish();

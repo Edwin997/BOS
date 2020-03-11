@@ -17,6 +17,7 @@
             android:name=".RegisterActivity" />
         <activity
             android:name=".OTPActivity" />
+        <activity android:name=".FillDataActivity"/>
         <activity
             android:name=".LoginActivity">
             <intent-filter>
