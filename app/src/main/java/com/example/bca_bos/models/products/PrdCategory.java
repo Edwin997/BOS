@@ -1,4 +1,4 @@
-package com.example.bca_bos.models.locations;
+package com.example.bca_bos.models.products;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Provinsi {
-    private int id_provinsi;
-    private String provinsi_name; //40
+
+public class PrdCategory {
+    private int id_prd_category;
+    private String category_name; //20
 }

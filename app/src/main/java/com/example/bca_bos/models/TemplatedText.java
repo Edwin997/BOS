@@ -1,42 +1,29 @@
 package com.example.bca_bos.models;
 
-public class TemplatedText {
-    private int id;
-    private String label;
-    private String description;
+import com.google.gson.annotations.SerializedName;
 
-    public TemplatedText(){
+import java.io.Serializable;
 
-    }
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+
+public class TemplatedText implements Serializable {
+
+    private int id_template_text;
+    private String template_code; //20
+    private String text; //200
+    private Seller seller;
 
     public TemplatedText(int p_id, String p_label, String p_description){
-        this.setId(p_id);
-        this.setLabel(p_label);
-        this.setDescription(p_description);
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+        this.setId_template_text(p_id);
+        this.setTemplate_code(p_label);
+        this.setText(p_description);
     }
 }

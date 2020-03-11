@@ -1,6 +1,9 @@
 package com.example.bca_bos.models;
 
 import com.example.bca_bos.models.locations.KotaKab;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,11 +15,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Seller {
+public class Seller implements Serializable {
     private int id_seller;
     private String username;// 20
     private String password_user; //100 //8-12 must contains alphabet and numeric
-    private String seller_name; //40
+    private String name; //40
+    private String card_number; //40
     private String phone; //20
     private String shop_name; //40
     private int flag;

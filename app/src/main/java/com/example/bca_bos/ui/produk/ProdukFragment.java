@@ -13,10 +13,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,12 +28,16 @@ import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
-import com.example.bca_bos.models.Produk;
+import com.example.bca_bos.models.Seller;
+import com.example.bca_bos.models.products.PrdCategory;
+import com.example.bca_bos.models.products.Product;
+import com.example.bca_bos.networks.VolleyClass;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URI;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -42,13 +45,14 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
     //region DATA MEMBER
     //FINAL STATIC DATA MEMBER
-    public final static String KEY_PRODUK = "produk";
+    public final static String KEY_PRODUK = "product";
 
     //VIEW DATA MEMBER
     private Context g_context;
     private View g_view;
     private ChooseImageFromDialog g_choose_dialog;
     private BottomSheetDialog g_bottomsheet_dialog;
+    Product g_product_onclick;
 
     //FRAGMENT SECTION DATA MEMBER
     private LinearLayout g_produk_fragment_ll_add_button;
@@ -62,14 +66,16 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
     //ADD BOTTOM SHEET PRODUK DATA MEMBER
     private RoundedImageView g_iv_bottom_sheet_produk_add_gambar;
-    private TextView g_tv_bottom_sheet_produk_add_nama, g_tv_bottom_sheet_produk_add_harga,
+    private EditText g_tv_bottom_sheet_produk_add_nama, g_tv_bottom_sheet_produk_add_harga,
             g_tv_bottom_sheet_produk_add_stok, g_tv_bottom_sheet_produk_add_berat;
     private Button g_btn_bottom_sheet_produk_add_tambah, g_btn_bottom_sheet_produk_add_batal;
     private Bitmap g_bmp_bottom_sheet_produk_add;
+    private Uri pathh;
+    private URI pathhhh;
 
     //EDIT BOTTOM SHEET PRODUK DATA MEMBER
     private RoundedImageView g_iv_bottom_sheet_produk_edit_gambar;
-    private TextView g_tv_bottom_sheet_produk_edit_nama, g_tv_bottom_sheet_produk_edit_harga,
+    private EditText g_tv_bottom_sheet_produk_edit_nama, g_tv_bottom_sheet_produk_edit_harga,
             g_tv_bottom_sheet_produk_edit_stok, g_tv_bottom_sheet_produk_edit_berat;
     private Button g_btn_bottom_sheet_produk_edit_simpan, g_btn_bottom_sheet_produk_edit_hapus;
     private Bitmap g_bmp_bottom_sheet_produk_edit;
@@ -98,6 +104,9 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         //config recyclerview
         g_linearlayoutmanager = new LinearLayoutManager(g_context);
         g_produkadapter = new ProdukAdapter();
+
+        VolleyClass.getProduct(g_context, 2, g_produkadapter);
+
         g_produkadapter.setParentOnCallBack(this);
         g_produkfragment_recyclerview.setAdapter(g_produkadapter);
         g_produkfragment_recyclerview.setLayoutManager(g_linearlayoutmanager);
@@ -115,7 +124,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                g_produkadapter.setDatasetProduk(ListProdukDummy.produkList);
+                g_produkadapter.setDatasetProduk(ListProdukDummy.productList);
             }
         });
 
@@ -124,9 +133,9 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
     @Override
     public void OnCallBack(Object p_obj) {
-        if(p_obj instanceof Produk) {
-            Produk tmpProduk = (Produk) p_obj;
-            showBottomSheetEditProduk(tmpProduk);
+        if(p_obj instanceof Product) {
+            g_product_onclick = (Product) p_obj;
+            showBottomSheetEditProduk(g_product_onclick);
         }
         else if(p_obj instanceof Integer){
             int tmpCode = (int)p_obj;
@@ -165,6 +174,22 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 g_choose_dialog.showChooseDialogAdd(g_context);
                 break;
             case R.id.apps_bottom_sheet_btn_tambah_add_produk:
+                Seller seller = new Seller();
+                seller.setId_seller(2);
+
+                PrdCategory prdCategory = new PrdCategory();
+                prdCategory.setId_prd_category(1);
+
+                Product tmpProduct = new Product();
+                tmpProduct.setProduct_name(g_tv_bottom_sheet_produk_add_nama.getText().toString());
+                tmpProduct.setPrice(Integer.parseInt(g_tv_bottom_sheet_produk_add_harga.getText().toString()));
+                tmpProduct.setStock(Integer.parseInt(g_tv_bottom_sheet_produk_add_stok.getText().toString()));
+                tmpProduct.setImage_path(imageToString(g_bmp_bottom_sheet_produk_add));
+                tmpProduct.setPrdCategory(prdCategory);
+                tmpProduct.setSeller(seller);
+
+                VolleyClass.insertProduct(g_context, tmpProduct, g_produkadapter);
+
                 g_bottomsheet_dialog.dismiss();
                 break;
             case R.id.apps_bottom_sheet_btn_batal_add_produk:
@@ -177,7 +202,22 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 g_choose_dialog.showChooseDialogEdit(g_context);
                 break;
             case R.id.apps_bottom_sheet_btn_simpan_edit_produk:
+                Seller selleredit = new Seller();
+                selleredit.setId_seller(2);
+
+                PrdCategory prdCategoryedit = new PrdCategory();
+                prdCategoryedit.setId_prd_category(1);
+
+                Product tmpProductedit = new Product();
+                tmpProductedit.setId_product(g_product_onclick.getId_product());
+                tmpProductedit.setProduct_name(g_tv_bottom_sheet_produk_edit_nama.getText().toString());
+                tmpProductedit.setPrice(Integer.parseInt(g_tv_bottom_sheet_produk_edit_harga.getText().toString()));
+                tmpProductedit.setStock(Integer.parseInt(g_tv_bottom_sheet_produk_edit_stok.getText().toString()));
+                tmpProductedit.setImage_path(imageToString(g_bmp_bottom_sheet_produk_edit));
+                tmpProductedit.setPrdCategory(prdCategoryedit);
+                tmpProductedit.setSeller(selleredit);
                 g_bottomsheet_dialog.dismiss();
+                VolleyClass.updateProduct(g_context, tmpProductedit, g_produkadapter);
                 break;
             case R.id.apps_bottom_sheet_btn_hapus_edit_produk:
                 g_bottomsheet_dialog.dismiss();
@@ -193,10 +233,10 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
         if(resultCode == RESULT_OK && data != null){
             if(requestCode == ChooseImageFromDialog.CODE_GALLERY_ADD_PRODUK){
-                Uri path = data.getData();
+                pathh = data.getData();
 
                 try {
-                    g_bmp_bottom_sheet_produk_add = MediaStore.Images.Media.getBitmap(g_context.getContentResolver(), path);
+                    g_bmp_bottom_sheet_produk_add = MediaStore.Images.Media.getBitmap(g_context.getContentResolver(), pathh);
                     g_iv_bottom_sheet_produk_add_gambar.setImageBitmap(g_bmp_bottom_sheet_produk_add);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -234,7 +274,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     }
 
     //region BOTTOM SHEET METHOD
-    private void showBottomSheetEditProduk(Produk p_produk){
+    private void showBottomSheetEditProduk(Product p_product){
         //inisiasi view
         View l_bottomsheet_view_add = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_edit_produk,
@@ -255,13 +295,13 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_btn_bottom_sheet_produk_edit_hapus = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_btn_hapus_edit_produk);
 
         //config imageview
-        g_iv_bottom_sheet_produk_edit_gambar.setImageDrawable(getResources().getDrawable(p_produk.getGambar()));
+//        g_iv_bottom_sheet_produk_edit_gambar.setImageDrawable(getResources().getDrawable(p_product.getBase64StringImage()));
         g_iv_bottom_sheet_produk_edit_gambar.setOnClickListener(this);
 
         //config edittext
-        g_tv_bottom_sheet_produk_edit_nama.setText(p_produk.getNama());
-        g_tv_bottom_sheet_produk_edit_harga.setText(Method.getIndoCurrency(p_produk.getHarga()));
-        g_tv_bottom_sheet_produk_edit_stok.setText(String.valueOf(p_produk.getStok()));
+        g_tv_bottom_sheet_produk_edit_nama.setText(p_product.getProduct_name());
+        g_tv_bottom_sheet_produk_edit_harga.setText(Method.getIndoCurrency(p_product.getPrice()));
+        g_tv_bottom_sheet_produk_edit_stok.setText(String.valueOf(p_product.getStock()));
         g_tv_bottom_sheet_produk_edit_berat.setText(String.valueOf(0));
 
         //config button
@@ -306,46 +346,11 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     }
     //endregion
 
-//    private void uploadImage(){
-//        RequestQueue rq = Volley.newRequestQueue(this);
-//        StringRequest stringRequest = new StringRequest(
-//                Request.Method.POST,
-//                "http://192.168.43.228:80/server/server.php",
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-//                            JSONObject obj = new JSONObject(response);
-//                            String res = obj.getString("response");
-//                            Toast.makeText(AddProdukActivity.this, res, Toast.LENGTH_SHORT).show();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                error.printStackTrace();
-//            }
-//        }
-//        ){
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> params = new HashMap<>();
-//                params.put("name", "coba");
-//                params.put("image", imageToString(bmp));
-//                return params;
-//            }
-//        };
-//
-//        rq.add(stringRequest);
-//    }
-
     public String imageToString(Bitmap bitmap){
         ByteArrayOutputStream bost = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100 ,bost);
         byte[] img = bost.toByteArray();
-        return Base64.encodeToString(img, Base64.DEFAULT);
+        String temp = Base64.encodeToString(img, Base64.NO_WRAP);
+        return temp;
     }
-
 }

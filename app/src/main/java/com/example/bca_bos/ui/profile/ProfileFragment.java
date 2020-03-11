@@ -8,12 +8,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.bca_bos.R;
+import com.example.bca_bos.models.Seller;
+import com.example.bca_bos.networks.NetworkUtil;
+import com.example.bca_bos.networks.VolleyClass;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
@@ -22,27 +27,42 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     View g_view;
 
     private ImageButton g_profile_ib_edit;
+    private RoundedImageView g_profile_image;
+    private TextView g_profile_nama_seller, g_profile_nama_toko, g_profile_rekening, g_profile_bosid,
+                    g_profile_phone, g_profile_kotkab, g_profile_courier;
     private Button g_profile_btn_change_password, g_profile_button_jne, g_profile_button_tiki, g_profile_button_pos;
 
     //BottomSheet
     private BottomSheetDialog g_bottomsheet_dialog_edit_profile, g_bottomsheet_dialog_change_password;
     private Button g_bottomsheet_simpan_profil, g_bottomsheet_simpan_password;
 
+    public static ProfileFragment g_instance;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
+        g_instance = this;
         g_context = container.getContext();
-        g_view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        VolleyClass.getProfile(g_context, 3);
         g_bottomsheet_dialog_edit_profile = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         g_bottomsheet_dialog_change_password = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
 
+        g_view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        g_profile_image = g_view.findViewById(R.id.profile_img_toko);
+        g_profile_nama_seller = g_view.findViewById(R.id.profile_tv_nama_penjual);
+        g_profile_nama_toko = g_view.findViewById(R.id.profile_tv_nama_toko);
+        g_profile_rekening = g_view.findViewById(R.id.profile_tv_rekening_toko);
+        g_profile_bosid = g_view.findViewById(R.id.profile_tv_bosid_toko);
+        g_profile_phone = g_view.findViewById(R.id.profile_tv_phone_toko);
+        g_profile_kotkab = g_view.findViewById(R.id.profile_tv_kotakab);
+        g_profile_courier = g_view.findViewById(R.id.profile_tv_courier);
+
         g_profile_ib_edit = g_view.findViewById(R.id.profile_edit_button);
-        g_profile_ib_edit.setOnClickListener(this);
-
         g_profile_btn_change_password = g_view.findViewById(R.id.profile_change_password_button);
-        g_profile_btn_change_password.setOnClickListener(this);
 
+        g_profile_ib_edit.setOnClickListener(this);
+        g_profile_btn_change_password.setOnClickListener(this);
 
         return g_view;
     }
@@ -109,6 +129,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         }else {
             p_view.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
         }
+    }
+
+    public void refreshLayout(Seller p_seller){
+        g_profile_nama_seller.setText(p_seller.getName());
+        g_profile_nama_toko.setText(p_seller.getShop_name());
+        g_profile_rekening.setText(p_seller.getCard_number());
+        g_profile_bosid.setText(p_seller.getUsername());
+        g_profile_phone.setText(p_seller.getPhone());
+        g_profile_kotkab.setText(String.valueOf(p_seller.getKotakab().getId_kota_kab()));
     }
 
 }

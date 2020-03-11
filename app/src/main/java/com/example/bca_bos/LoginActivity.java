@@ -14,17 +14,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.bca_bos.networks.Login;
-
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+import com.example.bca_bos.networks.NetworkUtil;
+import com.example.bca_bos.networks.VolleyClass;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
@@ -41,7 +32,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        disableSSL();
+        NetworkUtil.disableSSL();
 
         g_instance = this;
 
@@ -77,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.login_login_button:
                 String tmp_bos_id = g_login_et_bos_id.getText().toString();
                 String tmp_password = g_login_et_password.getText().toString();
-                Login.postUserPass(this, tmp_bos_id, tmp_password);
+                VolleyClass.loginProcess(this, tmp_bos_id, tmp_password);
                 break;
             case R.id.login_register_button:
                 Intent tmp_register_intent = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -108,35 +99,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
     }
 
-    public static void disableSSL() {
-        try {
-            TrustManager[] trustAllCerts = new TrustManager[] {
-                    new X509TrustManager() {
-                        public X509Certificate[] getAcceptedIssuers() {
-                            X509Certificate[] myTrustedAnchors = new X509Certificate[0];
-                            return myTrustedAnchors;
-                        }
 
-                        @Override
-                        public void checkClientTrusted(X509Certificate[] certs, String authType) {}
-
-                        @Override
-                        public void checkServerTrusted(X509Certificate[] certs, String authType) {}
-                    }
-            };
-
-            SSLContext sc = SSLContext.getInstance("SSL");
-            sc.init(null, trustAllCerts, new SecureRandom());
-            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String arg0, SSLSession arg1) {
-                    return true;
-                }
-            });
-        } catch (Exception e) {
-        }
-    }
 
 }
 

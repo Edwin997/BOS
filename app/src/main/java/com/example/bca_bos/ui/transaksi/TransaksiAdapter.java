@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
-import com.example.bca_bos.models.Transaksi;
+import com.example.bca_bos.models.transactions.Transaction;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
 
     private OnCallBackListener g_parent_oncallbacklistener;
 
-    private List<Transaksi> g_list_transaksi;
+    private List<Transaction> g_list_transaction;
 
     public TransaksiAdapter(TransaksiFragment p_parent){
         g_parent = p_parent;
@@ -45,16 +45,16 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
 
     @Override
     public void onBindViewHolder(@NonNull TransaksiViewHolder holder, int position) {
-        holder.setData(g_list_transaksi.get(position));
+        holder.setData(g_list_transaction.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return g_list_transaksi.size();
+        return g_list_transaction.size();
     }
 
-    public void setListTransaksi(List<Transaksi> p_list){
-        g_list_transaksi = p_list;
+    public void setListTransaksi(List<Transaction> p_list){
+        g_list_transaction = p_list;
         notifyDataSetChanged();
     }
 
@@ -78,7 +78,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
         private TextView tv_total_transaksi;
         private TextView tv_status_transaksi;
 
-        private Transaksi l_transaksi;
+        private Transaction l_transaction;
         private OnCallBackListener l_parent_oncallbacklistener;
 
         public TransaksiViewHolder(@NonNull View itemView) {
@@ -95,29 +95,29 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
             ll_transaksi.setOnClickListener(this);
         }
 
-        public void setData(Transaksi transaksi){
-            l_transaksi = transaksi;
+        public void setData(Transaction transaction){
+            l_transaction = transaction;
 
-            tv_nama_transaksi.setText(l_transaksi.getBuyer().getNama());
-            tv_tanggal_transaksi.setText(l_transaksi.getOrder_date());
-            tv_total_transaksi.setText(Method.getIndoCurrency(l_transaksi.getTotal_payment()));
+            tv_nama_transaksi.setText(l_transaction.getBuyer().getBuyer_name());
+            tv_tanggal_transaksi.setText(l_transaction.getOrder_time());
+            tv_total_transaksi.setText(Method.getIndoCurrency(l_transaction.getTotal_payment()));
 
-            if(l_transaksi.getStatus() == g_parent.KEY_STATUS_SELESAI){
+            if(l_transaction.getStatus() == g_parent.KEY_STATUS_SELESAI){
                 ll_transaksi_left.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_green_layered));
                 tv_total_transaksi.setTextColor(g_context.getResources().getColor(R.color.green));
-                tv_status_transaksi.setText("Transaksi Selesai");
+                tv_status_transaksi.setText("Transaction Selesai");
             }
-            else if(l_transaksi.getStatus() == g_parent.KEY_STATUS_SUDAHDIKIRIM){
+            else if(l_transaction.getStatus() == g_parent.KEY_STATUS_SUDAHDIKIRIM){
                 ll_transaksi_left.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_blue_layered));
                 tv_total_transaksi.setTextColor(g_context.getResources().getColor(R.color.blue));
                 tv_status_transaksi.setText("Pesanan Dikirim");
             }
-            else if(l_transaksi.getStatus() == g_parent.KEY_STATUS_SUDAHDIBAYAR){
+            else if(l_transaction.getStatus() == g_parent.KEY_STATUS_SUDAHDIBAYAR){
                 ll_transaksi_left.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_yellow_layered));
                 tv_total_transaksi.setTextColor(g_context.getResources().getColor(R.color.yellow));
                 tv_status_transaksi.setText("Pesanan Dibayar");
             }
-            else if(l_transaksi.getStatus() == g_parent.KEY_STATUS_BARUMASUK){
+            else if(l_transaction.getStatus() == g_parent.KEY_STATUS_BARUMASUK){
                 ll_transaksi_left.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_red_layered));
                 tv_total_transaksi.setTextColor(g_context.getResources().getColor(R.color.red));
                 tv_status_transaksi.setText("Pesanan Baru");
@@ -137,7 +137,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
         public void onClick(View view) {
             if(l_parent_oncallbacklistener != null)
             {
-                l_parent_oncallbacklistener.OnCallBack(l_transaksi);
+                l_parent_oncallbacklistener.OnCallBack(l_transaction);
             }
         }
     }
