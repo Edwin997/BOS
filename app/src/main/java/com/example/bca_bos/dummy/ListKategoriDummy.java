@@ -1,22 +1,18 @@
 package com.example.bca_bos.dummy;
 
-import com.example.bca_bos.models.Kategori;
+import com.example.bca_bos.models.products.PrdCategory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListKategoriDummy {
-    public static List<Kategori> kategoriList = new ArrayList<Kategori>() {{
-        add(new Kategori(1, "Nike"));
-        add(new Kategori(2, "Adidas"));
-        add(new Kategori(3, "Balenciaga"));
-    }};
+    public static List<PrdCategory> kategoriList = new ArrayList<PrdCategory>();
 
     public static String[] getListTypeString(){
         String[] tmpResult = new String[kategoriList.size() + 1];
-        tmpResult[0] = "Semua Produk";
+        tmpResult[0] = "Semua Product";
         for(int i = 1; i <= kategoriList.size(); i++){
-            tmpResult[i] = (kategoriList.get(i-1).getNama());
+            tmpResult[i] = (kategoriList.get(i-1).getCategory_name());
         }
         return tmpResult;
     }

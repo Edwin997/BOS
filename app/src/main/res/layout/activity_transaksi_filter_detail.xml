@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.transaksi.TransaksiFilterDetail">
+    tools:context=".ui.transaction.TransaksiFilterDetail">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/apps_transaksi_filterdetail_fragment_container"

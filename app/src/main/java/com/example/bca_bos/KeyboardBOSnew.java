@@ -1,6 +1,5 @@
 package com.example.bca_bos;
 
-import android.content.Context;
 import android.content.Intent;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
@@ -10,7 +9,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -39,7 +37,7 @@ import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
 import com.example.bca_bos.keyboardadapters.MutasiRekeningAdapter;
 import com.example.bca_bos.keyboardadapters.StokProdukAdapter;
 import com.example.bca_bos.keyboardadapters.TemplatedTextAdapter;
-import com.example.bca_bos.models.Produk;
+import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.networks.RajaOngkir;
 
 public class KeyboardBOSnew extends InputMethodService implements KeyboardView.OnKeyboardActionListener, OnCallBackListener, View.OnClickListener,
@@ -491,7 +489,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                g_stok_adapter.setDatasetProduk(ListProdukDummy.produkList);
+                g_stok_adapter.setDatasetProduk(ListProdukDummy.productList);
             }
         });
 
@@ -595,16 +593,16 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     @Override
     public void OnCallBack(Object p_obj) {
-        if(p_obj instanceof Produk){
-            Produk tmpProduk = (Produk) p_obj;
-            if(tmpProduk.getId() == -1){
+        if(p_obj instanceof Product){
+            Product tmpProduct = (Product) p_obj;
+            if(tmpProduct.getId_product() == -1){
                 Intent tmpIntent = new Intent(this, ApplicationContainer.class);
                 tmpIntent.putExtra(ApplicationContainer.KEY_OPEN_APPS, ApplicationContainer.ID_PRODUK);
                 tmpIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(tmpIntent);
             }
             else {
-                if(tmpProduk.getStok() <= 0){
+                if(tmpProduct.getStock() <= 0){
                     commitTextToBOSKeyboardEditText("Maaf, stok kami untuk produk tersebut sudah habis. \nTerima kasih.");
                 }else{
                     commitTextToBOSKeyboardEditText("Stok kami untuk produk tersebut masih ada. \nTerima kasih.");

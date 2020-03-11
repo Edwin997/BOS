@@ -23,7 +23,7 @@ public class TemplatedTextAdapter extends RecyclerView.Adapter<TemplatedTextAdap
     private OnCallBackListener g_parent_oncallbacklistener;
 
     public TemplatedTextAdapter(){
-        g_list_templatedtext = ListTemplatedTextDummy.templatedTextList;
+
     }
 
     @NonNull
@@ -82,7 +82,7 @@ public class TemplatedTextAdapter extends RecyclerView.Adapter<TemplatedTextAdap
 
         public void bind(TemplatedText p_templatedtext, Boolean p_showdivider){
             l_templatedtext = p_templatedtext;
-            l_btn_templatedtext.setText(l_templatedtext.getLabel().toUpperCase());
+            l_btn_templatedtext.setText(l_templatedtext.getTemplate_code().toUpperCase());
             if(p_showdivider)
                 l_view_template.setVisibility(View.VISIBLE);
             else
@@ -93,7 +93,7 @@ public class TemplatedTextAdapter extends RecyclerView.Adapter<TemplatedTextAdap
         public void onClick(View v) {
             if(v == l_btn_templatedtext){
                 if(l_parent_oncallbacklistener != null){
-                    l_parent_oncallbacklistener.OnCallBack(l_templatedtext.getDescription());
+                    l_parent_oncallbacklistener.OnCallBack(l_templatedtext.getText());
                 }
             }
         }

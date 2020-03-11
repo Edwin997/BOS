@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.produk.AddProdukActivity">
+    tools:context=".ui.product.AddProdukActivity">
 
     <LinearLayout
         android:id="@+id/apps_produk_add_actionbar_layout"

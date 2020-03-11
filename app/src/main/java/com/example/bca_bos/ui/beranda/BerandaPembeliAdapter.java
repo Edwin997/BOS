@@ -13,13 +13,13 @@ import com.example.bca_bos.Method;
 import com.example.bca_bos.dummy.ListPembeliDummy;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
-import com.example.bca_bos.models.Pembeli;
+import com.example.bca_bos.models.Buyer;
 
 import java.util.List;
 
 public class BerandaPembeliAdapter extends RecyclerView.Adapter<BerandaPembeliAdapter.BerandaPembeliViewHolder> implements OnCallBackListener {
 
-    private List<Pembeli> g_list_pembeli;
+    private List<Buyer> g_list_pembeli;
     private OnCallBackListener g_parent_oncallbacklistener;
 
     public BerandaPembeliAdapter(){
@@ -63,7 +63,7 @@ public class BerandaPembeliAdapter extends RecyclerView.Adapter<BerandaPembeliAd
         private LinearLayout l_ll_container_beranda_pembeli;
 
         private TextView l_tv_beranda_pembeli_nama, l_tv_beranda_pembeli_transaksi, l_tv_beranda_pembeli_nominal;
-        private Pembeli l_pembeli;
+        private Buyer l_pembeli;
 
         private OnCallBackListener l_parent_oncallbacklistener;
 
@@ -79,10 +79,10 @@ public class BerandaPembeliAdapter extends RecyclerView.Adapter<BerandaPembeliAd
 
         }
 
-        public void setData(Pembeli pembeli){
+        public void setData(Buyer pembeli){
             l_pembeli = pembeli;
 
-            l_tv_beranda_pembeli_nama.setText(pembeli.getNama());
+            l_tv_beranda_pembeli_nama.setText(pembeli.getBuyer_name());
             l_tv_beranda_pembeli_transaksi.setText(String.valueOf(pembeli.getJumlahTransaksi()));
             l_tv_beranda_pembeli_nominal.setText(Method.getIndoCurrency(pembeli.getNominalTransaksi()));
         }

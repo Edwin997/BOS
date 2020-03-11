@@ -14,7 +14,7 @@
 <!--        android:layout_marginTop="16dp"-->
 <!--        android:gravity="center"-->
 <!--        android:textSize="25dp"-->
-<!--        android:text="Transaksi"-->
+<!--        android:text="Transaction"-->
 <!--        android:textColor="@color/black"-->
 <!--        android:textStyle="bold"/>-->
 
@@ -246,7 +246,7 @@
     <!--            android:layout_gravity="center"-->
     <!--            android:gravity="center"-->
     <!--            android:background="@drawable/style_gradient_color_small_rounded_box"-->
-    <!--            android:text="9\n\nSemua Transaksi"-->
+    <!--            android:text="9\n\nSemua Transaction"-->
     <!--            android:textSize="25dp"-->
     <!--            android:textStyle="bold"-->
     <!--            android:textColor="@color/white"/>-->

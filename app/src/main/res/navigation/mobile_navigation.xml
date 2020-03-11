@@ -19,13 +19,13 @@
 
     <fragment
         android:id="@+id/navigation_produk"
-        android:name="com.example.bca_bos.ui.produk.ProdukFragment"
+        android:name="com.example.bca_bos.ui.product.ProdukFragment"
         android:label="@string/title_produk"
         tools:layout="@layout/fragment_transaksi" />
 
     <fragment
         android:id="@+id/navigation_transaksi"
-        android:name="com.example.bca_bos.ui.transaksi.TransaksiFragment"
+        android:name="com.example.bca_bos.ui.transaction.TransaksiFragment"
         android:label="@string/title_transaksi"
         tools:layout="@layout/fragment_profile" />
 

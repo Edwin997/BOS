@@ -14,17 +14,17 @@ import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
-import com.example.bca_bos.models.Produk;
+import com.example.bca_bos.models.products.Product;
 
 import java.util.List;
 
 public class BerandaProdukAdapter extends RecyclerView.Adapter<BerandaProdukAdapter.BerandaProdukViewHolder> implements OnCallBackListener {
 
-    private List<Produk> g_list_produk;
+    private List<Product> g_list_product;
     private OnCallBackListener g_parent_oncallbacklistener;
 
     public BerandaProdukAdapter(){
-        g_list_produk = ListProdukDummy.produkList;
+        g_list_product = ListProdukDummy.productList;
     }
 
     @NonNull
@@ -40,12 +40,12 @@ public class BerandaProdukAdapter extends RecyclerView.Adapter<BerandaProdukAdap
 
     @Override
     public void onBindViewHolder(@NonNull BerandaProdukViewHolder holder, int position) {
-        holder.setData(g_list_produk.get(position));
+        holder.setData(g_list_product.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return g_list_produk.size();
+        return g_list_product.size();
     }
 
     public void setParentOnCallBack(OnCallBackListener p_oncallback){
@@ -65,7 +65,7 @@ public class BerandaProdukAdapter extends RecyclerView.Adapter<BerandaProdukAdap
 
         private ImageView l_iv_beranda_produk;
         private TextView l_tv_beranda_produk_nama, l_tv_beranda_produk_harga, l_tv_beranda_produk_stok;
-        private Produk l_produk;
+        private Product l_product;
 
         private OnCallBackListener l_parent_oncallbacklistener;
 
@@ -82,12 +82,12 @@ public class BerandaProdukAdapter extends RecyclerView.Adapter<BerandaProdukAdap
 
         }
 
-        public void setData(Produk produk){
-            l_produk = produk;
-            l_iv_beranda_produk.setImageResource(produk.getGambar());
-            l_tv_beranda_produk_nama.setText(produk.getNama());
-            l_tv_beranda_produk_harga.setText(Method.getIndoCurrency(produk.getHarga()));
-            l_tv_beranda_produk_stok.setText("Stok : " + produk.getStok());
+        public void setData(Product product){
+            l_product = product;
+//            l_iv_beranda_produk.setImageResource(product.getImage_path());
+            l_tv_beranda_produk_nama.setText(product.getProduct_name());
+            l_tv_beranda_produk_harga.setText(Method.getIndoCurrency(product.getPrice()));
+            l_tv_beranda_produk_stok.setText("Stok : " + product.getStock());
         }
 
         public void setParentOnCallBack(OnCallBackListener p_oncallback){
@@ -98,7 +98,7 @@ public class BerandaProdukAdapter extends RecyclerView.Adapter<BerandaProdukAdap
         public void onClick(View view) {
             if(view == l_ll_container_beranda_produk){
                 if(l_parent_oncallbacklistener != null){
-                    l_parent_oncallbacklistener.OnCallBack(l_produk);
+                    l_parent_oncallbacklistener.OnCallBack(l_product);
                 }
             }
         }

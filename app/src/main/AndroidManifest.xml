@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-        <activity android:name=".ui.transaksi.TransaksiFilterDetail"></activity>
+        <activity android:name=".ui.transaction.TransaksiFilterDetail"></activity>
         <activity
             android:name=".RegisterActivity" />
         <activity
@@ -39,8 +39,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".ui.produk.EditProdukActivity" />
-        <activity android:name=".ui.produk.AddProdukActivity" />
+        <activity android:name=".ui.product.EditProdukActivity" />
+        <activity android:name=".ui.product.AddProdukActivity" />
         <activity
             android:name=".ApplicationContainer"
             android:label="@string/title_activity_application_container">

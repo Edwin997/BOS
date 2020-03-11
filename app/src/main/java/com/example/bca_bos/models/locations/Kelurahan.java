@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Provinsi {
-    private int id_provinsi;
-    private String provinsi_name; //40
+public class Kelurahan {
+    private int id_kelurahan;
+    private String kelurahan_name; //40
+    private Kecamatan kecamatan;
 }
