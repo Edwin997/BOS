@@ -189,31 +189,31 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
     private void setTabBar(){
         refreshButton();
         if(FLAG_FRAGMENT_TYPE == KEY_STATUS_BARUMASUK){
-            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_red_layered);
+            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_red);
             g_btn_tab_pesanan_baru.setTextColor(g_context.getResources().getColor(R.color.red));
 //            g_btn_tab_pesanan_baru.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_red));
             g_view_tab_pesanan_baru.setVisibility(View.VISIBLE);
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIBAYAR){
-            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_yellow_layered);
+            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_orange);
             g_btn_tab_pesanan_dibayar.setTextColor(g_context.getResources().getColor(R.color.yellow));
 //            g_btn_tab_pesanan_dibayar.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_yellow));
             g_view_tab_pesanan_dibayar.setVisibility(View.VISIBLE);
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIKIRIM){
-            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_blue_layered);
+            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_blue);
             g_btn_tab_pesanan_dikirim.setTextColor(g_context.getResources().getColor(R.color.blue));
 //            g_btn_tab_pesanan_dikirim.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_blue));
             g_view_tab_pesanan_dikirim.setVisibility(View.VISIBLE);
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SELESAI){
-            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_green_layered);
+            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_green);
             g_btn_tab_selesai.setTextColor(g_context.getResources().getColor(R.color.green));
 //            g_btn_tab_selesai.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_green));
             g_view_tab_selesai.setVisibility(View.VISIBLE);
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SEMUA){
-            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_black_layered);
+            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_black);
             g_btn_tab_semua.setTextColor(g_context.getResources().getColor(R.color.black));
 //            g_btn_tab_semua.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
             g_view_tab_semua.setVisibility(View.VISIBLE);

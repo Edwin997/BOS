@@ -14,9 +14,10 @@
     <LinearLayout
         android:id="@+id/ll_apps_transaksi_item_all"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/style_transaction_gradient_blue">
 
         <LinearLayout
             android:id="@+id/ll_apps_transaksi_item_left"
@@ -26,8 +27,7 @@
             android:orientation="vertical"
             android:paddingStart="20dp"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:background="@drawable/style_transaction_gradient_blue_layered">
+            android:paddingBottom="8dp">
 
             <TextView
                 android:id="@+id/tv_apps_transaksi_nama"
@@ -68,7 +68,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:text="100000"
                 android:textSize="16dp"
                 android:textStyle="bold"/>
@@ -82,6 +82,7 @@
                 android:gravity="top|end"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="Transaksi Selesai"
+                android:textColor="@color/white"
                 android:textSize="12dp" />
 
         </LinearLayout>
