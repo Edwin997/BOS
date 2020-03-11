@@ -54,6 +54,7 @@ public class ApplicationContainer extends AppCompatActivity  {
                 R.id.navigation_beranda, R.id.navigation_template, R.id.navigation_produk,
                 R.id.navigation_transaksi, R.id.navigation_profile)
                 .build();
+        
         g_navView = findViewById(R.id.nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(g_navView, navController);
