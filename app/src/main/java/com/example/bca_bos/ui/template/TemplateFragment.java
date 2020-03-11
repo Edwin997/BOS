@@ -152,6 +152,6 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
     }
 
     public void refreshData(){
-        VolleyClass.getTemplatedText(g_context, 1, g_templateadapter);
+        VolleyClass.getTemplatedText(g_context, 3, g_templateadapter);
     }
 }

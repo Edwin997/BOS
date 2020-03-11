@@ -1,7 +1,9 @@
 package com.example.bca_bos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -34,12 +36,16 @@ public class ApplicationContainer extends AppCompatActivity  {
 
     private BottomNavigationView g_navView;
 
+    private ProgressBar pb_loading_fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_application_container);
+
+        pb_loading_fragment = findViewById(R.id.pb_loading_fragment);
 
         disableSertifikatSSL();
 
