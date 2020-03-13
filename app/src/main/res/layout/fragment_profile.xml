@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="60dp"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/opensans_bold"
                 android:text="William Sutanto"
                 android:textAlignment="center"
                 android:textColor="@color/black"
@@ -48,6 +48,7 @@
                 android:layout_gravity="center"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
+                android:fontFamily="@font/opensans_bold"
                 android:text="1234 - 1234 -5678 - 5678"
                 android:textStyle="bold"
                 android:textAlignment="center"
@@ -59,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="16dp"
                 android:paddingLeft="24dp"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/opensans_bold"
                 android:text="BOS ID"
                 android:textAlignment="textStart"
                 android:textStyle="bold"
@@ -69,7 +70,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
+                android:fontFamily="@font/opensans_regular"
                 android:paddingLeft="24dp"
                 android:text="bosnyawinstok"
                 android:textAlignment="textStart"
@@ -81,8 +82,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:paddingLeft="24dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Password"
+                android:fontFamily="@font/opensans_bold"                android:text="Password"
                 android:textAlignment="textStart"
                 android:textStyle="bold"
                 android:textColor="@color/black"
@@ -92,6 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="24dp"
+                android:fontFamily="@font/opensans_regular"
                 android:text="**********"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
@@ -102,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="16dp"
                 android:fontFamily="@font/montserrat_bold"
-                android:background="@drawable/style_red_gradient_color_box"
+                android:background="@drawable/style_black_gradient_color_box"
                 android:layout_marginLeft="24dp"
                 android:text="Ganti Password"
                 android:textAlignment="center"
@@ -115,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:paddingLeft="24dp"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/opensans_bold"
                 android:text="No. Hp"
                 android:textAlignment="textStart"
                 android:textStyle="bold"
@@ -126,6 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="24dp"
+                android:fontFamily="@font/opensans_regular"
                 android:text="08123123123"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
@@ -134,7 +136,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/opensans_bold"
                 android:paddingTop="8dp"
                 android:paddingLeft="24dp"
                 android:text="Nama Toko"
@@ -146,7 +148,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
+                android:fontFamily="@font/opensans_regular"
                 android:paddingLeft="24dp"
                 android:text="Toko Sepatu Winstok"
                 android:textAlignment="textStart"
@@ -156,7 +158,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/opensans_bold"
                 android:paddingTop="8dp"
                 android:paddingLeft="24dp"
                 android:text="Kota"
@@ -168,7 +170,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
+                android:fontFamily="@font/opensans_regular"
                 android:paddingLeft="24dp"
                 android:text="Jakarta Barat"
                 android:textAlignment="textStart"
@@ -178,7 +180,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/opensans_bold"
                 android:paddingTop="8dp"
                 android:paddingLeft="24dp"
                 android:text="Kurir Pilihan"
@@ -190,7 +192,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
+                android:fontFamily="@font/opensans_regular"
                 android:paddingLeft="24dp"
                 android:paddingBottom="24dp"
                 android:text="JNE - TIKI"
@@ -229,5 +231,18 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/profile_logout_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="64dp"
+        android:layout_marginLeft="64dp"
+        android:background="@drawable/style_red_gradient_color_box"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Logout"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
 </LinearLayout>

@@ -1,6 +1,10 @@
 package com.example.bca_bos.ui.profile;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +16,10 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.bca_bos.ApplicationContainer;
+import com.example.bca_bos.LoginActivity;
 import com.example.bca_bos.R;
+import com.example.bca_bos.networks.Login;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 public class ProfileFragment extends Fragment implements View.OnClickListener {
@@ -22,11 +29,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     View g_view;
 
     private ImageButton g_profile_ib_edit;
-    private Button g_profile_btn_change_password, g_profile_button_jne, g_profile_button_tiki, g_profile_button_pos;
+    private Button g_profile_btn_change_password, g_profile_button_jne, g_profile_button_tiki, g_profile_button_pos, g_profile_btn_logout;
 
-    //BottomSheet
+    //BottomSheet Edit
     private BottomSheetDialog g_bottomsheet_dialog_edit_profile, g_bottomsheet_dialog_change_password;
     private Button g_bottomsheet_simpan_profil, g_bottomsheet_simpan_password;
+
+    //Popup Logout
+    private Dialog g_profile_logout_popup;
+    private Button g_profile_btn_logout_ya, g_profile_btn_logout_tidak;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +53,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         g_profile_btn_change_password = g_view.findViewById(R.id.profile_change_password_button);
         g_profile_btn_change_password.setOnClickListener(this);
+
+        g_profile_btn_logout = g_view.findViewById(R.id.profile_logout_button);
+        g_profile_btn_logout.setOnClickListener(this);
+
+        //Logout Popup
+        g_profile_logout_popup = new Dialog(g_context);
 
 
         return g_view;
@@ -99,6 +116,25 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.apps_bottom_sheet_btn_simpan_password:
                 g_bottomsheet_dialog_change_password.dismiss();
+                break;
+            case R.id.profile_logout_button:
+                g_profile_logout_popup.setContentView(R.layout.layout_popup_profile_logout);
+                g_profile_logout_popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                g_profile_logout_popup.show();
+
+                g_profile_btn_logout_ya = g_profile_logout_popup.findViewById(R.id.btn_popup_profile_ya);
+                g_profile_btn_logout_ya.setOnClickListener(this);
+                g_profile_btn_logout_tidak = g_profile_logout_popup.findViewById(R.id.btn_popup_profile_tidak);
+                g_profile_btn_logout_tidak.setOnClickListener(this);
+
+                break;
+            case  R.id.btn_popup_profile_ya:
+                Intent loginIntent = new Intent(g_context, LoginActivity.class);
+                startActivity(loginIntent);
+                g_profile_logout_popup.dismiss();
+                break;
+            case R.id.btn_popup_profile_tidak:
+                g_profile_logout_popup.dismiss();
                 break;
         }
     }
