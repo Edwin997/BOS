@@ -46,6 +46,21 @@ public class NetworkUtil {
         return "";
     }
 
+    public static String getErrorCode(String p_response){
+        try {
+            JSONObject objGeneral = new JSONObject(p_response);
+            if(objGeneral.get("error_schema") instanceof JSONObject){
+                JSONObject tmpObject = objGeneral.getJSONObject("error_schema");
+                JSONObject error_code = tmpObject.getJSONObject("error_message");
+
+                return error_code.getString("indonesian");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public static String getErrorMessage(String p_response){
         try {
             JSONObject objGeneral = new JSONObject(p_response);

@@ -10,22 +10,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
+import com.example.bca_bos.models.products.PrdCategory;
 import com.example.bca_bos.models.products.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.StokProdukItemViewHolder> implements OnCallBackListener {
 
-    private List<Product> g_list_product;
+    private List<Product> g_list_product_master;
+    private List<Product> g_list_temp_product;
     private OnCallBackListener g_parent_oncallbacklistener;
 
     public StokProdukAdapter(){
-        g_list_product = ListProdukDummy.getProduks();
-//        g_list_product.add(0, new Product(-1, "...", 0, R.drawable.ic_keyboard_add_fill_blue, 0, new Kategori(-1, "kosong")));
+        g_list_product_master = new ArrayList<>();
+//        g_list_product_master.add(0, new Product(-1, "...", 0, R.drawable.ic_keyboard_add_fill_blue, 0, new Kategori(-1, "kosong")));
     }
 
     @NonNull
@@ -41,17 +43,53 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
 
     @Override
     public void onBindViewHolder(@NonNull StokProdukItemViewHolder holder, int position) {
-        holder.setData(g_list_product.get(position));
+        holder.setData(g_list_temp_product.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return g_list_product.size();
+        return g_list_temp_product.size();
     }
 
     public void setDatasetProduk(List<Product> p_list){
-        g_list_product = p_list;
+        g_list_product_master = p_list;
+        setDatasetProdukFiltered(g_list_product_master);
         notifyDataSetChanged();
+    }
+
+    public void setDatasetProdukFiltered(List<Product> p_list){
+        g_list_temp_product = p_list;
+        notifyDataSetChanged();
+    }
+
+    public void getProductFiltered(int id_category){
+        if(id_category == 0){
+            setDatasetProdukFiltered(g_list_product_master);
+        }
+        else {
+            List<Product> tempList = new ArrayList<>();
+            for (int i = 0; i < g_list_product_master.size(); i++){
+                if(g_list_product_master.get(i).getId_prd_category() == id_category){
+                    tempList.add(g_list_product_master.get(i));
+                }
+            }
+            setDatasetProdukFiltered(tempList);
+        }
+    }
+
+    public void findProduct(String p_name){
+        if(p_name.equals("")){
+            setDatasetProdukFiltered(g_list_product_master);
+        }
+        else {
+            List<Product> tempList = new ArrayList<>();
+            for (int i = 0; i < g_list_product_master.size(); i++){
+                if(g_list_product_master.get(i).getProduct_name().toLowerCase().contains(p_name.toLowerCase())){
+                    tempList.add(g_list_product_master.get(i));
+                }
+            }
+            setDatasetProdukFiltered(tempList);
+        }
     }
 
     public void setParentOnCallBack(OnCallBackListener p_oncallback){

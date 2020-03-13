@@ -41,6 +41,8 @@ import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.networks.RajaOngkir;
 import com.example.bca_bos.networks.VolleyClass;
 
+import java.util.ArrayList;
+
 public class KeyboardBOSnew extends InputMethodService implements KeyboardView.OnKeyboardActionListener, OnCallBackListener, View.OnClickListener,
         View.OnFocusChangeListener, View.OnTouchListener {
 
@@ -61,9 +63,10 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private final static String KEY_ET_STOK_SEARCH = "g_et_stok_search";
     private final static String KEY_ET_KIRIMFORM_SEARCH = "g_et_kirimform_search";
     private final static String KEY_ET_KIRIMFORM_NEXT_ASAL = "g_et_kirimform_next_asal";
-    private final static String KEY_ET_KIRIMFORM_NEXT_TUJUAN = "g_et_kirimform_next_tujuan";
-    private final static String KEY_ET_KIRIMFORM_NEXT_BERAT = "g_et_kirimform_next_berat";
     private final static String KEY_ET_KIRIMFORM_NEXT_KURIR = "g_et_kirimform_next_kurir";
+
+    private final static String KEY_ET_TEXTWATCHER_SEARCH = "search_type";
+    private final static String KEY_ET_TEXTWATCHER_BERAT = "berat_type";
 
     //LAYOUT KEYBOARD VIEW
     private View g_viewparent;
@@ -428,7 +431,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         });
 
         //BERAT
-        g_et_ongkir_berat.addTextChangedListener(new KeyboardBosTextWatcher(g_et_ongkir_berat));
+        g_et_ongkir_berat.addTextChangedListener(new KeyboardBosTextWatcher(KEY_ET_TEXTWATCHER_BERAT, g_et_ongkir_berat));
         g_et_ongkir_berat.setOnFocusChangeListener(this);
         g_et_ongkir_berat.setOnTouchListener(this);
 
@@ -482,25 +485,29 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         VolleyClass.getProduct(getApplicationContext(), 3, g_stok_adapter);
 
         //config spinner
-        g_sp_stok_filter_adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ListKategoriDummy.getListTypeString());
+        ArrayList<String> tmpInitialFilterValue = new ArrayList<>();
+        g_sp_stok_filter_adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, tmpInitialFilterValue);
         g_sp_stok_filter_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         g_sp_stok_filter.setAdapter(g_sp_stok_filter_adapter);
         g_sp_stok_filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String idx = ListKategoriDummy.getListTypeString()[position];
-                g_stok_adapter.setDatasetProduk(ListProdukDummy.getProdukByKategory(idx));
+                int idx = VolleyClass.findProductCategoryId(position);
+                g_stok_adapter.getProductFiltered(idx);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                g_stok_adapter.setDatasetProduk(ListProdukDummy.productList);
+                g_stok_adapter.getProductFiltered(0);
             }
         });
+
+        VolleyClass.getProductCategory(getApplicationContext(), g_sp_stok_filter_adapter);
 
         //config edittext
         g_et_stok_search.setOnFocusChangeListener(this);
         g_et_stok_search.setOnTouchListener(this);
+        g_et_stok_search.addTextChangedListener(new KeyboardBosTextWatcher(KEY_ET_TEXTWATCHER_SEARCH, g_et_stok_search));
 
         //config button
         g_btn_stok_back.setOnClickListener(this);
@@ -557,7 +564,6 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_btn_kirimform_next_asal_back = g_viewparent.findViewById(R.id.bcabos_kirimform_next_asal_back_button);
         g_btn_kirimform_next_send = g_viewparent.findViewById(R.id.bcabos_kirimform_send_button);
 
-
         //config edittext
         //ASAL
         g_actv_kirimform_next_asal.setOnFocusChangeListener(this);
@@ -574,6 +580,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         //config button
         //ASAL
         g_btn_kirimform_next_asal_back.setOnClickListener(this);
+        g_btn_kirimform_next_send.setOnClickListener(this);
 
     }
 
@@ -747,11 +754,11 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 setKeyboardType();
                 break;
             case R.id.bcabos_kirimform_send_button:
+                focusedEditText = KEY_ET_EXTERNAL;
                 String comment = "Silahkan melengkapi data diri anda dan melakukan pengecekan terakhir" +
                         " pesanan anda pada link dibawah ini:\n";
-                String url_kirimform = "https://webapps.apps.pcf.dti.co.id/forms/sell/1";
-                commitTextToBOSKeyboardEditText(comment + url_kirimform
-                );
+                String url_kirimform = "https://webapp.apps.pcf.dti.co.id/order/1";
+                commitTextToBOSKeyboardEditText(comment + url_kirimform);
                 break;
 
             //endregion
@@ -1283,6 +1290,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private class KeyboardBosTextWatcher implements TextWatcher {
 
         private EditText l_edittext;
+        private String l_type;
         private AutoCompleteTextView l_autocomplete;
 
         private int l_delay = 1000;
@@ -1298,14 +1306,25 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                             l_autocomplete.showDropDown();
                             g_keyboardview.setVisibility(View.INVISIBLE);
                         }
-
                     }
                 }
             }
         };
 
-        public KeyboardBosTextWatcher(EditText p_edittext){
+        private Runnable l_thread_show_search_result = new Runnable() {
+            public void run() {
+                if (l_edittext != null) {
+                    if (System.currentTimeMillis() > (l_time_last_editted + l_delay - 500)) {
+                        g_stok_adapter.findProduct(l_edittext.getText().toString());
+                        showStok();
+                    }
+                }
+            }
+        };
+
+        public KeyboardBosTextWatcher(String p_type, EditText p_edittext){
             l_edittext = p_edittext;
+            l_type = p_type;
             l_handler = new Handler();
         }
 
@@ -1336,17 +1355,27 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             }
 
             if(l_edittext != null){
-                String tmp_added_number = l_edittext.getText().toString();
-                if (tmp_added_number.length() != 0) {
-                    int tmpnumber  = Integer.parseInt(tmp_added_number);
+                switch (l_type){
+                    case KEY_ET_TEXTWATCHER_BERAT:
+                        String tmp_added_number = l_edittext.getText().toString();
+                        if (tmp_added_number.length() != 0) {
+                            int tmpnumber  = Integer.parseInt(tmp_added_number);
 
-                    if (tmpnumber > 30000){
-                        l_edittext.setText("30000");
-                        Toast.makeText(getApplicationContext(), "Maksimal berat 30.000 gram", Toast.LENGTH_SHORT).show();
-                    } if (tmpnumber < 1){
-                        l_edittext.setText("");
-                    }
+                            if (tmpnumber > 30000){
+                                l_edittext.setText("30000");
+                                Toast.makeText(getApplicationContext(), "Maksimal berat 30.000 gram", Toast.LENGTH_SHORT).show();
+                            } if (tmpnumber < 1){
+                                l_edittext.setText("");
+                            }
 
+                        }
+                        break;
+                    case KEY_ET_TEXTWATCHER_SEARCH:
+                        if (editable.length() > 0 && l_count_char != editable.length()) {
+                            l_time_last_editted = System.currentTimeMillis();
+                            l_handler.postDelayed(l_thread_show_search_result, l_delay);
+                        }
+                        break;
                 }
             }
         }

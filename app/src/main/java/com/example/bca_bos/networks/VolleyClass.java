@@ -1,23 +1,15 @@
 package com.example.bca_bos.networks;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.util.Base64;
 import android.util.Log;
-import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -26,6 +18,7 @@ import com.example.bca_bos.LoginActivity;
 import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
 import com.example.bca_bos.keyboardadapters.StokProdukAdapter;
 import com.example.bca_bos.keyboardadapters.TemplatedTextAdapter;
+import com.example.bca_bos.models.products.PrdCategory;
 import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.TemplatedText;
@@ -34,18 +27,16 @@ import com.example.bca_bos.ui.profile.ProfileFragment;
 import com.example.bca_bos.ui.template.TemplateAdapter;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 public class VolleyClass {
 
-    private static final String ERROR_MESSAGE_BERHASIL = "Berhasil";
+    private static final String ERROR_CODE_BERHASIL = "BIT-000";
     private static RequestQueue g_requestqueue;
     private static Gson gson = new Gson();
 
@@ -56,6 +47,9 @@ public class VolleyClass {
 
     private final static  String BASE_URL_PRODUCT = "https://product.apps.pcf.dti.co.id";
     private final static String URL_PRODUCT = BASE_URL_PRODUCT + "/bos/product";
+    private final static String URL_PRODUCT_CATEGORY = BASE_URL_PRODUCT + "/bos/productCategory";
+    private static List<PrdCategory> g_list_product_category = new ArrayList<>();
+    private static String KEY_SEMUA_PRODUCT = "Semua Produk";
 
     private final static  String BASE_URL_LOGIN = "https://login.apps.pcf.dti.co.id";
     private final static String URL_LOGIN = BASE_URL_LOGIN + "/bos/login";
@@ -82,7 +76,7 @@ public class VolleyClass {
                                 TemplateAdapter tmpAdapter = (TemplateAdapter) p_adapter;
                                 tmpAdapter.setListTemplate(tempObject);
                             }
-                            else if(p_adapter instanceof TemplateAdapter){
+                            else if(p_adapter instanceof TemplatedTextAdapter){
                                 TemplatedTextAdapter tmpAdapter = (TemplatedTextAdapter) p_adapter;
                                 tmpAdapter.setListTemplate(tempObject);
                             }
@@ -114,7 +108,7 @@ public class VolleyClass {
                     public void onResponse(JSONObject response) {
                         try {
                             String message = NetworkUtil.getErrorMessage(response.toString());
-                            if(message.equals(ERROR_MESSAGE_BERHASIL)){
+                            if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Penambahan data template text berhasil", Toast.LENGTH_SHORT).show();
                                 getTemplatedText(p_context, p_templatedtext.getId_template_text(), p_adapter);
                             }
@@ -153,7 +147,7 @@ public class VolleyClass {
                     public void onResponse(JSONObject response) {
                         try {
                             String message = NetworkUtil.getErrorMessage(response.toString());
-                            if(message.equals(ERROR_MESSAGE_BERHASIL)){
+                            if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Pengubahan data template text berhasil", Toast.LENGTH_SHORT).show();
                                 getTemplatedText(p_context, p_templatedtext.getId_template_text(), p_adapter);
                             }
@@ -185,7 +179,7 @@ public class VolleyClass {
                     public void onResponse(String response) {
                         try {
                             String message = NetworkUtil.getErrorMessage(response.toString());
-                            if(message.equals(ERROR_MESSAGE_BERHASIL)){
+                            if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Hapus data template text berhasil", Toast.LENGTH_SHORT).show();
                                 getTemplatedText(p_context, p_id_seller, p_adapter);
                             }
@@ -218,13 +212,12 @@ public class VolleyClass {
                     @Override
                     public void onResponse(String response) {
                         try {
-
+                            Log.d("BOSVOLLEY", response);
                             String output = NetworkUtil.getOutputSchema(response);
 
 //                            TemplatedText tempObject = gson.fromJson(response, TemplatedText.class);
 
                             List<Product> tempObject = Arrays.asList(gson.fromJson(output, Product[].class));
-
                             if(p_adapter instanceof ProdukAdapter){
                                 ProdukAdapter tmpAdapter = (ProdukAdapter) p_adapter;
                                 tmpAdapter.setDatasetProduk(tempObject);
@@ -267,7 +260,7 @@ public class VolleyClass {
                     @Override
                     public void onResponse(JSONObject response) {
                         String message = NetworkUtil.getErrorMessage(response.toString());
-                        if(message.equals(ERROR_MESSAGE_BERHASIL)){
+                        if(message.equals(ERROR_CODE_BERHASIL)){
                             Toast.makeText(p_context, "Penambahan data product berhasil", Toast.LENGTH_SHORT).show();
                             getProduct(p_context, p_product.getSeller().getId_seller(), p_adapter);
                         }
@@ -306,7 +299,7 @@ public class VolleyClass {
                     public void onResponse(JSONObject response) {
 //                        Log.d(TAG, response.toString());
                         String message = NetworkUtil.getErrorMessage(response.toString());
-                        if(message.equals(ERROR_MESSAGE_BERHASIL)){
+                        if(message.equals(ERROR_CODE_BERHASIL)){
                             Toast.makeText(p_context, "Pengubahan data product berhasil", Toast.LENGTH_SHORT).show();
                             getProduct(p_context, p_product.getSeller().getId_seller(), p_adapter);
                         }
@@ -325,6 +318,51 @@ public class VolleyClass {
 
         g_requestqueue.add(request_json);
     }
+
+    public static void getProductCategory(Context p_context, final ArrayAdapter p_adapter){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PRODUCT_CATEGORY,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            g_list_product_category = Arrays.asList(gson.fromJson(output, PrdCategory[].class));
+
+                            List<String> listnama = new ArrayList<>();
+                            listnama.add(KEY_SEMUA_PRODUCT);
+                            for (PrdCategory category : g_list_product_category){
+                                listnama.add(category.getCategory_name());
+                            }
+
+                            p_adapter.clear();
+                            p_adapter.addAll(listnama);
+                            p_adapter.notifyDataSetChanged();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static int findProductCategoryId(int position){
+        int idx = 0;
+        if(position > 0)
+            idx = g_list_product_category.get(position - 1).getId_prd_category();
+
+        return idx;
+    }
     //endregion
 
     //region LOGIN AND REGISTER
@@ -341,7 +379,7 @@ public class VolleyClass {
                     public void onResponse(JSONObject response) {
 //                        Log.d(TAG, response.toString());
                         String message = NetworkUtil.getErrorMessage(response.toString());
-                        if(message.equals(ERROR_MESSAGE_BERHASIL)){
+                        if(message.equals(ERROR_CODE_BERHASIL)){
                             LoginActivity.g_instance.intentLogin();
                         }
                         else

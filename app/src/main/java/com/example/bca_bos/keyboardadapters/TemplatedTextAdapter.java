@@ -14,6 +14,7 @@ import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.TemplatedText;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TemplatedTextAdapter extends RecyclerView.Adapter<TemplatedTextAdapter.TemplatedTextViewHolder> implements OnCallBackListener {
@@ -23,7 +24,7 @@ public class TemplatedTextAdapter extends RecyclerView.Adapter<TemplatedTextAdap
     private OnCallBackListener g_parent_oncallbacklistener;
 
     public TemplatedTextAdapter(){
-
+        g_list_templatedtext = new ArrayList<>();
     }
 
     @NonNull

@@ -17,6 +17,7 @@ import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.products.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class KirimFormProdukAdapter extends RecyclerView.Adapter<KirimFormProdukAdapter.KirimFormProdukItemViewHolder> implements OnCallBackListener {
@@ -25,7 +26,7 @@ public class KirimFormProdukAdapter extends RecyclerView.Adapter<KirimFormProduk
     private OnCallBackListener g_parent_oncallbacklistener;
 
     public KirimFormProdukAdapter(){
-        g_list_product = ListProdukDummy.productList;
+        g_list_product = new ArrayList<>();
     }
 
     @NonNull

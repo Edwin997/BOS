@@ -23,6 +23,7 @@ public class Product implements Parcelable {
     private String image_path;
     private PrdCategory prdCategory;
     private Seller seller;
+    private int id_prd_category;
 
     public Product(int p_id_product, String p_product_name, int p_stock, String p_image,
                    int p_price, PrdCategory p_prdCategory){
