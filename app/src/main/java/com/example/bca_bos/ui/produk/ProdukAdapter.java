@@ -21,11 +21,12 @@ import java.util.List;
 
 public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukViewHolder> implements OnCallBackListener {
 
-    private List<Product> g_list_product;
+    private List<Product> g_list_product_master;
+    private List<Product> g_list_temp_product;
     private OnCallBackListener g_parent_oncallbacklistener;
 
     public ProdukAdapter(){
-        g_list_product = new ArrayList<>();
+        g_list_product_master = new ArrayList<>();
     }
 
     @NonNull
@@ -41,17 +42,55 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukView
 
     @Override
     public void onBindViewHolder(@NonNull ProdukViewHolder holder, int position) {
-        holder.setData(g_list_product.get(position));
+        holder.setData(g_list_temp_product.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return g_list_product.size();
+        return g_list_temp_product.size();
     }
 
     public void setDatasetProduk(List<Product> p_list){
-        g_list_product = p_list;
+        g_list_product_master = p_list;
+        setDatasetProdukFiltered(g_list_product_master);
         notifyDataSetChanged();
+    }
+
+    public void setDatasetProdukFiltered(List<Product> p_list){
+        g_list_temp_product = p_list;
+        notifyDataSetChanged();
+    }
+
+    public void getProductFiltered(int id_category){
+        if(id_category == 0){
+            setDatasetProdukFiltered(g_list_product_master);
+        }
+        else {
+            List<Product> tempList = new ArrayList<>();
+            tempList.add(g_list_product_master.get(0));
+            for (int i = 0; i < g_list_product_master.size(); i++){
+                if(g_list_product_master.get(i).getPrdCategory().getId_prd_category() == id_category){
+                    tempList.add(g_list_product_master.get(i));
+                }
+            }
+            setDatasetProdukFiltered(tempList);
+        }
+    }
+
+    public void findProduct(String p_name){
+        if(p_name.equals("")){
+            setDatasetProdukFiltered(g_list_product_master);
+        }
+        else {
+            List<Product> tempList = new ArrayList<>();
+            tempList.add(g_list_product_master.get(0));
+            for (int i = 0; i < g_list_product_master.size(); i++){
+                if(g_list_product_master.get(i).getProduct_name().toLowerCase().contains(p_name.toLowerCase())){
+                    tempList.add(g_list_product_master.get(i));
+                }
+            }
+            setDatasetProdukFiltered(tempList);
+        }
     }
 
     public void setParentOnCallBack(OnCallBackListener p_oncallback){

@@ -117,15 +117,16 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_produk_fragment_spinner_kategori.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String idx = ListKategoriDummy.getListTypeString()[position];
-                g_produkadapter.setDatasetProduk(ListProdukDummy.getProdukByKategory(idx));
+                int idx = VolleyClass.findProductCategoryId(position);
+                g_produkadapter.getProductFiltered(idx);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                g_produkadapter.setDatasetProduk(ListProdukDummy.productList);
+                g_produkadapter.getProductFiltered(0);
             }
         });
+        VolleyClass.getProductCategory(g_context, g_spinnerAdapter);
 
         return g_view;
     }
