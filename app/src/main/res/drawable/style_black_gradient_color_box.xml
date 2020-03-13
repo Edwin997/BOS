@@ -10,7 +10,7 @@
         android:type="linear"
         android:angle="0"
         android:startColor="#222222"
-        android:endColor="#2B2A2A"
+        android:endColor="#444444"
         />
 
 </shape>

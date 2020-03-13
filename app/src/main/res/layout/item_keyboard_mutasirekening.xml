@@ -15,8 +15,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:weightSum="2"
+        android:background="@drawable/style_transaction_gradient_blue"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -24,7 +25,6 @@
             android:layout_height="match_parent"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
-            android:background="@drawable/style_gradient_color_half_round_right"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="vertical">
@@ -35,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="Bambang"
+                android:fontFamily="@font/opensans_bold"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/white"
@@ -47,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:layout_marginTop="-4dp"
-                android:fontFamily="@font/montserrat_regular"
+                android:fontFamily="@font/opensans_light"
                 android:text="12/12/2020"
                 android:ellipsize="end"
                 android:maxLines="1"
@@ -72,9 +73,10 @@
                 android:paddingRight="16dp"
                 android:layout_gravity="end"
                 android:text="Rp.100.0000"
+                android:fontFamily="@font/opensans_bold"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/dark_blue"
+                android:textColor="@color/white"
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
@@ -85,11 +87,11 @@
                 android:paddingRight="14dp"
                 android:layout_marginTop="-4dp"
                 android:layout_gravity="end"
-                android:fontFamily="@font/montserrat_regular"
+                android:fontFamily="@font/opensans_light"
                 android:text="Done"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="12dp" />
 
 

@@ -168,13 +168,13 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
     private void changeMaskedPasswordBackground(){
         if (g_otp_flag.equals("zero")){
-            g_otp_iv_first_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_blue));
+            g_otp_iv_first_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
         }else if (g_otp_flag.equals("first")){
-            g_otp_iv_second_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_blue));
+            g_otp_iv_second_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
         }else if (g_otp_flag.equals("second")){
-            g_otp_iv_third_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_blue));
+            g_otp_iv_third_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
         }else if (g_otp_flag.equals("third")){
-            g_otp_iv_fourth_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_blue));
+            g_otp_iv_fourth_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
         }else if (g_otp_flag.equals("fourth")){
 
         }
