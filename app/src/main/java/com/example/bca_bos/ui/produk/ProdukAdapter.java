@@ -16,6 +16,7 @@ import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.products.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukViewHolder> implements OnCallBackListener {
@@ -24,8 +25,7 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukView
     private OnCallBackListener g_parent_oncallbacklistener;
 
     public ProdukAdapter(){
-
-
+        g_list_product = new ArrayList<>();
     }
 
     @NonNull

@@ -105,11 +105,10 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_linearlayoutmanager = new LinearLayoutManager(g_context);
         g_produkadapter = new ProdukAdapter();
 
-        VolleyClass.getProduct(g_context, 2, g_produkadapter);
-
         g_produkadapter.setParentOnCallBack(this);
         g_produkfragment_recyclerview.setAdapter(g_produkadapter);
         g_produkfragment_recyclerview.setLayoutManager(g_linearlayoutmanager);
+        VolleyClass.getProduct(g_context, 3, g_produkadapter);
 
         //config spinner
         g_spinnerAdapter = new ArrayAdapter(g_context, android.R.layout.simple_spinner_item, ListKategoriDummy.getListTypeString());
@@ -221,6 +220,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 break;
             case R.id.apps_bottom_sheet_btn_hapus_edit_produk:
                 g_bottomsheet_dialog.dismiss();
+                VolleyClass.deleteProduct(g_context, g_product_onclick.getId_product(), g_produkadapter);
                 break;
             //endregion
 

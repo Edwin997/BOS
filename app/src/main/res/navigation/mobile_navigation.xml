@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/navigation_produk"
-        android:name="com.example.bca_bos.ui.product.ProdukFragment"
+        android:name="com.example.bca_bos.ui.produk.ProdukFragment"
         android:label="@string/title_produk"
-        tools:layout="@layout/fragment_transaksi" />
+        tools:layout="@layout/layout_bottom_sheet_add_produk" />
 
     <fragment
         android:id="@+id/navigation_transaksi"

@@ -27,7 +27,6 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
 
     public StokProdukAdapter(){
         g_list_product_master = new ArrayList<>();
-//        g_list_product_master.add(0, new Product(-1, "...", 0, R.drawable.ic_keyboard_add_fill_blue, 0, new Kategori(-1, "kosong")));
     }
 
     @NonNull
@@ -68,8 +67,9 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
         }
         else {
             List<Product> tempList = new ArrayList<>();
+            tempList.add(g_list_product_master.get(0));
             for (int i = 0; i < g_list_product_master.size(); i++){
-                if(g_list_product_master.get(i).getId_prd_category() == id_category){
+                if(g_list_product_master.get(i).getPrdCategory().getId_prd_category() == id_category){
                     tempList.add(g_list_product_master.get(i));
                 }
             }
@@ -83,6 +83,7 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
         }
         else {
             List<Product> tempList = new ArrayList<>();
+            tempList.add(g_list_product_master.get(0));
             for (int i = 0; i < g_list_product_master.size(); i++){
                 if(g_list_product_master.get(i).getProduct_name().toLowerCase().contains(p_name.toLowerCase())){
                     tempList.add(g_list_product_master.get(i));

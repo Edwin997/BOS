@@ -170,10 +170,10 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
-    public static void deleteTemplatedText(final Context p_context, final int p_id_seller, final RecyclerView.Adapter p_adapter){
+    public static void deleteTemplatedText(final Context p_context, final int p_id_templatetext, final RecyclerView.Adapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
-        StringRequest request_json = new StringRequest(Request.Method.DELETE ,URL_TEMPLATED_TEXT + "/" + p_id_seller,
+        StringRequest request_json = new StringRequest(Request.Method.DELETE ,URL_TEMPLATED_TEXT + "/" + p_id_templatetext,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -181,7 +181,7 @@ public class VolleyClass {
                             String message = NetworkUtil.getErrorMessage(response.toString());
                             if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Hapus data template text berhasil", Toast.LENGTH_SHORT).show();
-                                getTemplatedText(p_context, p_id_seller, p_adapter);
+                                getTemplatedText(p_context, p_id_templatetext, p_adapter);
                             }
                             else
                             {
@@ -216,15 +216,22 @@ public class VolleyClass {
                             String output = NetworkUtil.getOutputSchema(response);
 
 //                            TemplatedText tempObject = gson.fromJson(response, TemplatedText.class);
-
                             List<Product> tempObject = Arrays.asList(gson.fromJson(output, Product[].class));
+
+                            Log.d("BOSVOLLEY", tempObject.get(0).getPrdCategory().getId_prd_category() + "coy");
                             if(p_adapter instanceof ProdukAdapter){
                                 ProdukAdapter tmpAdapter = (ProdukAdapter) p_adapter;
                                 tmpAdapter.setDatasetProduk(tempObject);
                             }
                             else if(p_adapter instanceof StokProdukAdapter){
+                                List<Product> tmpList = new ArrayList<>();
+                                tmpList.add(0, new Product(-1, "Tambah Produk", 0, "", 0, new PrdCategory(-1, "kosong")));
+                                for (int i = 0; i < tempObject.size(); i++){
+                                    tmpList.add(tempObject.get(i));
+                                }
+
                                 StokProdukAdapter tmpAdapter = (StokProdukAdapter) p_adapter;
-                                tmpAdapter.setDatasetProduk(tempObject);
+                                tmpAdapter.setDatasetProduk(tmpList);
                             }
                             else if(p_adapter instanceof KirimFormProdukAdapter){
                                 KirimFormProdukAdapter tmpAdapter = (KirimFormProdukAdapter) p_adapter;
@@ -319,6 +326,38 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
+    public static void deleteProduct(final Context p_context, final int p_id_product, final RecyclerView.Adapter p_adapter){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.DELETE ,URL_PRODUCT + "/" + p_id_product,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            String message = NetworkUtil.getErrorMessage(response.toString());
+                            if(message.equals(ERROR_CODE_BERHASIL)){
+                                Toast.makeText(p_context, "Hapus data product berhasil", Toast.LENGTH_SHORT).show();
+                                getProduct(p_context, p_id_product, p_adapter);
+                            }
+                            else
+                            {
+                                Toast.makeText(p_context, "Hapus data template text gagal", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
     public static void getProductCategory(Context p_context, final ArrayAdapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
@@ -337,6 +376,8 @@ public class VolleyClass {
                             for (PrdCategory category : g_list_product_category){
                                 listnama.add(category.getCategory_name());
                             }
+
+
 
                             p_adapter.clear();
                             p_adapter.addAll(listnama);
