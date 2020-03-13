@@ -2,19 +2,19 @@ package com.example.bca_bos;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class OTPActivity extends AppCompatActivity implements View.OnClickListener {
 
-    //Masked Password
-    ImageView g_otp_iv_first_digit, g_otp_iv_second_digit, g_otp_iv_third_digit, g_otp_iv_fourth_digit;
+    //OTP number
+    EditText g_otp_et_first_digit, g_otp_et_second_digit, g_otp_et_third_digit, g_otp_et_fourth_digit;
+    View g_otp_view_first_digit, g_otp_view_second_digit, g_otp_view_third_digit, g_otp_view_fourth_digit;
 
     //Keyboard
     Button g_otp_btn_one, g_otp_btn_two, g_otp_btn_three,
@@ -35,11 +35,15 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         g_otp_flag = "zero";
         tmp_otp = "";
 
-        //Masked Password
-        g_otp_iv_first_digit = findViewById(R.id.apps_otp_first_digit_image_view);
-        g_otp_iv_second_digit = findViewById(R.id.apps_otp_second_digit_image_view);
-        g_otp_iv_third_digit = findViewById(R.id.apps_otp_third_digit_image_view);
-        g_otp_iv_fourth_digit = findViewById(R.id.apps_otp_fourth_digit_image_view);
+        //OTP number
+        g_otp_et_first_digit = findViewById(R.id.apps_otp_first_digit_edit_text);
+        g_otp_et_second_digit = findViewById(R.id.apps_otp_second_digit_edit_text);
+        g_otp_et_third_digit = findViewById(R.id.apps_otp_third_digit_edit_text);
+        g_otp_et_fourth_digit = findViewById(R.id.apps_otp_fourth_digit_edit_text);
+        g_otp_view_first_digit = findViewById(R.id.apps_otp_first_digit_view);
+        g_otp_view_second_digit = findViewById(R.id.apps_otp_second_digit_view);
+        g_otp_view_third_digit = findViewById(R.id.apps_otp_third_digit_view);
+        g_otp_view_fourth_digit = findViewById(R.id.apps_otp_fourth_digit_view);
 
         //Keyboard
         g_otp_btn_one = findViewById(R.id.apps_otp_one_button);
@@ -77,52 +81,52 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         switch (p_view.getId()){
             case R.id.apps_otp_one_button:
                 saveOTPValue(g_otp_flag, "1");
-                changeMaskedPasswordBackground();
+                changeOTPToNumber("1");
                 changeFlag();
                 break;
             case R.id.apps_otp_two_button:
                 saveOTPValue(g_otp_flag, "2");
-                changeMaskedPasswordBackground();
+                changeOTPToNumber("2");
                 changeFlag();
                 break;
             case R.id.apps_otp_three_button:
                 saveOTPValue(g_otp_flag, "3");
-                changeMaskedPasswordBackground();
+                changeOTPToNumber("3");
                 changeFlag();
                 break;
             case R.id.apps_otp_four_button:
                 saveOTPValue(g_otp_flag, "4");
-                changeMaskedPasswordBackground();
+                changeOTPToNumber("4");
                 changeFlag();
                 break;
             case R.id.apps_otp_five_button:
                 saveOTPValue(g_otp_flag, "5");
-                changeMaskedPasswordBackground();
+                changeOTPToNumber("5");
                 changeFlag();
                 break;
             case R.id.apps_otp_six_button:
                 saveOTPValue(g_otp_flag, "6");
-                changeMaskedPasswordBackground();
+                changeOTPToNumber("6");
                 changeFlag();
                 break;
             case R.id.apps_otp_seven_button:
                 saveOTPValue(g_otp_flag, "7");
-                changeMaskedPasswordBackground();
+                changeOTPToNumber("7");
                 changeFlag();
                 break;
             case R.id.apps_otp_eight_button:
                 saveOTPValue(g_otp_flag, "8");
-                changeMaskedPasswordBackground();
+                changeOTPToNumber("8");
                 changeFlag();
                 break;
             case R.id.apps_otp_nine_button:
                 saveOTPValue(g_otp_flag, "9");
-                changeMaskedPasswordBackground();
+                changeOTPToNumber("9");
                 changeFlag();
                 break;
             case R.id.apps_otp_zero_button:
                 saveOTPValue(g_otp_flag, "0");
-                changeMaskedPasswordBackground();
+                changeOTPToNumber("0");
                 changeFlag();
                 break;
             case R.id.apps_otp_delete_button:
@@ -166,15 +170,19 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    private void changeMaskedPasswordBackground(){
+    private void changeOTPToNumber(String p_value){
         if (g_otp_flag.equals("zero")){
-            g_otp_iv_first_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
+            g_otp_et_first_digit.setText(p_value);
+            g_otp_view_first_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_box_blue));
         }else if (g_otp_flag.equals("first")){
-            g_otp_iv_second_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
+            g_otp_et_second_digit.setText(p_value);
+            g_otp_view_second_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_box_blue));
         }else if (g_otp_flag.equals("second")){
-            g_otp_iv_third_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
+            g_otp_et_third_digit.setText(p_value);
+            g_otp_view_third_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_box_blue));
         }else if (g_otp_flag.equals("third")){
-            g_otp_iv_fourth_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
+            g_otp_et_fourth_digit.setText(p_value);
+            g_otp_view_fourth_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_box_blue));
         }else if (g_otp_flag.equals("fourth")){
 
         }
@@ -184,23 +192,27 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         if (g_otp_flag.equals("zero")){
 
         }else if (g_otp_flag.equals("first")){
+            g_otp_view_first_digit.setBackground(this.getResources().getDrawable(R.color.grey));
             tmp_otp = deleteLastCharacter(tmp_otp);
-            g_otp_iv_first_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_outline));
+            g_otp_et_first_digit.setText("-");
             g_otp_tv_error.setText("");
             g_otp_flag = "zero";
         }else if (g_otp_flag.equals("second")){
+            g_otp_view_second_digit.setBackground(this.getResources().getDrawable(R.color.grey));
             tmp_otp = deleteLastCharacter(tmp_otp);
-            g_otp_iv_second_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_outline));
+            g_otp_et_second_digit.setText("-");
             g_otp_tv_error.setText("");
             g_otp_flag = "first";
         }else if (g_otp_flag.equals("third")){
+            g_otp_view_third_digit.setBackground(this.getResources().getDrawable(R.color.grey));
             tmp_otp = deleteLastCharacter(tmp_otp);
-            g_otp_iv_third_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_outline));
+            g_otp_et_third_digit.setText("-");
             g_otp_tv_error.setText("");
             g_otp_flag = "second";
         }else if (g_otp_flag.equals("fourth")){
+            g_otp_view_fourth_digit.setBackground(this.getResources().getDrawable(R.color.grey));
             tmp_otp = deleteLastCharacter(tmp_otp);
-            g_otp_iv_fourth_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_outline));
+            g_otp_et_fourth_digit.setText("-");
             g_otp_tv_error.setText("");
             g_otp_flag = "third";
         }
