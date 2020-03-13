@@ -40,6 +40,7 @@ public class VolleyClass {
     private static RequestQueue g_requestqueue;
     private static Gson gson = new Gson();
 
+    private final static String TAG = "BOSVOLLEY";
     private final static  String BASE_URL = "http://10.26.34.119:8321";
 
     private final static  String BASE_URL_TEMPLATED_TEXT= "https://templatetext.apps.pcf.dti.co.id";
@@ -107,7 +108,7 @@ public class VolleyClass {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            String message = NetworkUtil.getErrorMessage(response.toString());
+                            String message = NetworkUtil.getErrorCode(response.toString());
                             if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Penambahan data template text berhasil", Toast.LENGTH_SHORT).show();
                                 getTemplatedText(p_context, p_templatedtext.getId_template_text(), p_adapter);
@@ -146,7 +147,7 @@ public class VolleyClass {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            String message = NetworkUtil.getErrorMessage(response.toString());
+                            String message = NetworkUtil.getErrorCode(response.toString());
                             if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Pengubahan data template text berhasil", Toast.LENGTH_SHORT).show();
                                 getTemplatedText(p_context, p_templatedtext.getId_template_text(), p_adapter);
@@ -178,7 +179,7 @@ public class VolleyClass {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            String message = NetworkUtil.getErrorMessage(response.toString());
+                            String message = NetworkUtil.getErrorCode(response.toString());
                             if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Hapus data template text berhasil", Toast.LENGTH_SHORT).show();
                                 getTemplatedText(p_context, p_id_templatetext, p_adapter);
@@ -266,7 +267,7 @@ public class VolleyClass {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        String message = NetworkUtil.getErrorMessage(response.toString());
+                        String message = NetworkUtil.getErrorCode(response.toString());
                         if(message.equals(ERROR_CODE_BERHASIL)){
                             Toast.makeText(p_context, "Penambahan data product berhasil", Toast.LENGTH_SHORT).show();
                             getProduct(p_context, p_product.getSeller().getId_seller(), p_adapter);
@@ -305,7 +306,7 @@ public class VolleyClass {
                     @Override
                     public void onResponse(JSONObject response) {
 //                        Log.d(TAG, response.toString());
-                        String message = NetworkUtil.getErrorMessage(response.toString());
+                        String message = NetworkUtil.getErrorCode(response.toString());
                         if(message.equals(ERROR_CODE_BERHASIL)){
                             Toast.makeText(p_context, "Pengubahan data product berhasil", Toast.LENGTH_SHORT).show();
                             getProduct(p_context, p_product.getSeller().getId_seller(), p_adapter);
@@ -334,14 +335,14 @@ public class VolleyClass {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            String message = NetworkUtil.getErrorMessage(response.toString());
+                            String message = NetworkUtil.getErrorCode(response);
                             if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Hapus data product berhasil", Toast.LENGTH_SHORT).show();
                                 getProduct(p_context, p_id_product, p_adapter);
                             }
                             else
                             {
-                                Toast.makeText(p_context, "Hapus data template text gagal", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(p_context, "Hapus data product gagal", Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (Exception e) {
@@ -419,7 +420,7 @@ public class VolleyClass {
                     @Override
                     public void onResponse(JSONObject response) {
 //                        Log.d(TAG, response.toString());
-                        String message = NetworkUtil.getErrorMessage(response.toString());
+                        String message = NetworkUtil.getErrorCode(response.toString());
                         if(message.equals(ERROR_CODE_BERHASIL)){
                             LoginActivity.g_instance.intentLogin();
                         }

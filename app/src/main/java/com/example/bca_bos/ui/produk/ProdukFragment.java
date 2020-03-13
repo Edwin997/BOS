@@ -175,7 +175,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 break;
             case R.id.apps_bottom_sheet_btn_tambah_add_produk:
                 Seller seller = new Seller();
-                seller.setId_seller(2);
+                seller.setId_seller(3);
 
                 PrdCategory prdCategory = new PrdCategory();
                 prdCategory.setId_prd_category(1);
@@ -203,7 +203,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 break;
             case R.id.apps_bottom_sheet_btn_simpan_edit_produk:
                 Seller selleredit = new Seller();
-                selleredit.setId_seller(2);
+                selleredit.setId_seller(3);
 
                 PrdCategory prdCategoryedit = new PrdCategory();
                 prdCategoryedit.setId_prd_category(1);
