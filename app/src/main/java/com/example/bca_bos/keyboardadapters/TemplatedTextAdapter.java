@@ -56,6 +56,11 @@ public class TemplatedTextAdapter extends RecyclerView.Adapter<TemplatedTextAdap
         this.g_parent_oncallbacklistener = p_oncallback;
     }
 
+    public void setListTemplate(List<TemplatedText> p_list){
+        this.g_list_templatedtext = p_list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void OnCallBack(Object p_obj) {
         if(g_parent_oncallbacklistener != null){

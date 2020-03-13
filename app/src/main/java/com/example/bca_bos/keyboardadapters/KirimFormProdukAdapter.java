@@ -53,6 +53,11 @@ public class KirimFormProdukAdapter extends RecyclerView.Adapter<KirimFormProduk
         this.g_parent_oncallbacklistener = p_oncallback;
     }
 
+    public void setDatasetProduk(List<Product> p_product){
+        g_list_product = p_product;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void OnCallBack(Object p_obj) {
         if(g_parent_oncallbacklistener != null){
