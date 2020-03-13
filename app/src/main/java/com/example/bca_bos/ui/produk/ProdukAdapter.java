@@ -27,6 +27,7 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukView
 
     public ProdukAdapter(){
         g_list_product_master = new ArrayList<>();
+        g_list_temp_product = new ArrayList<>();
     }
 
     @NonNull

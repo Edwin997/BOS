@@ -20,6 +20,8 @@ import androidx.fragment.app.Fragment;
 import com.example.bca_bos.ApplicationContainer;
 import com.example.bca_bos.LoginActivity;
 import com.example.bca_bos.R;
+import com.example.bca_bos.models.Seller;
+import com.example.bca_bos.networks.VolleyClass;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -30,7 +32,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     View g_view;
 
     private ImageButton g_profile_ib_edit;
-    private Button g_profile_btn_change_password, g_profile_button_jne, g_profile_button_tiki, g_profile_button_pos;
+    private RoundedImageView g_profile_image;
+    private TextView g_profile_nama_seller, g_profile_nama_toko, g_profile_rekening, g_profile_bosid,
+            g_profile_phone, g_profile_kotkab, g_profile_courier;
+    private Button g_profile_btn_change_password, g_profile_button_jne, g_profile_button_tiki,
+            g_profile_button_pos, g_profile_btn_logout;
 
     //BottomSheet Edit
     private BottomSheetDialog g_bottomsheet_dialog_edit_profile, g_bottomsheet_dialog_change_password;

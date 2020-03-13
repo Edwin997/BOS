@@ -27,6 +27,7 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
 
     public StokProdukAdapter(){
         g_list_product_master = new ArrayList<>();
+        g_list_temp_product = new ArrayList<>();
     }
 
     @NonNull

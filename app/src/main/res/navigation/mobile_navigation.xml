@@ -25,9 +25,9 @@
 
     <fragment
         android:id="@+id/navigation_transaksi"
-        android:name="com.example.bca_bos.ui.transaction.TransaksiFragment"
+        android:name="com.example.bca_bos.ui.transaksi.TransaksiFragment"
         android:label="@string/title_transaksi"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_transaksi" />
 
     <fragment
         android:id="@+id/navigation_profile"

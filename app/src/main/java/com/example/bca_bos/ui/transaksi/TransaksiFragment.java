@@ -117,7 +117,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
             FLAG_FRAGMENT_TYPE = getArguments().getInt("flag");
             g_percentage = getPersentaseTransaksiSudahDiBayar();
             drawPieChart(new int[]{R.color.yellow, R.color.white},
-                    countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaction");
+                    countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
             g_transaksiadapter.setListTransaksi(getListTransaksiByType(FLAG_FRAGMENT_TYPE));
             g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapter);
             setTabBar();
@@ -125,7 +125,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
             FLAG_FRAGMENT_TYPE = KEY_STATUS_SEMUA;
             g_percentage = 100;
             drawPieChart(new int[]{R.color.white, R.color.white},
-                    g_list_transaction.size() + "\nTransaction");
+                    g_list_transaction.size() + "\nTransaksi");
             g_transaksiadapter.setListTransaksi(g_list_transaction);
             g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapter);
             setTabBar();
