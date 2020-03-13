@@ -157,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/montserrat_regular"
-                android:text="Don't have an account ? "
+                android:text="Tidak punya akun ? "
                 android:textColor="@color/dark_grey"
                 android:textSize="14dp"/>
 
