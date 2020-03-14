@@ -15,6 +15,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.bca_bos.LoginActivity;
+import com.example.bca_bos.PasswordActivity;
 import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
 import com.example.bca_bos.keyboardadapters.StokProdukAdapter;
 import com.example.bca_bos.keyboardadapters.TemplatedTextAdapter;
@@ -421,7 +422,7 @@ public class VolleyClass {
 //                        Log.d(TAG, response.toString());
                         String message = NetworkUtil.getErrorMessage(response.toString());
                         if(message.equals(ERROR_CODE_BERHASIL)){
-                            LoginActivity.g_instance.intentLogin();
+                            PasswordActivity.g_instance.intentLogin();
                         }
                         else
                         {

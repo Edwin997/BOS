@@ -22,10 +22,8 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             g_otp_btn_seven,  g_otp_btn_eight, g_otp_btn_nine,
             g_otp_btn_zero;
     ImageButton g_otp_btn_delete;
-
-    String tmp_otp, g_otp_flag;
-
     TextView g_otp_tv_error;
+    String tmp_otp, g_otp_flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,8 +130,6 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             case R.id.apps_otp_delete_button:
                 deleteOTPDigit();
                 break;
-
-
         }
     }
 
@@ -163,7 +159,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             if (tmp_otp.equals("1234")){
                 moveToMainMenuActivity();
             }else {
-                g_otp_tv_error.setText("Wrong Password");
+                g_otp_tv_error.setText("Wrong OTP");
             }
         }else if (g_otp_flag.equals("fourth")){
 
@@ -228,7 +224,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     private void moveToMainMenuActivity(){
         Intent tmp_register_intent = new Intent(OTPActivity.this, FillDataActivity.class);
         startActivity(tmp_register_intent);
-        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         finish();
     }
 

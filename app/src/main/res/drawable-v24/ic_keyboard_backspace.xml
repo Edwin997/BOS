@@ -10,7 +10,7 @@
         <appt:attr name="android:fillColor">
 
             <gradient
-                android:gradientRadius="12"
+                android:gradientRadius="15"
                 android:type="radial"
                 android:angle="0"
                 android:endColor="#1485D1"

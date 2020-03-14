@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 public class FillDataActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -28,10 +27,19 @@ public class FillDataActivity extends AppCompatActivity implements View.OnClickL
             case R.id.filldata_submit_button:
                 Intent tmp_filldata_intent = new Intent(FillDataActivity.this, ApplicationContainer.class);
                 startActivity(tmp_filldata_intent);
-                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+                overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 finish();
                 break;
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent tmp_back_intent = new Intent(FillDataActivity.this, RegisterActivity.class);
+        startActivity(tmp_back_intent);
+        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
+        finish();
     }
 }

@@ -8,12 +8,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
-    ImageButton g_register_ib_back;
     Button g_register_btn;
     EditText g_register_et_bos_id, g_register_et_no_kartu, g_register_et_no_hp, g_register_et_password;
     TextView g_register_tv_bos_id, g_register_tv_no_kartu, g_register_tv_no_hp, g_register_tv_password;
@@ -23,8 +21,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        g_register_ib_back = findViewById(R.id.register_back_button);
-        g_register_ib_back.setOnClickListener(this);
         g_register_btn = findViewById(R.id.register_register_button);
         g_register_btn.setOnClickListener(this);
 
@@ -48,14 +44,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View p_view) {
         switch (p_view.getId()){
-            case R.id.register_back_button:
-                finish();
-                overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
-                break;
             case R.id.register_register_button:
                 Intent tmp_register_intent = new Intent(RegisterActivity.this, OTPActivity.class);
                 startActivity(tmp_register_intent);
-                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+                overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 finish();
                 break;
         }
@@ -82,5 +74,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent tmp_back_intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(tmp_back_intent);
+        overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
+        finish();
     }
 }
