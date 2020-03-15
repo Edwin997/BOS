@@ -13,17 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
         <activity android:name=".PasswordActivity"></activity>
-        <activity android:name=".ui.transaction.TransaksiFilterDetail" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".OTPActivity" />
-        <activity android:name=".FillDataActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".OTPActivity" />
+        <activity android:name=".FillDataActivity" />
+        <activity android:name=".LoginActivity"></activity>
 
         <service
             android:name=".KeyboardBOSnew"
@@ -37,9 +37,6 @@
                 <action android:name="android.view.InputMethod" />
             </intent-filter>
         </service>
-
-        <activity android:name=".ui.product.EditProdukActivity" />
-        <activity android:name=".ui.product.AddProdukActivity" />
         <activity
             android:name=".ApplicationContainer"
             android:label="@string/title_activity_application_container"></activity>

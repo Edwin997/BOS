@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,13 +28,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public static LoginActivity g_instance;
 
+    //Shared Preference
+    private static final String PREF_LOGIN = "LOGIN_PREF";
+    private static final String BOS_ID = "BOS_ID";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //Connect Internet
         NetworkUtil.disableSSL();
         g_instance = this;
+
+
 
         g_login_cl = findViewById(R.id.constraintLayoutLogin);
         Animation slide_down = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down_in);
@@ -96,15 +104,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void isBOSIdValid(String p_bos_id){
-        String tmp_bos_id = g_login_et_bos_id.getText().toString();
-        if (tmp_bos_id.isEmpty()){
+        if (p_bos_id.isEmpty()){
             g_login_tv_error.setText("BOS ID harus diisi");
-        }else if (!tmp_bos_id.isEmpty() && tmp_bos_id.length()<8){
+        }else if (!p_bos_id.isEmpty() && p_bos_id.length()<8){
             g_login_tv_error.setText("BOS ID minimal 8 karakter");
-        }else if (!tmp_bos_id.isEmpty() && tmp_bos_id.length()>20){
+        }else if (!p_bos_id.isEmpty() && p_bos_id.length()>20){
             g_login_tv_error.setText("BOS ID maksimal 20 karakter");
-        }else if (!tmp_bos_id.isEmpty() && tmp_bos_id.length()<=20 && tmp_bos_id.length()>=8){
+        }else if (!p_bos_id.isEmpty() && p_bos_id.length()<=20 && p_bos_id.length()>=8){
             g_login_tv_error.setText("");
+            //Save Shared Preference
+            SharedPreferences.Editor l_editor = getSharedPreferences(PREF_LOGIN, MODE_PRIVATE).edit();
+            l_editor.putString(BOS_ID, p_bos_id);
+            l_editor.commit();
+            //intent
             intentLogin(p_bos_id);
         }
     }

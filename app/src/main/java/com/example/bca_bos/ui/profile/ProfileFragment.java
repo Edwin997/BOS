@@ -3,6 +3,7 @@ package com.example.bca_bos.ui.profile;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -47,6 +48,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private Button g_profile_btn_logout_ya, g_profile_btn_logout_tidak;
 
     public static ProfileFragment g_instance;
+
+    //Shared Preference
+    private static final String PREF_LOGIN = "LOGIN_PREF";
+    private static final String BOS_ID = "BOS_ID";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -149,8 +154,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case  R.id.btn_popup_profile_ya:
+                //Delete Shared Preference
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences(PREF_LOGIN, Context.MODE_PRIVATE).edit();
+                editor.clear();
+                editor.commit();
+
                 Intent loginIntent = new Intent(g_context, LoginActivity.class);
                 startActivity(loginIntent);
+                getActivity().finish();
                 g_profile_logout_popup.dismiss();
                 break;
             case R.id.btn_popup_profile_tidak:
