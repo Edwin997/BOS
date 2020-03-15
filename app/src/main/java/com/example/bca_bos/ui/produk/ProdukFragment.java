@@ -8,17 +8,23 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,7 +47,7 @@ import java.net.URI;
 
 import static android.app.Activity.RESULT_OK;
 
-public class ProdukFragment extends Fragment implements OnCallBackListener, View.OnClickListener {
+public class ProdukFragment extends Fragment implements OnCallBackListener, View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
     //region DATA MEMBER
     //FINAL STATIC DATA MEMBER
@@ -63,6 +69,9 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     private RecyclerView g_produkfragment_recyclerview;
     private ProdukAdapter g_produkadapter;
     private LinearLayoutManager g_linearlayoutmanager;
+
+    private ImageView g_produk_fragment_sort_btn, g_produk_fragment_category_btn;
+    private EditText g_produk_fragment_search_et;
 
     //ADD BOTTOM SHEET PRODUK DATA MEMBER
     private RoundedImageView g_iv_bottom_sheet_produk_add_gambar;
@@ -98,6 +107,13 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         //inisiasi spinner
         g_produk_fragment_spinner_kategori = g_view.findViewById(R.id.apps_produk_fragment_kategori_filter);
 
+        //inisiasi imageview
+        g_produk_fragment_sort_btn = g_view.findViewById(R.id.apps_produk_fragment_sort_btn);
+        g_produk_fragment_category_btn = g_view.findViewById(R.id.apps_produk_fragment_category_btn);
+
+        //inisiasi edittext
+        g_produk_fragment_search_et = g_view.findViewById(R.id.apps_produk_fragment_search_et);
+
         //config layout
         g_produk_fragment_ll_add_button.setOnClickListener(this);
 
@@ -108,7 +124,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_produkadapter.setParentOnCallBack(this);
         g_produkfragment_recyclerview.setAdapter(g_produkadapter);
         g_produkfragment_recyclerview.setLayoutManager(g_linearlayoutmanager);
-        VolleyClass.getProduct(g_context, 3, g_produkadapter);
+//        VolleyClass.getProduct(g_context, 3, g_produkadapter);
 
         //config spinner
         g_spinnerAdapter = new ArrayAdapter(g_context, android.R.layout.simple_spinner_item, ListKategoriDummy.getListTypeString());
@@ -126,9 +142,31 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 g_produkadapter.getProductFiltered(0);
             }
         });
-        VolleyClass.getProductCategory(g_context, g_spinnerAdapter);
+//        VolleyClass.getProductCategory(g_context, g_spinnerAdapter);
+
+        //config imageview
+        g_produk_fragment_sort_btn.setOnClickListener(this);
+        g_produk_fragment_category_btn.setOnClickListener(this);
 
         return g_view;
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.apps_produk_item_sort_asc:
+                Toast.makeText(g_context, "asc", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.apps_produk_item_sort_desc:
+                Toast.makeText(g_context, "desc", Toast.LENGTH_SHORT).show();
+                break;
+            case 0:
+                Toast.makeText(g_context, item.getTitle(), Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Toast.makeText(g_context, item.getTitle(), Toast.LENGTH_SHORT).show();
+        }
+        return true;
     }
 
     @Override
@@ -168,7 +206,12 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
             case R.id.apps_produk_fragment_add_btn:
                 showBottomSheetAddProduk();
                 break;
-
+            case R.id.apps_produk_fragment_sort_btn:
+                showSortPopupMenu(v);
+                break;
+            case R.id.apps_produk_fragment_category_btn:
+                showCategoryPopupMenu(v);
+                break;
             //region ADD PRODUK BOTTOM SHEET
             case R.id.apps_bottom_sheet_iv_gambar_add_produk:
                 g_choose_dialog.showChooseDialogAdd(g_context);
@@ -227,6 +270,8 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
         }
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -354,4 +399,49 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         String temp = Base64.encodeToString(img, Base64.NO_WRAP);
         return temp;
     }
+
+    public void showSortPopupMenu(View v) {
+        PopupMenu popup = new PopupMenu(g_context, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.produk_fragment_bar, popup.getMenu());
+        popup.setOnMenuItemClickListener(this);
+        popup.show();
+    }
+
+    public void showCategoryPopupMenu(View v) {
+        PopupMenu popup = new PopupMenu(g_context, v);
+        popup.getMenu().add(0, 1, 0, "Coba 1");
+        popup.getMenu().add(0, 2, 1, "Coba 2");
+        popup.getMenu().add(0, 3, 2, "Coba 3");
+        popup.getMenu().add(0, 4, 3, "Coba 1");
+        popup.getMenu().add(0, 5, 4, "Coba 2");
+        popup.getMenu().add(0, 6, 5, "Coba 3");
+        popup.getMenu().add(0, 7, 6, "Coba 1");
+        popup.getMenu().add(0, 8, 7, "Coba 2");
+        popup.getMenu().add(0, 9, 8, "Coba 3");
+        popup.getMenu().add(0, 10, 9, "Coba 1");
+        popup.getMenu().add(0, 11, 10, "Coba 2");
+        popup.getMenu().add(0, 12, 11, "Coba 3");
+        popup.getMenu().add(0, 13, 12, "Coba 1");
+        popup.getMenu().add(0, 14, 13, "Coba 2");
+        popup.getMenu().add(0, 15, 14, "Coba 3");
+        popup.getMenu().add(0, 16, 15, "Coba 2");
+        popup.getMenu().add(0, 17, 16, "Coba 3");
+        popup.getMenu().add(0, 18, 17, "Coba 1");
+        popup.getMenu().add(0, 19, 18, "Coba 2");
+        popup.getMenu().add(0, 20, 19, "Coba 3");
+        popup.getMenu().add(0, 21, 20, "Coba 2");
+        popup.getMenu().add(0, 22, 21, "Coba 3");
+        popup.getMenu().add(0, 23, 22, "Coba 1");
+        popup.getMenu().add(0, 24, 23, "Coba 2");
+        popup.getMenu().add(0, 25, 24, "Coba 3");
+        popup.getMenu().add(0, 26, 25, "Coba 2");
+        popup.getMenu().add(0, 27, 26, "Coba 3");
+        popup.getMenu().add(0, 28, 27, "Coba 1");
+        popup.getMenu().add(0, 29, 28, "Coba 2");
+        popup.setOnMenuItemClickListener(this);
+        popup.show();
+    }
+
+
 }

@@ -6,4 +6,7 @@
     <string name="title_produk">Produk</string>
     <string name="title_transaksi">Transaksi</string>
     <string name="title_profile">Profile</string>
+
+    <string name="SORT_ASC">A-Z</string>
+    <string name="SORT_DESC">Z-A</string>
 </resources>

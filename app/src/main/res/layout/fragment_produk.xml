@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,54 +14,93 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="24dp">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!--    <TextView-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_marginTop="16dp"-->
-        <!--        android:gravity="center"-->
-        <!--        android:textSize="25dp"-->
-        <!--        android:text="Produk"-->
-        <!--        android:textColor="@color/black"-->
-        <!--        android:textStyle="bold"/>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/apps_produk_fragment_search_et"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@color/white"
+                android:hint="Search..." />
+
+            <ImageView
+                android:id="@+id/apps_produk_fragment_search_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:src="@drawable/ic_keyboard_search_white" />
+
+            <ImageView
+                android:id="@+id/apps_produk_fragment_category_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:src="@drawable/ic_apps_filter_white" />
+
+            <ImageView
+                android:id="@+id/apps_produk_fragment_sort_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:src="@drawable/ic_apps_sort_white_24dp" />
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/apps_produk_fragment_add_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingStart="40dp"
-            android:paddingEnd="40dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/style_gradient_color_rounded_box"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingStart="40dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="40dp"
+            android:paddingBottom="10dp">
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_apps_add_filled_white"/>
+                android:src="@drawable/ic_apps_add_filled_white" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:gravity="start|center_vertical"
-                android:textSize="16dp"
                 android:fontFamily="@font/montserrat_bold"
+                android:gravity="start|center_vertical"
                 android:text="Tambah Produk"
                 android:textColor="@color/white"
-                android:textStyle="bold"/>
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -70,17 +108,16 @@
             android:id="@+id/apps_produk_fragment_kategori_filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
-            />
+            android:layout_marginBottom="10dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/apps_produk_fragment_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,7 +43,7 @@ public class ApplicationContainer extends AppCompatActivity  {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_application_container);
 
-        int tmpTypeOpen = ID_BERANDA;
+        int tmpTypeOpen = ID_PRODUK;
         if(getIntent().hasExtra(KEY_OPEN_APPS)){
             tmpTypeOpen = getIntent().getExtras().getInt(KEY_OPEN_APPS);
         }
