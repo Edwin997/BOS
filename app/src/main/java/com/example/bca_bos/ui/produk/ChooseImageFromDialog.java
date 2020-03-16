@@ -18,6 +18,9 @@ public class ChooseImageFromDialog {
     public final static int CODE_GALLERY_ADD_PRODUK = 12;
     public final static int CODE_CAMERA_EDIT_PRODUK = 21;
     public final static int CODE_GALLERY_EDIT_PRODUK = 22;
+    public final static int CODE_CAMERA_EDIT_PROFILE = 31;
+    public final static int CODE_GALLERY_EDIT_PROFILE = 32;
+
 
     private OnCallBackListener g_callback_parent_listener;
 
@@ -85,6 +88,40 @@ public class ChooseImageFromDialog {
                             break;
                         case KEY_OPEN_GALLERY:
                             g_callback_parent_listener.OnCallBack(CODE_GALLERY_EDIT_PRODUK);
+                            break;
+                    }
+                }
+            }
+        });
+        tmpAlertDialogBuilder.show();
+    }
+
+    public void showChooseDialogEditProfile(final Context p_context){
+        AlertDialog.Builder tmpAlertDialogBuilder = new AlertDialog.Builder(p_context);
+        tmpAlertDialogBuilder.setTitle("Choose photo from:");
+
+        final ArrayAdapter<String> chooseDialogAdapter = new ArrayAdapter(p_context, android.R.layout.select_dialog_item);
+        chooseDialogAdapter.add(KEY_OPEN_CAMERA);
+        chooseDialogAdapter.add(KEY_OPEN_GALLERY);
+
+        tmpAlertDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        tmpAlertDialogBuilder.setAdapter(chooseDialogAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int position) {
+                String tmpChoice = chooseDialogAdapter.getItem(position);
+                if(g_callback_parent_listener != null){
+                    switch (tmpChoice){
+                        case KEY_OPEN_CAMERA:
+                            g_callback_parent_listener.OnCallBack(CODE_CAMERA_EDIT_PROFILE);
+                            break;
+                        case KEY_OPEN_GALLERY:
+                            g_callback_parent_listener.OnCallBack(CODE_GALLERY_EDIT_PROFILE);
                             break;
                     }
                 }
