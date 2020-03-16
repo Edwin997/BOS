@@ -1,5 +1,6 @@
 package com.example.bca_bos.ui.produk;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,10 @@ import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.products.Product;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukViewHolder> implements OnCallBackListener {
 
@@ -68,7 +72,6 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukView
         }
         else {
             List<Product> tempList = new ArrayList<>();
-            tempList.add(g_list_product_master.get(0));
             for (int i = 0; i < g_list_product_master.size(); i++){
                 if(g_list_product_master.get(i).getPrdCategory().getId_prd_category() == id_category){
                     tempList.add(g_list_product_master.get(i));
@@ -84,7 +87,6 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukView
         }
         else {
             List<Product> tempList = new ArrayList<>();
-            tempList.add(g_list_product_master.get(0));
             for (int i = 0; i < g_list_product_master.size(); i++){
                 if(g_list_product_master.get(i).getProduct_name().toLowerCase().contains(p_name.toLowerCase())){
                     tempList.add(g_list_product_master.get(i));
@@ -92,6 +94,18 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukView
             }
             setDatasetProdukFiltered(tempList);
         }
+    }
+
+    public void sortProduct(String p_type){
+        List<Product> tempList = g_list_product_master;
+        if(p_type.equals("ASC"))
+        {
+            Collections.sort(tempList);
+        }
+        else if(p_type.equals("DESC")){
+            Collections.reverse(tempList);
+        }
+        setDatasetProdukFiltered(tempList);
     }
 
     public void setParentOnCallBack(OnCallBackListener p_oncallback){

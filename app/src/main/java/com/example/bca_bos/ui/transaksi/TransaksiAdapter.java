@@ -104,7 +104,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
 
             if(l_transaction.getStatus() == g_parent.KEY_STATUS_SELESAI){
                 ll_transaksi.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_green));
-//                tv_total_transaksi.setTextColor(g_context.getResources().getColor(R.color.green));
+//                tv_total_transaksi.setTextColor(g_context.getResources().getColor(R.color.green))
                 tv_status_transaksi.setText("Transaksi Selesai");
             }
             else if(l_transaction.getStatus() == g_parent.KEY_STATUS_SUDAHDIKIRIM){
