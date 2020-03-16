@@ -18,18 +18,44 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="24dp">
+        android:orientation="vertical">
 
-        <!--    <TextView-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_marginTop="16dp"-->
-        <!--        android:gravity="center"-->
-        <!--        android:textSize="25dp"-->
-        <!--        android:text="Template Teks"-->
-        <!--        android:textColor="@color/black"-->
-        <!--        android:textStyle="bold"/>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/apps_template_fragment_search_et"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="9"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@color/white"
+                android:hint="Search..." />
+
+            <ImageView
+                android:id="@+id/apps_template_fragment_search_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:src="@drawable/ic_keyboard_search_white" />
+
+            <ImageView
+                android:id="@+id/apps_template_fragment_sort_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:src="@drawable/ic_apps_sort_white_24dp" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_apps_template_tambah_btn"

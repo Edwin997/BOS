@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class TemplatedText implements Serializable {
+public class TemplatedText implements Serializable, Comparable<TemplatedText> {
 
     private int id_template_text;
     private String template_code; //20
@@ -25,5 +25,13 @@ public class TemplatedText implements Serializable {
         this.setId_template_text(p_id);
         this.setTemplate_code(p_label);
         this.setText(p_description);
+    }
+
+    @Override
+    public int compareTo(TemplatedText p_template) {
+        if(getTemplate_code() == null || p_template.getTemplate_code() == null)
+            return 0;
+
+        return getTemplate_code().toLowerCase().compareTo(p_template.getTemplate_code().toLowerCase());
     }
 }

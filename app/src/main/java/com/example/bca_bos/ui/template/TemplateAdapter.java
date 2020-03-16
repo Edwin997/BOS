@@ -9,20 +9,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bca_bos.dummy.ListTemplatedTextDummy;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.TemplatedText;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.TemplateViewHolder> implements OnCallBackListener{
 
-    private List<TemplatedText> g_list_template;
+    private List<TemplatedText> g_list_template_master;
+    private List<TemplatedText> g_list_temp_template;
     private OnCallBackListener g_parent_oncallbacklistener;
 
     public TemplateAdapter(){
-        g_list_template = ListTemplatedTextDummy.templatedTextList;
+        g_list_template_master = new ArrayList<>();
+        g_list_temp_template = new ArrayList<>();
     }
 
     @NonNull
@@ -38,21 +41,54 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.Templa
 
     @Override
     public void onBindViewHolder(@NonNull TemplateViewHolder holder, int position) {
-        holder.setData(g_list_template.get(position));
+        holder.setData(g_list_temp_template.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return g_list_template.size();
+        return g_list_temp_template.size();
+    }
+
+    public void setListTemplate(List<TemplatedText> p_list){
+        this.g_list_template_master = p_list;
+        setListTemplateFiltered(g_list_template_master);
+        notifyDataSetChanged();
+    }
+
+    public void setListTemplateFiltered(List<TemplatedText> p_list){
+        g_list_temp_template = p_list;
+        notifyDataSetChanged();
+    }
+
+    public void findTemplatedText(String p_name){
+        if(p_name.equals("")){
+            setListTemplateFiltered(g_list_template_master);
+        }
+        else {
+            List<TemplatedText> tempList = new ArrayList<>();
+            for (int i = 0; i < g_list_template_master.size(); i++){
+                if(g_list_template_master.get(i).getTemplate_code().toLowerCase().contains(p_name.toLowerCase())){
+                    tempList.add(g_list_template_master.get(i));
+                }
+            }
+            setListTemplateFiltered(tempList);
+        }
+    }
+
+    public void sortTemplatedText(String p_type){
+        List<TemplatedText> tempList = g_list_template_master;
+        if(p_type.equals("ASC"))
+        {
+            Collections.sort(tempList);
+        }
+        else if(p_type.equals("DESC")){
+            Collections.reverse(tempList);
+        }
+        setListTemplateFiltered(tempList);
     }
 
     public void setParentOnCallBack(OnCallBackListener p_oncallback){
         this.g_parent_oncallbacklistener = p_oncallback;
-    }
-
-    public void setListTemplate(List<TemplatedText> p_list){
-        this.g_list_template = p_list;
-        notifyDataSetChanged();
     }
 
     @Override
