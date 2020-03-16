@@ -24,10 +24,13 @@ import com.example.bca_bos.models.products.PrdCategory;
 import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.TemplatedText;
+import com.example.bca_bos.models.transactions.Transaction;
 import com.example.bca_bos.ui.produk.ProdukAdapter;
 import com.example.bca_bos.ui.produk.ProdukFragment;
 import com.example.bca_bos.ui.profile.ProfileFragment;
 import com.example.bca_bos.ui.template.TemplateAdapter;
+import com.example.bca_bos.ui.transaksi.TransaksiAdapter;
+import com.example.bca_bos.ui.transaksi.TransaksiFragment;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -54,6 +57,10 @@ public class VolleyClass {
     private final static String URL_PRODUCT_CATEGORY = BASE_URL_PRODUCT + "/bos/productCategory";
     private static List<PrdCategory> g_list_product_category = new ArrayList<>();
     private static String KEY_SEMUA_PRODUCT = "Semua Produk";
+
+    private final static  String BASE_URL_TRANSACTION= "https://transaction.apps.pcf.dti.co.id";
+    private final static String URL_TRANSACTION = BASE_URL_TRANSACTION + "/bos/transaction";
+    private final static String URL_TRANSACTION_DETAIL = BASE_URL_TRANSACTION + "/bos/transactionDetail";
 
     private final static  String BASE_URL_LOGIN = "https://login.apps.pcf.dti.co.id";
     private final static String URL_LOGIN = BASE_URL_LOGIN + "/bos/login";
@@ -436,6 +443,78 @@ public class VolleyClass {
             idx = g_list_product_category.get(position - 1).getId_prd_category();
 
         return idx;
+    }
+    //endregion
+
+    //region TRANSAKSI
+    public static void getTransaksi(Context p_context, int p_id_seller, final RecyclerView.Adapter p_adapter){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_TRANSACTION + "/" + p_id_seller,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.d(TAG, response);
+                            String output = NetworkUtil.getOutputSchema(response);
+
+//                            TemplatedText tempObject = gson.fromJson(response, TemplatedText.class);
+
+                            List<Transaction> tempObject = Arrays.asList(gson.fromJson(output, Transaction[].class));
+
+                            if(p_adapter instanceof TransaksiAdapter){
+                                TransaksiAdapter tmpAdapter = (TransaksiAdapter) p_adapter;
+                                tmpAdapter.setListTransaksi(tempObject);
+
+                                TransaksiFragment.g_instance.firstLoad();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void getTransaksiDetail(Context p_context, int p_id_transaksi, final RecyclerView.Adapter p_adapter){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_TRANSACTION_DETAIL + "/" + p_id_transaksi,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.d(TAG, response);
+                            String output = NetworkUtil.getOutputSchema(response);
+
+//                            TemplatedText tempObject = gson.fromJson(response, TemplatedText.class);
+
+                            List<Transaction> tempObject = Arrays.asList(gson.fromJson(output, Transaction[].class));
+
+                            if(p_adapter instanceof TransaksiAdapter){
+                                TransaksiAdapter tmpAdapter = (TransaksiAdapter) p_adapter;
+                                tmpAdapter.setListTransaksi(tempObject);
+
+                                TransaksiFragment.g_instance.firstLoad();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
     }
     //endregion
 

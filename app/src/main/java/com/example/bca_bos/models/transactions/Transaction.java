@@ -18,7 +18,7 @@ public class Transaction {
     private Buyer buyer;
     private Seller seller;
     private String payment_account; //20
-    private int total_payment;
+    private String total_payment;
     private String order_time; //date
     private String payment_time; //date
     private String shipping_time; //date
@@ -29,7 +29,7 @@ public class Transaction {
     private String confirmation_time; //date
     private int status;
 
-    public Transaction(Buyer p_buyer, Seller p_seller, String p_payment_account, int p_total_payment,
+    public Transaction(Buyer p_buyer, Seller p_seller, String p_payment_account, String p_total_payment,
                        String p_order_time, String p_payment_time, String p_shipping_time, String p_shipping_code,
                        int p_shipping_fee, Address p_shipping_address, String p_shipping_agent,
                        String p_confimation_time, int p_status){

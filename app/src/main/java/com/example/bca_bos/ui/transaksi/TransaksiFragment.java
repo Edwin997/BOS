@@ -28,6 +28,7 @@ import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.transactions.Transaction;
+import com.example.bca_bos.networks.VolleyClass;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
@@ -43,6 +44,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
 
     private Context g_context;
     private View g_view;
+    public static TransaksiFragment g_instance;
 
     //Tombol tab status transaksi
     private Button g_btn_tab_semua, g_btn_tab_pesanan_baru, g_btn_tab_pesanan_dibayar,
@@ -60,8 +62,8 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
     private float g_percentage;
 
     private BottomSheetDialog g_bottomsheet_dialog;
-
-    private List<Transaction> g_list_transaction;
+//
+//    private List<Transaction> g_list_transaction;
 
     private int FLAG_FRAGMENT_TYPE;
     public final int KEY_STATUS_BARUMASUK = 0;
@@ -76,9 +78,10 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
                              ViewGroup container, Bundle savedInstanceState) {
 
         g_context = container.getContext();
-        g_list_transaction = ListTransaksiDummy.transactionList;
+
         g_view = inflater.inflate(R.layout.fragment_transaksi, container, false);
 
+        g_instance = this;
 
         g_linearlayoutmanager = new LinearLayoutManager(g_context);
         g_transaksiadapter = new TransaksiAdapter(this);
@@ -88,7 +91,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         g_transaksi_fragment_recyclerview.setLayoutManager(g_linearlayoutmanager);
 
         g_transaksi_fragment_piechart = g_view.findViewById(R.id.apps_transaksi_filterdetail_piechart);
-        g_percentage = g_list_transaction.size();
+        g_percentage = g_transaksiadapter.getItemCount();
 
         //Inisialisasi Tab
         g_btn_tab_pesanan_baru = g_view.findViewById(R.id.apps_transaksi_fragment_tab_btn_pesanan_baru);
@@ -112,75 +115,74 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
 
         g_bottomsheet_dialog = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
 
+        firstLoad();
 
+        VolleyClass.getTransaksi(g_context, 3, g_transaksiadapter);
+
+        return g_view;
+    }
+
+    public void firstLoad(){
         if (getArguments()!= null){
             FLAG_FRAGMENT_TYPE = getArguments().getInt("flag");
-            g_percentage = getPersentaseTransaksiSudahDiBayar();
+            g_percentage = g_transaksiadapter.getPersentaseTransaksiSudahDiBayar();
             drawPieChart(new int[]{R.color.yellow, R.color.white},
-                    countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
-            g_transaksiadapter.setListTransaksi(getListTransaksiByType(FLAG_FRAGMENT_TYPE));
+                    g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
+            g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
             g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapter);
             setTabBar();
         } else {
             FLAG_FRAGMENT_TYPE = KEY_STATUS_SEMUA;
             g_percentage = 100;
             drawPieChart(new int[]{R.color.white, R.color.white},
-                    g_list_transaction.size() + "\nTransaksi");
-            g_transaksiadapter.setListTransaksi(g_list_transaction);
+                    g_transaksiadapter.getItemMasterCount() + "\nTransaksi");
+            g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
             g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapter);
             setTabBar();
         }
-
-        return g_view;
     }
 
     @Override
     public void onClick(View v) {
-        TransaksiAdapter tmpAdapter = g_transaksiadapter;
         switch (v.getId()){
             case R.id.apps_transaksi_fragment_tab_btn_pesanan_baru:
                 FLAG_FRAGMENT_TYPE = KEY_STATUS_BARUMASUK;
-                g_percentage = getPersentaseTransaksiBaruMasuk();
+                g_percentage = g_transaksiadapter.getPersentaseTransaksiBaruMasuk();
                 drawPieChart(new int[]{R.color.red, R.color.white},
-                        countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaction");
-                tmpAdapter.setListTransaksi(getListTransaksiByType(FLAG_FRAGMENT_TYPE));
-                g_transaksi_fragment_recyclerview.setAdapter(tmpAdapter);
+                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaction");
+                g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 setTabBar();
                 break;
             case R.id.apps_transaksi_fragment_tab_btn_pesanan_dibayar:
                 FLAG_FRAGMENT_TYPE = KEY_STATUS_SUDAHDIBAYAR;
-                g_percentage = getPersentaseTransaksiSudahDiBayar();
+                g_percentage = g_transaksiadapter.getPersentaseTransaksiSudahDiBayar();
                 drawPieChart(new int[]{R.color.yellow, R.color.white},
-                        countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaction");
-                tmpAdapter.setListTransaksi(getListTransaksiByType(FLAG_FRAGMENT_TYPE));
-                g_transaksi_fragment_recyclerview.setAdapter(tmpAdapter);
+                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaction");
+                g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 setTabBar();
                 break;
             case R.id.apps_transaksi_fragment_tab_btn_pesanan_dikirim:
                 FLAG_FRAGMENT_TYPE = KEY_STATUS_SUDAHDIKIRIM;
-                g_percentage = getPersentaseTransaksiSudahDikirim();
+                g_percentage = g_transaksiadapter.getPersentaseTransaksiSudahDikirim();
                 drawPieChart(new int[]{R.color.blue, R.color.white},
-                        countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaction");
-                tmpAdapter.setListTransaksi(getListTransaksiByType(FLAG_FRAGMENT_TYPE));
-                g_transaksi_fragment_recyclerview.setAdapter(tmpAdapter);
+                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaction");
+                g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 setTabBar();
                 break;
             case R.id.apps_transaksi_fragment_tab_btn_transaksi_selesai:
                 FLAG_FRAGMENT_TYPE = KEY_STATUS_SELESAI;
-                g_percentage = getPersentaseTransaksiSudahSelesai();
+                g_percentage = g_transaksiadapter.getPersentaseTransaksiSudahSelesai();
                 drawPieChart(new int[]{R.color.green, R.color.white},
-                        countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaction");
-                tmpAdapter.setListTransaksi(getListTransaksiByType(FLAG_FRAGMENT_TYPE));
-                g_transaksi_fragment_recyclerview.setAdapter(tmpAdapter);
+                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaction");
+                g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 setTabBar();
                 break;
             case R.id.apps_transaksi_fragment_tab_btn_semua_transaksi:
                 FLAG_FRAGMENT_TYPE = KEY_STATUS_SEMUA;
                 g_percentage = 100;
                 drawPieChart(new int[]{R.color.white, R.color.white},
-                        g_list_transaction.size() + "\nTransaction");
-                g_transaksi_fragment_recyclerview.setAdapter(tmpAdapter);
-                tmpAdapter.setListTransaksi(getListTransaksiByType(FLAG_FRAGMENT_TYPE));
+                        g_transaksiadapter.getItemMasterCount() + "\nTransaction");
+                g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 setTabBar();
                 break;
         }
@@ -274,65 +276,6 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         g_transaksi_fragment_piechart.animateXY(1000,1000);
     }
 
-    public List<Transaction> getListTransaksiByType(int p_type){
-        List<Transaction> tmpListTransaction = new ArrayList<>();
-
-        if(p_type == KEY_STATUS_SEMUA){
-            tmpListTransaction = ListTransaksiDummy.transactionList;
-        }
-        else{
-            for(int i = 0; i < g_list_transaction.size(); i++){
-                if(g_list_transaction.get(i).getStatus() == p_type)
-                    tmpListTransaction.add(g_list_transaction.get(i));
-            }
-        }
-
-        return tmpListTransaction;
-    }
-
-    public float getPersentaseTransaksiSudahSelesai(){
-        float tmpHasil = 0f;
-        if(g_list_transaction.size() > 0){
-            tmpHasil = (((float)countTransaksibyStatus(KEY_STATUS_SELESAI)) / g_list_transaction.size()) * 100;
-        }
-        return tmpHasil;
-    }
-
-    public float getPersentaseTransaksiSudahDikirim(){
-        float tmpHasil = 0f;
-        if(g_list_transaction.size() > 0){
-            tmpHasil = (((float)countTransaksibyStatus(KEY_STATUS_SUDAHDIKIRIM)) / g_list_transaction.size()) * 100;
-        }
-        return tmpHasil;
-    }
-
-    public float getPersentaseTransaksiSudahDiBayar(){
-        float tmpHasil = 0f;
-        if(g_list_transaction.size() > 0){
-            tmpHasil = (((float)countTransaksibyStatus(KEY_STATUS_SUDAHDIBAYAR)) / g_list_transaction.size()) * 100;
-        }
-        return tmpHasil;
-    }
-
-    public float getPersentaseTransaksiBaruMasuk(){
-        float tmpHasil = 0f;
-        if(g_list_transaction.size() > 0){
-            tmpHasil = (((float)countTransaksibyStatus(KEY_STATUS_BARUMASUK)) / g_list_transaction.size()) * 100;
-        }
-        return tmpHasil;
-    }
-
-    public int countTransaksibyStatus(int p_type){
-        int count = 0;
-
-        for(int i = 0; i < g_list_transaction.size(); i++){
-            if(g_list_transaction.get(i).getStatus() == p_type)
-                count++;
-        }
-
-        return count;
-    }
-
     @Override
     public void OnCallBack(Object p_obj) {
         if(p_obj instanceof Transaction){
@@ -374,7 +317,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
 
         l_tv_bottom_sheet_transaksi_pesanbaru_nama.setText(p_transaction.getBuyer().getBuyer_name());
         l_tv_bottom_sheet_transaksi_pesanbaru_tanggal.setText(p_transaction.getOrder_time());
-        l_tv_bottom_sheet_transaksi_pesanbaru_total.setText(Method.getIndoCurrency(p_transaction.getTotal_payment()));
+        l_tv_bottom_sheet_transaksi_pesanbaru_total.setText(Method.getIndoCurrency(Double.parseDouble(p_transaction.getTotal_payment())));
 //        l_tv_bottom_sheet_transaksi_pesanbaru_totals.setText(Method.getIndoCurrency(p_transaction.getTotal_payment()));
 
         g_bottomsheet_dialog.setContentView(l_bottomsheet_view_add);
@@ -402,7 +345,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
 
         l_tv_bottom_sheet_transaksi_pesandikirim_nama.setText(p_transaction.getBuyer().getBuyer_name());
         l_tv_bottom_sheet_transaksi_pesandikirim_tanggal.setText(p_transaction.getOrder_time());
-        l_tv_bottom_sheet_transaksi_pesandikirim_total.setText(Method.getIndoCurrency(p_transaction.getTotal_payment()));
+        l_tv_bottom_sheet_transaksi_pesandikirim_total.setText(Method.getIndoCurrency(Double.parseDouble(p_transaction.getTotal_payment())));
 //        l_tv_bottom_sheet_transaksi_pesandikirim_totals.setText(Method.getIndoCurrency(p_transaction.getTotal_payment()));
 
         g_bottomsheet_dialog.setContentView(l_bottomsheet_view_add);
@@ -451,7 +394,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
 
         l_tv_bottom_sheet_transaksi_dibayar_nama.setText(p_transaction.getBuyer().getBuyer_name());
         l_tv_bottom_sheet_transaksi_pesandibayar_tanggal.setText(p_transaction.getOrder_time());
-        l_tv_bottom_sheet_transaksi_pesandibayar_total.setText(Method.getIndoCurrency(p_transaction.getTotal_payment()));
+        l_tv_bottom_sheet_transaksi_pesandibayar_total.setText(Method.getIndoCurrency(Double.parseDouble(p_transaction.getTotal_payment())));
 
         l_btn_bottom_sheet_transaksi_pesandibayar_kirimresi.setOnClickListener(new View.OnClickListener() {
             @Override
