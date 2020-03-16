@@ -16,10 +16,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     EditText g_register_et_bos_id, g_register_et_no_kartu, g_register_et_no_hp, g_register_et_password;
     TextView g_register_tv_bos_id, g_register_tv_no_kartu, g_register_tv_no_hp, g_register_tv_password;
 
+    //
+    public static RegisterActivity registerInstance = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        registerInstance = this;
 
         g_register_btn = findViewById(R.id.register_register_button);
         g_register_btn.setOnClickListener(this);
@@ -48,7 +53,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 Intent tmp_register_intent = new Intent(RegisterActivity.this, OTPActivity.class);
                 startActivity(tmp_register_intent);
                 overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-                finish();
                 break;
         }
     }
@@ -83,5 +87,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         startActivity(tmp_back_intent);
         overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
         finish();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        registerInstance = null;
     }
 }

@@ -3,6 +3,7 @@ package com.example.bca_bos;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bca_bos.networks.NetworkUtil;
+import com.example.bca_bos.networks.VolleyClass;
 
 public class PasswordActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,6 +34,10 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
     String g_bos_id;
 
     public static PasswordActivity g_instance;
+
+    //Shared Preference
+    private static final String PREF_LOGIN = "LOGIN_PREF";
+    private static final String BOS_ID = "BOS_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,16 +190,19 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
             g_password_flag = "fivth";
         }else if (g_password_flag.equals("fivth")){
             g_password_flag = "sixth";
-            if (tmp_password.equals("123456")){
-                g_password_tv_error.setText(g_bos_id);
-                intentLogin();
+            SharedPreferences l_preferences = getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
+            if (l_preferences.contains(BOS_ID)){
+                String l_bos_id = l_preferences.getString(BOS_ID,"");
+                VolleyClass.loginByPassword(this, l_bos_id, tmp_password);
             }else {
-                g_password_tv_error.setText("Wrong Password");
+                VolleyClass.loginByPassword(this, g_bos_id, tmp_password);
+                saveSharedPreference();
             }
         }else if (g_password_flag.equals("sixth")){
 
         }
     }
+
 
     private void changeGreyToBlue(){
         if (g_password_flag.equals("zero")){
@@ -251,10 +260,26 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
         return p_str;
     }
 
+    private void saveSharedPreference() {
+        //Save Shared Preference
+        SharedPreferences.Editor l_editor = getSharedPreferences(PREF_LOGIN, MODE_PRIVATE).edit();
+        l_editor.putString(BOS_ID, g_bos_id);
+        l_editor.commit();
+    }
+
     public void intentLogin(){
         Intent tmp_login_intent = new Intent(PasswordActivity.this, ApplicationContainer.class);
         startActivity(tmp_login_intent);
         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         finish();
     }
+
+    public void setErrorPasswordSalah(){
+        g_password_tv_error.setText("Password Salah");
+    }
+
+    public void setErrorIDSalah(){
+        g_password_tv_error.setText("ID Salah");
+    }
+
 }

@@ -51,9 +51,9 @@ public class NetworkUtil {
             JSONObject objGeneral = new JSONObject(p_response);
             if(objGeneral.get("error_schema") instanceof JSONObject){
                 JSONObject tmpObject = objGeneral.getJSONObject("error_schema");
-                JSONObject error_code = tmpObject.getJSONObject("error_message");
+                String error_code = tmpObject.getString("error_code");
 
-                return error_code.getString("indonesian");
+                return error_code;
             }
         } catch (JSONException e) {
             e.printStackTrace();

@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,6 +30,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     //Shared Preference
     private static final String PREF_LOGIN = "LOGIN_PREF";
     private static final String BOS_ID = "BOS_ID";
+    String bos_id_status = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +77,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (p_view.getId()){
             case R.id.login_login_button:
                 String tmp_bos_id = g_login_et_bos_id.getText().toString();
-//                VolleyClass.loginProcess(this, tmp_bos_id, tmp_password);
                 isBOSIdValid(tmp_bos_id);
+                if (bos_id_status.equals("valid")){
+                    VolleyClass.loginByID(this, tmp_bos_id, "");
+                    bos_id_status = "";
+                }
                 break;
             case R.id.login_register_button:
                 Intent tmp_register_intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(tmp_register_intent);
                 overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
+                finish();
                 break;
         }
     }
@@ -112,12 +116,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             g_login_tv_error.setText("BOS ID maksimal 20 karakter");
         }else if (!p_bos_id.isEmpty() && p_bos_id.length()<=20 && p_bos_id.length()>=8){
             g_login_tv_error.setText("");
-            //Save Shared Preference
-            SharedPreferences.Editor l_editor = getSharedPreferences(PREF_LOGIN, MODE_PRIVATE).edit();
-            l_editor.putString(BOS_ID, p_bos_id);
-            l_editor.commit();
-            //intent
-            intentLogin(p_bos_id);
+            bos_id_status = "valid";
         }
     }
 
@@ -126,6 +125,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tmp_login_intent.putExtra("bos_id",p_bos_id);
         startActivity(tmp_login_intent);
         overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
+        finish();
+    }
+
+    public void setError(){
+        g_login_tv_error.setText("BOS ID tidak ditemukan");
     }
 
 }

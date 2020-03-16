@@ -15,26 +15,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bca_bos.dummy.ListKategoriDummy;
-import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
@@ -48,7 +40,6 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -321,7 +312,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_iv_bottom_sheet_produk_edit_gambar = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_iv_gambar_edit_produk);
 
         //inisiasi edittext
-        g_tv_bottom_sheet_produk_edit_nama = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_et_nama_edit_produk);
+        g_tv_bottom_sheet_produk_edit_nama = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_et_nama_toko_edit_produk);
         g_tv_bottom_sheet_produk_edit_harga = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_et_harga_edit_produk);
         g_tv_bottom_sheet_produk_edit_stok = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_et_stok_edit_produk);
         g_tv_bottom_sheet_produk_edit_berat = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_et_berat_edit_produk);

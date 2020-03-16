@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -53,6 +54,8 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
     //BottomSheet Edit
     private BottomSheetDialog g_bottomsheet_dialog_edit_profile, g_bottomsheet_dialog_change_password;
     private Button g_bottomsheet_simpan_profil, g_bottomsheet_simpan_password;
+    private TextView g_bottomsheet_tv_nama_seller;
+    private EditText g_bottomsheet_et_nama_toko, g_bottomsheet_et_kota_asal;
     private RoundedImageView g_bottomsheet_iv_profile;
     private ChooseImageFromDialog g_choose_dialog;
     private Bitmap g_bmp_bottom_sheet_edit_profile;
@@ -187,6 +190,11 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         g_bottomsheet_iv_profile = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_iv_gambar_edit_produk);
         g_bottomsheet_iv_profile.setOnClickListener(this);
 
+        //TextView dan EditText
+        g_bottomsheet_tv_nama_seller = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_tv_nama_edit_profile);
+        g_bottomsheet_et_nama_toko = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_et_nama_toko_edit_profile);
+        g_bottomsheet_et_kota_asal = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_et_kota_asal_edit_profile);
+
         //Ongkir Pilihan
         g_profile_button_jne = l_bottomsheet_view_edit_profile.findViewById(R.id.profile_jne_button);
         g_profile_button_jne.setOnClickListener(this);
@@ -194,6 +202,11 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         g_profile_button_tiki.setOnClickListener(this);
         g_profile_button_pos = l_bottomsheet_view_edit_profile.findViewById(R.id.profile_pos_button);
         g_profile_button_pos.setOnClickListener(this);
+
+        //Set Text
+        g_bottomsheet_tv_nama_seller.setText(g_profile_nama_seller.getText());
+        g_bottomsheet_et_nama_toko.setText(g_profile_nama_toko.getText());
+        g_bottomsheet_et_kota_asal.setText(g_profile_kotkab.getText());
 
         //Simpan Profil
         g_bottomsheet_simpan_profil = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_btn_simpan_profil);
@@ -218,6 +231,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         g_profile_bosid.setText(p_seller.getUsername());
         g_profile_phone.setText(p_seller.getPhone());
         g_profile_kotkab.setText(String.valueOf(p_seller.getKotakab().getId_kota_kab()));
+
     }
 
     @Override

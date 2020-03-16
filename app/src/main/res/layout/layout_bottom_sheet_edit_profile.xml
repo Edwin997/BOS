@@ -29,6 +29,7 @@
         app:riv_oval="true"/>
 
     <TextView
+        android:id="@+id/apps_bottom_sheet_tv_nama_edit_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="William Sutanto"
@@ -49,7 +50,7 @@
         android:layout_marginBottom="5dp"/>
 
     <EditText
-        android:id="@+id/apps_bottom_sheet_et_nama_edit_produk"
+        android:id="@+id/apps_bottom_sheet_et_nama_toko_edit_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/style_gradient_color_rounded_box_white"
@@ -75,7 +76,7 @@
         android:layout_marginBottom="5dp"/>
 
     <EditText
-        android:id="@+id/apps_bottom_sheet_et_harga_edit_produk"
+        android:id="@+id/apps_bottom_sheet_et_kota_asal_edit_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/style_gradient_color_rounded_box_white"

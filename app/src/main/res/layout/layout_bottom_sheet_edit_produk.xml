@@ -40,7 +40,7 @@
         android:layout_marginBottom="5dp"/>
 
     <EditText
-        android:id="@+id/apps_bottom_sheet_et_nama_edit_produk"
+        android:id="@+id/apps_bottom_sheet_et_nama_toko_edit_produk"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/style_gradient_color_rounded_box_white"

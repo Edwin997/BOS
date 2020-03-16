@@ -156,7 +156,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             g_otp_flag = "third";
         }else if (g_otp_flag.equals("third")){
             g_otp_flag = "fourth";
-            if (tmp_otp.equals("1234")){
+            if (tmp_otp.equals("1111")){
                 moveToMainMenuActivity();
             }else {
                 g_otp_tv_error.setText("Wrong OTP");
@@ -225,7 +225,15 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         Intent tmp_register_intent = new Intent(OTPActivity.this, FillDataActivity.class);
         startActivity(tmp_register_intent);
         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+        closeRegisterActivity();
         finish();
     }
 
+    private void closeRegisterActivity(){
+        if(RegisterActivity.registerInstance != null) {
+            try {
+                RegisterActivity.registerInstance.finish();
+            } catch (Exception e) {}
+        }
+    }
 }

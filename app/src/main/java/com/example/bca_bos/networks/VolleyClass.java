@@ -40,6 +40,9 @@ import java.util.List;
 public class VolleyClass {
 
     private static final String ERROR_CODE_BERHASIL = "BIT-000";
+    private static final String ERROR_CODE_BOS_ID_TIDAK_DITEMUKAN = "BOS-201";
+    private static final String ERROR_CODE_PASSWORD_SALAH = "BOS-200";
+
     private static RequestQueue g_requestqueue;
     private static Gson gson = new Gson();
 
@@ -440,7 +443,40 @@ public class VolleyClass {
     //endregion
 
     //region LOGIN AND REGISTER
-    public static void loginProcess(final Context p_context, String p_bos_id, String p_password){
+    public static void loginByID(final Context p_context, final String p_bos_id, String p_password){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", p_bos_id);
+        params.put("password", p_password);
+
+        JsonObjectRequest request_json = new JsonObjectRequest(URL_LOGIN, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+//                        Log.d(TAG, response.toString());
+                        String message = NetworkUtil.getErrorCode(response.toString());
+                        if (message.equals(ERROR_CODE_PASSWORD_SALAH)){
+                            LoginActivity.g_instance.intentLogin(p_bos_id);
+                        }else if (message.equals(ERROR_CODE_BOS_ID_TIDAK_DITEMUKAN)){
+                            LoginActivity.g_instance.setError();
+                        }
+                        else {
+                            Toast.makeText(p_context, message, Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void loginByPassword(final Context p_context, final String p_bos_id, String p_password){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -455,10 +491,10 @@ public class VolleyClass {
                         String message = NetworkUtil.getErrorCode(response.toString());
                         if(message.equals(ERROR_CODE_BERHASIL)){
                             PasswordActivity.g_instance.intentLogin();
-                        }
-                        else
-                        {
-                            Toast.makeText(p_context, "Login Gagal", Toast.LENGTH_SHORT).show();
+                        }else if(message.equals(ERROR_CODE_PASSWORD_SALAH)){
+                            PasswordActivity.g_instance.setErrorPasswordSalah();
+                        }else if(message.equals(ERROR_CODE_BOS_ID_TIDAK_DITEMUKAN)){
+                            PasswordActivity.g_instance.setErrorIDSalah();
                         }
 
                     }
@@ -487,6 +523,8 @@ public class VolleyClass {
 
                             Seller tempObject = gson.fromJson(output, Seller.class);
                             ProfileFragment.g_instance.refreshLayout(tempObject);
+
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
