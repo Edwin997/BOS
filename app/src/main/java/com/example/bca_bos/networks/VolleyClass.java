@@ -2,6 +2,7 @@ package com.example.bca_bos.networks;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.TemplatedText;
 import com.example.bca_bos.ui.produk.ProdukAdapter;
+import com.example.bca_bos.ui.produk.ProdukFragment;
 import com.example.bca_bos.ui.profile.ProfileFragment;
 import com.example.bca_bos.ui.template.TemplateAdapter;
 import com.google.gson.Gson;
@@ -383,6 +385,35 @@ public class VolleyClass {
                             p_adapter.clear();
                             p_adapter.addAll(listnama);
                             p_adapter.notifyDataSetChanged();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void getProductCategory(final Context p_context, final View p_view){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PRODUCT_CATEGORY,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            g_list_product_category = Arrays.asList(gson.fromJson(output, PrdCategory[].class));
+
+                            ProdukFragment.g_instance.showCategoryPopupMenu(p_view, g_list_product_category);
 
                         } catch (Exception e) {
                             e.printStackTrace();

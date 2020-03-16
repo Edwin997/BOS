@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product implements Parcelable {
+public class Product implements Parcelable, Comparable<Product> {
 
     private int id_product;
     private String product_name; //100
@@ -66,5 +66,13 @@ public class Product implements Parcelable {
         dest.writeInt(stock);
         dest.writeString(image_path);
         dest.writeInt(price);
+    }
+
+    @Override
+    public int compareTo(Product p_product) {
+        if (getProduct_name() == null || p_product.getProduct_name() == null) {
+            return 0;
+        }
+        return getProduct_name().toLowerCase().compareTo(p_product.getProduct_name().toLowerCase());
     }
 }

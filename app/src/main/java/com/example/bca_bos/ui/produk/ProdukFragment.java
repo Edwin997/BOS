@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -44,6 +48,8 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -54,23 +60,23 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     public final static String KEY_PRODUK = "product";
 
     //VIEW DATA MEMBER
+    public static ProdukFragment g_instance;
+
     private Context g_context;
     private View g_view;
     private ChooseImageFromDialog g_choose_dialog;
     private BottomSheetDialog g_bottomsheet_dialog;
-    Product g_product_onclick;
+    private Product g_product_onclick;
+    private PopupMenu g_popup;
 
     //FRAGMENT SECTION DATA MEMBER
     private LinearLayout g_produk_fragment_ll_add_button;
-
-    private Spinner g_produk_fragment_spinner_kategori;
-    private ArrayAdapter g_spinnerAdapter;
 
     private RecyclerView g_produkfragment_recyclerview;
     private ProdukAdapter g_produkadapter;
     private LinearLayoutManager g_linearlayoutmanager;
 
-    private ImageView g_produk_fragment_sort_btn, g_produk_fragment_category_btn;
+    private ImageView g_produk_fragment_sort_btn, g_produk_fragment_category_btn, g_produk_fragment_search_btn;
     private EditText g_produk_fragment_search_et;
 
     //ADD BOTTOM SHEET PRODUK DATA MEMBER
@@ -93,6 +99,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         //inisiasi view, choose dialog, bottom sheet dialog
+        g_instance = this;
         g_context = container.getContext();
         g_view = inflater.inflate(R.layout.fragment_produk, container, false);
         g_choose_dialog = new ChooseImageFromDialog(this);
@@ -104,12 +111,10 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         //inisiasi recyclerview
         g_produkfragment_recyclerview = g_view.findViewById(R.id.apps_produk_fragment_recyclerview);
 
-        //inisiasi spinner
-        g_produk_fragment_spinner_kategori = g_view.findViewById(R.id.apps_produk_fragment_kategori_filter);
-
         //inisiasi imageview
         g_produk_fragment_sort_btn = g_view.findViewById(R.id.apps_produk_fragment_sort_btn);
         g_produk_fragment_category_btn = g_view.findViewById(R.id.apps_produk_fragment_category_btn);
+        g_produk_fragment_search_btn = g_view.findViewById(R.id.apps_produk_fragment_search_btn);
 
         //inisiasi edittext
         g_produk_fragment_search_et = g_view.findViewById(R.id.apps_produk_fragment_search_et);
@@ -124,29 +129,15 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_produkadapter.setParentOnCallBack(this);
         g_produkfragment_recyclerview.setAdapter(g_produkadapter);
         g_produkfragment_recyclerview.setLayoutManager(g_linearlayoutmanager);
-//        VolleyClass.getProduct(g_context, 3, g_produkadapter);
-
-        //config spinner
-        g_spinnerAdapter = new ArrayAdapter(g_context, android.R.layout.simple_spinner_item, ListKategoriDummy.getListTypeString());
-        g_spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        g_produk_fragment_spinner_kategori.setAdapter(g_spinnerAdapter);
-        g_produk_fragment_spinner_kategori.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int idx = VolleyClass.findProductCategoryId(position);
-                g_produkadapter.getProductFiltered(idx);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                g_produkadapter.getProductFiltered(0);
-            }
-        });
-//        VolleyClass.getProductCategory(g_context, g_spinnerAdapter);
+        VolleyClass.getProduct(g_context, 3, g_produkadapter);
 
         //config imageview
         g_produk_fragment_sort_btn.setOnClickListener(this);
         g_produk_fragment_category_btn.setOnClickListener(this);
+        g_produk_fragment_search_btn.setOnClickListener(this);
+
+        //config edittext
+        g_produk_fragment_search_et.addTextChangedListener(new SearchTextWatcher(g_produk_fragment_search_et));
 
         return g_view;
     }
@@ -155,16 +146,14 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
             case R.id.apps_produk_item_sort_asc:
-                Toast.makeText(g_context, "asc", Toast.LENGTH_SHORT).show();
+                g_produkadapter.sortProduct("ASC");
                 break;
             case R.id.apps_produk_item_sort_desc:
-                Toast.makeText(g_context, "desc", Toast.LENGTH_SHORT).show();
-                break;
-            case 0:
-                Toast.makeText(g_context, item.getTitle(), Toast.LENGTH_SHORT).show();
+                g_produkadapter.sortProduct("DESC");
                 break;
             default:
-                Toast.makeText(g_context, item.getTitle(), Toast.LENGTH_SHORT).show();
+                int idx = VolleyClass.findProductCategoryId(item.getOrder());
+                g_produkadapter.getProductFiltered(idx);
         }
         return true;
     }
@@ -210,8 +199,12 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 showSortPopupMenu(v);
                 break;
             case R.id.apps_produk_fragment_category_btn:
-                showCategoryPopupMenu(v);
+                VolleyClass.getProductCategory(g_context, v);
                 break;
+            case R.id.apps_produk_fragment_search_btn:
+                g_produkadapter.findProduct(g_produk_fragment_search_et.getText().toString());
+                break;
+
             //region ADD PRODUK BOTTOM SHEET
             case R.id.apps_bottom_sheet_iv_gambar_add_produk:
                 g_choose_dialog.showChooseDialogAdd(g_context);
@@ -267,11 +260,8 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 VolleyClass.deleteProduct(g_context, g_product_onclick.getId_product(), g_produkadapter);
                 break;
             //endregion
-
         }
     }
-
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -400,48 +390,64 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         return temp;
     }
 
-    public void showSortPopupMenu(View v) {
-        PopupMenu popup = new PopupMenu(g_context, v);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.produk_fragment_bar, popup.getMenu());
-        popup.setOnMenuItemClickListener(this);
-        popup.show();
+    public void showSortPopupMenu(View p_view) {
+        g_popup = new PopupMenu(g_context, p_view);
+        MenuInflater inflater = g_popup.getMenuInflater();
+        inflater.inflate(R.menu.produk_fragment_bar, g_popup.getMenu());
+        g_popup.setOnMenuItemClickListener(this);
+        g_popup.show();
     }
 
-    public void showCategoryPopupMenu(View v) {
-        PopupMenu popup = new PopupMenu(g_context, v);
-        popup.getMenu().add(0, 1, 0, "Coba 1");
-        popup.getMenu().add(0, 2, 1, "Coba 2");
-        popup.getMenu().add(0, 3, 2, "Coba 3");
-        popup.getMenu().add(0, 4, 3, "Coba 1");
-        popup.getMenu().add(0, 5, 4, "Coba 2");
-        popup.getMenu().add(0, 6, 5, "Coba 3");
-        popup.getMenu().add(0, 7, 6, "Coba 1");
-        popup.getMenu().add(0, 8, 7, "Coba 2");
-        popup.getMenu().add(0, 9, 8, "Coba 3");
-        popup.getMenu().add(0, 10, 9, "Coba 1");
-        popup.getMenu().add(0, 11, 10, "Coba 2");
-        popup.getMenu().add(0, 12, 11, "Coba 3");
-        popup.getMenu().add(0, 13, 12, "Coba 1");
-        popup.getMenu().add(0, 14, 13, "Coba 2");
-        popup.getMenu().add(0, 15, 14, "Coba 3");
-        popup.getMenu().add(0, 16, 15, "Coba 2");
-        popup.getMenu().add(0, 17, 16, "Coba 3");
-        popup.getMenu().add(0, 18, 17, "Coba 1");
-        popup.getMenu().add(0, 19, 18, "Coba 2");
-        popup.getMenu().add(0, 20, 19, "Coba 3");
-        popup.getMenu().add(0, 21, 20, "Coba 2");
-        popup.getMenu().add(0, 22, 21, "Coba 3");
-        popup.getMenu().add(0, 23, 22, "Coba 1");
-        popup.getMenu().add(0, 24, 23, "Coba 2");
-        popup.getMenu().add(0, 25, 24, "Coba 3");
-        popup.getMenu().add(0, 26, 25, "Coba 2");
-        popup.getMenu().add(0, 27, 26, "Coba 3");
-        popup.getMenu().add(0, 28, 27, "Coba 1");
-        popup.getMenu().add(0, 29, 28, "Coba 2");
-        popup.setOnMenuItemClickListener(this);
-        popup.show();
+    public void showCategoryPopupMenu(View p_view, List<PrdCategory> p_list_category) {
+        g_popup = new PopupMenu(g_context, p_view);
+        g_popup.getMenu().add(0, 0, 0, "Semua Produk");
+        for (int i = 0; i < p_list_category.size(); i++){
+            g_popup.getMenu().add(0, p_list_category.get(i).getId_prd_category(),
+                    i + 1, p_list_category.get(i).getCategory_name());
+        }
+        g_popup.setOnMenuItemClickListener(this);
+        g_popup.show();
     }
 
+    private class SearchTextWatcher implements TextWatcher {
 
+        private EditText l_edittext;
+
+        private int l_delay = 1000;
+        private long l_time_last_editted = 0;
+        private Handler l_handler;
+
+        private Runnable l_thread_show_search_result = new Runnable() {
+            public void run() {
+                if (l_edittext != null) {
+                    if (System.currentTimeMillis() > (l_time_last_editted + l_delay - 500)) {
+                        g_produkadapter.findProduct(l_edittext.getText().toString());
+                    }
+                }
+            }
+        };
+
+        public SearchTextWatcher(EditText p_edittext){
+            l_edittext = p_edittext;
+            l_handler = new Handler();
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(final Editable editable) {
+            if(l_edittext != null){
+                l_time_last_editted = System.currentTimeMillis();
+                l_handler.postDelayed(l_thread_show_search_result, l_delay);
+            }
+        }
+    }
 }

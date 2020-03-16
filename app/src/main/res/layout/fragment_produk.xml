@@ -35,7 +35,7 @@
                 android:id="@+id/apps_produk_fragment_search_et"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="5"
+                android:layout_weight="9"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:textColor="@color/white"
@@ -103,15 +103,6 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-
-        <Spinner
-            android:id="@+id/apps_produk_fragment_kategori_filter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/apps_produk_fragment_recyclerview"
