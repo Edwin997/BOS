@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public void intentLogin(String p_bos_id){
         Intent tmp_login_intent = new Intent(LoginActivity.this, PasswordActivity.class);
-        tmp_login_intent.putExtra("bos_id",p_bos_id);
+        tmp_login_intent.putExtra("BOS_ID",p_bos_id);
         startActivity(tmp_login_intent);
         overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
         finish();

@@ -489,8 +489,19 @@ public class VolleyClass {
                     public void onResponse(JSONObject response) {
 //                        Log.d(TAG, response.toString());
                         String message = NetworkUtil.getErrorCode(response.toString());
+                        String output = NetworkUtil.getOutputSchema(response.toString());
+
                         if(message.equals(ERROR_CODE_BERHASIL)){
-                            PasswordActivity.g_instance.intentLogin();
+                            //Get BOS ID
+                            int tmp_id_seller = 0;
+                            try {
+                                Seller tempObject = gson.fromJson(output, Seller.class);
+                                tmp_id_seller = tempObject.getId_seller();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            PasswordActivity.g_instance.intentLogin(tmp_id_seller);
+
                         }else if(message.equals(ERROR_CODE_PASSWORD_SALAH)){
                             PasswordActivity.g_instance.setErrorPasswordSalah();
                         }else if(message.equals(ERROR_CODE_BOS_ID_TIDAK_DITEMUKAN)){

@@ -38,6 +38,8 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
     //Shared Preference
     private static final String PREF_LOGIN = "LOGIN_PREF";
     private static final String BOS_ID = "BOS_ID";
+    private static final String SELLER_ID = "SELLER_ID";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +58,10 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
             if(extras == null) {
                 g_bos_id= null;
             } else {
-                g_bos_id= extras.getString("bos_id");
+                g_bos_id= extras.getString(BOS_ID);
             }
         } else {
-            g_bos_id= (String) savedInstanceState.getSerializable("bos_id");
+            g_bos_id= (String) savedInstanceState.getSerializable(BOS_ID);
         }
 
         //Password digit
@@ -196,7 +198,7 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
                 VolleyClass.loginByPassword(this, l_bos_id, tmp_password);
             }else {
                 VolleyClass.loginByPassword(this, g_bos_id, tmp_password);
-                saveSharedPreference();
+                saveStringSharedPreference(BOS_ID, g_bos_id);
             }
         }else if (g_password_flag.equals("sixth")){
 
@@ -260,15 +262,26 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
         return p_str;
     }
 
-    private void saveSharedPreference() {
+    private void saveStringSharedPreference(String p_key, String p_value) {
         //Save Shared Preference
         SharedPreferences.Editor l_editor = getSharedPreferences(PREF_LOGIN, MODE_PRIVATE).edit();
-        l_editor.putString(BOS_ID, g_bos_id);
+        l_editor.putString(p_key, p_value);
         l_editor.commit();
     }
 
-    public void intentLogin(){
+    private void saveIntegerSharedPreference(String p_key, int p_value) {
+        //Save Shared Preference
+        SharedPreferences.Editor l_editor = getSharedPreferences(PREF_LOGIN, MODE_PRIVATE).edit();
+        l_editor.putInt(p_key, p_value);
+        l_editor.commit();
+    }
+
+    public void intentLogin(int p_id_seller){
         Intent tmp_login_intent = new Intent(PasswordActivity.this, ApplicationContainer.class);
+
+        //menyimpan id seller dalam Shared Preference
+        saveIntegerSharedPreference(SELLER_ID, p_id_seller);
+
         startActivity(tmp_login_intent);
         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         finish();

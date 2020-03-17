@@ -37,6 +37,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
 
 public class ProfileFragment extends Fragment implements OnCallBackListener, View.OnClickListener {
 
@@ -70,14 +71,19 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
     //Shared Preference
     private static final String PREF_LOGIN = "LOGIN_PREF";
     private static final String BOS_ID = "BOS_ID";
+    private static final String SELLER_ID = "SELLER_ID";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        //Get Seller ID
+        SharedPreferences l_preference = this.getActivity().getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
+        int l_seller_id = l_preference.getInt(SELLER_ID, -1);
+
         //Inisialisasi
         g_instance = this;
         g_context = container.getContext();
         g_choose_dialog = new ChooseImageFromDialog(this);
-        VolleyClass.getProfile(g_context, 3);
+        VolleyClass.getProfile(g_context, l_seller_id);
         g_bottomsheet_dialog_edit_profile = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         g_bottomsheet_dialog_change_password = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         g_view = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -161,7 +167,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                 break;
             case  R.id.btn_popup_profile_ya:
                 //Delete Shared Preference
-                SharedPreferences.Editor editor = getActivity().getSharedPreferences(PREF_LOGIN, Context.MODE_PRIVATE).edit();
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences(PREF_LOGIN, MODE_PRIVATE).edit();
                 editor.clear();
                 editor.commit();
 
