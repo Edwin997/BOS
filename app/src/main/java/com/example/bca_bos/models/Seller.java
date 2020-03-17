@@ -4,6 +4,7 @@ import com.example.bca_bos.models.locations.KotaKab;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,5 +28,6 @@ public class Seller implements Serializable {
     private String last_update_time; //date
     private String image_path; //60
     private KotaKab kotakab;
+    private List<Courier> selected_courier;
 
 }

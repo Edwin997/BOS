@@ -20,6 +20,7 @@ public class Product implements Parcelable, Comparable<Product> {
     private String product_name; //100
     private int price;
     private int stock;
+    private int qty;
     private String image_path;
     private PrdCategory prdCategory;
     private Seller seller;

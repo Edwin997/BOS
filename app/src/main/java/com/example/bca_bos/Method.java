@@ -26,4 +26,8 @@ public class Method {
     public static String getIndoCurrency(int p_number){
         return l_currencyformat.format(p_number);
     }
+
+    public static String getIndoCurrency(double p_number){
+        return l_currencyformat.format(p_number);
+    }
 }

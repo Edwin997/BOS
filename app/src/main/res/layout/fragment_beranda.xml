@@ -33,6 +33,7 @@
                 android:textColor="@color/black"/>
 
             <TextView
+                android:id="@+id/apps_beranda_nama_toko_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_bold_italic"
@@ -65,12 +66,13 @@
                 android:paddingTop="16dp"
                 android:paddingLeft="32dp"
                 android:fontFamily="@font/montserrat_medium"
-                android:text="Transaksi bulan ini"
+                android:text="Nominal transaksi bulan ini"
                 android:textAlignment="textStart"
                 android:textColor="@color/white"
                 android:textSize="12dp"/>
 
             <TextView
+                android:id="@+id/apps_beranda_nominal_jumlah_transaksi_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="32dp"
@@ -81,6 +83,7 @@
                 android:textSize="32dp"/>
 
             <TextView
+                android:id="@+id/apps_beranda_jumlah_transaksi_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
@@ -118,7 +121,7 @@
         android:paddingTop="16dp"
         android:paddingLeft="24dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="Produk terlaris bulan ini"
+        android:text="Produk terlaris sebulan terakhir"
         android:textColor="@color/black"/>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -133,7 +136,7 @@
         android:paddingTop="16dp"
         android:paddingLeft="24dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="Pembeli setia bulan ini "
+        android:text="Pembeli setia sebulan terakhir "
         android:textColor="@color/black"/>
 
     <androidx.recyclerview.widget.RecyclerView

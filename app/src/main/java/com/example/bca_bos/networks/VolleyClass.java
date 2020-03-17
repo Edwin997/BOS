@@ -20,20 +20,28 @@ import com.example.bca_bos.PasswordActivity;
 import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
 import com.example.bca_bos.keyboardadapters.StokProdukAdapter;
 import com.example.bca_bos.keyboardadapters.TemplatedTextAdapter;
+import com.example.bca_bos.models.Buyer;
 import com.example.bca_bos.models.products.PrdCategory;
 import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.TemplatedText;
+import com.example.bca_bos.ui.beranda.BerandaFragment;
+import com.example.bca_bos.ui.beranda.BerandaPembeliAdapter;
+import com.example.bca_bos.ui.beranda.BerandaProdukAdapter;
 import com.example.bca_bos.ui.produk.ProdukAdapter;
 import com.example.bca_bos.ui.produk.ProdukFragment;
 import com.example.bca_bos.ui.profile.ProfileFragment;
 import com.example.bca_bos.ui.template.TemplateAdapter;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,6 +57,14 @@ public class VolleyClass {
     private final static String TAG = "BOSVOLLEY";
     private final static  String BASE_URL = "http://10.26.34.119:8321";
 
+    //URL BERANDA
+    private final static  String BASE_URL_BERANDA= "https://home.apps.pcf.dti.co.id";
+    private final static String URL_BERANDA_JUMLAH_TRANSAKSI = BASE_URL_BERANDA + "/home/trx?seller=";
+    private final static String URL_BERANDA_PRODUK_TERLARIS = BASE_URL_BERANDA + "/home/prd?seller=";
+    private final static String URL_BERANDA_PEMBELI_SETIA = BASE_URL_BERANDA + "/home/byr?seller=";
+    private final static String JUMLAH_TRANSAKSI_START_DATE = "&start-dt=";
+    private final static String JUMLAH_TRANSAKSI_END_DATE = "&end-dt=";
+
     private final static  String BASE_URL_TEMPLATED_TEXT= "https://templatetext.apps.pcf.dti.co.id";
     private final static String URL_TEMPLATED_TEXT = BASE_URL_TEMPLATED_TEXT + "/bos/templateText";
 
@@ -63,6 +79,184 @@ public class VolleyClass {
 
     private final static  String BASE_URL_PROFILE= "https://profile.apps.pcf.dti.co.id";
     private final static String URL_PROFILE = BASE_URL_PROFILE + "/bos/profile";
+
+    //region BERANDA
+
+    public static void getProfileForBeranda(Context p_context, int p_id_seller){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PROFILE + "/" + p_id_seller,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.d("BOSVOLLEY", response);
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            Seller tempObject = gson.fromJson(output, Seller.class);
+                            BerandaFragment.g_instance.refreshNamaToko(tempObject);
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void getSemuaJumlahTransaksi(final Context p_context, int p_id_seller){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET , URL_BERANDA_JUMLAH_TRANSAKSI + p_id_seller,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.d("BOSVOLLEY", response);
+                            JSONObject objGeneral = new JSONObject(response);
+                            JSONArray tmpObjectArray = objGeneral.getJSONArray("output_schema");
+                            JSONObject tmpObject = tmpObjectArray.getJSONObject(0);
+                            String tmp_nominal_jumlah_transaksi = tmpObject.getString("nom_trx");
+                            String tmp_jumlah_transaksi = tmpObject.getString("sum_trx");
+
+                            BerandaFragment.g_instance.refreshJumlahTransaksi(tmp_nominal_jumlah_transaksi, tmp_jumlah_transaksi);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void getJumlahTransaksiBulanIni(final Context p_context, int p_id_seller){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        Date tmp_today_date = Calendar.getInstance().getTime();
+        SimpleDateFormat start_date_formatter = new SimpleDateFormat("yyyy-MM-01");
+        String tmp_start_date_string = start_date_formatter.format(tmp_today_date);
+
+        int tmp_end_day_of_month = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
+        SimpleDateFormat end_date_formatter = new SimpleDateFormat("yyyy-MM-"+tmp_end_day_of_month);
+        String tmp_end_date_string = end_date_formatter.format(tmp_today_date);
+
+
+        StringRequest request_json = new StringRequest(Request.Method.GET , URL_BERANDA_JUMLAH_TRANSAKSI + p_id_seller + JUMLAH_TRANSAKSI_START_DATE + tmp_start_date_string +JUMLAH_TRANSAKSI_END_DATE+ tmp_end_date_string,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.d("BOSVOLLEY", response);
+                            JSONObject objGeneral = new JSONObject(response);
+                            JSONArray tmpObjectArray = objGeneral.getJSONArray("output_schema");
+                            JSONObject tmpObject = tmpObjectArray.getJSONObject(0);
+                            String tmp_nominal_jumlah_transaksi = tmpObject.getString("nom_trx");
+                            String tmp_jumlah_transaksi = tmpObject.getString("sum_trx");
+
+                            BerandaFragment.g_instance.refreshJumlahTransaksi(tmp_nominal_jumlah_transaksi, tmp_jumlah_transaksi);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void getProdukTerlaris(final Context p_context, int p_id_seller, final RecyclerView.Adapter p_adapter){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        //Get hari ini
+        Date tmp_today_date = Calendar.getInstance().getTime();
+        SimpleDateFormat end_date_formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String tmp_end_date_string = end_date_formatter.format(tmp_today_date);
+
+        //Get 30 hari sebeleum hari ini
+        Calendar tmp_thirty_day_before_calendar = Calendar.getInstance();
+        tmp_thirty_day_before_calendar.add(Calendar.DAY_OF_MONTH, -30);
+        Date tmp_thirty_day_before = tmp_thirty_day_before_calendar.getTime();
+        SimpleDateFormat start_date_formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String tmp_start_date_string = start_date_formatter.format(tmp_thirty_day_before);
+
+
+        StringRequest request_json = new StringRequest(Request.Method.GET , URL_BERANDA_PRODUK_TERLARIS + p_id_seller + JUMLAH_TRANSAKSI_START_DATE + tmp_start_date_string +JUMLAH_TRANSAKSI_END_DATE+ tmp_end_date_string,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.d("BOSVOLLEY", response);
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            List<Product> tempObject = Arrays.asList(gson.fromJson(output, Product[].class));
+                            BerandaProdukAdapter tmpAdapter = (BerandaProdukAdapter) p_adapter;
+                            tmpAdapter.setDatasetProduk(tempObject);
+
+//                            String tmp_nominal_jumlah_transaksi = tmpObject.getString("nom_trx");
+//                            String tmp_jumlah_transaksi = tmpObject.getString("sum_trx");
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void getPembeliSetia(final Context p_context, int p_id_seller, final RecyclerView.Adapter p_adapter){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET , URL_BERANDA_PEMBELI_SETIA + p_id_seller,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.d("BOSVOLLEY", response);
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            List<Buyer> tempObject = Arrays.asList(gson.fromJson(output, Buyer[].class));
+                            BerandaPembeliAdapter tmpAdapter = (BerandaPembeliAdapter) p_adapter;
+                            tmpAdapter.setDatasetPembeli(tempObject);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    //endregion
 
     //region TEMPLATED TEXT
     public static void getTemplatedText(Context p_context, int p_id_seller, final RecyclerView.Adapter p_adapter){

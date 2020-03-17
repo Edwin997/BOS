@@ -372,7 +372,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         l_rv_bottom_sheet_transaksi_pesanbaru.setAdapter(l_tdAdapter);
         l_rv_bottom_sheet_transaksi_pesanbaru.setLayoutManager(l_layoutmanager);
 
-        l_tv_bottom_sheet_transaksi_pesanbaru_nama.setText(p_transaction.getBuyer().getBuyer_name());
+        l_tv_bottom_sheet_transaksi_pesanbaru_nama.setText(p_transaction.getBuyer().getName());
         l_tv_bottom_sheet_transaksi_pesanbaru_tanggal.setText(p_transaction.getOrder_time());
         l_tv_bottom_sheet_transaksi_pesanbaru_total.setText(Method.getIndoCurrency(p_transaction.getTotal_payment()));
 //        l_tv_bottom_sheet_transaksi_pesanbaru_totals.setText(Method.getIndoCurrency(p_transaction.getTotal_payment()));
@@ -400,7 +400,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         l_rv_bottom_sheet_transaksi_pesandikirim.setAdapter(l_tdAdapter);
         l_rv_bottom_sheet_transaksi_pesandikirim.setLayoutManager(l_layoutmanager);
 
-        l_tv_bottom_sheet_transaksi_pesandikirim_nama.setText(p_transaction.getBuyer().getBuyer_name());
+        l_tv_bottom_sheet_transaksi_pesandikirim_nama.setText(p_transaction.getBuyer().getName());
         l_tv_bottom_sheet_transaksi_pesandikirim_tanggal.setText(p_transaction.getOrder_time());
         l_tv_bottom_sheet_transaksi_pesandikirim_total.setText(Method.getIndoCurrency(p_transaction.getTotal_payment()));
 //        l_tv_bottom_sheet_transaksi_pesandikirim_totals.setText(Method.getIndoCurrency(p_transaction.getTotal_payment()));
@@ -428,7 +428,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         l_rv_bottom_sheet_transaksi_pesanselesai.setAdapter(l_tdAdapter);
         l_rv_bottom_sheet_transaksi_pesanselesai.setLayoutManager(l_layoutmanager);
 
-        l_tv_bottom_sheet_transaksi_pesanselesai_nama.setText(p_transaction.getBuyer().getBuyer_name());
+        l_tv_bottom_sheet_transaksi_pesanselesai_nama.setText(p_transaction.getBuyer().getName());
         l_tv_bottom_sheet_transaksi_pesanselesai_tanggal.setText(p_transaction.getOrder_time());
         l_tv_bottom_sheet_transaksi_pesanselesai_total.setText(p_transaction.getTotal_payment());
 //        l_tv_bottom_sheet_transaksi_pesanselesai_totals.setText(Method.getIndoCurrency(p_transaction.getTotal_payment()));
@@ -449,7 +449,7 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         final EditText  l_et_bottom_sheet_transaksi_pesandibayar_resi = l_bottomsheet_view_add.findViewById(R.id.et_apps_bottom_sheet_transaksi_pesanandibayar_resi);
         Button l_btn_bottom_sheet_transaksi_pesandibayar_kirimresi = l_bottomsheet_view_add.findViewById(R.id.btn_apps_bottom_sheet_transaksi_pesanandibayar_sendresi);
 
-        l_tv_bottom_sheet_transaksi_dibayar_nama.setText(p_transaction.getBuyer().getBuyer_name());
+        l_tv_bottom_sheet_transaksi_dibayar_nama.setText(p_transaction.getBuyer().getName());
         l_tv_bottom_sheet_transaksi_pesandibayar_tanggal.setText(p_transaction.getOrder_time());
         l_tv_bottom_sheet_transaksi_pesandibayar_total.setText(Method.getIndoCurrency(p_transaction.getTotal_payment()));
 

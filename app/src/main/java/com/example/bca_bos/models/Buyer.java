@@ -16,17 +16,17 @@ import lombok.Setter;
 
 public class Buyer {
     private int id_buyer;
-    private String buyer_name; //40
-    private String phone; //20
+    private String name; //40
+    private String mobile_num; //20
     private List<Address> listOfAddress;
 
-    private int jumlahTransaksi;
+    private int sum_trx;
     private int nominalTransaksi;
 
-    public Buyer(int p_id, String p_nama, String p_notelp, List<Address> p_alamat){
+    public Buyer(int p_id, String p_name, String p_mobile_num, List<Address> p_alamat){
         this.setId_buyer(p_id);
-        this.setBuyer_name(p_nama);
-        this.setPhone(p_notelp);
+        this.setName(name);
+        this.setMobile_num(p_mobile_num);
         this.setListOfAddress(p_alamat);
     }
 
