@@ -15,6 +15,7 @@ import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.transactions.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.TransaksiViewHolder> implements OnCallBackListener {
@@ -25,10 +26,13 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
 
     private OnCallBackListener g_parent_oncallbacklistener;
 
-    private List<Transaction> g_list_transaction;
+    private List<Transaction> g_list_transaction_master;
+    private List<Transaction> g_list_transaction_temp;
 
     public TransaksiAdapter(TransaksiFragment p_parent){
         g_parent = p_parent;
+        g_list_transaction_master = new ArrayList<>();
+        g_list_transaction_temp = new ArrayList<>();
     }
 
     @NonNull
@@ -45,17 +49,89 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
 
     @Override
     public void onBindViewHolder(@NonNull TransaksiViewHolder holder, int position) {
-        holder.setData(g_list_transaction.get(position));
+        holder.setData(g_list_transaction_temp.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return g_list_transaction.size();
+        return g_list_transaction_temp.size();
+    }
+
+    public int getItemMasterCount() {
+        return g_list_transaction_master.size();
+    }
+
+    public List<Transaction> getListTransaction(){
+        return g_list_transaction_master;
     }
 
     public void setListTransaksi(List<Transaction> p_list){
-        g_list_transaction = p_list;
+        g_list_transaction_master = p_list;
+        setListTransaksiFiltered(g_list_transaction_master);
         notifyDataSetChanged();
+    }
+
+    public void setListTransaksiFiltered(List<Transaction> p_list){
+        g_list_transaction_temp = p_list;
+        notifyDataSetChanged();
+    }
+
+    public List<Transaction> getListTransaksiByType(int p_type){
+        List<Transaction> tmpListTransaction = new ArrayList<>();
+        if(p_type == g_parent.KEY_STATUS_SEMUA){
+            tmpListTransaction = g_list_transaction_master;
+        }
+        else{
+            for(int i = 0; i < g_list_transaction_master.size(); i++){
+                if(g_list_transaction_master.get(i).getStatus() == p_type)
+                    tmpListTransaction.add(g_list_transaction_master.get(i));
+            }
+        }
+
+        return tmpListTransaction;
+    }
+
+    public float getPersentaseTransaksiSudahSelesai(){
+        float tmpHasil = 0f;
+        if(g_list_transaction_master.size() > 0){
+            tmpHasil = (((float)countTransaksibyStatus(g_parent.KEY_STATUS_SELESAI)) / g_list_transaction_master.size()) * 100;
+        }
+        return tmpHasil;
+    }
+
+    public float getPersentaseTransaksiSudahDikirim(){
+        float tmpHasil = 0f;
+        if(g_list_transaction_master.size() > 0){
+            tmpHasil = (((float)countTransaksibyStatus(g_parent.KEY_STATUS_SUDAHDIKIRIM)) / g_list_transaction_master.size()) * 100;
+        }
+        return tmpHasil;
+    }
+
+    public float getPersentaseTransaksiSudahDiBayar(){
+        float tmpHasil = 0f;
+        if(g_list_transaction_master.size() > 0){
+            tmpHasil = (((float)countTransaksibyStatus(g_parent.KEY_STATUS_SUDAHDIBAYAR)) / g_list_transaction_master.size()) * 100;
+        }
+        return tmpHasil;
+    }
+
+    public float getPersentaseTransaksiBaruMasuk(){
+        float tmpHasil = 0f;
+        if(g_list_transaction_master.size() > 0){
+            tmpHasil = (((float)countTransaksibyStatus(g_parent.KEY_STATUS_BARUMASUK)) / g_list_transaction_master.size()) * 100;
+        }
+        return tmpHasil;
+    }
+
+    public int countTransaksibyStatus(int p_type){
+        int count = 0;
+
+        for(int i = 0; i < g_list_transaction_master.size(); i++){
+            if(g_list_transaction_master.get(i).getStatus() == p_type)
+                count++;
+        }
+
+        return count;
     }
 
     public void setParentOnCallBack(OnCallBackListener p_oncallback){
@@ -104,26 +180,21 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
 
             if(l_transaction.getStatus() == g_parent.KEY_STATUS_SELESAI){
                 ll_transaksi.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_green));
-//                tv_total_transaksi.setTextColor(g_context.getResources().getColor(R.color.green))
                 tv_status_transaksi.setText("Transaksi Selesai");
             }
             else if(l_transaction.getStatus() == g_parent.KEY_STATUS_SUDAHDIKIRIM){
                 ll_transaksi.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_blue));
-//                tv_total_transaksi.setTextColor(g_context.getResources().getColor(R.color.blue));
                 tv_status_transaksi.setText("Pesanan Dikirim");
             }
             else if(l_transaction.getStatus() == g_parent.KEY_STATUS_SUDAHDIBAYAR){
                 ll_transaksi.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_orange));
-//                tv_total_transaksi.setTextColor(g_context.getResources().getColor(R.color.yellow));
                 tv_status_transaksi.setText("Pesanan Dibayar");
             }
             else if(l_transaction.getStatus() == g_parent.KEY_STATUS_BARUMASUK){
                 ll_transaksi.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_red));
-//                tv_total_transaksi.setTextColor(g_context.getResources().getColor(R.color.red));
                 tv_status_transaksi.setText("Pesanan Baru");
             } else {
                 ll_transaksi.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
-//                tv_total_transaksi.setTextColor(g_context.getResources().getColor(R.color.black));
                 tv_status_transaksi.setText("NULL");
             }
 

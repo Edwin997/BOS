@@ -4,6 +4,8 @@ import com.example.bca_bos.models.Buyer;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.locations.Address;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,20 +20,21 @@ public class Transaction {
     private Buyer buyer;
     private Seller seller;
     private String payment_account; //20
-    private int total_payment;
+    private String total_payment;
     private String order_time; //date
     private String payment_time; //date
     private String shipping_time; //date
     private String shipping_code; //20
     private int shipping_fee;
-    private Address shipping_address;
+    private String address;
     private String shipping_agent; //20
     private String confirmation_time; //date
     private int status;
+    private List<TransactionDetail> transaction_detail;
 
-    public Transaction(Buyer p_buyer, Seller p_seller, String p_payment_account, int p_total_payment,
+    public Transaction(Buyer p_buyer, Seller p_seller, String p_payment_account, String p_total_payment,
                        String p_order_time, String p_payment_time, String p_shipping_time, String p_shipping_code,
-                       int p_shipping_fee, Address p_shipping_address, String p_shipping_agent,
+                       int p_shipping_fee, String p_shipping_address, String p_shipping_agent,
                        String p_confimation_time, int p_status){
         this.setBuyer(p_buyer);
         this.setSeller(p_seller);
@@ -42,7 +45,7 @@ public class Transaction {
         this.setShipping_time(p_shipping_time);
         this.setShipping_code(p_shipping_code);
         this.setShipping_fee(p_shipping_fee);
-        this.setShipping_address(p_shipping_address);
+        this.setAddress(p_shipping_address);
         this.setShipping_agent(p_shipping_agent);
         this.setConfirmation_time(p_confimation_time);
         this.setStatus(p_status);

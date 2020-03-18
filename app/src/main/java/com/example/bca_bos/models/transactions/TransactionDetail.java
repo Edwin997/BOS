@@ -12,14 +12,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionDetail {
-    private int id_transaction_dtl;
-    private Transaction transaction;
+    private int id_transaction_detail;
     private Product product;
     private int quantity;
-    private int sell_price;
+    private String sell_price;
 
-    public TransactionDetail(Transaction p_transaction, Product p_product, int p_quantity, int p_sell_price){
-        this.setTransaction(p_transaction);
+    public TransactionDetail(Product p_product, int p_quantity, String p_sell_price){
         this.setProduct(p_product);
         this.setQuantity(p_quantity);
         this.setSell_price(p_sell_price);
