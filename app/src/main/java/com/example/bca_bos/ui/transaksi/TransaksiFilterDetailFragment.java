@@ -38,7 +38,7 @@ public class TransaksiFilterDetailFragment extends Fragment implements View.OnCl
 
     private RecyclerView g_transaksi_fiturdetail_recyclerview;
     private LinearLayoutManager g_linearlayoutmanager;
-    private TransaksiAdapter g_transaksiadapter;
+    private OnlineTransaksiAdapter g_transaksiadapter;
 
     private PieChart g_transaksi_fragment_piechart;
     private float g_percentage;
