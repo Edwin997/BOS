@@ -14,7 +14,6 @@ import com.example.bca_bos.dummy.ListPembeliDummy;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Buyer;
-import com.example.bca_bos.models.products.Product;
 
 import java.util.List;
 
@@ -88,7 +87,7 @@ public class BerandaPembeliAdapter extends RecyclerView.Adapter<BerandaPembeliAd
         public void setData(Buyer pembeli){
             l_pembeli = pembeli;
 
-            l_tv_beranda_pembeli_nama.setText(pembeli.getName());
+            l_tv_beranda_pembeli_nama.setText(pembeli.getBuyer_name());
             l_tv_beranda_pembeli_transaksi.setText(String.valueOf(pembeli.getSum_trx()));
             l_tv_beranda_pembeli_nominal.setText(Method.getIndoCurrency(pembeli.getNominalTransaksi()));
         }
