@@ -30,6 +30,7 @@ import com.example.bca_bos.ui.produk.ProdukFragment;
 import com.example.bca_bos.ui.profile.ProfileFragment;
 import com.example.bca_bos.ui.template.TemplateAdapter;
 import com.example.bca_bos.ui.transaksi.TransaksiAdapter;
+import com.example.bca_bos.ui.transaksi.TransaksiDetailAdapter;
 import com.example.bca_bos.ui.transaksi.TransaksiFragment;
 import com.google.gson.Gson;
 
@@ -59,7 +60,7 @@ public class VolleyClass {
     private static String KEY_SEMUA_PRODUCT = "Semua Produk";
 
     private final static  String BASE_URL_TRANSACTION= "https://transaction.apps.pcf.dti.co.id";
-    private final static String URL_TRANSACTION = BASE_URL_TRANSACTION + "/bos/transaction";
+    private final static String URL_TRANSACTION = BASE_URL_TRANSACTION + "/bos/onlineTransaction";
     private final static String URL_TRANSACTION_DETAIL = BASE_URL_TRANSACTION + "/bos/transactionDetail";
 
     private final static  String BASE_URL_LOGIN = "https://login.apps.pcf.dti.co.id";
@@ -482,7 +483,7 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
-    public static void getTransaksiDetail(Context p_context, int p_id_transaksi, final RecyclerView.Adapter p_adapter){
+    public static void getTransaksiDetail(Context p_context, int p_id_transaksi, final int p_status){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         StringRequest request_json = new StringRequest(Request.Method.GET ,URL_TRANSACTION_DETAIL + "/" + p_id_transaksi,
@@ -493,15 +494,19 @@ public class VolleyClass {
                             Log.d(TAG, response);
                             String output = NetworkUtil.getOutputSchema(response);
 
-//                            TemplatedText tempObject = gson.fromJson(response, TemplatedText.class);
+                            Transaction tempObject = gson.fromJson(output, Transaction.class);
 
-                            List<Transaction> tempObject = Arrays.asList(gson.fromJson(output, Transaction[].class));
-
-                            if(p_adapter instanceof TransaksiAdapter){
-                                TransaksiAdapter tmpAdapter = (TransaksiAdapter) p_adapter;
-                                tmpAdapter.setListTransaksi(tempObject);
-
-                                TransaksiFragment.g_instance.firstLoad();
+                            if(p_status == TransaksiFragment.g_instance.KEY_STATUS_BARUMASUK){
+                                TransaksiFragment.g_instance.showBottomSheetPesananBaru(tempObject);
+                            }
+                            else if(p_status == TransaksiFragment.g_instance.KEY_STATUS_SUDAHDIBAYAR){
+                                TransaksiFragment.g_instance.showBottomSheetPesananDibayar(tempObject);
+                            }
+                            else if(p_status == TransaksiFragment.g_instance.KEY_STATUS_SUDAHDIKIRIM){
+                                TransaksiFragment.g_instance.showBottomSheetPesananDikirim(tempObject);
+                            }
+                            else if(p_status == TransaksiFragment.g_instance.KEY_STATUS_SELESAI){
+                                TransaksiFragment.g_instance.showBottomSheetPesananSelesai(tempObject);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

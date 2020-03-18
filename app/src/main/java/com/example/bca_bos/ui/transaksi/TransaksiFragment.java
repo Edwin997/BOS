@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,11 +114,9 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         g_btn_tab_selesai.setOnClickListener(this);
         g_btn_tab_semua.setOnClickListener(this);
 
-        g_bottomsheet_dialog = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
-
         firstLoad();
 
-        VolleyClass.getTransaksi(g_context, 3, g_transaksiadapter);
+        VolleyClass.getTransaksi(g_context, 16, g_transaksiadapter);
 
         return g_view;
     }
@@ -280,23 +279,12 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
     public void OnCallBack(Object p_obj) {
         if(p_obj instanceof Transaction){
             Transaction tmpTransaction = (Transaction) p_obj;
-
-            if(tmpTransaction.getStatus() == KEY_STATUS_BARUMASUK){
-                showBottomSheetPesananBaru(tmpTransaction);
-            }
-            else if(tmpTransaction.getStatus() == KEY_STATUS_SUDAHDIBAYAR){
-                showBottomSheetPesananDibayar(tmpTransaction);
-            }
-            else if(tmpTransaction.getStatus() == KEY_STATUS_SUDAHDIKIRIM){
-                showBottomSheetPesananDikirim(tmpTransaction);
-            }
-            else if(tmpTransaction.getStatus() == KEY_STATUS_SELESAI){
-                showBottomSheetPesananSelesai(tmpTransaction);
-            }
+            VolleyClass.getTransaksiDetail(g_context, tmpTransaction.getId_transaction(), tmpTransaction.getStatus());
         }
     }
 
-    private void showBottomSheetPesananBaru(Transaction p_transaction){
+    public void showBottomSheetPesananBaru(Transaction p_transaction){
+        g_bottomsheet_dialog = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         View l_bottomsheet_view_add = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_transaksi_pesananbaru,
                 (LinearLayout)g_view.findViewById(R.id.layout_apps_bottom_sheet_container_transaksi_pesananbaru)
@@ -306,25 +294,29 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         TextView l_tv_bottom_sheet_transaksi_pesanbaru_nama = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananbaru_nama);
         TextView l_tv_bottom_sheet_transaksi_pesanbaru_tanggal = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananbaru_tanggal);
         TextView l_tv_bottom_sheet_transaksi_pesanbaru_total = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananbaru_total);
-//        TextView l_tv_bottom_sheet_transaksi_pesanbaru_totals = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananbaru_totals);
+        TextView l_tv_bottom_sheet_transaksi_pesanbaru_phone = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananbaru_phone);
+        TextView l_tv_bottom_sheet_transaksi_pesanbaru_alamat = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananbaru_alamat);
 
         TransaksiDetailAdapter l_tdAdapter = new TransaksiDetailAdapter();
-        l_tdAdapter.setListTransaksiDetail(ListTransaksiDetailDummy.getTransaksiDetailList(p_transaction.getId_transaction()));
         LinearLayoutManager l_layoutmanager = new LinearLayoutManager(g_context);
 
         l_rv_bottom_sheet_transaksi_pesanbaru.setAdapter(l_tdAdapter);
         l_rv_bottom_sheet_transaksi_pesanbaru.setLayoutManager(l_layoutmanager);
 
+        l_tdAdapter.setListTransaksiDetail(p_transaction.getTransaction_detail());
+
         l_tv_bottom_sheet_transaksi_pesanbaru_nama.setText(p_transaction.getBuyer().getBuyer_name());
-        l_tv_bottom_sheet_transaksi_pesanbaru_tanggal.setText(p_transaction.getOrder_time());
+        l_tv_bottom_sheet_transaksi_pesanbaru_tanggal.setText(Method.formatDate(p_transaction.getOrder_time()));
         l_tv_bottom_sheet_transaksi_pesanbaru_total.setText(Method.getIndoCurrency(Double.parseDouble(p_transaction.getTotal_payment())));
-//        l_tv_bottom_sheet_transaksi_pesanbaru_totals.setText(Method.getIndoCurrency(p_transaction.getTotal_payment()));
+        l_tv_bottom_sheet_transaksi_pesanbaru_phone.setText(p_transaction.getBuyer().getPhone());
+        l_tv_bottom_sheet_transaksi_pesanbaru_alamat.setText(p_transaction.getAddress());
 
         g_bottomsheet_dialog.setContentView(l_bottomsheet_view_add);
         g_bottomsheet_dialog.show();
     }
 
-    private void showBottomSheetPesananDikirim(Transaction p_transaction){
+    public void showBottomSheetPesananDikirim(Transaction p_transaction){
+        g_bottomsheet_dialog = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         View l_bottomsheet_view_add = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_transaksi_pesanandikirim,
                 (LinearLayout)g_view.findViewById(R.id.layout_apps_bottom_sheet_container_transaksi_pesanandikirim)
@@ -334,25 +326,29 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         TextView l_tv_bottom_sheet_transaksi_pesandikirim_nama = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandikirim_nama);
         TextView l_tv_bottom_sheet_transaksi_pesandikirim_tanggal = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandikirim_tanggal);
         TextView l_tv_bottom_sheet_transaksi_pesandikirim_total = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandikirim_total);
-//        TextView l_tv_bottom_sheet_transaksi_pesandikirim_totals = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandikirim_totals);
+        TextView l_tv_bottom_sheet_transaksi_pesandikirim_phone = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandikirim_phone);
+        TextView l_tv_bottom_sheet_transaksi_pesandikirim_alamat = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandikirim_alamat);
 
         TransaksiDetailAdapter l_tdAdapter = new TransaksiDetailAdapter();
-        l_tdAdapter.setListTransaksiDetail(ListTransaksiDetailDummy.getTransaksiDetailList(p_transaction.getId_transaction()));
         LinearLayoutManager l_layoutmanager = new LinearLayoutManager(g_context);
 
         l_rv_bottom_sheet_transaksi_pesandikirim.setAdapter(l_tdAdapter);
         l_rv_bottom_sheet_transaksi_pesandikirim.setLayoutManager(l_layoutmanager);
 
+        l_tdAdapter.setListTransaksiDetail(p_transaction.getTransaction_detail());
+
         l_tv_bottom_sheet_transaksi_pesandikirim_nama.setText(p_transaction.getBuyer().getBuyer_name());
-        l_tv_bottom_sheet_transaksi_pesandikirim_tanggal.setText(p_transaction.getOrder_time());
+        l_tv_bottom_sheet_transaksi_pesandikirim_tanggal.setText(Method.formatDate(p_transaction.getOrder_time()));
         l_tv_bottom_sheet_transaksi_pesandikirim_total.setText(Method.getIndoCurrency(Double.parseDouble(p_transaction.getTotal_payment())));
-//        l_tv_bottom_sheet_transaksi_pesandikirim_totals.setText(Method.getIndoCurrency(p_transaction.getTotal_payment()));
+        l_tv_bottom_sheet_transaksi_pesandikirim_phone.setText(p_transaction.getBuyer().getPhone());
+        l_tv_bottom_sheet_transaksi_pesandikirim_alamat.setText(p_transaction.getAddress());
 
         g_bottomsheet_dialog.setContentView(l_bottomsheet_view_add);
         g_bottomsheet_dialog.show();
     }
 
-    private void showBottomSheetPesananSelesai(Transaction p_transaction){
+    public void showBottomSheetPesananSelesai(Transaction p_transaction){
+        g_bottomsheet_dialog = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         View l_bottomsheet_view_add = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_transaksi_pesananselesai,
                 (LinearLayout)g_view.findViewById(R.id.layout_apps_bottom_sheet_container_transaksi_pesananselesai)
@@ -362,39 +358,58 @@ public class TransaksiFragment extends Fragment implements View.OnClickListener,
         TextView l_tv_bottom_sheet_transaksi_pesanselesai_nama = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananselesai_nama);
         TextView l_tv_bottom_sheet_transaksi_pesanselesai_tanggal = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananselesai_tanggal);
         TextView l_tv_bottom_sheet_transaksi_pesanselesai_total = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananselesai_total);
-//        TextView l_tv_bottom_sheet_transaksi_pesanselesai_totals = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananselesai_totals);
+        TextView l_tv_bottom_sheet_transaksi_pesananselesai_phone = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananselesai_phone);
+        TextView l_tv_bottom_sheet_transaksi_pesananselesai_alamat = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananselesai_alamat);
 
         TransaksiDetailAdapter l_tdAdapter = new TransaksiDetailAdapter();
-        l_tdAdapter.setListTransaksiDetail(ListTransaksiDetailDummy.getTransaksiDetailList(p_transaction.getId_transaction()));
         LinearLayoutManager l_layoutmanager = new LinearLayoutManager(g_context);
 
         l_rv_bottom_sheet_transaksi_pesanselesai.setAdapter(l_tdAdapter);
         l_rv_bottom_sheet_transaksi_pesanselesai.setLayoutManager(l_layoutmanager);
 
+        l_tdAdapter.setListTransaksiDetail(p_transaction.getTransaction_detail());
+
         l_tv_bottom_sheet_transaksi_pesanselesai_nama.setText(p_transaction.getBuyer().getBuyer_name());
-        l_tv_bottom_sheet_transaksi_pesanselesai_tanggal.setText(p_transaction.getOrder_time());
-        l_tv_bottom_sheet_transaksi_pesanselesai_total.setText(p_transaction.getTotal_payment());
-//        l_tv_bottom_sheet_transaksi_pesanselesai_totals.setText(Method.getIndoCurrency(p_transaction.getTotal_payment()));
+        l_tv_bottom_sheet_transaksi_pesanselesai_tanggal.setText(Method.formatDate(p_transaction.getOrder_time()));
+        l_tv_bottom_sheet_transaksi_pesanselesai_total.setText(Method.getIndoCurrency(Double.parseDouble(p_transaction.getTotal_payment())));
+        l_tv_bottom_sheet_transaksi_pesananselesai_phone.setText(p_transaction.getBuyer().getPhone());
+        l_tv_bottom_sheet_transaksi_pesananselesai_alamat.setText(p_transaction.getAddress());
 
         g_bottomsheet_dialog.setContentView(l_bottomsheet_view_add);
         g_bottomsheet_dialog.show();
     }
 
-    private void showBottomSheetPesananDibayar(Transaction p_transaction){
+    public void showBottomSheetPesananDibayar(Transaction p_transaction){
+        g_bottomsheet_dialog = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         View l_bottomsheet_view_add = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_transaksi_pesanandibayar,
                 (LinearLayout)g_view.findViewById(R.id.layout_apps_bottom_sheet_container_transaksi_pesanandibayar)
         );
 
+        RecyclerView l_rv_bottom_sheet_transaksi_pesandibayar = l_bottomsheet_view_add.findViewById(R.id.rv_apps_bottom_sheet_transaksi_pesanandibayar);
+
         TextView l_tv_bottom_sheet_transaksi_dibayar_nama = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandibayar_nama);
         TextView l_tv_bottom_sheet_transaksi_pesandibayar_tanggal = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandibayar_tanggal);
         TextView l_tv_bottom_sheet_transaksi_pesandibayar_total = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandibayar_total);
+        TextView l_tv_bottom_sheet_transaksi_pesandibayar_phone = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandibayar_phone);
+        TextView l_tv_bottom_sheet_transaksi_pesandibayar_alamat = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandibayar_alamat);
+
         final EditText  l_et_bottom_sheet_transaksi_pesandibayar_resi = l_bottomsheet_view_add.findViewById(R.id.et_apps_bottom_sheet_transaksi_pesanandibayar_resi);
         Button l_btn_bottom_sheet_transaksi_pesandibayar_kirimresi = l_bottomsheet_view_add.findViewById(R.id.btn_apps_bottom_sheet_transaksi_pesanandibayar_sendresi);
 
+        TransaksiDetailAdapter l_tdAdapter = new TransaksiDetailAdapter();
+        LinearLayoutManager l_layoutmanager = new LinearLayoutManager(g_context);
+
+        l_rv_bottom_sheet_transaksi_pesandibayar.setAdapter(l_tdAdapter);
+        l_rv_bottom_sheet_transaksi_pesandibayar.setLayoutManager(l_layoutmanager);
+
+        l_tdAdapter.setListTransaksiDetail(p_transaction.getTransaction_detail());
+
         l_tv_bottom_sheet_transaksi_dibayar_nama.setText(p_transaction.getBuyer().getBuyer_name());
-        l_tv_bottom_sheet_transaksi_pesandibayar_tanggal.setText(p_transaction.getOrder_time());
+        l_tv_bottom_sheet_transaksi_pesandibayar_tanggal.setText(Method.formatDate(p_transaction.getOrder_time()));
         l_tv_bottom_sheet_transaksi_pesandibayar_total.setText(Method.getIndoCurrency(Double.parseDouble(p_transaction.getTotal_payment())));
+        l_tv_bottom_sheet_transaksi_pesandibayar_phone.setText(p_transaction.getBuyer().getPhone());
+        l_tv_bottom_sheet_transaksi_pesandibayar_alamat.setText(p_transaction.getAddress());
 
         l_btn_bottom_sheet_transaksi_pesandibayar_kirimresi.setOnClickListener(new View.OnClickListener() {
             @Override

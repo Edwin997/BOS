@@ -13,6 +13,7 @@ import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.models.transactions.TransactionDetail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TransaksiDetailAdapter extends RecyclerView.Adapter<TransaksiDetailAdapter.TransaksiDetailViewHolder>  {
@@ -20,6 +21,10 @@ public class TransaksiDetailAdapter extends RecyclerView.Adapter<TransaksiDetail
     private Context g_context;
 
     private List<TransactionDetail> g_list_transaksidetail;
+
+    public TransaksiDetailAdapter(){
+        g_list_transaksidetail = new ArrayList<>();
+    }
 
     @NonNull
     @Override
@@ -39,6 +44,9 @@ public class TransaksiDetailAdapter extends RecyclerView.Adapter<TransaksiDetail
 
     @Override
     public int getItemCount() {
+        if(g_list_transaksidetail == null)
+            return 0;
+
         return g_list_transaksidetail.size();
     }
 
@@ -68,7 +76,7 @@ public class TransaksiDetailAdapter extends RecyclerView.Adapter<TransaksiDetail
 
             tv_nama_transaksi.setText(l_transaksidetail.getProduct().getProduct_name());
             tv_jumlah_transaksi.setText("x" + l_transaksidetail.getQuantity());
-            tv_subtotal_transaksi.setText(Method.getIndoCurrency(l_transaksidetail.getQuantity() * l_transaksidetail.getSell_price()));
+            tv_subtotal_transaksi.setText(Method.getIndoCurrency(l_transaksidetail.getQuantity() * Double.parseDouble(l_transaksidetail.getSell_price())));
 
         }
     }

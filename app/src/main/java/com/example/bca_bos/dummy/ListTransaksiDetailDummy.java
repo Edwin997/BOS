@@ -14,13 +14,13 @@ public class ListTransaksiDetailDummy {
 
     public static List<TransactionDetail> transactionDetailList = new ArrayList<TransactionDetail>();
 
-    public static List<TransactionDetail> getTransaksiDetailList(int id_transaksi){
-        List<TransactionDetail> tmpResult = new ArrayList<>();
-        for (int i = 0; i < transactionDetailList.size(); i++){
-            if(transactionDetailList.get(i).getTransaction().getId_transaction() == id_transaksi){
-                tmpResult.add(transactionDetailList.get(i));
-            }
-        }
-        return tmpResult;
-    }
+//    public static List<TransactionDetail> getTransaksiDetailList(int id_transaksi){
+//        List<TransactionDetail> tmpResult = new ArrayList<>();
+//        for (int i = 0; i < transactionDetailList.size(); i++){
+//            if(transactionDetailList.get(i).getTransaction().getId_transaction() == id_transaksi){
+//                tmpResult.add(transactionDetailList.get(i));
+//            }
+//        }
+//        return tmpResult;
+//    }
 }

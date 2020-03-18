@@ -175,7 +175,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
             l_transaction = transaction;
 
             tv_nama_transaksi.setText(l_transaction.getBuyer().getBuyer_name());
-            tv_tanggal_transaksi.setText(l_transaction.getOrder_time());
+            tv_tanggal_transaksi.setText(Method.formatDate(l_transaction.getOrder_time()));
             tv_total_transaksi.setText(Method.getIndoCurrency(Double.parseDouble(l_transaction.getTotal_payment())));
 
             if(l_transaction.getStatus() == g_parent.KEY_STATUS_SELESAI){

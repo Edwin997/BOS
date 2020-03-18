@@ -4,6 +4,9 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class Method {
@@ -29,5 +32,18 @@ public class Method {
 
     public static String getIndoCurrency(double p_number){
         return l_currencyformat.format(p_number);
+    }
+
+    public static String formatDate(String p_date){
+        try {
+            SimpleDateFormat tmpFormatStringToDate = new SimpleDateFormat("yyyy-MM-dd");
+            Date tmpDate = tmpFormatStringToDate.parse(p_date);
+
+            tmpFormatStringToDate = new SimpleDateFormat("dd MMMM yyyy", tmpLocale);
+            return tmpFormatStringToDate.format(tmpDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }
