@@ -83,7 +83,8 @@ public class VolleyClass {
     private final static  String BASE_URL_TRANSACTION= "https://transaction.apps.pcf.dti.co.id";
     private final static String URL_TRANSACTION_ONLINE = BASE_URL_TRANSACTION + "/bos/onlineTransaction";
     private final static String URL_TRANSACTION_OFFLINE = BASE_URL_TRANSACTION + "/bos/offlineTransaction";
-    private final static String URL_TRANSACTION_DETAIL = BASE_URL_TRANSACTION + "/bos/transactionDetail";
+    private final static String URL_TRANSACTION_DETAIL = BASE_URL_TRANSACTION + "/bos/onlineTransactionDetail";
+    private final static String URL_TRANSACTION_DETAIL_OFFLINE = BASE_URL_TRANSACTION + "/bos/offlineTransactionDetail";
 
     private final static  String BASE_URL_LOGIN = "https://login.apps.pcf.dti.co.id";
     private final static String URL_LOGIN = BASE_URL_LOGIN + "/bos/login";
@@ -742,6 +743,35 @@ public class VolleyClass {
                             else if(p_status == OnlineTransaksiFragment.g_instance.KEY_STATUS_SELESAI){
                                 OnlineTransaksiFragment.g_instance.showBottomSheetPesananSelesai(tempObject);
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void getTransaksiDetailOffline(Context p_context, int p_id_transaksi, final int p_status){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_TRANSACTION_DETAIL_OFFLINE + "/" + p_id_transaksi,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.d(TAG, response);
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            Transaction tempObject = gson.fromJson(output, Transaction.class);
+
+                            OfflineTransaksiFragment.g_instance.showBottomSheetTransaksiOffline(tempObject);
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

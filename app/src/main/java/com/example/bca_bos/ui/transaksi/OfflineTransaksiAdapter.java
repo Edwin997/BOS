@@ -61,10 +61,6 @@ public class OfflineTransaksiAdapter extends RecyclerView.Adapter<OfflineTransak
         return g_list_transaction_master.size();
     }
 
-    public List<Transaction> getListTransaction(){
-        return g_list_transaction_master;
-    }
-
     public void setListTransaksi(List<Transaction> p_list){
         g_list_transaction_master = p_list;
         setListTransaksiFiltered(g_list_transaction_master);
@@ -74,56 +70,6 @@ public class OfflineTransaksiAdapter extends RecyclerView.Adapter<OfflineTransak
     public void setListTransaksiFiltered(List<Transaction> p_list){
         g_list_transaction_temp = p_list;
         notifyDataSetChanged();
-    }
-
-    public List<Transaction> getListTransaksiByType(int p_type){
-        List<Transaction> tmpListTransaction = new ArrayList<>();
-        tmpListTransaction = g_list_transaction_master;
-
-        return tmpListTransaction;
-    }
-
-    public float getPersentaseTransaksiSudahSelesai(){
-        float tmpHasil = 0f;
-        if(g_list_transaction_master.size() > 0){
-            tmpHasil = (((float)countTransaksibyStatus(g_parent_offline.KEY_STATUS_SELESAI)) / g_list_transaction_master.size()) * 100;
-        }
-        return tmpHasil;
-    }
-
-    public float getPersentaseTransaksiSudahDikirim(){
-        float tmpHasil = 0f;
-        if(g_list_transaction_master.size() > 0){
-            tmpHasil = (((float)countTransaksibyStatus(g_parent_offline.KEY_STATUS_SUDAHDIKIRIM)) / g_list_transaction_master.size()) * 100;
-        }
-        return tmpHasil;
-    }
-
-    public float getPersentaseTransaksiSudahDiBayar(){
-        float tmpHasil = 0f;
-        if(g_list_transaction_master.size() > 0){
-            tmpHasil = (((float)countTransaksibyStatus(g_parent_offline.KEY_STATUS_SUDAHDIBAYAR)) / g_list_transaction_master.size()) * 100;
-        }
-        return tmpHasil;
-    }
-
-    public float getPersentaseTransaksiBaruMasuk(){
-        float tmpHasil = 0f;
-        if(g_list_transaction_master.size() > 0){
-            tmpHasil = (((float)countTransaksibyStatus(g_parent_offline.KEY_STATUS_BARUMASUK)) / g_list_transaction_master.size()) * 100;
-        }
-        return tmpHasil;
-    }
-
-    public int countTransaksibyStatus(int p_type){
-        int count = 0;
-
-        for(int i = 0; i < g_list_transaction_master.size(); i++){
-            if(g_list_transaction_master.get(i).getStatus() == p_type)
-                count++;
-        }
-
-        return count;
     }
 
     public void setParentOnCallBack(OnCallBackListener p_oncallback){
