@@ -27,14 +27,22 @@ import androidx.fragment.app.Fragment;
 import com.example.bca_bos.R;
 import com.example.bca_bos.StartActivity;
 import com.example.bca_bos.interfaces.OnCallBackListener;
+import com.example.bca_bos.models.Courier;
 import com.example.bca_bos.models.Seller;
+import com.example.bca_bos.models.locations.KotaKab;
 import com.example.bca_bos.networks.VolleyClass;
 import com.example.bca_bos.ui.produk.ChooseImageFromDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
@@ -72,18 +80,20 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
     private static final String PREF_LOGIN = "LOGIN_PREF";
     private static final String BOS_ID = "BOS_ID";
     private static final String SELLER_ID = "SELLER_ID";
+    SharedPreferences g_preference;
+    int g_seller_id;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         //Get Seller ID
-        SharedPreferences l_preference = this.getActivity().getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
-        int l_seller_id = l_preference.getInt(SELLER_ID, -1);
+        g_preference = this.getActivity().getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
+        g_seller_id = g_preference.getInt(SELLER_ID, -1);
 
         //Inisialisasi
         g_instance = this;
         g_context = container.getContext();
         g_choose_dialog = new ChooseImageFromDialog(this);
-        VolleyClass.getProfile(g_context, l_seller_id);
+        VolleyClass.getProfile(g_context, g_seller_id);
         g_bottomsheet_dialog_edit_profile = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         g_bottomsheet_dialog_change_password = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         g_view = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -149,6 +159,38 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                 configChooseCourierButton(p_view, IS_CHOOSE_POS);
                 break;
             case R.id.apps_bottom_sheet_btn_simpan_profil:
+                Seller tmp_seller = new Seller();
+                Courier tmp_courier = new Courier();
+                KotaKab tmp_kotakab = new KotaKab();
+
+                tmp_seller.setId_seller(g_seller_id);
+                tmp_seller.setShop_name(g_bottomsheet_et_nama_toko.getText().toString());
+                tmp_seller.setBase64StringImage("");
+
+                tmp_kotakab.setId_kota_kab(Integer.parseInt(g_bottomsheet_et_kota_asal.getText().toString()));
+                tmp_seller.setKota_kab(tmp_kotakab);
+
+                List<Courier> listCourier = new ArrayList<>();
+                tmp_courier.setId_courier(1);
+                tmp_courier.setIs_selected(courierIsSelected(IS_CHOOSE_JNE));
+                listCourier.add(tmp_courier);
+
+                tmp_courier.setId_courier(2);
+                tmp_courier.setIs_selected(courierIsSelected(IS_CHOOSE_TIKI));
+                listCourier.add(tmp_courier);
+
+                tmp_courier.setId_courier(3);
+                tmp_courier.setIs_selected(courierIsSelected(IS_CHOOSE_POS));
+                listCourier.add(tmp_courier);
+
+                tmp_seller.setSelected_courier(listCourier);
+
+                try {
+                    VolleyClass.updateProfile(g_context, tmp_seller);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 g_bottomsheet_dialog_edit_profile.dismiss();
                 break;
             case R.id.apps_bottom_sheet_btn_simpan_password:
@@ -180,20 +222,31 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
             case R.id.btn_popup_profile_tidak:
                 g_profile_logout_popup.dismiss();
                 break;
-            case R.id.apps_bottom_sheet_iv_gambar_edit_produk:
+            case R.id.apps_bottom_sheet_iv_gambar_edit_profile:
                 g_choose_dialog.showChooseDialogEditProfile(g_context);
                 break;
         }
     }
 
+    private int courierIsSelected(Boolean tmp_choose){
+        if (tmp_choose){
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+
     private void buttonSheetEditProfile() {
+        g_bottomsheet_dialog_edit_profile = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         View l_bottomsheet_view_edit_profile = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_edit_profile,
                 (LinearLayout)g_view.findViewById(R.id.layout_apps_bottom_sheet_container_edit_profile)
         );
 
+        VolleyClass.getProfile(g_context, g_seller_id);
+
         //Round Image View
-        g_bottomsheet_iv_profile = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_iv_gambar_edit_produk);
+        g_bottomsheet_iv_profile = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_iv_gambar_edit_profile);
         g_bottomsheet_iv_profile.setOnClickListener(this);
 
         //TextView dan EditText
@@ -203,10 +256,15 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
 
         //Ongkir Pilihan
         g_profile_button_jne = l_bottomsheet_view_edit_profile.findViewById(R.id.profile_jne_button);
+        configChooseCourierButton(g_profile_button_jne, IS_CHOOSE_JNE);
         g_profile_button_jne.setOnClickListener(this);
+
         g_profile_button_tiki = l_bottomsheet_view_edit_profile.findViewById(R.id.profile_tiki_button);
+        configChooseCourierButton(g_profile_button_tiki, IS_CHOOSE_TIKI);
         g_profile_button_tiki.setOnClickListener(this);
+
         g_profile_button_pos = l_bottomsheet_view_edit_profile.findViewById(R.id.profile_pos_button);
+        configChooseCourierButton(g_profile_button_pos, IS_CHOOSE_POS);
         g_profile_button_pos.setOnClickListener(this);
 
         //Set Text
@@ -220,11 +278,13 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
 
         g_bottomsheet_dialog_edit_profile.setContentView(l_bottomsheet_view_edit_profile);
         g_bottomsheet_dialog_edit_profile.show();
+
+
     }
 
     private void configChooseCourierButton(View p_view, boolean p_choose){
         if (p_choose){
-            p_view.setBackgroundResource(R.drawable.style_gradient_color_rounded_box);
+            p_view.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_blue);
         }else {
             p_view.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
         }
@@ -236,8 +296,27 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         g_profile_rekening.setText(p_seller.getCard_number());
         g_profile_bosid.setText(p_seller.getUsername());
         g_profile_phone.setText(p_seller.getPhone());
-        g_profile_kotkab.setText(String.valueOf(p_seller.getKotakab().getId_kota_kab()));
+        g_profile_kotkab.setText(String.valueOf(p_seller.getKota_kab().getId_kota_kab()));
 
+        String l_selected_courier = "";
+        if (p_seller.getSelected_courier().get(0).getIs_selected() == 1){
+            l_selected_courier = l_selected_courier + p_seller.getSelected_courier().get(0).getCourier_name() + "\n";
+            IS_CHOOSE_JNE = true;
+        }if (p_seller.getSelected_courier().get(1).getIs_selected() == 1){
+            l_selected_courier = l_selected_courier + p_seller.getSelected_courier().get(1).getCourier_name() + "\n";
+            IS_CHOOSE_TIKI = true;
+        }if (p_seller.getSelected_courier().get(2).getIs_selected() == 1){
+            l_selected_courier = l_selected_courier + p_seller.getSelected_courier().get(2).getCourier_name();
+            IS_CHOOSE_POS = true;
+        }if (p_seller.getSelected_courier().get(0).getIs_selected() == 0){
+            IS_CHOOSE_JNE = false;
+        }if (p_seller.getSelected_courier().get(1).getIs_selected() == 0){
+            IS_CHOOSE_TIKI = false;
+        }if (p_seller.getSelected_courier().get(2).getIs_selected() == 0){
+            IS_CHOOSE_POS = false;
+        }
+
+        g_profile_courier.setText(l_selected_courier);
     }
 
     @Override

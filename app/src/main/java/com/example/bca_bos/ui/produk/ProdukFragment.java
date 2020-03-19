@@ -225,7 +225,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
             //endregion
 
             //region EDIT PRODUK BOTTOM SHEET
-            case R.id.apps_bottom_sheet_iv_gambar_edit_produk:
+            case R.id.apps_bottom_sheet_iv_gambar_edit_profile:
                 g_choose_dialog.showChooseDialogEdit(g_context);
                 break;
             case R.id.apps_bottom_sheet_btn_simpan_edit_produk:
@@ -309,7 +309,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         );
 
         //inisiasi imageview
-        g_iv_bottom_sheet_produk_edit_gambar = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_iv_gambar_edit_produk);
+        g_iv_bottom_sheet_produk_edit_gambar = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_iv_gambar_edit_profile);
 
         //inisiasi edittext
         g_tv_bottom_sheet_produk_edit_nama = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_et_nama_toko_edit_produk);

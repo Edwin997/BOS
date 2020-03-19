@@ -107,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="16dp"
                 android:fontFamily="@font/montserrat_bold"
-                android:background="@drawable/style_gradient_color_rounded_box"
+                android:background="@drawable/style_red_gradient_color_box"
                 android:layout_marginLeft="24dp"
                 android:text="Ganti Password"
                 android:textAlignment="center"
@@ -179,7 +179,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_regular"
                 android:paddingLeft="24dp"
-                android:text="Jakarta Barat"
+                android:text="Mana aja"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="12dp"/>

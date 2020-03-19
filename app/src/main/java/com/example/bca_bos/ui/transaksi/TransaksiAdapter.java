@@ -174,9 +174,9 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
         public void setData(Transaction transaction){
             l_transaction = transaction;
 
-            tv_nama_transaksi.setText(l_transaction.getBuyer().getName());
+            tv_nama_transaksi.setText(l_transaction.getBuyer().getBuyer_name());
             tv_tanggal_transaksi.setText(l_transaction.getOrder_time());
-            tv_total_transaksi.setText(Method.getIndoCurrency(l_transaction.getTotal_payment()));
+            tv_total_transaksi.setText(Method.getIndoCurrency(Double.parseDouble(l_transaction.getTotal_payment())));
 
             if(l_transaction.getStatus() == g_parent.KEY_STATUS_SELESAI){
                 ll_transaksi.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_green));

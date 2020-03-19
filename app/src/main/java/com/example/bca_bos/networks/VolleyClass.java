@@ -37,8 +37,10 @@ import com.example.bca_bos.ui.transaksi.TransaksiAdapter;
 import com.example.bca_bos.ui.transaksi.TransaksiDetailAdapter;
 import com.example.bca_bos.ui.transaksi.TransaksiFragment;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -828,23 +830,43 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
-    public static void updateProfile(Context p_context, Seller p_seller){
+    public static void updateProfile(Context p_context, Seller p_seller) throws JSONException {
         g_requestqueue = Volley.newRequestQueue(p_context);
 
-        HashMap<String, String> params = new HashMap<String, String>();
+        JSONArray jsonArray = new JSONArray();
+        JSONObject firstjsonObject = new JSONObject();
+        JSONObject secondjsonObject = new JSONObject();
+        JSONObject thirdjsonObject = new JSONObject();
+
+        firstjsonObject.put("id_courier", 1);
+        firstjsonObject.put("is_selected", p_seller.getSelected_courier().get(0).getIs_selected());
+        secondjsonObject.put("id_courier", 2);
+        secondjsonObject.put("is_selected",  p_seller.getSelected_courier().get(1).getIs_selected());
+        thirdjsonObject.put("id_courier", 3);
+        thirdjsonObject.put("is_selected",  p_seller.getSelected_courier().get(2).getIs_selected());
+
+
+        jsonArray.put(0, firstjsonObject);
+        jsonArray.put(1, secondjsonObject);
+        jsonArray.put(2, thirdjsonObject);
+
+
+        HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("id_seller", String.valueOf(p_seller.getId_seller()));
         params.put("shop_name", p_seller.getShop_name());
-        params.put("id_kab_kota", String.valueOf(p_seller.getKotakab().getId_kota_kab()));
-        params.put("base64StringImage", p_seller.getImage_path());
+        params.put("id_kota_kab", p_seller.getKota_kab().getId_kota_kab());
+        params.put("base64StringImage", p_seller.getBase64StringImage());
+        params.put("selected_courier", jsonArray);
+        //params put selected courier
 
-        //params put selected courier belum
+        Log.d("CEEEKKK", new JSONObject(params).toString());
 
         JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.PUT, URL_PROFILE, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-//                            Log.d(TAG, response.toString());
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

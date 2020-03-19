@@ -14,7 +14,8 @@ import lombok.Setter;
 
 public class Courier implements Serializable {
     private int id_selected_courier;
-    private int id_seller;
+    private String courier_name;
+    private String courier_code;
     private int id_courier;
     private int is_selected;
 }

@@ -26,8 +26,8 @@ public class Seller implements Serializable {
     private String shop_name; //40
     private int flag;
     private String last_update_time; //date
-    private String image_path; //60
-    private KotaKab kotakab;
+    private String base64StringImage; //60
+    private KotaKab kota_kab;
     private List<Courier> selected_courier;
 
 }

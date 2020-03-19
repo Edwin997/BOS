@@ -170,7 +170,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_pembeli_popup.setContentView(R.layout.layout_popup_beranda_pembeli);
 
         g_beranda_pembeli_popup_tv_nama = g_beranda_pembeli_popup.findViewById(R.id.tv_popup_beranda_pembeli_nama_item);
-        g_beranda_pembeli_popup_tv_nama.setText(String.valueOf(p_pembeli.getName()));
+        g_beranda_pembeli_popup_tv_nama.setText(String.valueOf(p_pembeli.getBuyer_name()));
         g_beranda_pembeli_popup_tv_nominal = g_beranda_pembeli_popup.findViewById(R.id.tv_popup_beranda_pembeli_nominal_item);
         g_beranda_pembeli_popup_tv_nominal.setText(Method.getIndoCurrency(p_pembeli.getNominalTransaksi()));
         g_beranda_pembeli_popup_tv_transaksi = g_beranda_pembeli_popup.findViewById(R.id.tv_popup_beranda_pembeli_transaksi_item);

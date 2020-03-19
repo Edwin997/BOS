@@ -19,7 +19,7 @@
         android:textStyle="bold"/>
 
     <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/apps_bottom_sheet_iv_gambar_edit_produk"
+        android:id="@+id/apps_bottom_sheet_iv_gambar_edit_profile"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_gravity="center"
