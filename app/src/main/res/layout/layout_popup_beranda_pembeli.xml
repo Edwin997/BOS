@@ -23,6 +23,19 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/tv_popup_beranda_pembeli_no_hp_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="2"
+        android:fontFamily="@font/opensans_bold"
+        android:text="08123456789"
+        android:textColor="@color/light_blue"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/tv_popup_beranda_pembeli_transaksi_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

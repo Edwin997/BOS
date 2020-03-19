@@ -55,7 +55,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
 
     //Buyer Popup
     private Dialog g_beranda_pembeli_popup;
-    private TextView g_beranda_pembeli_popup_tv_nama, g_beranda_pembeli_popup_tv_transaksi;
+    private TextView g_beranda_pembeli_popup_tv_nama ,g_beranda_pembeli_popup_tv_no_hp ,g_beranda_pembeli_popup_tv_transaksi;
     private Button g_beranda_pembeli_popup_btn_close;
 
     //Shared Preference
@@ -178,10 +178,13 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
     public void showBuyerPopUp(Buyer p_pembeli){
         g_beranda_pembeli_popup.setContentView(R.layout.layout_popup_beranda_pembeli);
 
+        //Text View
         g_beranda_pembeli_popup_tv_nama = g_beranda_pembeli_popup.findViewById(R.id.tv_popup_beranda_pembeli_nama_item);
         g_beranda_pembeli_popup_tv_nama.setText(String.valueOf(p_pembeli.getBuyer_name()));
         g_beranda_pembeli_popup_tv_transaksi = g_beranda_pembeli_popup.findViewById(R.id.tv_popup_beranda_pembeli_transaksi_item);
         g_beranda_pembeli_popup_tv_transaksi.setText(String.valueOf(p_pembeli.getSum_trx()+" transaksi"));
+        g_beranda_pembeli_popup_tv_no_hp = g_beranda_pembeli_popup.findViewById(R.id.tv_popup_beranda_pembeli_no_hp_item);
+        g_beranda_pembeli_popup_tv_no_hp.setText(String.valueOf(p_pembeli.getPhone()));
 
         //Button
         g_beranda_pembeli_popup_btn_close = g_beranda_pembeli_popup.findViewById(R.id.btn_popup_beranda_pembeli_close);
