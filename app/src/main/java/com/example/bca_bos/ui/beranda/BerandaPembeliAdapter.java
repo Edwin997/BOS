@@ -68,7 +68,7 @@ public class BerandaPembeliAdapter extends RecyclerView.Adapter<BerandaPembeliAd
 
         private LinearLayout l_ll_container_beranda_pembeli;
 
-        private TextView l_tv_beranda_pembeli_nama, l_tv_beranda_pembeli_transaksi, l_tv_beranda_pembeli_nominal;
+        private TextView l_tv_beranda_pembeli_nama, l_tv_beranda_pembeli_transaksi, l_tv_beranda_pembeli_no_hp;
         private Buyer l_pembeli;
 
         private OnCallBackListener l_parent_oncallbacklistener;
@@ -79,7 +79,7 @@ public class BerandaPembeliAdapter extends RecyclerView.Adapter<BerandaPembeliAd
             l_ll_container_beranda_pembeli = itemView.findViewById(R.id.ll_apps_beranda_pembeli_item);
             l_tv_beranda_pembeli_nama = itemView.findViewById(R.id.tv_apps_beranda_pembeli_nama_item);
             l_tv_beranda_pembeli_transaksi = itemView.findViewById(R.id.tv_apps_beranda_pembeli_transaksi_item);
-            l_tv_beranda_pembeli_nominal = itemView.findViewById(R.id.tv_apps_beranda_pembeli_nominal_item);
+            l_tv_beranda_pembeli_no_hp = itemView.findViewById(R.id.tv_apps_beranda_pembeli_nomor_hp_item);
 
             l_ll_container_beranda_pembeli.setOnClickListener(this);
 
@@ -89,8 +89,8 @@ public class BerandaPembeliAdapter extends RecyclerView.Adapter<BerandaPembeliAd
             l_pembeli = pembeli;
 
             l_tv_beranda_pembeli_nama.setText(pembeli.getBuyer_name());
-            l_tv_beranda_pembeli_transaksi.setText(String.valueOf(pembeli.getSum_trx()));
-            l_tv_beranda_pembeli_nominal.setText(Method.getIndoCurrency(pembeli.getNominalTransaksi()));
+            l_tv_beranda_pembeli_transaksi.setText(String.valueOf(pembeli.getSum_trx())+" transaksi");
+            l_tv_beranda_pembeli_no_hp.setText(pembeli.getPhone());
         }
 
         public void setParentOnCallBack(OnCallBackListener p_oncallback){

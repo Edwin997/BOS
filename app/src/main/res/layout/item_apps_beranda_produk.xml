@@ -48,11 +48,11 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tv_apps_beranda_produk_harga_item"
+                android:id="@+id/tv_apps_beranda_produk_prediksi_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Penjualan meningkat 30%"
+                android:text="Prediksi stok bulan ini: 10"
                 android:textColor="@color/lighter_green"
                 android:textStyle="bold"
                 android:textSize="12dp" />

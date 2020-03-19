@@ -4,15 +4,15 @@
     android:orientation="vertical"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
-    android:padding="10dp"
+    android:paddingBottom="25dp"
     android:layout_gravity="center"
     android:gravity="center_horizontal"
     android:background="@drawable/style_gradient_color_rounded_box_black">
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/iv_popup_beranda_produk_item"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         app:riv_corner_radius="10dp"
         android:scaleType="fitXY"
         android:src="@drawable/shoes_red_jordan"/>
@@ -25,10 +25,10 @@
         android:ellipsize="end"
         android:gravity="center_horizontal"
         android:maxLines="2"
-        android:fontFamily="@font/montserrat_bold"
+        android:fontFamily="@font/opensans_bold"
         android:text="Winstok"
         android:textColor="@color/white"
-        android:textSize="14dp"
+        android:textSize="16dp"
         android:textStyle="bold" />
 
     <TextView
@@ -42,25 +42,92 @@
         android:textSize="14dp" />
 
     <TextView
-        android:id="@+id/tv_popup_beranda_produk_stok_item"
+        android:id="@+id/tv_popup_beranda_produk_berat_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:fontFamily="@font/montserrat_regular"
-        android:text="Stok"
+        android:fontFamily="@font/opensans_regular"
+        android:text="1000 gram"
         android:textColor="@color/white"
         android:textSize="12dp" />
 
-    <Button
-        android:id="@+id/btn_popup_beranda_produk_close"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/tv_popup_beranda_produk_stok_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/opensans_regular"
+            android:text="Stok : 10"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tv_popup_beranda_produk_terjual_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/opensans_regular"
+            android:text="Terjual 100 kali"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_popup_beranda_produk_prediksi_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Prediksi stok bulan ini: 10"
+        android:textColor="@color/lighter_green"
+        android:textStyle="bold"
+        android:textSize="14dp" />
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/style_gradient_color_rounded_box_new_red"
-        android:fontFamily="@font/montserrat_bold"
-        android:text="Close"
-        android:textSize="10dp"
-        android:textColor="@color/white"
-        android:textStyle="bold"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_popup_beranda_produk_close"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/style_gradient_color_rounded_box_new_red"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Close"
+            android:textSize="10dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btn_popup_beranda_produk_tawarkan"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/style_gradient_color_rounded_box_blue"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Tawarkan"
+            android:textSize="10dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>

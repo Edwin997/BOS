@@ -49,12 +49,13 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
     //Product Popup
     private Dialog g_beranda_produk_popup;
     private RoundedImageView g_beranda_produk_popup_gambar;
-    private TextView g_beranda_produk_popup_tv_nama, g_beranda_produk_popup_tv_harga, g_beranda_produk_popup_tv_stok;
-    private Button g_beranda_produk_popup_btn_close;
+    private TextView g_beranda_produk_popup_tv_nama, g_beranda_produk_popup_tv_harga, g_beranda_produk_popup_tv_berat,
+            g_beranda_produk_popup_tv_stok, g_beranda_produk_popup_tv_terjual, g_beranda_produk_popup_tv_prediksi;
+    private Button g_beranda_produk_popup_btn_close, g_beranda_produk_popup_btn_tawarkan;
 
     //Buyer Popup
     private Dialog g_beranda_pembeli_popup;
-    private TextView g_beranda_pembeli_popup_tv_nama, g_beranda_pembeli_popup_tv_nominal, g_beranda_pembeli_popup_tv_transaksi;
+    private TextView g_beranda_pembeli_popup_tv_nama, g_beranda_pembeli_popup_tv_transaksi;
     private Button g_beranda_pembeli_popup_btn_close;
 
     //Shared Preference
@@ -112,8 +113,6 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_pembeli_adapter.setParentOnCallBack(this);
         g_beranda_pembeli_popup = new Dialog(g_context);
 
-
-
         return g_view;
     }
 
@@ -149,15 +148,25 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
     public void showProdukPopUp(Product p_product){
         g_beranda_produk_popup.setContentView(R.layout.layout_popup_beranda_produk);
 
+        g_beranda_produk_popup_tv_harga = g_beranda_produk_popup.findViewById(R.id.tv_popup_beranda_produk_harga_item);
+        g_beranda_produk_popup_tv_berat = g_beranda_produk_popup.findViewById(R.id.tv_popup_beranda_produk_berat_item);
+        g_beranda_produk_popup_tv_stok = g_beranda_produk_popup.findViewById(R.id.tv_popup_beranda_produk_stok_item);
+
+        int tmp_id_product = p_product.getId_product();
+        VolleyClass.getProdukDetail(g_context, tmp_id_product);
+
         g_beranda_produk_popup_gambar = g_beranda_produk_popup.findViewById(R.id.iv_popup_beranda_produk_item);
 //        g_beranda_produk_popup_gambar.setImageDrawable(getResources().getDrawable(p_product.getGambar()));
 
+        //Text View
         g_beranda_produk_popup_tv_nama = g_beranda_produk_popup.findViewById(R.id.tv_popup_beranda_produk_nama_item);
         g_beranda_produk_popup_tv_nama.setText(String.valueOf(p_product.getProduct_name()));
-        g_beranda_produk_popup_tv_harga = g_beranda_produk_popup.findViewById(R.id.tv_popup_beranda_produk_harga_item);
-        g_beranda_produk_popup_tv_harga.setText(Method.getIndoCurrency(p_product.getPrice()));
-        g_beranda_produk_popup_tv_stok = g_beranda_produk_popup.findViewById(R.id.tv_popup_beranda_produk_stok_item);
-        g_beranda_produk_popup_tv_stok.setText("Terjual " + p_product.getQty()+" kali");
+        g_beranda_produk_popup_tv_terjual = g_beranda_produk_popup.findViewById(R.id.tv_popup_beranda_produk_terjual_item);
+        g_beranda_produk_popup_tv_terjual.setText("Terjual " + p_product.getQty()+" kali");
+        g_beranda_produk_popup_tv_prediksi = g_beranda_produk_popup.findViewById(R.id.tv_popup_beranda_produk_prediksi_item);
+        g_beranda_produk_popup_tv_prediksi.setText("Prediksi stok bulan ini : 10");
+
+        //Button
         g_beranda_produk_popup_btn_close = g_beranda_produk_popup.findViewById(R.id.btn_popup_beranda_produk_close);
         g_beranda_produk_popup_btn_close.setOnClickListener(this);
 
@@ -171,10 +180,10 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
 
         g_beranda_pembeli_popup_tv_nama = g_beranda_pembeli_popup.findViewById(R.id.tv_popup_beranda_pembeli_nama_item);
         g_beranda_pembeli_popup_tv_nama.setText(String.valueOf(p_pembeli.getBuyer_name()));
-        g_beranda_pembeli_popup_tv_nominal = g_beranda_pembeli_popup.findViewById(R.id.tv_popup_beranda_pembeli_nominal_item);
-        g_beranda_pembeli_popup_tv_nominal.setText(Method.getIndoCurrency(p_pembeli.getNominalTransaksi()));
         g_beranda_pembeli_popup_tv_transaksi = g_beranda_pembeli_popup.findViewById(R.id.tv_popup_beranda_pembeli_transaksi_item);
         g_beranda_pembeli_popup_tv_transaksi.setText(String.valueOf(p_pembeli.getSum_trx()+" transaksi"));
+
+        //Button
         g_beranda_pembeli_popup_btn_close = g_beranda_pembeli_popup.findViewById(R.id.btn_popup_beranda_pembeli_close);
         g_beranda_pembeli_popup_btn_close.setOnClickListener(this);
 
@@ -190,6 +199,12 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         Double tmp_nominal_jumlah_transaksi = Double.parseDouble(p_nominal_jumlah_transaksi);
         g_beranda_tv_nominal_jumlah_transaksi.setText(Method.getIndoCurrency(tmp_nominal_jumlah_transaksi));
         g_beranda_tv_jumlah_transaksi.setText("dengan jumlah "+p_jumlah_transaksi+" transaksi");
+    }
+
+    public void refreshProduk(Product p_product){
+        g_beranda_produk_popup_tv_harga.setText(Method.getIndoCurrency(p_product.getPrice()));
+        g_beranda_produk_popup_tv_berat.setText(String.valueOf(p_product.getWeight())+ " gram");
+        g_beranda_produk_popup_tv_stok.setText(p_product.getStock());
     }
 
 

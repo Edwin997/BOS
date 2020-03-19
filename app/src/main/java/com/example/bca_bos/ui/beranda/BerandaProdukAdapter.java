@@ -80,7 +80,7 @@ public class BerandaProdukAdapter extends RecyclerView.Adapter<BerandaProdukAdap
             l_ll_container_beranda_produk = itemView.findViewById(R.id.ll_apps_beranda_produk_item);
             l_iv_beranda_produk = itemView.findViewById(R.id.iv_apps_beranda_produk_item);
             l_tv_beranda_produk_nama = itemView.findViewById(R.id.tv_apps_beranda_produk_nama_item);
-            l_tv_beranda_produk_harga = itemView.findViewById(R.id.tv_apps_beranda_produk_harga_item);
+            l_tv_beranda_produk_harga = itemView.findViewById(R.id.tv_apps_beranda_produk_prediksi_item);
             l_tv_beranda_produk_stok = itemView.findViewById(R.id.tv_apps_beranda_produk_stok_item);
 
             l_ll_container_beranda_produk.setOnClickListener(this);
@@ -92,6 +92,7 @@ public class BerandaProdukAdapter extends RecyclerView.Adapter<BerandaProdukAdap
 //            l_iv_beranda_produk.setImageResource(product.getImage_path());
             l_tv_beranda_produk_nama.setText(product.getProduct_name());
             l_tv_beranda_produk_stok.setText("Terjual " + product.getQty()+" kali");
+
         }
 
         public void setParentOnCallBack(OnCallBackListener p_oncallback){

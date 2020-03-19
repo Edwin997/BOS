@@ -12,3 +12,5 @@
 /captures
 .externalNativeBuild
 .cxx
+
+app/src/main/res/drawable-v21/style_gradient_color_rounded_box_new_red.xml

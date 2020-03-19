@@ -73,15 +73,19 @@ public class VolleyClass {
     private final static String JUMLAH_TRANSAKSI_START_DATE = "&start-dt=";
     private final static String JUMLAH_TRANSAKSI_END_DATE = "&end-dt=";
 
+    // URL TEMPLATE TEXT
     private final static  String BASE_URL_TEMPLATED_TEXT= "https://templatetext.apps.pcf.dti.co.id";
     private final static String URL_TEMPLATED_TEXT = BASE_URL_TEMPLATED_TEXT + "/bos/templateText";
 
+    //URL PRODUK
     private final static  String BASE_URL_PRODUCT = "https://product.apps.pcf.dti.co.id";
     private final static String URL_PRODUCT = BASE_URL_PRODUCT + "/bos/product";
     private final static String URL_PRODUCT_CATEGORY = BASE_URL_PRODUCT + "/bos/productCategory";
+    private final static String URL_PRODUK_DETAIL = BASE_URL_PRODUCT + "/bos/productDetail/";
     private static List<PrdCategory> g_list_product_category = new ArrayList<>();
     private static String KEY_SEMUA_PRODUCT = "Semua Produk";
 
+    // URL TRANSAKSI
     private final static  String BASE_URL_TRANSACTION= "https://transaction.apps.pcf.dti.co.id";
     private final static String URL_TRANSACTION = BASE_URL_TRANSACTION + "/bos/onlineTransaction";
     private final static String URL_TRANSACTION_DETAIL = BASE_URL_TRANSACTION + "/bos/transactionDetail";
@@ -255,6 +259,35 @@ public class VolleyClass {
                             List<Buyer> tempObject = Arrays.asList(gson.fromJson(output, Buyer[].class));
                             BerandaPembeliAdapter tmpAdapter = (BerandaPembeliAdapter) p_adapter;
                             tmpAdapter.setDatasetPembeli(tempObject);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void getProdukDetail(Context p_context, int p_id_produk){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PRODUK_DETAIL + "/" + p_id_produk,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.d("BOSVOLLEY", response);
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            Product tempObject = gson.fromJson(output, Product.class);
+                            BerandaFragment.g_instance.refreshProduk(tempObject);
+
 
                         } catch (Exception e) {
                             e.printStackTrace();
