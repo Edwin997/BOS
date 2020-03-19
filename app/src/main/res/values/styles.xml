@@ -56,4 +56,8 @@
         <item name="android:background">@drawable/style_gradient_color_rounded_box_white</item>
     </style>
 
+    <style name="SwitchTextAppearance" parent="@android:style/TextAppearance.Holo.Small">
+        <item name="android:textColor">@color/dark_white</item>
+    </style>
+
 </resources>

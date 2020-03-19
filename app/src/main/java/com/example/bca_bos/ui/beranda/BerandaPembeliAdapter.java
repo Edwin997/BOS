@@ -14,7 +14,6 @@ import com.example.bca_bos.dummy.ListPembeliDummy;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Buyer;
-import com.example.bca_bos.models.products.Product;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#1D61AE</color>
     <color name="colorAccent">#161616</color>
 
-<!--    <color name="red">#9C0606</color>-->
+<!--    <color buyer_name="red">#9C0606</color>-->
     <color name="white">#FEFEFE</color>
     <color name="dark_white">#F9FBFC</color>
     <color name="light_grey">#F0F0F1</color>
@@ -21,6 +21,7 @@
     <color name="green">#194349</color>
     <color name="yellow">#803b20</color>
     <color name="red">#7b1a1c</color>
+    <color name="purple">#674089</color>
 
     //Light color
     <color name="lighter_blue">#1D62AF</color>

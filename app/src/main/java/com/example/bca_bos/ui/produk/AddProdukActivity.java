@@ -94,7 +94,7 @@ public class AddProdukActivity extends AppCompatActivity {
 //            @Override
 //            protected Map<String, String> getParams() throws AuthFailureError {
 //                Map<String, String> params = new HashMap<>();
-//                params.put("name", "coba");
+//                params.put("buyer_name", "coba");
 //                params.put("image", imageToString(bmp));
 //                return params;
 //            }

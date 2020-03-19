@@ -18,19 +18,19 @@ import com.example.bca_bos.models.transactions.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.TransaksiViewHolder> implements OnCallBackListener {
+public class OnlineTransaksiAdapter extends RecyclerView.Adapter<OnlineTransaksiAdapter.TransaksiViewHolder> implements OnCallBackListener {
 
     private Context g_context;
 
-    private TransaksiFragment g_parent;
+    private OnlineTransaksiFragment g_parent_online;
 
     private OnCallBackListener g_parent_oncallbacklistener;
 
     private List<Transaction> g_list_transaction_master;
     private List<Transaction> g_list_transaction_temp;
 
-    public TransaksiAdapter(TransaksiFragment p_parent){
-        g_parent = p_parent;
+    public OnlineTransaksiAdapter(OnlineTransaksiFragment p_parent){
+        g_parent_online = p_parent;
         g_list_transaction_master = new ArrayList<>();
         g_list_transaction_temp = new ArrayList<>();
     }
@@ -40,7 +40,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
     public TransaksiViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         g_context = parent.getContext();
         LayoutInflater tmp_layout = LayoutInflater.from(g_context);
-        View l_view = tmp_layout.inflate(R.layout.item_apps_transaksi, parent, false);
+        View l_view = tmp_layout.inflate(R.layout.item_apps_transaksi_online, parent, false);
 
         TransaksiViewHolder tmpHolder = new TransaksiViewHolder(l_view);
         tmpHolder.setParentOnCallBack(this);
@@ -78,7 +78,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
 
     public List<Transaction> getListTransaksiByType(int p_type){
         List<Transaction> tmpListTransaction = new ArrayList<>();
-        if(p_type == g_parent.KEY_STATUS_SEMUA){
+        if(p_type == g_parent_online.KEY_STATUS_SEMUA){
             tmpListTransaction = g_list_transaction_master;
         }
         else{
@@ -94,7 +94,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
     public float getPersentaseTransaksiSudahSelesai(){
         float tmpHasil = 0f;
         if(g_list_transaction_master.size() > 0){
-            tmpHasil = (((float)countTransaksibyStatus(g_parent.KEY_STATUS_SELESAI)) / g_list_transaction_master.size()) * 100;
+            tmpHasil = (((float)countTransaksibyStatus(g_parent_online.KEY_STATUS_SELESAI)) / g_list_transaction_master.size()) * 100;
         }
         return tmpHasil;
     }
@@ -102,7 +102,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
     public float getPersentaseTransaksiSudahDikirim(){
         float tmpHasil = 0f;
         if(g_list_transaction_master.size() > 0){
-            tmpHasil = (((float)countTransaksibyStatus(g_parent.KEY_STATUS_SUDAHDIKIRIM)) / g_list_transaction_master.size()) * 100;
+            tmpHasil = (((float)countTransaksibyStatus(g_parent_online.KEY_STATUS_SUDAHDIKIRIM)) / g_list_transaction_master.size()) * 100;
         }
         return tmpHasil;
     }
@@ -110,7 +110,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
     public float getPersentaseTransaksiSudahDiBayar(){
         float tmpHasil = 0f;
         if(g_list_transaction_master.size() > 0){
-            tmpHasil = (((float)countTransaksibyStatus(g_parent.KEY_STATUS_SUDAHDIBAYAR)) / g_list_transaction_master.size()) * 100;
+            tmpHasil = (((float)countTransaksibyStatus(g_parent_online.KEY_STATUS_SUDAHDIBAYAR)) / g_list_transaction_master.size()) * 100;
         }
         return tmpHasil;
     }
@@ -118,7 +118,7 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
     public float getPersentaseTransaksiBaruMasuk(){
         float tmpHasil = 0f;
         if(g_list_transaction_master.size() > 0){
-            tmpHasil = (((float)countTransaksibyStatus(g_parent.KEY_STATUS_BARUMASUK)) / g_list_transaction_master.size()) * 100;
+            tmpHasil = (((float)countTransaksibyStatus(g_parent_online.KEY_STATUS_BARUMASUK)) / g_list_transaction_master.size()) * 100;
         }
         return tmpHasil;
     }
@@ -178,19 +178,19 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.Tran
             tv_tanggal_transaksi.setText(l_transaction.getOrder_time());
             tv_total_transaksi.setText(Method.getIndoCurrency(Double.parseDouble(l_transaction.getTotal_payment())));
 
-            if(l_transaction.getStatus() == g_parent.KEY_STATUS_SELESAI){
+            if(l_transaction.getStatus() == g_parent_online.KEY_STATUS_SELESAI){
                 ll_transaksi.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_green));
                 tv_status_transaksi.setText("Transaksi Selesai");
             }
-            else if(l_transaction.getStatus() == g_parent.KEY_STATUS_SUDAHDIKIRIM){
+            else if(l_transaction.getStatus() == g_parent_online.KEY_STATUS_SUDAHDIKIRIM){
                 ll_transaksi.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_blue));
                 tv_status_transaksi.setText("Pesanan Dikirim");
             }
-            else if(l_transaction.getStatus() == g_parent.KEY_STATUS_SUDAHDIBAYAR){
+            else if(l_transaction.getStatus() == g_parent_online.KEY_STATUS_SUDAHDIBAYAR){
                 ll_transaksi.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_orange));
                 tv_status_transaksi.setText("Pesanan Dibayar");
             }
-            else if(l_transaction.getStatus() == g_parent.KEY_STATUS_BARUMASUK){
+            else if(l_transaction.getStatus() == g_parent_online.KEY_STATUS_BARUMASUK){
                 ll_transaksi.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_red));
                 tv_status_transaksi.setText("Pesanan Baru");
             } else {
