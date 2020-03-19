@@ -51,6 +51,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class VolleyClass {
 
     private static final String ERROR_CODE_BERHASIL = "BIT-000";
@@ -87,8 +89,10 @@ public class VolleyClass {
     private final static  String BASE_URL_LOGIN = "https://login.apps.pcf.dti.co.id";
     private final static String URL_LOGIN = BASE_URL_LOGIN + "/bos/login";
 
+    //URL PROFILE
     private final static  String BASE_URL_PROFILE= "https://profile.apps.pcf.dti.co.id";
     private final static String URL_PROFILE = BASE_URL_PROFILE + "/bos/profile";
+    private final static String URL_PROFILE_CHANGE_PASSWORD = BASE_URL_PROFILE + "/bos/profile/pass";
 
     //region BERANDA
 
@@ -838,11 +842,11 @@ public class VolleyClass {
         JSONObject secondjsonObject = new JSONObject();
         JSONObject thirdjsonObject = new JSONObject();
 
-        firstjsonObject.put("id_courier", 1);
+        firstjsonObject.put("id_courier", p_seller.getSelected_courier().get(0).getId_courier());
         firstjsonObject.put("is_selected", p_seller.getSelected_courier().get(0).getIs_selected());
-        secondjsonObject.put("id_courier", 2);
+        secondjsonObject.put("id_courier", p_seller.getSelected_courier().get(1).getId_courier());
         secondjsonObject.put("is_selected",  p_seller.getSelected_courier().get(1).getIs_selected());
-        thirdjsonObject.put("id_courier", 3);
+        thirdjsonObject.put("id_courier", p_seller.getSelected_courier().get(2).getId_courier());
         thirdjsonObject.put("is_selected",  p_seller.getSelected_courier().get(2).getIs_selected());
 
 
@@ -867,6 +871,8 @@ public class VolleyClass {
                     public void onResponse(JSONObject response) {
                         try {
 
+                            ProfileFragment.g_instance.refreshLayoutAfterPut();
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -881,6 +887,50 @@ public class VolleyClass {
 
         g_requestqueue.add(request_json);
     }
+
+    public static void changePassword(final Context p_context, final String p_id_seller, String p_o_password, String p_n_password, String p_c_password){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("id_seller", p_id_seller);
+        params.put("o_password", p_o_password);
+        params.put("n_password",p_n_password);
+        params.put("c_password",p_c_password);
+
+        JsonObjectRequest request_json = new JsonObjectRequest(URL_PROFILE_CHANGE_PASSWORD, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String message = NetworkUtil.getErrorCode(response.toString());
+
+                        try {
+                            JSONObject objGeneral = new JSONObject(response.toString());
+                            String output = objGeneral.getString("output_schema");
+
+                            if(message.equals(ERROR_CODE_BERHASIL)){
+                                Toast.makeText(p_context, "Berhasil", Toast.LENGTH_SHORT).show();
+                            }else if(output.equals("Old password is wrong")){
+                                Toast.makeText(p_context, "Password lama salah", Toast.LENGTH_SHORT).show();
+                            }else if(output.equals("New password did not match")){
+                                Toast.makeText(p_context, "Konfirmasi password tidak sama", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+
     //endregion
 }
 

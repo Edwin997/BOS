@@ -64,7 +64,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
     private BottomSheetDialog g_bottomsheet_dialog_edit_profile, g_bottomsheet_dialog_change_password;
     private Button g_bottomsheet_simpan_profil, g_bottomsheet_simpan_password;
     private TextView g_bottomsheet_tv_nama_seller;
-    private EditText g_bottomsheet_et_nama_toko, g_bottomsheet_et_kota_asal;
+    private EditText g_bottomsheet_et_nama_toko, g_bottomsheet_et_kota_asal, g_bottomsheet_et_password_lama, g_bottomsheet_et_password_baru, g_bottomsheet_et_konfirmasi_password;
     private RoundedImageView g_bottomsheet_iv_profile;
     private ChooseImageFromDialog g_choose_dialog;
     private Bitmap g_bmp_bottom_sheet_edit_profile;
@@ -140,6 +140,12 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                         (LinearLayout)g_view.findViewById(R.id.layout_apps_bottom_sheet_container_change_password)
                 );
 
+                //Edit Text
+                g_bottomsheet_et_password_baru = l_bottomsheet_view_change_password.findViewById(R.id.apps_profile_bottom_sheet_et_password_baru);
+                g_bottomsheet_et_password_lama = l_bottomsheet_view_change_password.findViewById(R.id.apps_profile_bottom_sheet_et_password_lama);
+                g_bottomsheet_et_konfirmasi_password = l_bottomsheet_view_change_password.findViewById(R.id.apps_profile_bottom_sheet_et_konfirmasi_password);
+
+                //Button
                 g_bottomsheet_simpan_password = l_bottomsheet_view_change_password.findViewById(R.id.apps_bottom_sheet_btn_simpan_password);
                 g_bottomsheet_simpan_password.setOnClickListener(this);
 
@@ -160,7 +166,6 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                 break;
             case R.id.apps_bottom_sheet_btn_simpan_profil:
                 Seller tmp_seller = new Seller();
-                Courier tmp_courier = new Courier();
                 KotaKab tmp_kotakab = new KotaKab();
 
                 tmp_seller.setId_seller(g_seller_id);
@@ -171,17 +176,20 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                 tmp_seller.setKota_kab(tmp_kotakab);
 
                 List<Courier> listCourier = new ArrayList<>();
-                tmp_courier.setId_courier(1);
-                tmp_courier.setIs_selected(courierIsSelected(IS_CHOOSE_JNE));
-                listCourier.add(tmp_courier);
+                Courier tmp_courier1 = new Courier();
+                tmp_courier1.setId_courier(1);
+                tmp_courier1.setIs_selected(courierIsSelected(IS_CHOOSE_JNE));
+                listCourier.add(tmp_courier1);
 
-                tmp_courier.setId_courier(2);
-                tmp_courier.setIs_selected(courierIsSelected(IS_CHOOSE_TIKI));
-                listCourier.add(tmp_courier);
+                Courier tmp_courier2 = new Courier();
+                tmp_courier2.setId_courier(2);
+                tmp_courier2.setIs_selected(courierIsSelected(IS_CHOOSE_TIKI));
+                listCourier.add(tmp_courier2);
 
-                tmp_courier.setId_courier(3);
-                tmp_courier.setIs_selected(courierIsSelected(IS_CHOOSE_POS));
-                listCourier.add(tmp_courier);
+                Courier tmp_courier3 = new Courier();
+                tmp_courier3.setId_courier(3);
+                tmp_courier3.setIs_selected(courierIsSelected(IS_CHOOSE_POS));
+                listCourier.add(tmp_courier3);
 
                 tmp_seller.setSelected_courier(listCourier);
 
@@ -194,6 +202,11 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                 g_bottomsheet_dialog_edit_profile.dismiss();
                 break;
             case R.id.apps_bottom_sheet_btn_simpan_password:
+                String l_password_lama = g_bottomsheet_et_password_lama.getText().toString();
+                String l_password_baru = g_bottomsheet_et_password_baru.getText().toString();
+                String l_konfirmasi_password = g_bottomsheet_et_konfirmasi_password.getText().toString();
+
+                VolleyClass.changePassword(g_context, String.valueOf(g_seller_id), l_password_lama, l_password_baru, l_konfirmasi_password);
                 g_bottomsheet_dialog_change_password.dismiss();
                 break;
             case R.id.profile_logout_button:
@@ -201,6 +214,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                 g_profile_logout_popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 g_profile_logout_popup.show();
 
+                //Button
                 g_profile_btn_logout_ya = g_profile_logout_popup.findViewById(R.id.btn_popup_profile_ya);
                 g_profile_btn_logout_ya.setOnClickListener(this);
                 g_profile_btn_logout_tidak = g_profile_logout_popup.findViewById(R.id.btn_popup_profile_tidak);
@@ -233,6 +247,14 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
             return 1;
         }else {
             return 0;
+        }
+    }
+
+    private Boolean changeBoolean(Boolean tmp_boolean){
+        if (tmp_boolean){
+            return false;
+        }else {
+            return true;
         }
     }
 
@@ -302,21 +324,39 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         if (p_seller.getSelected_courier().get(0).getIs_selected() == 1){
             l_selected_courier = l_selected_courier + p_seller.getSelected_courier().get(0).getCourier_name() + "\n";
             IS_CHOOSE_JNE = true;
-        }if (p_seller.getSelected_courier().get(1).getIs_selected() == 1){
-            l_selected_courier = l_selected_courier + p_seller.getSelected_courier().get(1).getCourier_name() + "\n";
-            IS_CHOOSE_TIKI = true;
-        }if (p_seller.getSelected_courier().get(2).getIs_selected() == 1){
-            l_selected_courier = l_selected_courier + p_seller.getSelected_courier().get(2).getCourier_name();
-            IS_CHOOSE_POS = true;
-        }if (p_seller.getSelected_courier().get(0).getIs_selected() == 0){
+        }
+        else{
             IS_CHOOSE_JNE = false;
-        }if (p_seller.getSelected_courier().get(1).getIs_selected() == 0){
-            IS_CHOOSE_TIKI = false;
-        }if (p_seller.getSelected_courier().get(2).getIs_selected() == 0){
-            IS_CHOOSE_POS = false;
         }
 
+        if (p_seller.getSelected_courier().get(1).getIs_selected() == 1){
+            l_selected_courier = l_selected_courier + p_seller.getSelected_courier().get(1).getCourier_name() + "\n";
+            IS_CHOOSE_TIKI = true;
+        }
+        else{
+            IS_CHOOSE_TIKI = false;
+        }
+
+        if (p_seller.getSelected_courier().get(2).getIs_selected() == 1){
+            l_selected_courier = l_selected_courier + p_seller.getSelected_courier().get(2).getCourier_name();
+            IS_CHOOSE_POS = true;
+        }
+        else{
+            IS_CHOOSE_POS = false;
+        }
+//        if (p_seller.getSelected_courier().get(0).getIs_selected() == 0){
+//            IS_CHOOSE_JNE = false;
+//        }if (p_seller.getSelected_courier().get(1).getIs_selected() == 0){
+//            IS_CHOOSE_TIKI = false;
+//        }if (p_seller.getSelected_courier().get(2).getIs_selected() == 0){
+//            IS_CHOOSE_POS = false;
+//        }
+
         g_profile_courier.setText(l_selected_courier);
+    }
+
+    public void refreshLayoutAfterPut(){
+        VolleyClass.getProfile(g_context, g_seller_id);
     }
 
     @Override
