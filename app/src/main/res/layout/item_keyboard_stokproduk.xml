@@ -20,7 +20,7 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/produk_dummy_garcia" />
+            app:srcCompat="@drawable/shoes_red_jordan" />
 
         <TextView
             android:id="@+id/et_stokproduk_item_nama"

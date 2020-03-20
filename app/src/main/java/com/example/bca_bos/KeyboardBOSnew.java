@@ -743,6 +743,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 break;
             case R.id.bcabos_kirimform_produk_button_next_button:
                 showKirimFormNext();
+                g_actv_kirimform_next_asal.requestFocus();
                 break;
             //endregion
 
@@ -773,7 +774,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     private void configChooseCourierButton(View p_view, boolean p_choose){
         if (p_choose){
-            p_view.setBackgroundResource(R.drawable.style_gradient_color_rounded_box);
+            p_view.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_blue);
         }else {
             p_view.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
         }
@@ -1226,13 +1227,15 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 KEYCODE_DONE_TYPE = KEY_NEXT;
                 configOnFocusChangeEdittext(KEY_ET_ONGKIR_TUJUAN, true, g_actv_ongkir_tujuan.getText().toString());
                 setKeyboardType();
+                g_actv_ongkir_tujuan.requestFocus(); //memunculkan cursor
                 break;
             case KEY_ET_ONGKIR_TUJUAN:
                 focusedEditText = KEY_ET_ONGKIR_BERAT;
                 showBeratMenu();
                 g_keyboardview.setKeyboard(g_keyboard_number);
                 KEYCODE_DONE_TYPE = KEY_NEXT;
-                typedCharacters.delete(0,typedCharacters.length());
+                typedCharacters.delete(0,typedCharacters.length());;
+                g_et_ongkir_berat.requestFocus(); //memunculkan cursor
                 break;
             case KEY_ET_ONGKIR_BERAT:
                 focusedEditText = KEY_ET_ONGKIR_KURIR;

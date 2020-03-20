@@ -33,6 +33,7 @@ import com.example.bca_bos.ui.produk.ProdukAdapter;
 import com.example.bca_bos.ui.produk.ProdukFragment;
 import com.example.bca_bos.ui.profile.ProfileFragment;
 import com.example.bca_bos.ui.template.TemplateAdapter;
+import com.example.bca_bos.ui.template.TemplateFragment;
 import com.example.bca_bos.ui.transaksi.OfflineTransaksiAdapter;
 import com.example.bca_bos.ui.transaksi.OfflineTransaksiFragment;
 import com.example.bca_bos.ui.transaksi.OnlineTransaksiAdapter;
@@ -363,6 +364,7 @@ public class VolleyClass {
                             if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Penambahan data template text berhasil", Toast.LENGTH_SHORT).show();
                                 getTemplatedText(p_context, p_templatedtext.getId_template_text(), p_adapter);
+                                TemplateFragment.g_instance.refreshData();
                             }
                             else
                             {
@@ -402,6 +404,7 @@ public class VolleyClass {
                             if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Pengubahan data template text berhasil", Toast.LENGTH_SHORT).show();
                                 getTemplatedText(p_context, p_templatedtext.getId_template_text(), p_adapter);
+                                TemplateFragment.g_instance.refreshData();
                             }
                             else
                             {

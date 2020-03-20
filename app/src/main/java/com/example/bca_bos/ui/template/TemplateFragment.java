@@ -46,10 +46,13 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
 
     private BottomSheetDialog g_bottomsheet_dialog;
 
+    public static TemplateFragment g_instance;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         g_context = container.getContext();
         g_view = inflater.inflate(R.layout.fragment_template, container, false);
+        g_instance = this;
 
         g_templatefragment_recyclerview = g_view.findViewById(R.id.apps_template_fragment_recyclerview);
         g_linearlayoutmanager = new LinearLayoutManager(g_context);
@@ -160,7 +163,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
                     tmpTemplate.setText(l_et_edit_templated_deskripsi_edit.getText().toString());
                     tmpTemplate.setSeller(s);
                     VolleyClass.updateTemplatedText(g_context, tmpTemplate, g_templateadapter);
-                    refreshData();
+
                     g_bottomsheet_dialog.dismiss();
                 }
             });

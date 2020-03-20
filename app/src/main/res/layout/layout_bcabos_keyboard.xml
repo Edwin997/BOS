@@ -906,7 +906,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:fontFamily="@font/opensans_bold"
-                android:text="Mutasi Rekening"
+                android:text="Transaksi"
                 android:textColor="@color/white"
                 android:textSize="18dp"
                 android:textStyle="bold"/>

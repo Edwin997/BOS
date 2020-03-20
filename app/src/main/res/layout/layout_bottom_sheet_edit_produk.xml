@@ -24,7 +24,7 @@
         android:layout_height="125dp"
         android:layout_gravity="center"
         android:scaleType="fitXY"
-        android:src="@drawable/produk_dummy_indomie"
+        android:src="@drawable/shoes_red_jordan"
         app:riv_corner_radius="10dp"
         />
 
