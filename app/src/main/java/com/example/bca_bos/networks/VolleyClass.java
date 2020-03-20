@@ -405,7 +405,7 @@ public class VolleyClass {
                             String message = NetworkUtil.getErrorCode(response.toString());
                             if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Penambahan data template text berhasil", Toast.LENGTH_SHORT).show();
-                                getTemplatedText(p_context, p_templatedtext.getId_template_text(), p_adapter);
+//                                getTemplatedText(p_context, p_templatedtext.getId_template_text(), p_adapter);
                                 TemplateFragment.g_instance.refreshData();
                             }
                             else
@@ -445,7 +445,7 @@ public class VolleyClass {
                             String message = NetworkUtil.getErrorCode(response.toString());
                             if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Pengubahan data template text berhasil", Toast.LENGTH_SHORT).show();
-                                getTemplatedText(p_context, p_templatedtext.getId_template_text(), p_adapter);
+//                                getTemplatedText(p_context, p_templatedtext.getId_template_text(), p_adapter);
                                 TemplateFragment.g_instance.refreshData();
                             }
                             else
@@ -478,7 +478,8 @@ public class VolleyClass {
                             String message = NetworkUtil.getErrorCode(response.toString());
                             if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Hapus data template text berhasil", Toast.LENGTH_SHORT).show();
-                                getTemplatedText(p_context, p_id_templatetext, p_adapter);
+//                                getTemplatedText(p_context, p_id_templatetext, p_adapter);
+                                TemplateFragment.g_instance.refreshData();
                             }
                             else
                             {
