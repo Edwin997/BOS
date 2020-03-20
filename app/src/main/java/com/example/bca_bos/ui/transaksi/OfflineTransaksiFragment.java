@@ -1,6 +1,7 @@
 package com.example.bca_bos.ui.transaksi;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -38,6 +39,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class OfflineTransaksiFragment extends Fragment implements View.OnClickListener, OnCallBackListener {
     private Context g_context;
     private View g_view;
@@ -54,10 +57,19 @@ public class OfflineTransaksiFragment extends Fragment implements View.OnClickLi
 
     private BottomSheetDialog g_bottomsheet_dialog;
 
-
+    //Shared Preference
+    private static final String PREF_LOGIN = "LOGIN_PREF";
+    private static final String BOS_ID = "BOS_ID";
+    private static final String SELLER_ID = "SELLER_ID";
+    SharedPreferences g_preference;
+    int g_seller_id;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        //Get Seller ID
+        g_preference = this.getActivity().getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
+        g_seller_id = g_preference.getInt(SELLER_ID, -1);
 
         g_context = container.getContext();
 
@@ -77,7 +89,7 @@ public class OfflineTransaksiFragment extends Fragment implements View.OnClickLi
 
         firstLoad();
 
-        VolleyClass.getTransaksiOffline(g_context, 3, g_transaksiadapteroffline);
+        VolleyClass.getTransaksiOffline(g_context, g_seller_id, g_transaksiadapteroffline);
 
         return g_view;
     }
