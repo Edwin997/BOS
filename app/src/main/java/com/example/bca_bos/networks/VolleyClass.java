@@ -103,6 +103,10 @@ public class VolleyClass {
     private final static String URL_PROFILE = BASE_URL_PROFILE + "/bos/profile";
     private final static String URL_PROFILE_CHANGE_PASSWORD = BASE_URL_PROFILE + "/bos/profile/pass";
 
+    //URL ORDER
+    private final static  String BASE_URL_ORDER = "https://order.apps.pcf.dti.co.id";
+    private final static String URL_KIRIM_FORM = BASE_URL_ORDER + "/bos/form";
+
     //region BERANDA
 
     public static void getProfileForBeranda(Context p_context, int p_id_seller){
@@ -1034,6 +1038,48 @@ public class VolleyClass {
     }
 
 
+    //endregion
+
+    //region ORDER
+    public static void insertOrder(final Context p_context, final int p_id_seller, final int p_id_origin,
+                                   List<Product> p_list){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("id_seller", String.valueOf(p_templatedtext.getSeller().getId_seller()));
+        params.put("template_code", p_templatedtext.getTemplate_code());
+        params.put("text", p_templatedtext.getText());
+
+        JsonObjectRequest request_json = new JsonObjectRequest(BASE_URL_ORDER   , new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String message = NetworkUtil.getErrorCode(response.toString());
+                            if(message.equals(ERROR_CODE_BERHASIL)){
+                                Toast.makeText(p_context, "Penambahan data template text berhasil", Toast.LENGTH_SHORT).show();
+                                getTemplatedText(p_context, p_templatedtext.getId_template_text(), p_adapter);
+                                TemplateFragment.g_instance.refreshData();
+                            }
+                            else
+                            {
+                                Toast.makeText(p_context, "Penambahan data template text gagal", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+
+        g_requestqueue.add(request_json);
+    }
     //endregion
 }
 
