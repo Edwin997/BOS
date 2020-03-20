@@ -95,8 +95,9 @@ public class VolleyClass {
     private final static String URL_TRANSACTION_DETAIL = BASE_URL_TRANSACTION + "/bos/onlineTransactionDetail";
     private final static String URL_TRANSACTION_DETAIL_OFFLINE = BASE_URL_TRANSACTION + "/bos/offlineTransactionDetail";
 
+    //URL LOGIN
     private final static  String BASE_URL_LOGIN = "https://login.apps.pcf.dti.co.id";
-    private final static String URL_LOGIN = BASE_URL_LOGIN + "/bos/login";
+    private final static String URL_LOGIN = BASE_URL_LOGIN + "/bos/seller";
 
     //URL PROFILE
     private final static  String BASE_URL_PROFILE= "https://profile.apps.pcf.dti.co.id";
@@ -306,6 +307,47 @@ public class VolleyClass {
         });
 
         g_requestqueue.add(request_json);
+    }
+
+    public static void getJumlahTransaksiSudahDIbayar(Context p_context, int p_id_seller){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_TRANSACTION_ONLINE + "/" + p_id_seller,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.d(TAG, response);
+                            String output = NetworkUtil.getOutputSchema(response);
+                            List<Transaction> tempObject = getListTransaksiByType(Arrays.asList(gson.fromJson(output, Transaction[].class)), 1);
+
+                            int tmp_jumlah_transaksi = tempObject.size();
+
+                            BerandaFragment.g_instance.refreshJumlahTransaksiSudahDIbayar(tmp_jumlah_transaksi);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static List<Transaction> getListTransaksiByType(List<Transaction> p_list, int p_type){
+        List<Transaction> tmpListTransaction = new ArrayList<>();
+
+        for(int i = 0; i < p_list.size(); i++){
+            if(p_list.get(i).getStatus() == p_type)
+                tmpListTransaction.add(p_list.get(i));
+        }
+
+        return tmpListTransaction;
     }
 
     //endregion

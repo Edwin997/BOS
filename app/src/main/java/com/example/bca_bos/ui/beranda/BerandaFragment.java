@@ -26,6 +26,7 @@ import com.example.bca_bos.models.Buyer;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.networks.VolleyClass;
+import com.example.bca_bos.ui.transaksi.OnlineTransaksiAdapter;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -75,6 +76,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_view = inflater.inflate(R.layout.fragment_beranda, container, false);
         VolleyClass.getProfileForBeranda(g_context, l_seller_id);
         VolleyClass.getJumlahTransaksiBulanIni(g_context,l_seller_id);
+        VolleyClass.getJumlahTransaksiSudahDIbayar(g_context, l_seller_id);
 
         //PROFILE
         g_beranda_tv_nama_toko = g_view.findViewById(R.id.apps_beranda_nama_toko_text_view);
@@ -210,5 +212,13 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_produk_popup_tv_stok.setText(p_product.getStock());
     }
 
+    public void refreshJumlahTransaksiSudahDIbayar(int tmp_jumlah_transaksi){
+        if (tmp_jumlah_transaksi > 0){
+            g_beranda_pesanan_belum_dikirim_button.setText("Ada "+tmp_jumlah_transaksi+" pesanan yang belum dikirim");
+        } else{
+            g_beranda_pesanan_belum_dikirim_button.setVisibility(View.GONE);
+        }
+
+    }
 
 }

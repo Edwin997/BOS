@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/apps_transaksi_image_view_off"
         android:layout_width="match_parent"
-        android:layout_height="330dp"
+        android:layout_height="340dp"
         android:background="@drawable/style_chart_gradient_purple"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="80dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="20dp"
         android:layout_weight="5"
@@ -201,7 +201,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/apps_transaksi_fragment_recyclerview_off"
         android:layout_width="match_parent"
-        android:layout_height="390dp"
+        android:layout_height="370dp"
         android:layout_marginTop="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
