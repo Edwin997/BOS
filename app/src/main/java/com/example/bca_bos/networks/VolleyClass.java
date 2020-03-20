@@ -53,6 +53,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -1042,24 +1043,34 @@ public class VolleyClass {
 
     //region ORDER
     public static void insertOrder(final Context p_context, final int p_id_seller, final int p_id_origin,
-                                   List<Product> p_list){
+                                   HashMap<String, Product> p_list) throws JSONException {
         g_requestqueue = Volley.newRequestQueue(p_context);
 
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("id_seller", String.valueOf(p_templatedtext.getSeller().getId_seller()));
-        params.put("template_code", p_templatedtext.getTemplate_code());
-        params.put("text", p_templatedtext.getText());
+        JSONArray jsonArray = new JSONArray();
 
-        JsonObjectRequest request_json = new JsonObjectRequest(BASE_URL_ORDER   , new JSONObject(params),
+        int iterator = 0;
+        for (Map.Entry<String, Product> tmpProduct : p_list.entrySet()){
+            JSONObject tmpjsonObject = new JSONObject();
+            tmpjsonObject.put("id_product", tmpProduct.getValue().getId_product());
+            tmpjsonObject.put("quantity", tmpProduct.getValue().getQty());
+
+            jsonArray.put(iterator, tmpjsonObject);
+            iterator++;
+        }
+
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("id_seller", p_id_seller);
+        params.put("origin_city", p_id_origin);
+        params.put("product", jsonArray);
+
+        JsonObjectRequest request_json = new JsonObjectRequest(URL_KIRIM_FORM , new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             String message = NetworkUtil.getErrorCode(response.toString());
                             if(message.equals(ERROR_CODE_BERHASIL)){
-                                Toast.makeText(p_context, "Penambahan data template text berhasil", Toast.LENGTH_SHORT).show();
-                                getTemplatedText(p_context, p_templatedtext.getId_template_text(), p_adapter);
-                                TemplateFragment.g_instance.refreshData();
+                                Toast.makeText(p_context, "Order Berhasil", Toast.LENGTH_SHORT).show();
                             }
                             else
                             {

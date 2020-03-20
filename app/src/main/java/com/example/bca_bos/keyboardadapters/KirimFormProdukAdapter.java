@@ -1,5 +1,6 @@
 package com.example.bca_bos.keyboardadapters;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.products.Product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class KirimFormProdukAdapter extends RecyclerView.Adapter<KirimFormProdukAdapter.KirimFormProdukItemViewHolder> implements OnCallBackListener {
@@ -25,8 +27,12 @@ public class KirimFormProdukAdapter extends RecyclerView.Adapter<KirimFormProduk
     private List<Product> g_list_product;
     private OnCallBackListener g_parent_oncallbacklistener;
 
+    private HashMap<String, Product> g_hash_order;
+
     public KirimFormProdukAdapter(){
         g_list_product = new ArrayList<>();
+        g_list_product = new ArrayList<>();
+        g_hash_order = new HashMap<>();
     }
 
     @NonNull
@@ -48,6 +54,10 @@ public class KirimFormProdukAdapter extends RecyclerView.Adapter<KirimFormProduk
     @Override
     public int getItemCount() {
         return g_list_product.size();
+    }
+
+    public HashMap<String, Product> getListOrder(){
+        return g_hash_order;
     }
 
     public void setParentOnCallBack(OnCallBackListener p_oncallback){
@@ -131,6 +141,22 @@ public class KirimFormProdukAdapter extends RecyclerView.Adapter<KirimFormProduk
                 count = Integer.parseInt(tv_jumlah.getText().toString()) + 1;
                 if(count <= l_product.getStock()){
                     tv_jumlah.setText(String.valueOf(count));
+
+                    if(g_hash_order.containsKey(tv_nama.getText().toString())){
+                        Product tmpProduct = new Product();
+                        tmpProduct.setId_product(l_product.getId_product());
+                        tmpProduct.setQty(Integer.parseInt(tv_jumlah.getText().toString()));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            g_hash_order.replace(tv_nama.getText().toString(), tmpProduct);
+                        }
+                    }
+                    else {
+                        Product tmpProduct = new Product();
+                        tmpProduct.setId_product(l_product.getId_product());
+                        tmpProduct.setQty(Integer.parseInt(tv_jumlah.getText().toString()));
+                        g_hash_order.put(tv_nama.getText().toString(), tmpProduct);
+                    }
+
                 }
                 if(count >= l_product.getStock()){
                     btn_add_count.setVisibility(View.INVISIBLE);
@@ -145,10 +171,20 @@ public class KirimFormProdukAdapter extends RecyclerView.Adapter<KirimFormProduk
                 count = Integer.parseInt(tv_jumlah.getText().toString()) - 1;
                 if(count >= 0){
                     tv_jumlah.setText(String.valueOf(count));
+
+                    Product tmpProduct = new Product();
+                    tmpProduct.setId_product(l_product.getId_product());
+                    tmpProduct.setQty(Integer.parseInt(tv_jumlah.getText().toString()));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        g_hash_order.replace(tv_nama.getText().toString(), tmpProduct);
+                    }
                 }
                 if(count <= 0){
                     btn_minus_count.setVisibility(View.INVISIBLE);
                     btn_minus_count.setEnabled(false);
+                    if(g_hash_order.containsKey(tv_nama.getText().toString())) {
+                        g_hash_order.remove(tv_nama.getText().toString());
+                    }
                 }
                 l_parent_oncallbacklistener.OnCallBack((countawal * l_product.getPrice()) + ";" +
                         (count * l_product.getPrice()));
