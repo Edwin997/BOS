@@ -14,96 +14,98 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/apps_produk_fragment_search_btn"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:scaleType="center"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:src="@drawable/ic_keyboard_search_white" />
-
-            <EditText
-                android:id="@+id/apps_produk_fragment_search_et"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="9"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:textColor="@color/white"
-                android:hint="Search..." />
-
-            <ImageView
-                android:id="@+id/apps_produk_fragment_category_btn"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:scaleType="center"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:src="@drawable/ic_apps_filter_white" />
-
-            <ImageView
-                android:id="@+id/apps_produk_fragment_sort_btn"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:scaleType="center"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:src="@drawable/ic_apps_sort_white_24dp" />
-        </LinearLayout>
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:cardCornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:id="@+id/apps_produk_fragment_add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/style_gradient_color_rounded_box_white"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_keyboard_add_blue" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="32dp">
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="24dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/style_gradient_color_rounded_box"
-            android:orientation="horizontal"
-            android:paddingStart="40dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="40dp"
-            android:paddingBottom="10dp">
+            app:cardBackgroundColor="@color/white_transparent_80"
+            app:cardCornerRadius="20dp">
 
-            <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_apps_add_filled_white" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:fontFamily="@font/montserrat_bold"
-                android:gravity="start|center_vertical"
-                android:text="Tambah Produk"
-                android:textColor="@color/white"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/apps_produk_fragment_search_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_keyboard_search_blue" />
 
-        </LinearLayout>
+                <EditText
+                    android:id="@+id/apps_produk_fragment_search_et"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="8"
+                    android:background="@android:color/transparent"
+                    android:ems="10"
+                    android:hint="Search..."
+                    android:inputType="textPersonName"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:id="@+id/apps_produk_fragment_category_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_apps_filter_blue" />
+
+                <ImageView
+                    android:id="@+id/apps_produk_fragment_sort_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_apps_sort_blue_24dp" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/apps_produk_fragment_recyclerview"
@@ -111,6 +113,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="10dp" />
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

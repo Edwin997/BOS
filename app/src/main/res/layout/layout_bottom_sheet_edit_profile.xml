@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:background="@drawable/style_bottom_sheet_background_black">
+    android:background="@drawable/style_bottom_sheet_background_white">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -69,10 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:padding="10dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:maxLines="1"
@@ -105,10 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:padding="10dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:maxLines="1"
@@ -201,14 +195,14 @@
         android:layout_height="wrap_content"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/apps_bottom_sheet_btn_simpan_profil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/style_gradient_color_rounded_box_new_green"
             android:text="Simpan"
             android:textColor="@color/white"
