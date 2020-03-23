@@ -397,7 +397,7 @@
                 android:layout_height="40dp"
                 android:layout_marginRight="8dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_keyboard_refresh_refresh" />
+                android:src="@drawable/ic_keyboard_refresh_gradient" />
 
         </LinearLayout>
 
@@ -866,7 +866,7 @@
 <!--                android:layout_height="40dp"-->
 <!--                android:layout_marginRight="8dp"-->
 <!--                android:background="@android:color/transparent"-->
-<!--                android:src="@drawable/ic_keyboard_refresh_refresh" />-->
+<!--                android:src="@drawable/ic_keyboard_refresh_gradient" />-->
 
 <!--        </LinearLayout>-->
 

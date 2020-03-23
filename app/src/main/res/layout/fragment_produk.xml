@@ -9,7 +9,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="400dp"
-        android:background="@drawable/style_login_background"
+        android:background="@drawable/background_login_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,6 +32,15 @@
             android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/apps_produk_fragment_search_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:src="@drawable/ic_keyboard_search_white" />
+
             <EditText
                 android:id="@+id/apps_produk_fragment_search_et"
                 android:layout_width="0dp"
@@ -41,15 +50,6 @@
                 android:inputType="textPersonName"
                 android:textColor="@color/white"
                 android:hint="Search..." />
-
-            <ImageView
-                android:id="@+id/apps_produk_fragment_search_btn"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:scaleType="center"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:src="@drawable/ic_keyboard_search_white" />
 
             <ImageView
                 android:id="@+id/apps_produk_fragment_category_btn"

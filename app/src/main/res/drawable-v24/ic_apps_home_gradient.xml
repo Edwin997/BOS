@@ -15,8 +15,8 @@
                 android:gradientRadius="900"
                 android:type="radial"
                 android:angle="0"
-                android:endColor="#858585"
-                android:startColor="#A7A7A7" />
+                android:endColor="#0081c3"
+                android:startColor="#081e5f" />
 
         </appt:attr>
 

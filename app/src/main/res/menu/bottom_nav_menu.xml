@@ -4,27 +4,27 @@
 
     <item
         android:id="@+id/navigation_beranda"
-        android:icon="@drawable/ic_apps_home"
+        android:icon="@drawable/ic_apps_home_selector"
         android:title="@string/title_beranda"/>
 
     <item
         android:id="@+id/navigation_template"
-        android:icon="@drawable/ic_apps_templatetext"
+        android:icon="@drawable/ic_apps_templatetext_selector"
         android:title="@string/title_template" />
 
     <item
         android:id="@+id/navigation_produk"
-        android:icon="@drawable/ic_apps_produk"
+        android:icon="@drawable/ic_apps_produk_selector"
         android:title="@string/title_produk" />
 
     <item
         android:id="@+id/navigation_transaksi"
-        android:icon="@drawable/ic_apps_transaksi"
+        android:icon="@drawable/ic_apps_transaksi_selector"
         android:title="@string/title_transaksi" />
 
     <item
         android:id="@+id/navigation_profile"
-        android:icon="@drawable/ic_apps_profile"
+        android:icon="@drawable/ic_apps_profile_selector"
         android:title="@string/title_profile" />
 
 </menu>

@@ -71,22 +71,22 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/apps_otp_first_digit_edit_text"
+            <TextView
+                android:id="@+id/apps_otp_first_digit_text_view"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:fontFamily="@font/opensans_regular"
+                android:fontFamily="@font/opensans_bold"
                 android:text="-"
-                android:inputType="none"
                 android:textAlignment="center"
+                android:textColor="@color/black"
                 android:textSize="40dp"
                 android:padding="15dp"
                 android:background="@android:color/transparent"/>
             <View
                 android:id="@+id/apps_otp_first_digit_view"
                 android:layout_width="60dp"
-                android:layout_height="1dp"
+                android:layout_height="2dp"
                 android:background="@color/grey"/>
 
         </LinearLayout>
@@ -97,22 +97,22 @@
             android:layout_marginLeft="16dp"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/apps_otp_second_digit_edit_text"
+            <TextView
+                android:id="@+id/apps_otp_second_digit_text_view"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:fontFamily="@font/opensans_regular"
+                android:fontFamily="@font/opensans_bold"
                 android:text="-"
-                android:inputType="none"
                 android:textAlignment="center"
+                android:textColor="@color/black"
                 android:textSize="40dp"
                 android:padding="15dp"
                 android:background="@android:color/transparent"/>
             <View
                 android:id="@+id/apps_otp_second_digit_view"
                 android:layout_width="60dp"
-                android:layout_height="1dp"
+                android:layout_height="2dp"
                 android:background="@color/grey"/>
 
         </LinearLayout>
@@ -123,22 +123,22 @@
             android:layout_marginLeft="16dp"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/apps_otp_third_digit_edit_text"
+            <TextView
+                android:id="@+id/apps_otp_third_digit_text_view"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:fontFamily="@font/opensans_regular"
+                android:fontFamily="@font/opensans_bold"
                 android:text="-"
-                android:inputType="none"
                 android:textAlignment="center"
+                android:textColor="@color/black"
                 android:textSize="40dp"
                 android:padding="15dp"
                 android:background="@android:color/transparent"/>
             <View
                 android:id="@+id/apps_otp_third_digit_view"
                 android:layout_width="60dp"
-                android:layout_height="1dp"
+                android:layout_height="2dp"
                 android:background="@color/grey"/>
 
         </LinearLayout>
@@ -149,22 +149,22 @@
             android:layout_marginLeft="16dp"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/apps_otp_fourth_digit_edit_text"
+            <TextView
+                android:id="@+id/apps_otp_fourth_digit_textview"
                 android:layout_width="60dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/opensans_bold"
                 android:gravity="center"
-                android:fontFamily="@font/opensans_regular"
-                android:text="-"
-                android:inputType="none"
-                android:textAlignment="center"
-                android:textSize="40dp"
                 android:padding="15dp"
-                android:background="@android:color/transparent" />
+                android:text="-"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="40dp" />
             <View
                 android:id="@+id/apps_otp_fourth_digit_view"
                 android:layout_width="60dp"
-                android:layout_height="1dp"
+                android:layout_height="2dp"
                 android:background="@color/grey"/>
 
         </LinearLayout>
@@ -186,7 +186,7 @@
             android:layout_height="match_parent"
             android:weightSum="4"
             android:orientation="vertical"
-            android:background="@drawable/style_gradient_color_rounded_box_black">
+            android:background="@drawable/style_gradient_color_rounded_box_blue">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -323,14 +323,13 @@
                 android:layout_gravity="center"
                 android:orientation="horizontal">
 
-                <Button
+                <ImageButton
+                    android:id="@+id/apps_otp_refresh_button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:textSize="18dp"
-                    android:fontFamily="@font/opensans_bold"
-                    android:visibility="invisible"/>
+                    android:background="@drawable/style_keyboard_ripple"
+                    android:src="@drawable/ic_keyboard_refresh_white"/>
 
                 <Button
                     android:id="@+id/apps_otp_zero_button"
@@ -348,8 +347,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/style_keyboard_ripple"                    android:src="@drawable/ic_keyboard_backspace"
-                    android:fontFamily="@font/opensans_bold"/>
+                    android:background="@drawable/style_keyboard_ripple"
+                    android:src="@drawable/ic_keyboard_backspace_white" />
 
             </LinearLayout>
 

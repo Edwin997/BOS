@@ -41,7 +41,7 @@
         <Key android:codes="98" android:keyLabel="b"/>
         <Key android:codes="110" android:keyLabel="n"/>
         <Key android:codes="109" android:keyLabel="m"/>
-        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
+        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace_gradient" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
     </Row>
     <!--(MODE)(LOGO)(.,)(SPACE)(@)(ENTER)-->
     <Row android:rowEdgeFlags="bottom"

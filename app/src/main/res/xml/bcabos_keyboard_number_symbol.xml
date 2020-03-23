@@ -42,7 +42,7 @@
         <Key android:codes="59" android:keyLabel="&#x0003B;"/>
         <Key android:codes="33" android:keyLabel="&#x00021;"/>
         <Key android:codes="63" android:keyLabel="&#x0003F;"/>
-        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
+        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace_gradient" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
     </Row>
     <!--(MODE)(LOGO)(.,)(SPACE)(@)(ENTER)-->
     <Row android:rowEdgeFlags="bottom"
@@ -78,7 +78,7 @@
         <Key android:codes="59" android:keyLabel="&#x0003B;"/>
         <Key android:codes="33" android:keyLabel="&#x00021;"/>
         <Key android:codes="63" android:keyLabel="&#x0003F;"/>
-        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
+        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace_gradient" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
     </Row>
     <!--(MODE)(LOGO)(.,)(SPACE)(@)(NEXT)-->
     <Row android:rowEdgeFlags="bottom"
@@ -114,7 +114,7 @@
         <Key android:codes="59" android:keyLabel="&#x0003B;"/>
         <Key android:codes="33" android:keyLabel="&#x00021;"/>
         <Key android:codes="63" android:keyLabel="&#x0003F;"/>
-        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
+        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace_gradient" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
     </Row>
     <!--(MODE)(LOGO)(.,)(SPACE)(@)(OK)-->
     <Row android:rowEdgeFlags="bottom"
@@ -150,7 +150,7 @@
         <Key android:codes="59" android:keyLabel="&#x0003B;"/>
         <Key android:codes="33" android:keyLabel="&#x00021;"/>
         <Key android:codes="63" android:keyLabel="&#x0003F;"/>
-        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
+        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace_gradient" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
     </Row>
     <!--(MODE)(LOGO)(.,)(SPACE)(@)(ENTER)-->
     <Row android:rowEdgeFlags="bottom"
@@ -186,7 +186,7 @@
         <Key android:codes="59" android:keyLabel="&#x0003B;"/>
         <Key android:codes="33" android:keyLabel="&#x00021;"/>
         <Key android:codes="63" android:keyLabel="&#x0003F;"/>
-        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
+        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace_gradient" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
     </Row>
     <!--(MODE)(LOGO)(.,)(SPACE)(@)(NEXT)-->
     <Row android:rowEdgeFlags="bottom"
@@ -222,7 +222,7 @@
         <Key android:codes="59" android:keyLabel="&#x0003B;"/>
         <Key android:codes="33" android:keyLabel="&#x00021;"/>
         <Key android:codes="63" android:keyLabel="&#x0003F;"/>
-        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
+        <Key android:codes="-5" android:keyIcon="@drawable/ic_keyboard_backspace_gradient" android:keyWidth="13.85%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
     </Row>
     <!--(MODE)(LOGO)(.,)(SPACE)(@)(OK)-->
     <Row android:rowEdgeFlags="bottom"

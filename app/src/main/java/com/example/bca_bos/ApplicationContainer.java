@@ -18,6 +18,8 @@ import androidx.navigation.ui.NavigationUI;
 
 
 import com.example.bca_bos.networks.NetworkUtil;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.internal.NavigationMenuItemView;
@@ -43,6 +45,9 @@ public class ApplicationContainer extends AppCompatActivity  {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_application_container);
 
+        g_navView = findViewById(R.id.nav_view);
+        g_navView.setItemIconTintList(null);
+
         int tmpTypeOpen = ID_PRODUK;
         if(getIntent().hasExtra(KEY_OPEN_APPS)){
             tmpTypeOpen = getIntent().getExtras().getInt(KEY_OPEN_APPS);
@@ -57,7 +62,7 @@ public class ApplicationContainer extends AppCompatActivity  {
                 R.id.navigation_transaksi, R.id.navigation_profile)
                 .build();
 
-        g_navView = findViewById(R.id.nav_view);
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(g_navView, navController);
 
@@ -80,6 +85,9 @@ public class ApplicationContainer extends AppCompatActivity  {
             default:
                 navController.navigate(R.id.navigation_beranda);
         }
+
+
+
     }
 
 }

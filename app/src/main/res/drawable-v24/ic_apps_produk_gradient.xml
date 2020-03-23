@@ -12,11 +12,11 @@
         <appt:attr name="android:fillColor">
 
             <gradient
-                android:gradientRadius="900"
+                android:gradientRadius="1000"
                 android:type="radial"
                 android:angle="0"
-                android:endColor="#858585"
-                android:startColor="#A7A7A7" />
+                android:endColor="#0081c3"
+                android:startColor="#081e5f" />
 
         </appt:attr>
 
@@ -27,26 +27,27 @@
         <appt:attr name="android:fillColor">
 
             <gradient
-                android:gradientRadius="900"
+                android:gradientRadius="1000"
                 android:type="radial"
                 android:angle="0"
-                android:endColor="#858585"
-                android:startColor="#A7A7A7" />
+                android:endColor="#0081c3"
+                android:startColor="#081e5f" />
 
         </appt:attr>
 
     </path>
     <path
+
         android:pathData="M603.07,1048.09l392.8-181a20.51,20.51,0,0,0,11.93-18.63V395.76a20.51,20.51,0,0,0-29.09-18.63l-392.8,181A20.51,20.51,0,0,0,574,576.78v452.69A20.51,20.51,0,0,0,603.07,1048.09Z">
 
         <appt:attr name="android:fillColor">
 
             <gradient
-                android:gradientRadius="900"
+                android:gradientRadius="1000"
                 android:type="radial"
                 android:angle="0"
-                android:endColor="#858585"
-                android:startColor="#A7A7A7" />
+                android:endColor="#0081c3"
+                android:startColor="#081e5f" />
 
         </appt:attr>
 

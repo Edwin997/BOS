@@ -8,14 +8,20 @@
     android:layout_gravity="bottom"
     android:background="@drawable/style_bottom_sheet_background_black">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bottomsheet_puller"/>
+
     <TextView
         android:id="@+id/apps_bottom_sheet_et_judul_edit_produk"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="20dp"
         android:text="Ubah Profil"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="18dp"
         android:textStyle="bold"/>
 
@@ -23,6 +29,7 @@
         android:id="@+id/apps_bottom_sheet_iv_gambar_edit_profile"
         android:layout_width="125dp"
         android:layout_height="125dp"
+        android:layout_margin="10dp"
         android:layout_gravity="center"
         android:scaleType="fitXY"
         android:src="@drawable/avatar_kekpin"
@@ -32,9 +39,9 @@
         android:id="@+id/apps_bottom_sheet_tv_nama_edit_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="William Sutanto"
+        android:text="Kelvin Ng"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="24dp"
         android:textStyle="bold" />
 
@@ -42,59 +49,79 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nama Toko"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="5dp"/>
 
-    <EditText
-        android:id="@+id/apps_bottom_sheet_et_nama_toko_edit_profile"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/style_gradient_color_rounded_box_white"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:maxLines="1"
-        android:inputType="textPersonName"
-        />
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/white">
+
+        <EditText
+            android:id="@+id/apps_bottom_sheet_et_nama_toko_edit_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:maxLines="1"
+            android:inputType="textPersonName"
+            />
+
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Kota"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_marginTop="15dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="5dp"/>
 
-    <EditText
-        android:id="@+id/apps_bottom_sheet_et_kota_asal_edit_profile"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/style_gradient_color_rounded_box_white"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:maxLines="1"
-        android:inputType="textPersonName"
-        />
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/white">
+
+        <EditText
+            android:id="@+id/apps_bottom_sheet_et_kota_asal_edit_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:maxLines="1"
+            android:inputType="textPersonName"
+            />
+
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Kurir Pilihan"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_marginTop="15dp"
         android:layout_marginStart="20dp"

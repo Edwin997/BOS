@@ -6,14 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class OTPActivity extends AppCompatActivity implements View.OnClickListener {
 
     //OTP number
-    EditText g_otp_et_first_digit, g_otp_et_second_digit, g_otp_et_third_digit, g_otp_et_fourth_digit;
+    TextView g_otp_tv_first_digit, g_otp_tv_second_digit, g_otp_tv_third_digit, g_otp_tv_fourth_digit;
     View g_otp_view_first_digit, g_otp_view_second_digit, g_otp_view_third_digit, g_otp_view_fourth_digit;
 
     //Keyboard
@@ -21,7 +20,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             g_otp_btn_four, g_otp_btn_five, g_otp_btn_six,
             g_otp_btn_seven,  g_otp_btn_eight, g_otp_btn_nine,
             g_otp_btn_zero;
-    ImageButton g_otp_btn_delete;
+    ImageButton g_otp_btn_delete, g_otp_btn_refresh;
     TextView g_otp_tv_error;
     String tmp_otp, g_otp_flag;
 
@@ -34,10 +33,10 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         tmp_otp = "";
 
         //OTP number
-        g_otp_et_first_digit = findViewById(R.id.apps_otp_first_digit_edit_text);
-        g_otp_et_second_digit = findViewById(R.id.apps_otp_second_digit_edit_text);
-        g_otp_et_third_digit = findViewById(R.id.apps_otp_third_digit_edit_text);
-        g_otp_et_fourth_digit = findViewById(R.id.apps_otp_fourth_digit_edit_text);
+        g_otp_tv_first_digit = findViewById(R.id.apps_otp_first_digit_text_view);
+        g_otp_tv_second_digit = findViewById(R.id.apps_otp_second_digit_text_view);
+        g_otp_tv_third_digit = findViewById(R.id.apps_otp_third_digit_text_view);
+        g_otp_tv_fourth_digit = findViewById(R.id.apps_otp_fourth_digit_textview);
         g_otp_view_first_digit = findViewById(R.id.apps_otp_first_digit_view);
         g_otp_view_second_digit = findViewById(R.id.apps_otp_second_digit_view);
         g_otp_view_third_digit = findViewById(R.id.apps_otp_third_digit_view);
@@ -66,6 +65,8 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         g_otp_btn_zero.setOnClickListener(this);
         g_otp_btn_delete = findViewById(R.id.apps_otp_delete_button);
         g_otp_btn_delete.setOnClickListener(this);
+        g_otp_btn_refresh = findViewById(R.id.apps_otp_refresh_button);
+        g_otp_btn_refresh.setOnClickListener(this);
 
         //Error
         g_otp_tv_error = findViewById(R.id.apps_otp_error_text_view);
@@ -130,6 +131,9 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             case R.id.apps_otp_delete_button:
                 deleteOTPDigit();
                 break;
+            case R.id.apps_otp_refresh_button:
+                refreshOTP();
+                break;
         }
     }
 
@@ -168,16 +172,16 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
     private void changeOTPToNumber(String p_value){
         if (g_otp_flag.equals("zero")){
-            g_otp_et_first_digit.setText(p_value);
+            g_otp_tv_first_digit.setText(p_value);
             g_otp_view_first_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_box_blue));
         }else if (g_otp_flag.equals("first")){
-            g_otp_et_second_digit.setText(p_value);
+            g_otp_tv_second_digit.setText(p_value);
             g_otp_view_second_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_box_blue));
         }else if (g_otp_flag.equals("second")){
-            g_otp_et_third_digit.setText(p_value);
+            g_otp_tv_third_digit.setText(p_value);
             g_otp_view_third_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_box_blue));
         }else if (g_otp_flag.equals("third")){
-            g_otp_et_fourth_digit.setText(p_value);
+            g_otp_tv_fourth_digit.setText(p_value);
             g_otp_view_fourth_digit.setBackground(this.getResources().getDrawable(R.drawable.style_gradient_color_box_blue));
         }else if (g_otp_flag.equals("fourth")){
 
@@ -190,28 +194,42 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         }else if (g_otp_flag.equals("first")){
             g_otp_view_first_digit.setBackground(this.getResources().getDrawable(R.color.grey));
             tmp_otp = deleteLastCharacter(tmp_otp);
-            g_otp_et_first_digit.setText("-");
+            g_otp_tv_first_digit.setText("-");
             g_otp_tv_error.setText("");
             g_otp_flag = "zero";
         }else if (g_otp_flag.equals("second")){
             g_otp_view_second_digit.setBackground(this.getResources().getDrawable(R.color.grey));
             tmp_otp = deleteLastCharacter(tmp_otp);
-            g_otp_et_second_digit.setText("-");
+            g_otp_tv_second_digit.setText("-");
             g_otp_tv_error.setText("");
             g_otp_flag = "first";
         }else if (g_otp_flag.equals("third")){
             g_otp_view_third_digit.setBackground(this.getResources().getDrawable(R.color.grey));
             tmp_otp = deleteLastCharacter(tmp_otp);
-            g_otp_et_third_digit.setText("-");
+            g_otp_tv_third_digit.setText("-");
             g_otp_tv_error.setText("");
             g_otp_flag = "second";
         }else if (g_otp_flag.equals("fourth")){
             g_otp_view_fourth_digit.setBackground(this.getResources().getDrawable(R.color.grey));
             tmp_otp = deleteLastCharacter(tmp_otp);
-            g_otp_et_fourth_digit.setText("-");
+            g_otp_tv_fourth_digit.setText("-");
             g_otp_tv_error.setText("");
             g_otp_flag = "third";
         }
+    }
+
+    private void refreshOTP() {
+        g_otp_tv_first_digit.setText("-");
+        g_otp_tv_second_digit.setText("-");
+        g_otp_tv_third_digit.setText("-");
+        g_otp_tv_fourth_digit.setText("-");
+        g_otp_view_first_digit.setBackground(this.getResources().getDrawable(R.color.grey));
+        g_otp_view_second_digit.setBackground(this.getResources().getDrawable(R.color.grey));
+        g_otp_view_third_digit.setBackground(this.getResources().getDrawable(R.color.grey));
+        g_otp_view_fourth_digit.setBackground(this.getResources().getDrawable(R.color.grey));
+        g_otp_tv_error.setText("");
+        g_otp_flag = "zero";
+        tmp_otp = "";
     }
 
     private String deleteLastCharacter(String p_str) {
