@@ -25,7 +25,6 @@ import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,7 +60,8 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     private Context g_context;
     private View g_view;
     private ChooseImageFromDialog g_choose_dialog;
-    private BottomSheetDialog g_bottomsheet_dialog;
+    private BottomSheetDialog g_bottomsheet_dialog_add;
+    private BottomSheetDialog g_bottomsheet_dialog_edit;
     private Product g_product_onclick;
     private PopupMenu g_popup;
 
@@ -99,7 +99,8 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_context = container.getContext();
         g_view = inflater.inflate(R.layout.fragment_produk, container, false);
         g_choose_dialog = new ChooseImageFromDialog(this);
-        g_bottomsheet_dialog = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
+        g_bottomsheet_dialog_add = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
+        g_bottomsheet_dialog_edit = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
 
         //inisiasi layout
         g_produk_fragment_ll_add_button = g_view.findViewById(R.id.apps_produk_fragment_add_btn);
@@ -224,10 +225,10 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
                 VolleyClass.insertProduct(g_context, tmpProduct, g_produkadapter);
 
-                g_bottomsheet_dialog.dismiss();
+                g_bottomsheet_dialog_add.dismiss();
                 break;
             case R.id.apps_bottom_sheet_btn_batal_add_produk:
-                g_bottomsheet_dialog.dismiss();
+                g_bottomsheet_dialog_add.dismiss();
                 break;
             //endregion
 
@@ -250,11 +251,11 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 tmpProductedit.setImage_path(imageToString(g_bmp_bottom_sheet_produk_edit));
                 tmpProductedit.setPrdCategory(prdCategoryedit);
                 tmpProductedit.setSeller(selleredit);
-                g_bottomsheet_dialog.dismiss();
+                g_bottomsheet_dialog_edit.dismiss();
                 VolleyClass.updateProduct(g_context, tmpProductedit, g_produkadapter);
                 break;
             case R.id.apps_bottom_sheet_btn_hapus_edit_produk:
-                g_bottomsheet_dialog.dismiss();
+                g_bottomsheet_dialog_edit.dismiss();
                 VolleyClass.deleteProduct(g_context, g_product_onclick.getId_product(), g_produkadapter);
                 break;
             //endregion
@@ -310,23 +311,23 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     //region BOTTOM SHEET METHOD
     private void showBottomSheetEditProduk(Product p_product){
         //inisiasi view
-        View l_bottomsheet_view_add = LayoutInflater.from(g_context).inflate(
+        final View l_bottomsheet_view_edit = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_edit_produk,
                 (LinearLayout)g_view.findViewById(R.id.layout_apps_bottom_sheet_container_edit_produk)
         );
 
         //inisiasi imageview
-        g_iv_bottom_sheet_produk_edit_gambar = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_iv_gambar_edit_profile);
+        g_iv_bottom_sheet_produk_edit_gambar = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_iv_gambar_edit_profile);
 
         //inisiasi edittext
-        g_tv_bottom_sheet_produk_edit_nama = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_et_nama_toko_edit_produk);
-        g_tv_bottom_sheet_produk_edit_harga = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_et_harga_edit_produk);
-        g_tv_bottom_sheet_produk_edit_stok = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_et_stok_edit_produk);
-        g_tv_bottom_sheet_produk_edit_berat = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_et_berat_edit_produk);
+        g_tv_bottom_sheet_produk_edit_nama = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_et_nama_toko_edit_produk);
+        g_tv_bottom_sheet_produk_edit_harga = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_et_harga_edit_produk);
+        g_tv_bottom_sheet_produk_edit_stok = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_et_stok_edit_produk);
+        g_tv_bottom_sheet_produk_edit_berat = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_et_berat_edit_produk);
 
         //inisiasi button
-        g_btn_bottom_sheet_produk_edit_simpan = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_btn_simpan_edit_produk);
-        g_btn_bottom_sheet_produk_edit_hapus = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_btn_hapus_edit_produk);
+        g_btn_bottom_sheet_produk_edit_simpan = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_btn_simpan_edit_produk);
+        g_btn_bottom_sheet_produk_edit_hapus = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_btn_hapus_edit_produk);
 
         //config imageview
 //        g_iv_bottom_sheet_produk_edit_gambar.setImageDrawable(getResources().getDrawable(p_product.getBase64StringImage()));
@@ -343,8 +344,15 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_btn_bottom_sheet_produk_edit_hapus.setOnClickListener(this);
 
         //show bottomsheet
-        g_bottomsheet_dialog.setContentView(l_bottomsheet_view_add);
-        g_bottomsheet_dialog.show();
+        g_bottomsheet_dialog_edit.setContentView(l_bottomsheet_view_edit);
+        g_bottomsheet_dialog_edit.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                LinearLayout layoutsss = l_bottomsheet_view_edit.findViewById(R.id.layout_apps_bottom_sheet_container_edit_produk);
+                BottomSheetBehavior.from(layoutsss).setPeekHeight(Resources.getSystem().getDisplayMetrics().heightPixels);
+            }
+        });
+        g_bottomsheet_dialog_edit.show();
     }
 
     private void showBottomSheetAddProduk(){
@@ -375,8 +383,8 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_btn_bottom_sheet_produk_add_batal.setOnClickListener(this);
 
         //show bottomsheet
-        g_bottomsheet_dialog.setContentView(l_bottomsheet_view_add);
-        g_bottomsheet_dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+        g_bottomsheet_dialog_add.setContentView(l_bottomsheet_view_add);
+        g_bottomsheet_dialog_add.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
                 LinearLayout layoutsss = l_bottomsheet_view_add.findViewById(R.id.layout_apps_bottom_sheet_container_add_produk);
@@ -384,7 +392,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
             }
         });
 
-        g_bottomsheet_dialog.show();
+        g_bottomsheet_dialog_add.show();
     }
     //endregion
 

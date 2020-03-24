@@ -45,7 +45,8 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
     private ImageView g_templatedtext_fragment_sort_btn, g_templatedtext_fragment_search_btn;
     private EditText g_templatedtext_fragment_search_et;
 
-    private BottomSheetDialog g_bottomsheet_dialog;
+    private BottomSheetDialog g_bottomsheet_dialog_add;
+    private BottomSheetDialog g_bottomsheet_dialog_edit;
 
     public static TemplateFragment g_instance;
 
@@ -82,7 +83,8 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
         //config edittext
         g_templatedtext_fragment_search_et.addTextChangedListener(new SearchTextWatcher(g_templatedtext_fragment_search_et));
 
-        g_bottomsheet_dialog = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
+        g_bottomsheet_dialog_add = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
+        g_bottomsheet_dialog_edit = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
 
         return g_view;
     }
@@ -111,19 +113,19 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
                     tmpTemplate.setSeller(s);
                     VolleyClass.insertTemplatedText(g_context, tmpTemplate, g_templateadapter);
                     refreshData();
-                    g_bottomsheet_dialog.dismiss();
+                    g_bottomsheet_dialog_add.dismiss();
                 }
             });
 
             l_btn_templated_batal_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    g_bottomsheet_dialog.dismiss();
+                    g_bottomsheet_dialog_add.dismiss();
                 }
             });
 
-            g_bottomsheet_dialog.setContentView(l_bottomsheet_view_add);
-            g_bottomsheet_dialog.show();
+            g_bottomsheet_dialog_add.setContentView(l_bottomsheet_view_add);
+            g_bottomsheet_dialog_add.show();
         }
         else if(v == g_templatedtext_fragment_search_btn){
             g_templateadapter.findTemplatedText(g_templatedtext_fragment_search_et.getText().toString());
@@ -151,8 +153,6 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
             l_et_edit_templated_label_edit.setText(l_template.getTemplate_code());
             l_et_edit_templated_deskripsi_edit.setText(l_template.getText());
 
-
-
             l_btn_templated_simpan_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -165,7 +165,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
                     tmpTemplate.setSeller(s);
                     VolleyClass.updateTemplatedText(g_context, tmpTemplate, g_templateadapter);
 
-                    g_bottomsheet_dialog.dismiss();
+                    g_bottomsheet_dialog_edit.dismiss();
                 }
             });
 
@@ -173,12 +173,12 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
                 @Override
                 public void onClick(View v) {
                     VolleyClass.deleteTemplatedText(g_context, l_template.getId_template_text(), g_templateadapter);
-                    g_bottomsheet_dialog.dismiss();
+                    g_bottomsheet_dialog_edit.dismiss();
                 }
             });
 
-            g_bottomsheet_dialog.setContentView(l_bottomsheet_view_edit);
-            g_bottomsheet_dialog.show();
+            g_bottomsheet_dialog_edit.setContentView(l_bottomsheet_view_edit);
+            g_bottomsheet_dialog_edit.show();
         }
     }
 
