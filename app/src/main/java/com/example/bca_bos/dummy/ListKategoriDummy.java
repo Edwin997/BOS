@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListKategoriDummy {
-    public static List<PrdCategory> kategoriList = new ArrayList<PrdCategory>();
+    public static List<PrdCategory> kategoriList = new ArrayList<PrdCategory>(){{
+        add(new PrdCategory(1, "Elektronik"));
+        add(new PrdCategory(2, "Makanan"));
+    }};
 
     public static String[] getListTypeString(){
         String[] tmpResult = new String[kategoriList.size() + 1];

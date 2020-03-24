@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bca_bos.R;
+import com.example.bca_bos.dummy.ListTemplatedTextDummy;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.TemplatedText;
@@ -182,7 +183,8 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
     }
 
     public void refreshData(){
-        VolleyClass.getTemplatedText(g_context, 3, g_templateadapter);
+        g_templateadapter.setListTemplate(ListTemplatedTextDummy.templatedTextList);
+//        VolleyClass.getTemplatedText(g_context, 3, g_templateadapter);
     }
 
     public void showSortPopupMenu(View p_view) {

@@ -11,7 +11,11 @@ public class ListProdukDummy {
 
     private static List<PrdCategory> list = ListKategoriDummy.kategoriList;
 
-    public static List<Product> productList = new ArrayList<Product>();
+    public static List<Product> productList = new ArrayList<Product>(){{
+        add(new Product(1, "Youtube", 10, "image_path", 10000, list.get(0)));
+        add(new Product(2, "Google", 1, "image_path", 20000, list.get(1)));
+        add(new Product(3, "Facebook", 20, "image_path", 30000, list.get(1)));
+    }};
 
     public static List<Product> getProduks(){
         return productList;

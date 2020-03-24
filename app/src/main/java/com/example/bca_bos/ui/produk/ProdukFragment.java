@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
+import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.products.PrdCategory;
@@ -121,10 +122,12 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_linearlayoutmanager = new LinearLayoutManager(g_context);
         g_produkadapter = new ProdukAdapter();
 
+        g_produkadapter.setDatasetProduk(ListProdukDummy.productList);
+
         g_produkadapter.setParentOnCallBack(this);
         g_produkfragment_recyclerview.setAdapter(g_produkadapter);
         g_produkfragment_recyclerview.setLayoutManager(g_linearlayoutmanager);
-        VolleyClass.getProduct(g_context, 3, g_produkadapter);
+//        VolleyClass.getProduct(g_context, 3, g_produkadapter);
 
         //config imageview
         g_produk_fragment_sort_btn.setOnClickListener(this);
