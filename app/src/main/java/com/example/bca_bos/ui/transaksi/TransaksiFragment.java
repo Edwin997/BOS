@@ -80,7 +80,7 @@ public class TransaksiFragment extends Fragment{
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_purple, R.drawable.switch_custom_slide_selector_purple);
+                    changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_purple);
                     g_fragment_transaction = g_fragment_manager.beginTransaction();
                     g_fragment_transaction.replace(R.id.apps_transaksi_fragment_container, g_offline_fragment);
                     g_fragment_transaction.commit();
@@ -95,9 +95,8 @@ public class TransaksiFragment extends Fragment{
         return g_view;
     }
 
-    public void changeSwitchAppearance(int thumbResId, int trackResId){
+    public void changeSwitchAppearance(int thumbResId){
         g_switch.setThumbResource(thumbResId);
-//        g_switch.setTrackResource(trackResId);
     }
 
 }

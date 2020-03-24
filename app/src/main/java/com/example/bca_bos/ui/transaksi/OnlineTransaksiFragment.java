@@ -206,35 +206,35 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
             g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_red);
             g_btn_tab_pesanan_baru.setTextColor(g_context.getResources().getColor(R.color.red));
 //            g_btn_tab_pesanan_baru.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_red));
-            g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_red, R.drawable.switch_custom_slide_selector_red);
+            g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_red);
             g_view_tab_pesanan_baru.setVisibility(View.VISIBLE);
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIBAYAR){
             g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_orange_layered);
             g_btn_tab_pesanan_dibayar.setTextColor(g_context.getResources().getColor(R.color.yellow));
 //            g_btn_tab_pesanan_dibayar.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_yellow));
-            g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_orange, R.drawable.switch_custom_slide_selector_orange);
+            g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_orange);
             g_view_tab_pesanan_dibayar.setVisibility(View.VISIBLE);
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIKIRIM){
             g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_blue);
             g_btn_tab_pesanan_dikirim.setTextColor(g_context.getResources().getColor(R.color.blue));
 //            g_btn_tab_pesanan_dikirim.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_blue));
-            g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_blue, R.drawable.switch_custom_slide_selector_blue);
+            g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_blue);
             g_view_tab_pesanan_dikirim.setVisibility(View.VISIBLE);
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SELESAI){
             g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_green);
             g_btn_tab_selesai.setTextColor(g_context.getResources().getColor(R.color.green));
 //            g_btn_tab_selesai.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_green));
-            g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_green, R.drawable.switch_custom_slide_selector_green);
+            g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_green);
             g_view_tab_selesai.setVisibility(View.VISIBLE);
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SEMUA){
-            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_black);
-            g_btn_tab_semua.setTextColor(g_context.getResources().getColor(R.color.black));
+            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_purple);
+            g_btn_tab_semua.setTextColor(g_context.getResources().getColor(R.color.purple));
 //            g_btn_tab_semua.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
-            g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_purple, R.drawable.switch_custom_slide_selector_purple);
+            g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_purple);
             g_view_tab_semua.setVisibility(View.VISIBLE);
         }
     }

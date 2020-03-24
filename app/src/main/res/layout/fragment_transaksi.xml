@@ -23,7 +23,7 @@
         android:layout_marginTop="26dp"
         android:gravity="center"
         android:thumb="@drawable/switch_custom_thumb_selector_purple"
-        android:track="@drawable/switch_custom_slide_selector_purple"
+        android:track="@drawable/switch_custom_slide_selector"
         android:fontFamily="@font/opensans_bold"
         android:textOn="Transaksi Offline"
         android:textOff="Transaksi Online"
