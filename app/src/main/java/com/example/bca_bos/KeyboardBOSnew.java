@@ -764,14 +764,10 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             case R.id.bcabos_kirimform_send_button:
                 focusedEditText = KEY_ET_EXTERNAL;
                 try {
-                    VolleyClass.insertOrder(getApplicationContext(), 3,2, g_kirimform_produk_adapter.getListOrder());
+                    VolleyClass.insertOrder(this, 3,2, g_kirimform_produk_adapter.getListOrder());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                String comment = "Silahkan melengkapi data diri anda dan melakukan pengecekan terakhir" +
-                        " pesanan anda pada link dibawah ini:\n";
-                String url_kirimform = "https://webapp.apps.pcf.dti.co.id/order/1";
-                commitTextToBOSKeyboardEditText(comment + url_kirimform);
                 break;
 
             //endregion

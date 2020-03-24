@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //Connect Internet
         NetworkUtil.disableSSL();
         g_instance = this;
-        
+
         g_login_cl = findViewById(R.id.constraintLayoutLogin);
         Animation slide_down = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down_in);
         g_login_cl.startAnimation(slide_down);

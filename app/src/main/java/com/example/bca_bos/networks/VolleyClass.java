@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.bca_bos.KeyboardBOSnew;
 import com.example.bca_bos.LoginActivity;
 import com.example.bca_bos.PasswordActivity;
 import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
@@ -1042,9 +1043,9 @@ public class VolleyClass {
     //endregion
 
     //region ORDER
-    public static void insertOrder(final Context p_context, final int p_id_seller, final int p_id_origin,
+    public static void insertOrder(final KeyboardBOSnew p_parent, final int p_id_seller, final int p_id_origin,
                                    HashMap<String, Product> p_list) throws JSONException {
-        g_requestqueue = Volley.newRequestQueue(p_context);
+        g_requestqueue = Volley.newRequestQueue(p_parent.getApplicationContext());
 
         JSONArray jsonArray = new JSONArray();
 
@@ -1070,11 +1071,17 @@ public class VolleyClass {
                         try {
                             String message = NetworkUtil.getErrorCode(response.toString());
                             if(message.equals(ERROR_CODE_BERHASIL)){
-                                Toast.makeText(p_context, "Order Berhasil", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(p_parent.getApplicationContext(), "Order Berhasil", Toast.LENGTH_SHORT).show();
+                                int tmpId = response.getInt("output_schema");
+                                String comment = "Silahkan melengkapi data diri anda dan melakukan pengecekan terakhir" +
+                                        " pesanan anda pada link dibawah ini:\n";
+                                String url_kirimform = "https://webapp.apps.pcf.dti.co.id/order/" + tmpId;
+
+                                p_parent.commitTextToBOSKeyboardEditText(comment + url_kirimform);
                             }
                             else
                             {
-                                Toast.makeText(p_context, "Penambahan data template text gagal", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(p_parent.getApplicationContext(), "Penambahan data template text gagal", Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (Exception e) {
