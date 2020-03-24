@@ -6,82 +6,81 @@
     android:id="@+id/ll_apps_template_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minHeight="75dp"
     android:weightSum="7"
     android:orientation="horizontal"
     android:layout_marginLeft="15dp"
-    android:layout_marginRight="20dp">
+    android:layout_marginRight="15dp">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@drawable/style_gradient_color_rounded_box_white"
+        android:layout_gravity="center"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:paddingLeft="16dp"
-            android:paddingEnd="35dp"
-            android:paddingBottom="8dp">
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="4dp"
+            android:weightSum="10">
 
-            <TextView
-                android:id="@+id/tv_apps_template_label_item"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="bottom|start"
-                android:layout_weight="1"
-                android:text="Edwin"
-                android:textColor="@color/black"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="8.5"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:paddingTop="5dp"
+                android:paddingLeft="16dp"
+                android:paddingEnd="35dp"
+                android:paddingBottom="5dp">
 
-            <TextView
-                android:id="@+id/tv_apps_template_deskripsi_item"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="top|start"
-                android:maxLines="1"
-                android:fontFamily="@font/montserrat_regular"
-                android:text="2018-02-20"
-                android:textColor="@color/black"
-                android:textSize="12dp" />
+                <TextView
+                    android:id="@+id/tv_apps_template_label_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="bottom|start"
+                    android:layout_weight="1"
+                    android:text="Edwin"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_apps_template_deskripsi_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical|start"
+                    android:maxLines="1"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="2018-02-20"
+                    android:textColor="@color/black"
+                    android:textSize="12dp" />
 
-    </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|center_vertical"
-        app:cardCornerRadius="40dp"
-        android:layout_marginLeft="-30dp">
-
-        <LinearLayout
-            android:layout_width="50dp"
+        <ImageButton
+            android:id="@+id/btn_apps_template_edit_item"
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
             android:layout_height="50dp"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@drawable/style_gradient_color_rounded_box">
-
-            <ImageButton
-                android:id="@+id/btn_apps_template_edit_item"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_apps_edit_white"/>
-
+            android:layout_gravity="end|center_vertical"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_apps_edit_blue"/>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+
 
 </LinearLayout>
