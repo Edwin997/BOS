@@ -1,7 +1,9 @@
 package com.example.bca_bos.ui.produk;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +37,7 @@ import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.products.PrdCategory;
 import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.networks.VolleyClass;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -342,7 +346,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
     private void showBottomSheetAddProduk(){
         //inisiasi view
-        View l_bottomsheet_view_add = LayoutInflater.from(g_context).inflate(
+        final View l_bottomsheet_view_add = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_add_produk,
                 (LinearLayout)g_view.findViewById(R.id.layout_apps_bottom_sheet_container_add_produk)
         );
@@ -369,6 +373,14 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
         //show bottomsheet
         g_bottomsheet_dialog.setContentView(l_bottomsheet_view_add);
+        g_bottomsheet_dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                LinearLayout layoutsss = l_bottomsheet_view_add.findViewById(R.id.layout_apps_bottom_sheet_container_add_produk);
+                BottomSheetBehavior.from(layoutsss).setPeekHeight(Resources.getSystem().getDisplayMetrics().heightPixels);
+            }
+        });
+
         g_bottomsheet_dialog.show();
     }
     //endregion

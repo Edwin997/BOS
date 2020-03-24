@@ -50,6 +50,7 @@
 
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
+        <item name="behavior_peekHeight">2000dp</item>
     </style>
 
     <style name="bottom">
