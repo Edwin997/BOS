@@ -27,7 +27,7 @@ public class FillDataActivity extends AppCompatActivity implements View.OnClickL
             case R.id.filldata_submit_button:
                 Intent tmp_filldata_intent = new Intent(FillDataActivity.this, ApplicationContainer.class);
                 startActivity(tmp_filldata_intent);
-                overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+                overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
                 finish();
                 break;
         }

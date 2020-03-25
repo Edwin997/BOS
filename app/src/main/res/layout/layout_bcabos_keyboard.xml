@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="start"
-        android:background="@drawable/style_gradient_color_box"
+        android:background="@drawable/style_gradient_color_box_blue"
         android:orientation="horizontal">
 
 
@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:background="@drawable/style_gradient_color_box"
+        android:background="@drawable/style_gradient_color_box_blue"
         android:orientation="horizontal"
         android:visibility="gone">
 
@@ -59,7 +59,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_keyboard_back_gradient" />
+            android:src="@drawable/ic_keyboard_back_white" />
 
         <Button
             android:id="@+id/bcabos_extended_feature_stok_button"
@@ -381,7 +381,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:background="@drawable/style_gradient_color_rounded_box"
+                android:background="@drawable/style_gradient_color_rounded_box_blue"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="CEK ONGKOS KIRIM"
                 android:textAlignment="center"
@@ -397,7 +397,7 @@
                 android:layout_height="40dp"
                 android:layout_marginRight="8dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_keyboard_refresh_gradient" />
+                android:src="@drawable/ic_keyboard_refresh_gradient_20dp" />
 
         </LinearLayout>
 
@@ -579,7 +579,7 @@
                 android:id="@+id/bcabos_kirimform_produk_button_next_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/style_gradient_color_rounded_box"
+                android:background="@drawable/style_gradient_color_rounded_box_blue"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:fontFamily="@font/montserrat_bold"
@@ -866,7 +866,7 @@
 <!--                android:layout_height="40dp"-->
 <!--                android:layout_marginRight="8dp"-->
 <!--                android:background="@android:color/transparent"-->
-<!--                android:src="@drawable/ic_keyboard_refresh_gradient" />-->
+<!--                android:src="@drawable/ic_keyboard_refresh_gradient_20dp" />-->
 
 <!--        </LinearLayout>-->
 
@@ -888,7 +888,7 @@
             android:weightSum="10"
             android:gravity="top"
             android:orientation="horizontal"
-            android:background="@drawable/style_gradient_color_box">
+            android:background="@drawable/style_gradient_color_box_blue">
 
             <ImageButton
                 android:id="@+id/bcabos_mutasi_back_button"
@@ -898,7 +898,7 @@
                 android:background="@android:color/transparent"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:src="@drawable/ic_keyboard_back_gradient"/>
+                android:src="@drawable/ic_keyboard_back_white"/>
 
             <TextView
                 android:layout_weight="6"

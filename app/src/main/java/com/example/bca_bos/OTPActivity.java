@@ -254,4 +254,13 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             } catch (Exception e) {}
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent tmp_back_intent = new Intent(OTPActivity.this, RegisterActivity.class);
+        startActivity(tmp_back_intent);
+        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
+        finish();
+    }
 }

@@ -48,7 +48,7 @@ public class ApplicationContainer extends AppCompatActivity  {
         g_navView = findViewById(R.id.nav_view);
         g_navView.setItemIconTintList(null);
 
-        int tmpTypeOpen = ID_PRODUK;
+        int tmpTypeOpen = ID_BERANDA;
         if(getIntent().hasExtra(KEY_OPEN_APPS)){
             tmpTypeOpen = getIntent().getExtras().getInt(KEY_OPEN_APPS);
         }

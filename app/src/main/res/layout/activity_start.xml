@@ -15,6 +15,6 @@
         android:layout_gravity="center"
         app:lottie_autoPlay="true"
         app:lottie_loop="false"
-        app:lottie_rawRes="@raw/bos_animation"/>
+        app:lottie_rawRes="@raw/bos_animation_2"/>
 
 </LinearLayout>
