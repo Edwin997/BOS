@@ -8,28 +8,28 @@
     android:layout_height="wrap_content"
     android:minHeight="75dp"
     android:weightSum="7"
-    android:orientation="horizontal"
-    android:layout_marginLeft="15dp"
-    android:layout_marginRight="15dp">
+    android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/style_gradient_color_rounded_box_white"
+        app:cardBackgroundColor="@color/white"
         android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
         app:cardCornerRadius="10dp"
-        app:cardElevation="2dp">
+        app:cardElevation="2dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:paddingStart="8dp"
-            android:paddingEnd="4dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:weightSum="10">
 
             <LinearLayout
@@ -37,11 +37,8 @@
                 android:layout_weight="8.5"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_gravity="center"
-                android:paddingTop="5dp"
-                android:paddingLeft="16dp"
-                android:paddingEnd="35dp"
-                android:paddingBottom="5dp">
+                android:paddingEnd="16dp"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/tv_apps_template_label_item"
@@ -49,7 +46,8 @@
                     android:layout_height="0dp"
                     android:layout_gravity="bottom|start"
                     android:layout_weight="1"
-                    android:text="Edwin"
+                    android:layout_marginBottom="-4dp"
+                    android:text="Judul"
                     android:textColor="@color/black"
                     android:textSize="16dp"
                     android:textStyle="bold" />
@@ -59,11 +57,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:layout_marginTop="-4dp"
                     android:ellipsize="end"
                     android:gravity="center_vertical|start"
                     android:maxLines="1"
                     android:fontFamily="@font/montserrat_regular"
-                    android:text="2018-02-20"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                     android:textColor="@color/black"
                     android:textSize="12dp" />
 

@@ -14,6 +14,7 @@
     app:cardBackgroundColor="@color/cardview_light_background">
 
     <LinearLayout
+        android:id="@+id/bcabos_mutasi_liniear_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:weightSum="2"
@@ -30,7 +31,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/bcabos_mutasi_pengirim_text"
+                android:id="@+id/bcabos_mutasi_pembeli_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"

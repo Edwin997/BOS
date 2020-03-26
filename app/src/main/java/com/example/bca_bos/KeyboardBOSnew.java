@@ -159,6 +159,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private RecyclerView g_mutasi_recyclerview;
     private LinearLayoutManager g_mutasi_item_layout;
     private ImageButton g_btn_mutasi_back;
+    private MutasiRekeningAdapter g_mutasi_rekening_adapter;
     //endregion
 
     //DATA MEMBER KIRIM FORM NEXT = ONGKIR
@@ -596,9 +597,10 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
         //config recyclerview
         g_mutasi_item_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL,false);
-        MutasiRekeningAdapter mra = new MutasiRekeningAdapter();
+        g_mutasi_rekening_adapter = new MutasiRekeningAdapter();
+        VolleyClass.getTransaksi(getApplicationContext(), 3, g_mutasi_rekening_adapter);
         g_mutasi_recyclerview.setLayoutManager(g_mutasi_item_layout);
-        g_mutasi_recyclerview.setAdapter(mra);
+        g_mutasi_recyclerview.setAdapter(g_mutasi_rekening_adapter);
 
         //config button
         g_btn_mutasi_back.setOnClickListener(this);

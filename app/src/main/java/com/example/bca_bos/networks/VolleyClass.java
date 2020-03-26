@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.bca_bos.LoginActivity;
 import com.example.bca_bos.PasswordActivity;
 import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
+import com.example.bca_bos.keyboardadapters.MutasiRekeningAdapter;
 import com.example.bca_bos.keyboardadapters.StokProdukAdapter;
 import com.example.bca_bos.keyboardadapters.TemplatedTextAdapter;
 import com.example.bca_bos.models.Buyer;
@@ -754,6 +755,9 @@ public class VolleyClass {
                                 tmpAdapter.setListTransaksi(tempObject);
 
                                 OnlineTransaksiFragment.g_instance.firstLoad();
+                            }else if (p_adapter instanceof MutasiRekeningAdapter){
+                                MutasiRekeningAdapter tmpAdapter = (MutasiRekeningAdapter) p_adapter;
+                                tmpAdapter.setListTransaksi(tempObject);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
