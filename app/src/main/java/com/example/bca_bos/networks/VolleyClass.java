@@ -519,6 +519,7 @@ public class VolleyClass {
 
                             Log.d("BOSVOLLEY", tempObject.get(0).getPrdCategory().getId_prd_category() + "coy");
                             if(p_adapter instanceof ProdukAdapter){
+                                ProdukFragment.g_instance.changeLayoutValue(tempObject.size());
                                 ProdukAdapter tmpAdapter = (ProdukAdapter) p_adapter;
                                 tmpAdapter.setDatasetProduk(tempObject);
                             }
@@ -543,6 +544,7 @@ public class VolleyClass {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                ProdukFragment.g_instance.changeLayoutValue(0);
                 NetworkUtil.setErrorMessage(error);
             }
         });
