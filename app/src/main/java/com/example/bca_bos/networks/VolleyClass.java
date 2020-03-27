@@ -19,6 +19,7 @@ import com.example.bca_bos.LoginActivity;
 import com.example.bca_bos.PasswordActivity;
 import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
 import com.example.bca_bos.keyboardadapters.MutasiRekeningAdapter;
+import com.example.bca_bos.keyboardadapters.OfflineMutasiRekeningAdapter;
 import com.example.bca_bos.keyboardadapters.StokProdukAdapter;
 import com.example.bca_bos.keyboardadapters.TemplatedTextAdapter;
 import com.example.bca_bos.models.Buyer;
@@ -735,7 +736,7 @@ public class VolleyClass {
     //endregion
 
     //region TRANSAKSI
-    public static void getTransaksi(Context p_context, int p_id_seller, final RecyclerView.Adapter p_adapter){
+    public static void  getTransaksi(Context p_context, int p_id_seller, final RecyclerView.Adapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         StringRequest request_json = new StringRequest(Request.Method.GET ,URL_TRANSACTION_ONLINE + "/" + p_id_seller,
@@ -792,6 +793,9 @@ public class VolleyClass {
                                 OfflineTransaksiAdapter tmpAdapter = (OfflineTransaksiAdapter) p_adapter;
                                 tmpAdapter.setListTransaksi(tempObject);
                                 OfflineTransaksiFragment.g_instance.firstLoad();
+                            }else if (p_adapter instanceof OfflineMutasiRekeningAdapter){
+                                OfflineMutasiRekeningAdapter tmpAdapter = (OfflineMutasiRekeningAdapter) p_adapter;
+                                tmpAdapter.setListTransaksi(tempObject);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

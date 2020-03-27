@@ -888,7 +888,7 @@
             android:weightSum="10"
             android:gravity="top"
             android:orientation="horizontal"
-            android:background="@drawable/style_gradient_color_box_blue">
+            android:background="@color/white">
 
             <ImageButton
                 android:id="@+id/bcabos_mutasi_back_button"
@@ -898,18 +898,26 @@
                 android:background="@android:color/transparent"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:src="@drawable/ic_keyboard_back_white"/>
+                android:src="@drawable/ic_keyboard_back_gradient"/>
 
             <TextView
-                android:layout_weight="6"
+                android:id="@+id/bcabos_mutasi_title_text_view"
+                android:layout_weight="8"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:fontFamily="@font/opensans_bold"
-                android:text="Transaksi"
-                android:textColor="@color/white"
+                android:text="Transaksi Online"
+                android:textColor="@color/darker_blue"
                 android:textSize="18dp"
                 android:textStyle="bold"/>
+
+            <Switch
+                android:id="@+id/bcabos_mutasi_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
 
         </LinearLayout>
 

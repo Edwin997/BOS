@@ -21,8 +21,8 @@
 
     <View
         android:id="@+id/keyboard_template_divider"
-        android:layout_width="2dp"
-        android:layout_height="8dp"
+        android:layout_width="4dp"
+        android:layout_height="4dp"
         android:layout_gravity="center_vertical"
-        android:background="@color/black"/>
+        android:background="@drawable/style_color_rounded_box_white_transparent"/>
 </LinearLayout>

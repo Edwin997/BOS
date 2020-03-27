@@ -21,10 +21,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,6 +38,7 @@ import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
 import com.example.bca_bos.keyboardadapters.MutasiRekeningAdapter;
+import com.example.bca_bos.keyboardadapters.OfflineMutasiRekeningAdapter;
 import com.example.bca_bos.keyboardadapters.StokProdukAdapter;
 import com.example.bca_bos.keyboardadapters.TemplatedTextAdapter;
 import com.example.bca_bos.models.products.Product;
@@ -160,6 +164,9 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private LinearLayoutManager g_mutasi_item_layout;
     private ImageButton g_btn_mutasi_back;
     private MutasiRekeningAdapter g_mutasi_rekening_adapter;
+    private OfflineMutasiRekeningAdapter g_offline_mutasi_rekening_adapter;
+    private Switch g_switch;
+    private TextView g_mutasi_tv_title;
     //endregion
 
     //DATA MEMBER KIRIM FORM NEXT = ONGKIR
@@ -588,12 +595,32 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private void initiateMutasi() {
         //inisiasi layout
         g_mutasi_layout = g_viewparent.findViewById(R.id.bcabos_extended_mutasi_layout);
+        g_mutasi_tv_title = g_viewparent.findViewById(R.id.bcabos_mutasi_title_text_view);
 
         //inisiasi recyclerview
         g_mutasi_recyclerview = g_viewparent.findViewById(R.id.bcabos_extended_mutasi_recyclerview);
 
         //inisiasi button
         g_btn_mutasi_back = g_viewparent.findViewById(R.id.bcabos_mutasi_back_button);
+
+        //config switch
+        g_switch = g_viewparent.findViewById(R.id.bcabos_mutasi_switch);
+        g_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked){
+                    g_mutasi_tv_title.setText("Transaksi Offline");
+                    g_offline_mutasi_rekening_adapter = new OfflineMutasiRekeningAdapter();
+                    VolleyClass.getTransaksiOffline(getApplicationContext(), 3, g_offline_mutasi_rekening_adapter);
+                    g_mutasi_recyclerview.setAdapter(g_offline_mutasi_rekening_adapter);
+                }else {
+                    g_mutasi_tv_title.setText("Transaksi Online");
+                    g_mutasi_rekening_adapter = new MutasiRekeningAdapter();
+                    VolleyClass.getTransaksi(getApplicationContext(), 3, g_mutasi_rekening_adapter);
+                    g_mutasi_recyclerview.setAdapter(g_mutasi_rekening_adapter);
+                }
+            }
+        });
 
         //config recyclerview
         g_mutasi_item_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL,false);

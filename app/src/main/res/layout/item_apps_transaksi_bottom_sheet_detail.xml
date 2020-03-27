@@ -14,7 +14,7 @@
         android:gravity="center_vertical|start"
         android:text="Kemeja"
         android:textStyle="bold"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/item_apps_transaksi_bottom_sheet_detail_jumlah"
@@ -26,7 +26,7 @@
         android:gravity="center_vertical|end"
         android:text="x1"
         android:textStyle="bold"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/item_apps_transaksi_bottom_sheet_detail_subharga"
@@ -38,5 +38,5 @@
         android:gravity="center_vertical|end"
         android:text="50000"
         android:textStyle="bold"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
 </LinearLayout>

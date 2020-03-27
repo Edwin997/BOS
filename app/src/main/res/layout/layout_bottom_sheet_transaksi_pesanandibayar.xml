@@ -128,8 +128,6 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_marginTop="15dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
         android:layout_height="150dp">
 
         <TextView
@@ -137,6 +135,9 @@
             android:layout_height="wrap_content"
             android:text="No. Resi"
             android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="5dp"/>
 
         <androidx.cardview.widget.CardView
@@ -165,6 +166,8 @@
             android:id="@+id/btn_apps_bottom_sheet_transaksi_pesanandibayar_sendresi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:text="Perbarui"
             android:background="@drawable/style_gradient_color_rounded_box_yellow"
             android:textStyle="bold"

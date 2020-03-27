@@ -26,7 +26,7 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
             g_password_btn_four, g_password_btn_five, g_password_btn_six,
             g_password_btn_seven,  g_password_btn_eight, g_password_btn_nine,
             g_password_btn_zero;
-    ImageButton g_password_btn_delete;
+    ImageButton g_password_btn_delete, g_password_btn_refresh;
     TextView g_password_tv_error;
     String tmp_password, g_password_flag;
 
@@ -91,6 +91,8 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
         g_password_btn_eight.setOnClickListener(this);
         g_password_btn_nine = findViewById(R.id.apps_password_nine_button);
         g_password_btn_nine.setOnClickListener(this);
+        g_password_btn_refresh = findViewById(R.id.apps_password_refresh_button);
+        g_password_btn_refresh.setOnClickListener(this);
         g_password_btn_zero = findViewById(R.id.apps_password_zero_button);
         g_password_btn_zero.setOnClickListener(this);
         g_password_btn_delete = findViewById(R.id.apps_password_delete_button);
@@ -149,6 +151,9 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
                 savepasswordValue(g_password_flag, "9");
                 changeGreyToBlue();
                 changeFlag();
+                break;
+            case R.id.apps_password_refresh_button:
+                refreshPassword();
                 break;
             case R.id.apps_password_zero_button:
                 savepasswordValue(g_password_flag, "0");
@@ -253,6 +258,18 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
             g_password_tv_error.setText("");
             g_password_flag = "fivth";
         }
+    }
+
+    private void refreshPassword() {
+        g_password_iv_first_digit.setImageResource(R.drawable.style_grey_color_circle_stroke);
+        g_password_iv_second_digit.setImageResource(R.drawable.style_grey_color_circle_stroke);
+        g_password_iv_third_digit.setImageResource(R.drawable.style_grey_color_circle_stroke);
+        g_password_iv_fourth_digit.setImageResource(R.drawable.style_grey_color_circle_stroke);
+        g_password_iv_fivth_digit.setImageResource(R.drawable.style_grey_color_circle_stroke);
+        g_password_iv_sixth_digit.setImageResource(R.drawable.style_grey_color_circle_stroke);
+        g_password_tv_error.setText("");
+        g_password_flag = "zero";
+        tmp_password = "";
     }
 
     private String deleteLastCharacter(String p_str) {

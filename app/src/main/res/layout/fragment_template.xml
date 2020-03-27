@@ -19,7 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         app:cardCornerRadius="30dp"
-
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -27,14 +26,14 @@
             android:id="@+id/ll_apps_template_tambah_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/style_gradient_color_rounded_box_white"
+            android:background="@drawable/style_gradient_color_rounded_box_blue"
             android:orientation="horizontal"
             android:padding="10dp">
 
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_keyboard_add_blue" />
+                android:src="@drawable/ic_keyboard_add_white" />
 
         </LinearLayout>
 

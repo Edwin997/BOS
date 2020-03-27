@@ -81,6 +81,13 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
     SharedPreferences g_preference;
     int g_seller_id;
 
+    public OnlineTransaksiFragment(){
+    }
+
+    public OnlineTransaksiFragment(int p_type){
+        FLAG_FRAGMENT_TYPE = p_type;
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -123,19 +130,18 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         g_btn_tab_selesai.setOnClickListener(this);
         g_btn_tab_semua.setOnClickListener(this);
 
-        firstLoad();
-
         VolleyClass.getTransaksi(g_context, g_seller_id, g_transaksiadapter);
+
+        firstLoad();
 
         return g_view;
     }
 
     public void firstLoad(){
-        if (getArguments()!= null){
-            FLAG_FRAGMENT_TYPE = getArguments().getInt("flag");
+        if (FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIBAYAR){
             g_percentage = g_transaksiadapter.getPersentaseTransaksiSudahDiBayar();
             drawPieChart(new int[]{R.color.yellow, R.color.white},
-                    g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
+                    g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nbenar");
             g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
             g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapter);
             setTabBar();
@@ -143,7 +149,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
             FLAG_FRAGMENT_TYPE = KEY_STATUS_SEMUA;
             g_percentage = 100;
             drawPieChart(new int[]{R.color.white, R.color.white},
-                    g_transaksiadapter.getItemMasterCount() + "\nTransaksi");
+                    g_transaksiadapter.getItemMasterCount() + "\nsalah");
             g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
             g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapter);
             setTabBar();
@@ -161,7 +167,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
                 FLAG_FRAGMENT_TYPE = KEY_STATUS_BARUMASUK;
                 g_percentage = g_transaksiadapter.getPersentaseTransaksiBaruMasuk();
                 drawPieChart(new int[]{R.color.red, R.color.white},
-                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaction");
+                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
                 g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 setTabBar();
                 break;
@@ -169,7 +175,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
                 FLAG_FRAGMENT_TYPE = KEY_STATUS_SUDAHDIBAYAR;
                 g_percentage = g_transaksiadapter.getPersentaseTransaksiSudahDiBayar();
                 drawPieChart(new int[]{R.color.yellow, R.color.white},
-                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaction");
+                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
                 g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 setTabBar();
                 break;
@@ -177,7 +183,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
                 FLAG_FRAGMENT_TYPE = KEY_STATUS_SUDAHDIKIRIM;
                 g_percentage = g_transaksiadapter.getPersentaseTransaksiSudahDikirim();
                 drawPieChart(new int[]{R.color.blue, R.color.white},
-                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaction");
+                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
                 g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 setTabBar();
                 break;
@@ -185,7 +191,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
                 FLAG_FRAGMENT_TYPE = KEY_STATUS_SELESAI;
                 g_percentage = g_transaksiadapter.getPersentaseTransaksiSudahSelesai();
                 drawPieChart(new int[]{R.color.green, R.color.white},
-                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaction");
+                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
                 g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 setTabBar();
                 break;
@@ -193,7 +199,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
                 FLAG_FRAGMENT_TYPE = KEY_STATUS_SEMUA;
                 g_percentage = 100;
                 drawPieChart(new int[]{R.color.white, R.color.white},
-                        g_transaksiadapter.getItemMasterCount() + "\nTransaction");
+                        g_transaksiadapter.getItemMasterCount() + "\nTransaksi");
                 g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 setTabBar();
                 break;

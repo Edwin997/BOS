@@ -66,7 +66,13 @@ public class TransaksiFragment extends Fragment{
 
         g_switch = g_view.findViewById(R.id.apps_transaksi_fragment_switch);
 
-        g_online_fragment = new OnlineTransaksiFragment();
+        if(getArguments() != null){
+            g_online_fragment = new OnlineTransaksiFragment(getArguments().getInt("flag"));
+        }else {
+            g_online_fragment = new OnlineTransaksiFragment();
+        }
+
+
         g_online_fragment.setParent(this);
         g_offline_fragment = new OfflineTransaksiFragment();
 
