@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:appt="http://schemas.android.com/aapt"
+    android:width="1076.82dp"
+    android:height="1041dp"
+    android:viewportWidth="1076.82"
+    android:viewportHeight="1041">
+
+    <path
+        android:pathData="M955.83,0H121C54.17,0,0,64.89,0,144.94V729.29c0,80,54.17,144.94,121,144.94h59.19c15,0,26,16.92,22.23,34.28l-11.52,53.41c-12.15,56.3,40.48,100.61,80.77,68l186.5-151A20.42,20.42,0,0,1,471,874.23h484.8c66.82,0,121-64.89,121-144.94V144.94C1076.82,64.89,1022.65,0,955.83,0ZM574.78,581.64a50.44,50.44,0,0,1-50.44,50.44H243.11a50.44,50.44,0,0,1-50.44-50.44h0a50.44,50.44,0,0,1,50.44-50.44H524.33a50.44,50.44,0,0,1,50.44,50.44Zm113.5-161.13A50.44,50.44,0,0,1,637.83,471H245.21a50.44,50.44,0,0,1-50.44-50.44h0a50.44,50.44,0,0,1,50.44-50.44H637.83a50.44,50.44,0,0,1,50.44,50.44ZM891.63,259.38a50.44,50.44,0,0,1-50.44,50.44h-596a50.44,50.44,0,0,1-50.44-50.44h0a50.44,50.44,0,0,1,50.44-50.44h596a50.44,50.44,0,0,1,50.44,50.44Z">
+
+        <appt:attr name="android:fillColor">
+
+            <gradient
+                android:gradientRadius="900"
+                android:type="radial"
+                android:angle="0"
+                android:endColor="#FEFEFE"
+                android:startColor="#F0F0F0" />
+
+        </appt:attr>
+
+    </path>
+</vector>

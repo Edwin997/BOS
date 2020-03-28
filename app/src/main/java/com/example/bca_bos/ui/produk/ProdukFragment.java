@@ -126,8 +126,6 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_linearlayoutmanager = new LinearLayoutManager(g_context);
         g_produkadapter = new ProdukAdapter();
 
-
-
         g_produkadapter.setParentOnCallBack(this);
         g_produkfragment_recyclerview.setAdapter(g_produkadapter);
         g_produkfragment_recyclerview.setLayoutManager(g_linearlayoutmanager);
