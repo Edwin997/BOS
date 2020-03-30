@@ -914,9 +914,14 @@
 
             <Switch
                 android:id="@+id/bcabos_mutasi_switch"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:paddingRight="16dp"
+                android:checked="true"
+                android:showText="false"
+                android:theme="@style/BlueSwitch"/>
 
 
         </LinearLayout>
