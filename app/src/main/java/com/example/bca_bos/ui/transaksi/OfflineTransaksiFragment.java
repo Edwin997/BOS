@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,6 +46,7 @@ public class OfflineTransaksiFragment extends Fragment implements View.OnClickLi
     private Context g_context;
     private View g_view;
     public static OfflineTransaksiFragment g_instance;
+    private ConstraintLayout g_transaksi_fragment_not_found;
 
     private ImageView g_transaksi_iv;
 
@@ -75,6 +77,8 @@ public class OfflineTransaksiFragment extends Fragment implements View.OnClickLi
 
         g_view = inflater.inflate(R.layout.fragment_offline_transaction, container, false);
 
+        g_transaksi_fragment_not_found = g_view.findViewById(R.id.apps_offline_transaksi_fragment_not_found);
+
         g_instance = this;
 
         g_linearlayoutmanager = new LinearLayoutManager(g_context);
@@ -98,6 +102,7 @@ public class OfflineTransaksiFragment extends Fragment implements View.OnClickLi
         g_percentage = 100;
         drawPieChart(new int[]{R.color.white, R.color.white},
                 g_transaksiadapteroffline.getItemMasterCount() + "\nTransaksi");
+        g_transaksiadapteroffline.setListTransaksi(g_transaksiadapteroffline.getList());
         g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapteroffline);
     }
 
@@ -106,6 +111,18 @@ public class OfflineTransaksiFragment extends Fragment implements View.OnClickLi
 
 
     }
+
+    public void changeLayoutValue(int p_count){
+        if(p_count > 0){
+            g_transaksi_fragment_recyclerview.setVisibility(View.VISIBLE);
+            g_transaksi_fragment_not_found.setVisibility(View.GONE);
+        }
+        else{
+            g_transaksi_fragment_recyclerview.setVisibility(View.GONE);
+            g_transaksi_fragment_not_found.setVisibility(View.VISIBLE);
+        }
+    }
+
 
     public void drawPieChart(int[] p_colortemplate, String p_centertext){
         List<PieEntry> tmpListDataEntry = new ArrayList<>();

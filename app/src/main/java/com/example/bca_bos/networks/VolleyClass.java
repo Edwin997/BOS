@@ -367,7 +367,6 @@ public class VolleyClass {
                             List<TemplatedText> tempObject = Arrays.asList(gson.fromJson(output, TemplatedText[].class));
 
                             if(p_adapter instanceof TemplateAdapter){
-                                TemplateFragment.g_instance.changeLayoutValue(tempObject.size());
                                 TemplateAdapter tmpAdapter = (TemplateAdapter) p_adapter;
                                 tmpAdapter.setListTemplate(tempObject);
                             }
@@ -522,7 +521,6 @@ public class VolleyClass {
 
                             Log.d("BOSVOLLEY", tempObject.get(0).getPrdCategory().getId_prd_category() + "coy");
                             if(p_adapter instanceof ProdukAdapter){
-                                ProdukFragment.g_instance.changeLayoutValue(tempObject.size());
                                 ProdukAdapter tmpAdapter = (ProdukAdapter) p_adapter;
                                 tmpAdapter.setDatasetProduk(tempObject);
                             }
@@ -548,9 +546,11 @@ public class VolleyClass {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if(p_adapter instanceof ProdukAdapter){
-                    ProdukFragment.g_instance.changeLayoutValue(0);
-                }
+
+//                if(p_adapter instanceof ProdukAdapter){
+//                    ProdukFragment.g_instance.showSnackbar();
+//                    ProdukFragment.g_instance.changeLayoutValue(0);
+//                }
 
                 NetworkUtil.setErrorMessage(error);
             }

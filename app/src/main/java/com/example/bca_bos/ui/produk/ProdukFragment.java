@@ -40,6 +40,8 @@ import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.networks.VolleyClass;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.ByteArrayOutputStream;
@@ -262,6 +264,22 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 break;
             //endregion
         }
+    }
+
+    public void showSnackbar(){
+        final Snackbar snackbar = Snackbar.make(g_view, "COBA", BaseTransientBottomBar.LENGTH_LONG).setAction(
+                "refresh", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        VolleyClass.getProduct(g_context, 3, g_produkadapter);
+                    }
+                }
+        );
+
+        snackbar.show();
+        snackbar.setActionTextColor(getResources().getColor(R.color.blue));
+        snackbar.setTextColor(getResources().getColor(R.color.black));
+        snackbar.setBackgroundTint(getResources().getColor(R.color.white));
     }
 
     @Override
