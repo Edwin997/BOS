@@ -609,12 +609,12 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked){
-                    g_mutasi_tv_title.setText("Transaksi Online");
+                    g_mutasi_tv_title.setText("Online");
                     g_mutasi_rekening_adapter = new MutasiRekeningAdapter();
                     VolleyClass.getTransaksi(getApplicationContext(), 3, g_mutasi_rekening_adapter);
                     g_mutasi_recyclerview.setAdapter(g_mutasi_rekening_adapter);
                 }else {
-                    g_mutasi_tv_title.setText("Transaksi Offline");
+                    g_mutasi_tv_title.setText("Offline");
                     g_offline_mutasi_rekening_adapter = new OfflineMutasiRekeningAdapter();
                     VolleyClass.getTransaksiOffline(getApplicationContext(), 3, g_offline_mutasi_rekening_adapter);
                     g_mutasi_recyclerview.setAdapter(g_offline_mutasi_rekening_adapter);

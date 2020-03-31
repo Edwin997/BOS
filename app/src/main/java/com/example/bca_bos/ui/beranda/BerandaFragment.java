@@ -51,13 +51,19 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
     private Dialog g_beranda_produk_popup;
     private RoundedImageView g_beranda_produk_popup_gambar;
     private TextView g_beranda_produk_popup_tv_nama, g_beranda_produk_popup_tv_harga, g_beranda_produk_popup_tv_berat,
-            g_beranda_produk_popup_tv_stok, g_beranda_produk_popup_tv_terjual, g_beranda_produk_popup_tv_prediksi;
+            g_beranda_produk_popup_tv_stok, g_beranda_produk_popup_tv_terjual;
     private Button g_beranda_produk_popup_btn_close, g_beranda_produk_popup_btn_tawarkan;
+    private RecyclerView g_beranda_produk_popup_tawarkan_pembeli_rv;
+    private LinearLayoutManager g_linearlayoutmanager_tawarkan_pembeli;
+    private BerandaTawarkanPembeliAdapter g_beranda_tawarkan_pembeli_adapter;
 
     //Buyer Popup
     private Dialog g_beranda_pembeli_popup;
     private TextView g_beranda_pembeli_popup_tv_nama ,g_beranda_pembeli_popup_tv_no_hp ,g_beranda_pembeli_popup_tv_transaksi;
     private Button g_beranda_pembeli_popup_btn_close;
+    private RecyclerView g_beranda_pembeli_popup_tawarkan_produk_rv;
+    private LinearLayoutManager g_linearlayoutmanager_tawarkan_produk;
+    private BerandaTawarkanProdukAdapter g_beranda_tawarkan_produk_adapter;
 
     //Shared Preference
     private static final String PREF_LOGIN = "LOGIN_PREF";
@@ -100,6 +106,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         //Popup
         g_beranda_produk_adapter.setParentOnCallBack(this);
         g_beranda_produk_popup = new Dialog(g_context);
+
 
         //PEMBELI
         //RecyclerView
@@ -165,12 +172,17 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_produk_popup_tv_nama.setText(String.valueOf(p_product.getProduct_name()));
         g_beranda_produk_popup_tv_terjual = g_beranda_produk_popup.findViewById(R.id.tv_popup_beranda_produk_terjual_item);
         g_beranda_produk_popup_tv_terjual.setText("Terjual " + p_product.getQty()+" kali");
-        g_beranda_produk_popup_tv_prediksi = g_beranda_produk_popup.findViewById(R.id.tv_popup_beranda_produk_prediksi_item);
-        g_beranda_produk_popup_tv_prediksi.setText("Prediksi stok bulan ini : 10");
 
         //Button
         g_beranda_produk_popup_btn_close = g_beranda_produk_popup.findViewById(R.id.btn_popup_beranda_produk_close);
         g_beranda_produk_popup_btn_close.setOnClickListener(this);
+
+        //Recyclerview
+        g_beranda_produk_popup_tawarkan_pembeli_rv = g_beranda_produk_popup.findViewById(R.id.rv_popup_beranda_produk_tawarkan_pembeli);
+        g_linearlayoutmanager_tawarkan_pembeli = new LinearLayoutManager(g_context, RecyclerView.VERTICAL, false);
+        g_beranda_tawarkan_pembeli_adapter = new BerandaTawarkanPembeliAdapter();
+        g_beranda_produk_popup_tawarkan_pembeli_rv.setAdapter(g_beranda_tawarkan_pembeli_adapter);
+        g_beranda_produk_popup_tawarkan_pembeli_rv.setLayoutManager(g_linearlayoutmanager_tawarkan_pembeli);
 
         g_beranda_produk_popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         g_beranda_produk_popup.show();
@@ -191,6 +203,13 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         //Button
         g_beranda_pembeli_popup_btn_close = g_beranda_pembeli_popup.findViewById(R.id.btn_popup_beranda_pembeli_close);
         g_beranda_pembeli_popup_btn_close.setOnClickListener(this);
+
+        //Recyclerview
+        g_beranda_pembeli_popup_tawarkan_produk_rv = g_beranda_pembeli_popup.findViewById(R.id.rv_popup_beranda_pembeli_tawarkan_produk);
+        g_linearlayoutmanager_tawarkan_produk = new LinearLayoutManager(g_context, RecyclerView.HORIZONTAL, false);
+        g_beranda_tawarkan_produk_adapter = new BerandaTawarkanProdukAdapter();
+        g_beranda_pembeli_popup_tawarkan_produk_rv.setAdapter(g_beranda_tawarkan_produk_adapter);
+        g_beranda_pembeli_popup_tawarkan_produk_rv.setLayoutManager(g_linearlayoutmanager_tawarkan_produk);
 
         g_beranda_pembeli_popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         g_beranda_pembeli_popup.show();

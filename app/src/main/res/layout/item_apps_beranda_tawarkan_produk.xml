@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="100dp"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="10dp">
+    android:background="@drawable/style_gradient_color_rounded_box_white"
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="2dp">
 
     <LinearLayout
-        android:id="@+id/layout_stokproduk_item"
-        android:orientation="vertical"
+        android:id="@+id/ll_apps_beranda_tawarkan_produk_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/iv_stokProduk_item_foto"
-            android:layout_width="match_parent"
+            android:id="@+id/iv_apps_beranda_tawarkan_produk_item"
+            android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/shoes_red_jordan" />
+            android:scaleType="fitXY"
+            android:src="@drawable/shoes_red_jordan"/>
 
         <TextView
-            android:id="@+id/et_stokproduk_item_nama"
+            android:id="@+id/tv_apps_beranda_tawarkan_produk_nama_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -38,7 +40,7 @@
             android:ellipsize="end"/>
 
         <TextView
-            android:id="@+id/et_stokproduk_item_harga"
+            android:id="@+id/tv_apps_beranda_tawarkan_produk_harga_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -48,7 +50,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/et_stokproduk_item_stok"
+            android:id="@+id/tv_apps_beranda_tawarkan_produk_stok_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -56,5 +58,8 @@
             android:text="10"
             android:textColor="@color/black"
             android:textSize="9dp" />
+
     </LinearLayout>
+
+
 </androidx.cardview.widget.CardView>

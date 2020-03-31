@@ -85,15 +85,19 @@
 
     </LinearLayout>
 
+
     <TextView
-        android:id="@+id/tv_popup_beranda_produk_prediksi_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Prediksi stok bulan ini: 10"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Pembeli yang mungkin tertarik :"
         android:textColor="@color/lighter_green"
         android:textStyle="bold"
-        android:textSize="14dp" />
+        android:textSize="14dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_popup_beranda_produk_tawarkan_pembeli"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
