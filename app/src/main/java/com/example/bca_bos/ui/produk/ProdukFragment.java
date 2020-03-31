@@ -12,16 +12,21 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,6 +49,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -80,15 +86,24 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     private EditText g_tv_bottom_sheet_produk_add_nama, g_tv_bottom_sheet_produk_add_harga,
             g_tv_bottom_sheet_produk_add_stok, g_tv_bottom_sheet_produk_add_berat;
     private Button g_btn_bottom_sheet_produk_add_tambah, g_btn_bottom_sheet_produk_add_batal;
+    private ImageButton g_btn_bottom_sheet_produk_add_stok_add_tambah, g_btn_bottom_sheet_produk_minus_stok_add_tambah,
+            g_btn_bottom_sheet_produk_add_berat_add_tambah, g_btn_bottom_sheet_produk_minus_berat_add_tambah;
+    private Spinner g_btn_bottom_sheet_produk_spinner_add_tambah;
+    private ArrayAdapter g_sp_bottom_sheet_produk_spinner_adapter;
+    private PrdCategory g_product_category_add;
     private Bitmap g_bmp_bottom_sheet_produk_add;
     private Uri pathh;
-    private URI pathhhh;
 
     //EDIT BOTTOM SHEET PRODUK DATA MEMBER
     private RoundedImageView g_iv_bottom_sheet_produk_edit_gambar;
     private EditText g_tv_bottom_sheet_produk_edit_nama, g_tv_bottom_sheet_produk_edit_harga,
             g_tv_bottom_sheet_produk_edit_stok, g_tv_bottom_sheet_produk_edit_berat;
     private Button g_btn_bottom_sheet_produk_edit_simpan, g_btn_bottom_sheet_produk_edit_hapus;
+    private ImageButton g_btn_bottom_sheet_produk_add_stok_edit_tambah, g_btn_bottom_sheet_produk_minus_stok_edit_tambah,
+            g_btn_bottom_sheet_produk_add_berat_edit_tambah, g_btn_bottom_sheet_produk_minus_berat_edit_tambah;
+    private Spinner g_btn_bottom_sheet_produk_spinner_edit_tambah;
+    private ArrayAdapter g_sp_bottom_sheet_produk_spinner_edit_adapter;
+    private PrdCategory g_product_category_edit;
     private Bitmap g_bmp_bottom_sheet_produk_edit;
     //endregion
 
@@ -123,12 +138,12 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_linearlayoutmanager = new LinearLayoutManager(g_context);
         g_produkadapter = new ProdukAdapter();
 
-        g_produkadapter.setDatasetProduk(ListProdukDummy.productList);
+//        g_produkadapter.setDatasetProduk(ListProdukDummy.productList);
 
         g_produkadapter.setParentOnCallBack(this);
         g_produkfragment_recyclerview.setAdapter(g_produkadapter);
         g_produkfragment_recyclerview.setLayoutManager(g_linearlayoutmanager);
-//        VolleyClass.getProduct(g_context, 3, g_produkadapter);
+        VolleyClass.getProduct(g_context, 3, g_produkadapter);
 
         //config imageview
         g_produk_fragment_sort_btn.setOnClickListener(this);
@@ -161,6 +176,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     public void OnCallBack(Object p_obj) {
         if(p_obj instanceof Product) {
             g_product_onclick = (Product) p_obj;
+            Log.d("BOSVOLLEY", g_product_onclick.getPrdCategory().getId_prd_category() + "");
             showBottomSheetEditProduk(g_product_onclick);
         }
         else if(p_obj instanceof Integer){
@@ -198,7 +214,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 showSortPopupMenu(v);
                 break;
             case R.id.apps_produk_fragment_category_btn:
-                VolleyClass.getProductCategory(g_context, v);
+                VolleyClass.getProductCategory(g_context, 3, v);
                 break;
             case R.id.apps_produk_fragment_search_btn:
                 g_produkadapter.findProduct(g_produk_fragment_search_et.getText().toString());
@@ -212,15 +228,13 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 Seller seller = new Seller();
                 seller.setId_seller(3);
 
-                PrdCategory prdCategory = new PrdCategory();
-                prdCategory.setId_prd_category(1);
-
                 Product tmpProduct = new Product();
                 tmpProduct.setProduct_name(g_tv_bottom_sheet_produk_add_nama.getText().toString());
                 tmpProduct.setPrice(Integer.parseInt(g_tv_bottom_sheet_produk_add_harga.getText().toString()));
                 tmpProduct.setStock(Integer.parseInt(g_tv_bottom_sheet_produk_add_stok.getText().toString()));
+                tmpProduct.setWeight(Integer.parseInt(g_tv_bottom_sheet_produk_add_berat.getText().toString()));
                 tmpProduct.setImage_path(imageToString(g_bmp_bottom_sheet_produk_add));
-                tmpProduct.setPrdCategory(prdCategory);
+                tmpProduct.setPrdCategory(g_product_category_add);
                 tmpProduct.setSeller(seller);
 
                 VolleyClass.insertProduct(g_context, tmpProduct, g_produkadapter);
@@ -230,26 +244,74 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
             case R.id.apps_bottom_sheet_btn_batal_add_produk:
                 g_bottomsheet_dialog_add.dismiss();
                 break;
+            case R.id.apps_bottom_sheet_btn_add_berat_add_produk:
+                if(g_tv_bottom_sheet_produk_add_berat.getText().toString().isEmpty()){
+                    g_tv_bottom_sheet_produk_add_berat.setText("1");
+                    break;
+                }
+                else{
+                    int tmpcount =  Integer.parseInt(g_tv_bottom_sheet_produk_add_berat.getText().toString());
+                    g_tv_bottom_sheet_produk_add_berat.setText(String.valueOf(tmpcount + 1));
+                }
+                break;
+            case R.id.apps_bottom_sheet_btn_minus_berat_add_produk:
+                if(g_tv_bottom_sheet_produk_add_berat.getText().toString().isEmpty()){
+                    g_tv_bottom_sheet_produk_add_berat.setText("0");
+                    break;
+                }
+                else{
+                    int tmpcount =  Integer.parseInt(g_tv_bottom_sheet_produk_add_berat.getText().toString());
+                    if(tmpcount - 1 <= 0){
+                        g_tv_bottom_sheet_produk_add_berat.setText("0");
+                    }
+                    else{
+                        g_tv_bottom_sheet_produk_add_berat.setText(String.valueOf(tmpcount - 1));
+                    }
+                }
+                break;
+            case R.id.apps_bottom_sheet_btn_add_stok_add_produk:
+                if(g_tv_bottom_sheet_produk_add_stok.getText().toString().isEmpty()){
+                    g_tv_bottom_sheet_produk_add_stok.setText("1");
+                    break;
+                }
+                else{
+                    int tmpcount =  Integer.parseInt(g_tv_bottom_sheet_produk_add_stok.getText().toString());
+                    g_tv_bottom_sheet_produk_add_stok.setText(String.valueOf(tmpcount + 1));
+                }
+                break;
+            case R.id.apps_bottom_sheet_btn_minus_stok_add_produk:
+                if(g_tv_bottom_sheet_produk_add_stok.getText().toString().isEmpty()){
+                    g_tv_bottom_sheet_produk_add_stok.setText("0");
+                    break;
+                }
+                else{
+                    int tmpcount =  Integer.parseInt(g_tv_bottom_sheet_produk_add_stok.getText().toString());
+                    if(tmpcount - 1 <= 0){
+                        g_tv_bottom_sheet_produk_add_stok.setText("0");
+                    }
+                    else{
+                        g_tv_bottom_sheet_produk_add_stok.setText(String.valueOf(tmpcount - 1));
+                    }
+                }
+                break;
             //endregion
 
             //region EDIT PRODUK BOTTOM SHEET
-            case R.id.apps_bottom_sheet_iv_gambar_edit_profile:
+            case R.id.apps_bottom_sheet_iv_gambar_edit_produk:
                 g_choose_dialog.showChooseDialogEdit(g_context);
                 break;
             case R.id.apps_bottom_sheet_btn_simpan_edit_produk:
                 Seller selleredit = new Seller();
                 selleredit.setId_seller(3);
 
-                PrdCategory prdCategoryedit = new PrdCategory();
-                prdCategoryedit.setId_prd_category(1);
-
                 Product tmpProductedit = new Product();
                 tmpProductedit.setId_product(g_product_onclick.getId_product());
                 tmpProductedit.setProduct_name(g_tv_bottom_sheet_produk_edit_nama.getText().toString());
                 tmpProductedit.setPrice(Integer.parseInt(g_tv_bottom_sheet_produk_edit_harga.getText().toString()));
                 tmpProductedit.setStock(Integer.parseInt(g_tv_bottom_sheet_produk_edit_stok.getText().toString()));
+                tmpProductedit.setWeight(Integer.parseInt(g_tv_bottom_sheet_produk_edit_berat.getText().toString()));
                 tmpProductedit.setImage_path(imageToString(g_bmp_bottom_sheet_produk_edit));
-                tmpProductedit.setPrdCategory(prdCategoryedit);
+                tmpProductedit.setPrdCategory(g_product_category_edit);
                 tmpProductedit.setSeller(selleredit);
                 g_bottomsheet_dialog_edit.dismiss();
                 VolleyClass.updateProduct(g_context, tmpProductedit, g_produkadapter);
@@ -257,6 +319,56 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
             case R.id.apps_bottom_sheet_btn_hapus_edit_produk:
                 g_bottomsheet_dialog_edit.dismiss();
                 VolleyClass.deleteProduct(g_context, g_product_onclick.getId_product(), g_produkadapter);
+                break;
+            case R.id.apps_bottom_sheet_btn_add_berat_edit_produk:
+                if(g_tv_bottom_sheet_produk_edit_berat.getText().toString().isEmpty()){
+                    g_tv_bottom_sheet_produk_edit_berat.setText("1");
+                    break;
+                }
+                else{
+                    int tmpcount =  Integer.parseInt(g_tv_bottom_sheet_produk_edit_berat.getText().toString());
+                    g_tv_bottom_sheet_produk_edit_berat.setText(String.valueOf(tmpcount + 1));
+                }
+                break;
+            case R.id.apps_bottom_sheet_btn_minus_berat_edit_produk:
+                if(g_tv_bottom_sheet_produk_edit_berat.getText().toString().isEmpty()){
+                    g_tv_bottom_sheet_produk_edit_berat.setText("0");
+                    break;
+                }
+                else{
+                    int tmpcount =  Integer.parseInt(g_tv_bottom_sheet_produk_edit_berat.getText().toString());
+                    if(tmpcount - 1 <= 0){
+                        g_tv_bottom_sheet_produk_edit_berat.setText("0");
+                    }
+                    else{
+                        g_tv_bottom_sheet_produk_edit_berat.setText(String.valueOf(tmpcount - 1));
+                    }
+                }
+                break;
+            case R.id.apps_bottom_sheet_btn_add_stok_edit_produk:
+                if(g_tv_bottom_sheet_produk_edit_stok.getText().toString().isEmpty()){
+                    g_tv_bottom_sheet_produk_edit_stok.setText("1");
+                    break;
+                }
+                else{
+                    int tmpcount =  Integer.parseInt(g_tv_bottom_sheet_produk_edit_stok.getText().toString());
+                    g_tv_bottom_sheet_produk_edit_stok.setText(String.valueOf(tmpcount + 1));
+                }
+                break;
+            case R.id.apps_bottom_sheet_btn_minus_stok_edit_produk:
+                if(g_tv_bottom_sheet_produk_edit_stok.getText().toString().isEmpty()){
+                    g_tv_bottom_sheet_produk_edit_stok.setText("0");
+                    break;
+                }
+                else{
+                    int tmpcount =  Integer.parseInt(g_tv_bottom_sheet_produk_edit_stok.getText().toString());
+                    if(tmpcount - 1 <= 0){
+                        g_tv_bottom_sheet_produk_edit_stok.setText("0");
+                    }
+                    else{
+                        g_tv_bottom_sheet_produk_edit_stok.setText(String.valueOf(tmpcount - 1));
+                    }
+                }
                 break;
             //endregion
         }
@@ -309,7 +421,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     }
 
     //region BOTTOM SHEET METHOD
-    private void showBottomSheetEditProduk(Product p_product){
+    private void showBottomSheetEditProduk(final Product p_product){
         //inisiasi view
         final View l_bottomsheet_view_edit = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_edit_produk,
@@ -317,7 +429,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         );
 
         //inisiasi imageview
-        g_iv_bottom_sheet_produk_edit_gambar = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_iv_gambar_edit_profile);
+        g_iv_bottom_sheet_produk_edit_gambar = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_iv_gambar_edit_produk);
 
         //inisiasi edittext
         g_tv_bottom_sheet_produk_edit_nama = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_et_nama_toko_edit_produk);
@@ -329,19 +441,56 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_btn_bottom_sheet_produk_edit_simpan = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_btn_simpan_edit_produk);
         g_btn_bottom_sheet_produk_edit_hapus = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_btn_hapus_edit_produk);
 
+        //inisiasi imagebutton
+        g_btn_bottom_sheet_produk_add_berat_edit_tambah = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_btn_add_berat_edit_produk);
+        g_btn_bottom_sheet_produk_minus_berat_edit_tambah = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_btn_minus_berat_edit_produk);
+        g_btn_bottom_sheet_produk_add_stok_edit_tambah = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_btn_add_stok_edit_produk);
+        g_btn_bottom_sheet_produk_minus_stok_edit_tambah = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_btn_minus_stok_edit_produk);
+
+        //inisiasi spinner
+        g_btn_bottom_sheet_produk_spinner_edit_tambah = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_spinner_edit_produk);
+
+
         //config imageview
 //        g_iv_bottom_sheet_produk_edit_gambar.setImageDrawable(getResources().getDrawable(p_product.getBase64StringImage()));
         g_iv_bottom_sheet_produk_edit_gambar.setOnClickListener(this);
 
         //config edittext
         g_tv_bottom_sheet_produk_edit_nama.setText(p_product.getProduct_name());
-        g_tv_bottom_sheet_produk_edit_harga.setText(Method.getIndoCurrency(p_product.getPrice()));
+        g_tv_bottom_sheet_produk_edit_harga.setText(String.valueOf(p_product.getPrice()));
         g_tv_bottom_sheet_produk_edit_stok.setText(String.valueOf(p_product.getStock()));
-        g_tv_bottom_sheet_produk_edit_berat.setText(String.valueOf(0));
+        g_tv_bottom_sheet_produk_edit_berat.setText(String.valueOf(p_product.getWeight()));
 
         //config button
         g_btn_bottom_sheet_produk_edit_simpan.setOnClickListener(this);
         g_btn_bottom_sheet_produk_edit_hapus.setOnClickListener(this);
+
+        //config imagebutton
+        g_btn_bottom_sheet_produk_add_berat_edit_tambah.setOnClickListener(this);
+        g_btn_bottom_sheet_produk_minus_berat_edit_tambah.setOnClickListener(this);
+        g_btn_bottom_sheet_produk_add_stok_edit_tambah.setOnClickListener(this);
+        g_btn_bottom_sheet_produk_minus_stok_edit_tambah.setOnClickListener(this);
+
+        //config spinner
+        ArrayList<String> tmpCategoryAdd = new ArrayList<>();
+        g_sp_bottom_sheet_produk_spinner_edit_adapter = new ArrayAdapter(g_context, android.R.layout.simple_spinner_item, tmpCategoryAdd);
+        g_sp_bottom_sheet_produk_spinner_edit_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        g_btn_bottom_sheet_produk_spinner_edit_tambah.setAdapter(g_sp_bottom_sheet_produk_spinner_edit_adapter);
+        g_btn_bottom_sheet_produk_spinner_edit_tambah.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                g_product_category_edit = VolleyClass.findFromAllProductCategory(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                g_btn_bottom_sheet_produk_spinner_edit_tambah.setSelection(VolleyClass.findPositionFromAllProductCategory(p_product.getPrdCategory().getId_prd_category()));
+                g_product_category_edit = VolleyClass.findFromAllProductCategory(VolleyClass.findPositionFromAllProductCategory(p_product.getPrdCategory().getId_prd_category()));
+            }
+        });
+
+        VolleyClass.getProductCategoryAllEdit(g_context, g_sp_bottom_sheet_produk_spinner_edit_adapter, p_product.getPrdCategory().getId_prd_category());
 
         //show bottomsheet
         g_bottomsheet_dialog_edit.setContentView(l_bottomsheet_view_edit);
@@ -353,6 +502,12 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
             }
         });
         g_bottomsheet_dialog_edit.show();
+    }
+
+    public void setSelectionSpinnerEdit(int p_id_prd_category){
+        Log.d("BOSVOLLEY", p_id_prd_category + "");
+        Log.d("BOSVOLLEY", VolleyClass.findPositionFromAllProductCategory(p_id_prd_category) + "");
+        g_btn_bottom_sheet_produk_spinner_edit_tambah.setSelection(VolleyClass.findPositionFromAllProductCategory(p_id_prd_category));
     }
 
     private void showBottomSheetAddProduk(){
@@ -375,12 +530,46 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_btn_bottom_sheet_produk_add_tambah = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_btn_tambah_add_produk);
         g_btn_bottom_sheet_produk_add_batal = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_btn_batal_add_produk);
 
+        //inisiasi imagebutton
+        g_btn_bottom_sheet_produk_add_berat_add_tambah = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_btn_add_berat_add_produk);
+        g_btn_bottom_sheet_produk_minus_berat_add_tambah = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_btn_minus_berat_add_produk);
+        g_btn_bottom_sheet_produk_add_stok_add_tambah = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_btn_add_stok_add_produk);
+        g_btn_bottom_sheet_produk_minus_stok_add_tambah = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_btn_minus_stok_add_produk);
+
+        //inisiasi spinner
+        g_btn_bottom_sheet_produk_spinner_add_tambah = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_spinner_add_produk);
+
         //config imageview
         g_iv_bottom_sheet_produk_add_gambar.setOnClickListener(this);
 
         //config button
         g_btn_bottom_sheet_produk_add_tambah.setOnClickListener(this);
         g_btn_bottom_sheet_produk_add_batal.setOnClickListener(this);
+
+        //config imagebutton
+        g_btn_bottom_sheet_produk_add_berat_add_tambah.setOnClickListener(this);
+        g_btn_bottom_sheet_produk_minus_berat_add_tambah.setOnClickListener(this);
+        g_btn_bottom_sheet_produk_add_stok_add_tambah.setOnClickListener(this);
+        g_btn_bottom_sheet_produk_minus_stok_add_tambah.setOnClickListener(this);
+
+        //config spinner
+        ArrayList<String> tmpCategoryAdd = new ArrayList<>();
+        g_sp_bottom_sheet_produk_spinner_adapter = new ArrayAdapter(g_context, android.R.layout.simple_spinner_item, tmpCategoryAdd);
+        g_sp_bottom_sheet_produk_spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        g_btn_bottom_sheet_produk_spinner_add_tambah.setAdapter(g_sp_bottom_sheet_produk_spinner_adapter);
+        g_btn_bottom_sheet_produk_spinner_add_tambah.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                g_product_category_add = VolleyClass.findFromAllProductCategory(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                g_product_category_add = VolleyClass.findFromAllProductCategory(0);
+            }
+        });
+
+        VolleyClass.getProductCategoryAll(g_context, g_sp_bottom_sheet_produk_spinner_adapter);
 
         //show bottomsheet
         g_bottomsheet_dialog_add.setContentView(l_bottomsheet_view_add);

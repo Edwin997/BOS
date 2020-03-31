@@ -88,6 +88,7 @@ public class VolleyClass {
     private final static String URL_PRODUCT_CATEGORY = BASE_URL_PRODUCT + "/bos/productCategory";
     private final static String URL_PRODUK_DETAIL = BASE_URL_PRODUCT + "/bos/productDetail/";
     private static List<PrdCategory> g_list_product_category = new ArrayList<>();
+    private static List<PrdCategory> g_list_product_category_all = new ArrayList<>();
     private static String KEY_SEMUA_PRODUCT = "Semua Produk";
 
     // URL TRANSAKSI
@@ -560,6 +561,7 @@ public class VolleyClass {
         params.put("product_name", p_product.getProduct_name());
         params.put("price", String.valueOf(p_product.getPrice()));
         params.put("stock", String.valueOf(p_product.getStock()));
+        params.put("weight", String.valueOf(p_product.getWeight()));
         params.put("base64StringImage", p_product.getImage_path());
 
         JsonObjectRequest request_json = new JsonObjectRequest(URL_PRODUCT, new JSONObject(params),
@@ -598,6 +600,7 @@ public class VolleyClass {
         params.put("product_name", p_product.getProduct_name());
         params.put("price", String.valueOf(p_product.getPrice()));
         params.put("stock", String.valueOf(p_product.getStock()));
+        params.put("weight", String.valueOf(p_product.getWeight()));
         params.put("base64StringImage", p_product.getImage_path());
 
         JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.PUT, URL_PRODUCT, new JSONObject(params),
@@ -658,10 +661,10 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
-    public static void getProductCategory(Context p_context, final ArrayAdapter p_adapter){
+    public static void getProductCategory(Context p_context, int p_id_seller, final ArrayAdapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
-        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PRODUCT_CATEGORY,
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PRODUCT_CATEGORY + "/" + p_id_seller,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -697,10 +700,10 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
-    public static void getProductCategory(final Context p_context, final View p_view){
+    public static void getProductCategory(final Context p_context, int p_id_seller, final View p_view){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
-        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PRODUCT_CATEGORY,
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PRODUCT_CATEGORY + "/" + p_id_seller,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -732,6 +735,111 @@ public class VolleyClass {
             idx = g_list_product_category.get(position - 1).getId_prd_category();
 
         return idx;
+    }
+
+    public static void getProductCategoryAll(Context p_context, final ArrayAdapter p_adapter){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PRODUCT_CATEGORY,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            g_list_product_category_all = Arrays.asList(gson.fromJson(output, PrdCategory[].class));
+
+                            List<String> listnama = new ArrayList<>();
+
+                            for (PrdCategory category : g_list_product_category_all){
+                                listnama.add(category.getCategory_name());
+                            }
+
+                            p_adapter.clear();
+                            p_adapter.addAll(listnama);
+                            p_adapter.notifyDataSetChanged();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void getProductCategoryAllEdit(Context p_context, final ArrayAdapter p_adapter, final int p_id){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PRODUCT_CATEGORY,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            g_list_product_category_all = Arrays.asList(gson.fromJson(output, PrdCategory[].class));
+
+                            List<String> listnama = new ArrayList<>();
+
+                            for (PrdCategory category : g_list_product_category_all){
+                                listnama.add(category.getCategory_name());
+                            }
+
+                            p_adapter.clear();
+                            p_adapter.addAll(listnama);
+                            p_adapter.notifyDataSetChanged();
+
+                            ProdukFragment.g_instance.setSelectionSpinnerEdit(p_id);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static PrdCategory findFromAllProductCategory(int position){
+        if(position >= 0) {
+            if (g_list_product_category_all.size() > 0)
+                return g_list_product_category_all.get(position);
+            else
+                return new PrdCategory();
+        }
+        else
+            return new PrdCategory();
+    }
+
+    public static int findPositionFromAllProductCategory(int id_prd_category){
+
+        int position = -1;
+        if(id_prd_category > 0) {
+            if (g_list_product_category_all.size() > 0)
+                for(int i = 0 ; i < g_list_product_category_all.size(); i++){
+                    if(g_list_product_category_all.get(i).getId_prd_category() == id_prd_category)
+                        position = i;
+                }
+            else
+                return position;
+        }
+        else
+            return position;
+
+        return position;
     }
     //endregion
 
