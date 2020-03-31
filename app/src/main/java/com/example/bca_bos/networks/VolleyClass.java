@@ -23,6 +23,7 @@ import com.example.bca_bos.keyboardadapters.OfflineMutasiRekeningAdapter;
 import com.example.bca_bos.keyboardadapters.StokProdukAdapter;
 import com.example.bca_bos.keyboardadapters.TemplatedTextAdapter;
 import com.example.bca_bos.models.Buyer;
+import com.example.bca_bos.models.locations.Provinsi;
 import com.example.bca_bos.models.products.PrdCategory;
 import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.models.Seller;
@@ -102,9 +103,15 @@ public class VolleyClass {
     private final static String URL_LOGIN = BASE_URL_LOGIN + "/bos/seller";
 
     //URL PROFILE
-    private final static  String BASE_URL_PROFILE= "https://profile.apps.pcf.dti.co.id";
+    private final static  String BASE_URL_PROFILE = "https://profile.apps.pcf.dti.co.id";
     private final static String URL_PROFILE = BASE_URL_PROFILE + "/bos/profile";
     private final static String URL_PROFILE_CHANGE_PASSWORD = BASE_URL_PROFILE + "/bos/profile/pass";
+
+    //URL RAJA ONGKIR
+    private final static   String BASE_URL_RAJAONGKIR = "https://rajaongkir.apps.pcf.dti.co.id/bos";
+    private final static String URL_PROVINSI = BASE_URL_RAJAONGKIR + "/provinsi";
+    private static ArrayAdapter<String> g_rajaongkir_city_adapter;
+    public static List<String> g_city_name_list = new ArrayList<>();
 
     //region BERANDA
 
@@ -1084,7 +1091,35 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
+    public static void getKotaKab(Context p_context){
+        g_requestqueue = Volley.newRequestQueue(p_context);
 
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PROVINSI,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            Log.d("BOSVOLLEY", response);
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            List<Provinsi> tempObject = Arrays.asList(gson.fromJson(output, Provinsi[].class));
+                            ProfileFragment.g_instance.getKotaKab(tempObject);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+
+    }
     //endregion
 }
 
