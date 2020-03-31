@@ -1,5 +1,6 @@
 package com.example.bca_bos.ui.profile;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,16 +10,23 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,14 +38,13 @@ import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Courier;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.locations.KotaKab;
+import com.example.bca_bos.models.locations.Provinsi;
 import com.example.bca_bos.networks.VolleyClass;
 import com.example.bca_bos.ui.produk.ChooseImageFromDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -64,7 +71,12 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
     private BottomSheetDialog g_bottomsheet_dialog_edit_profile, g_bottomsheet_dialog_change_password;
     private Button g_bottomsheet_simpan_profil, g_bottomsheet_simpan_password;
     private TextView g_bottomsheet_tv_nama_seller;
-    private EditText g_bottomsheet_et_nama_toko, g_bottomsheet_et_kota_asal, g_bottomsheet_et_password_lama, g_bottomsheet_et_password_baru, g_bottomsheet_et_konfirmasi_password;
+    private EditText g_bottomsheet_et_nama_toko, g_bottomsheet_et_password_lama, g_bottomsheet_et_password_baru, g_bottomsheet_et_konfirmasi_password;
+    private AutoCompleteTextView g_bottomsheet_actv_kota_asal;
+    private ArrayAdapter<String> g_autocompleteadapter;
+    public static List<String> g_city_name_list = new ArrayList<>();
+    public List<Provinsi> g_provinsi_list;
+    private String g_asal_id_city;
     private RoundedImageView g_bottomsheet_iv_profile;
     private ChooseImageFromDialog g_choose_dialog;
     private Bitmap g_bmp_bottom_sheet_edit_profile;
@@ -94,6 +106,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         g_context = container.getContext();
         g_choose_dialog = new ChooseImageFromDialog(this);
         VolleyClass.getProfile(g_context, g_seller_id);
+        VolleyClass.getKotaKab(g_context);
         g_bottomsheet_dialog_edit_profile = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         g_bottomsheet_dialog_change_password = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         g_view = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -172,7 +185,10 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                 tmp_seller.setShop_name(g_bottomsheet_et_nama_toko.getText().toString());
                 tmp_seller.setBase64StringImage("");
 
-                tmp_kotakab.setId_kota_kab(Integer.parseInt(g_bottomsheet_et_kota_asal.getText().toString()));
+                //get city id
+                getAsalCityId(g_bottomsheet_actv_kota_asal);
+
+                tmp_kotakab.setId_kota_kab(Integer.parseInt(g_asal_id_city));
                 tmp_seller.setKota_kab(tmp_kotakab);
 
                 List<Courier> listCourier = new ArrayList<>();
@@ -258,6 +274,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void buttonSheetEditProfile() {
         g_bottomsheet_dialog_edit_profile = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         View l_bottomsheet_view_edit_profile = LayoutInflater.from(g_context).inflate(
@@ -274,7 +291,15 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         //TextView dan EditText
         g_bottomsheet_tv_nama_seller = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_tv_nama_edit_profile);
         g_bottomsheet_et_nama_toko = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_et_nama_toko_edit_profile);
-        g_bottomsheet_et_kota_asal = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_et_kota_asal_edit_profile);
+        g_bottomsheet_actv_kota_asal = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_actv_kota_asal_edit_profile);
+        g_bottomsheet_actv_kota_asal.setAdapter(g_autocompleteadapter);
+        g_bottomsheet_actv_kota_asal.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                g_bottomsheet_actv_kota_asal.showDropDown();
+                return false;
+            }
+        });
 
         //Ongkir Pilihan
         g_profile_button_jne = l_bottomsheet_view_edit_profile.findViewById(R.id.profile_jne_button);
@@ -292,7 +317,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         //Set Text
         g_bottomsheet_tv_nama_seller.setText(g_profile_nama_seller.getText());
         g_bottomsheet_et_nama_toko.setText(g_profile_nama_toko.getText());
-        g_bottomsheet_et_kota_asal.setText(g_profile_kotkab.getText());
+        g_bottomsheet_actv_kota_asal.setText(g_profile_kotkab.getText());
 
         //Simpan Profil
         g_bottomsheet_simpan_profil = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_btn_simpan_profil);
@@ -302,6 +327,27 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         g_bottomsheet_dialog_edit_profile.show();
 
 
+    }
+
+    //Mendapatkan ID dari City
+    private void getAsalCityId(AutoCompleteTextView p_autocomplete){
+        int l_position = g_city_name_list.indexOf(p_autocomplete.getText().toString());
+        g_asal_id_city = String.valueOf(g_provinsi_list.get(l_position).getId_provinsi());
+    }
+
+    public void getKotaKab(List<Provinsi> p_provinsi){
+        g_city_name_list.clear();
+        g_provinsi_list = p_provinsi;
+        String l_city_name;
+
+        for (int i = 0; i < p_provinsi.size(); i++){
+            l_city_name = p_provinsi.get(i).getProvinsi_name();
+
+            g_city_name_list.add(l_city_name);
+        }
+
+        g_autocompleteadapter = new ArrayAdapter<>(g_context, android.R.layout.simple_list_item_1, g_city_name_list);
+        g_autocompleteadapter.notifyDataSetChanged();
     }
 
     private void configChooseCourierButton(View p_view, boolean p_choose){
@@ -318,7 +364,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         g_profile_rekening.setText(p_seller.getCard_number());
         g_profile_bosid.setText(p_seller.getUsername());
         g_profile_phone.setText(p_seller.getPhone());
-        g_profile_kotkab.setText(String.valueOf(p_seller.getKota_kab().getId_kota_kab()));
+        g_profile_kotkab.setText(p_seller.getKota_kab().getKota_kab_name());
 
         String l_selected_courier = "";
         if (p_seller.getSelected_courier().get(0).getIs_selected() == 1){
@@ -344,19 +390,13 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         else{
             IS_CHOOSE_POS = false;
         }
-//        if (p_seller.getSelected_courier().get(0).getIs_selected() == 0){
-//            IS_CHOOSE_JNE = false;
-//        }if (p_seller.getSelected_courier().get(1).getIs_selected() == 0){
-//            IS_CHOOSE_TIKI = false;
-//        }if (p_seller.getSelected_courier().get(2).getIs_selected() == 0){
-//            IS_CHOOSE_POS = false;
-//        }
 
         g_profile_courier.setText(l_selected_courier);
     }
 
     public void refreshLayoutAfterPut(){
         VolleyClass.getProfile(g_context, g_seller_id);
+
     }
 
     @Override
@@ -410,5 +450,63 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         String temp = Base64.encodeToString(img, Base64.NO_WRAP);
         return temp;
     }
+
+//    private class KeyboardBosTextWatcher implements TextWatcher {
+//
+//        private EditText l_edittext;
+//        private String l_type;
+//        private AutoCompleteTextView l_autocomplete;
+//
+//        private int l_delay = 1000;
+//        private int l_count_char = 0;
+//        private long l_time_last_editted = 0;
+//        private Handler l_handler;
+//
+//        private Runnable l_thread_show_dropdown = new Runnable() {
+//            public void run() {
+//                if (l_autocomplete != null) {
+//                    if (System.currentTimeMillis() > (l_time_last_editted + l_delay - 500)) {
+//                        if(!IS_FILLED){
+//                            l_autocomplete.showDropDown();
+//                        }
+//                    }
+//                }
+//            }
+//        };
+//
+//        public KeyboardBosTextWatcher(String p_type, EditText p_edittext){
+//            l_edittext = p_edittext;
+//            l_type = p_type;
+//            l_handler = new Handler();
+//        }
+//
+//        public KeyboardBosTextWatcher(AutoCompleteTextView p_autocomplete) {
+//            l_autocomplete = p_autocomplete;
+//            l_handler = new Handler();
+//        }
+//
+//        @Override
+//        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//            g_autocompleteadapter.notifyDataSetChanged();
+//            l_count_char = charSequence.length();
+//        }
+//
+//        @Override
+//        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//            l_handler.removeCallbacks(l_thread_show_dropdown);
+//
+//        }
+//
+//        @Override
+//        public void afterTextChanged(final Editable editable) {
+//            if(l_autocomplete != null){
+//                if (editable.length() > 0 && l_count_char != editable.length()) {
+//                    l_time_last_editted = System.currentTimeMillis();
+//                    l_handler.postDelayed(l_thread_show_dropdown, l_delay);
+//                }
+//            }
+//
+//        }
+//    }
 
 }

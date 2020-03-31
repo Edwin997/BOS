@@ -45,7 +45,7 @@ public class RajaOngkir {
 
     //DATA MEMBER getRajaOngkirCity()
     private static ArrayAdapter<String> g_rajaongkir_city_adapter;
-    public static List<String> g_city_name_list = new ArrayList<>();;
+    public static List<String> g_city_name_list = new ArrayList<>();
 
     public static ArrayAdapter<String> getRajaOngkirCity(Context context) {
 
