@@ -14,7 +14,9 @@ import com.example.bca_bos.dummy.ListPembeliDummy;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Buyer;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BerandaTawarkanPembeliAdapter extends RecyclerView.Adapter<BerandaTawarkanPembeliAdapter.BerandaTawarkanPembeliViewHolder> implements OnCallBackListener {
 
@@ -23,6 +25,7 @@ public class BerandaTawarkanPembeliAdapter extends RecyclerView.Adapter<BerandaT
 
     public BerandaTawarkanPembeliAdapter(){
         g_list_pembeli = ListPembeliDummy.pembeliList;
+
     }
 
     @NonNull
@@ -48,6 +51,7 @@ public class BerandaTawarkanPembeliAdapter extends RecyclerView.Adapter<BerandaT
 
     public void setDatasetPembeli(List<Buyer> p_list){
         g_list_pembeli = p_list;
+
         notifyDataSetChanged();
     }
 
