@@ -102,6 +102,7 @@ public class RajaOngkir {
         StringRequest sr = new StringRequest(Request.Method.POST, URL_POST_COST_RAJA_ONGKIR, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
                 g_textongkir = "Daftar Ongkir "+ gKurir.toUpperCase() +":";
 
                 serviceList.clear();
@@ -136,13 +137,13 @@ public class RajaOngkir {
                             g_textongkir = g_textongkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i).toLowerCase()+" - "+costList.get(i);
                         }
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 g_textongkir = g_textongkir + "\n";
                 parent.commitTextToBOSKeyboardEditText(g_textongkir);
+                KeyboardBOSnew.g_instance.cekOngkirLoading("hide");
             }
         },
                 new Response.ErrorListener() {
@@ -150,6 +151,7 @@ public class RajaOngkir {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d(TAG_VOLLEY, checkErrorMessage(error));
+                        KeyboardBOSnew.g_instance.cekOngkirLoading("hide");
                     }
                 }) {
 

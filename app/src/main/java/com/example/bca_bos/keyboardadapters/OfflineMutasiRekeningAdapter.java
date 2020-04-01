@@ -87,11 +87,12 @@ public class OfflineMutasiRekeningAdapter extends RecyclerView.Adapter<OfflineMu
         public void setData(Transaction transaction){
             l_transaction = transaction;
 
-//            l_mutasi_tv_pembeli.setText(l_transaction.getBuyer().getBuyer_name());
+            l_mutasi_tv_pembeli.setText("Transaksi Offline");
             l_mutasi_tv_tanggal.setText(l_transaction.getOrder_time());
             l_mutasi_tv_nominal.setText(Method.getIndoCurrency(Double.parseDouble(l_transaction.getTotal_payment())));
+            l_mutasi_tv_status.setVisibility(View.GONE);
             l_mutasi_ll.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_blue));
-            l_mutasi_tv_status.setText("Transaksi Offline");
+
         }
     }
 

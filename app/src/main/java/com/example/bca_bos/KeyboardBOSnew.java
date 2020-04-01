@@ -30,9 +30,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.bca_bos.dummy.ListKategoriDummy;
 import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.interfaces.OnCallBackListener;
@@ -114,7 +116,8 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     //endregion
 
     //region ONGKIR DATA MEMBER
-    private LinearLayout g_ongkir_layout, g_ongkir_berat_layout, g_ongkir_asal_layout, g_ongkir_tujuan_layout, g_ongkir_kurir_layout, g_ongkir_cekongkir_layout;
+    private LinearLayout g_ongkir_berat_layout, g_ongkir_asal_layout, g_ongkir_tujuan_layout, g_ongkir_kurir_layout, g_ongkir_cekongkir_layout;
+    private ConstraintLayout g_ongkir_layout;
     private ImageButton g_btn_ongkir_berat_back,g_btn_ongkir_asal_back, g_btn_ongkir_tujuan_back, g_btn_ongkir_kurir_back,  g_btn_ongkir_back, g_btn_ongkir_refresh;
     private AutoCompleteTextView g_actv_ongkir_asal, g_actv_ongkir_tujuan;
     private EditText g_et_ongkir_berat;
@@ -122,6 +125,8 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     private Button g_btn_ongkir_jne, g_btn_ongkir_tiki, g_btn_ongkir_pos;
     private Boolean IS_CHOOSE_JNE = false, IS_CHOOSE_TIKI = false, IS_CHOOSE_POS = false;
+
+    private LottieAnimationView g_lav_ongkir_loading;
     //endregion
 
     //region STOK DATA MEMBER
@@ -175,6 +180,8 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     //endregion
 
+    public static KeyboardBOSnew g_instance;
+
     //region METHOD INITIATE BASE KEYBOARD & KEYBOARD LISTENER
     @Override
     public void onStartInputView(EditorInfo info, boolean restarting) {
@@ -184,6 +191,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     public View onCreateInputView(EditorInfo attribute, boolean restarting){
         onStartInput(attribute, restarting);
+        g_instance = this;
         IS_INPUT_CONNECTION_EXTERNAL = true;
 
         try{
@@ -390,6 +398,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_ongkir_tujuan_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_tujuan_layout);
         g_ongkir_kurir_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_kurir_layout);
         g_ongkir_cekongkir_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_layout);
+        g_lav_ongkir_loading = g_viewparent.findViewById(R.id.bcabos_ongkir_loading_animation_view);
 
         g_autocompleteadapter = RajaOngkir.getRajaOngkirCity(this);
         //inisiasi edittext
@@ -463,6 +472,15 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_btn_ongkir_back.setOnClickListener(this);
         g_btn_ongkir_cekongkir.setOnClickListener(this);
         g_btn_ongkir_refresh.setOnClickListener(this);
+    }
+
+    public void cekOngkirLoading(String p_status){
+        if (p_status.equals("show")){
+            g_lav_ongkir_loading.setVisibility(View.VISIBLE);
+        }else if (p_status.equals("hide")){
+            g_lav_ongkir_loading.setVisibility(View.GONE);
+        }else
+            g_lav_ongkir_loading.setVisibility(View.GONE);
     }
 
     private void initiateStok(){
@@ -740,6 +758,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 showFeatureMenu();
                 break;
             case R.id.bcabos_ongkir_cekongkir_check_button:
+                cekOngkirLoading("show");
                 focusedEditText = KEY_ET_EXTERNAL;
                 getAsalCityId(g_actv_ongkir_asal);
                 getTujuanCityId(g_actv_ongkir_tujuan);
@@ -1307,6 +1326,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         }
         if (!IS_CHOOSE_JNE && !IS_CHOOSE_TIKI && !IS_CHOOSE_POS){
             commitTextToBOSKeyboardEditText("Masukan kurir terlebih dahulu");
+            cekOngkirLoading("hide");
         }
     }
 
