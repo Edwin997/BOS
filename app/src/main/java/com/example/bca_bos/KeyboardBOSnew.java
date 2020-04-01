@@ -528,7 +528,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             }
         });
 
-        VolleyClass.getProductCategory(getApplicationContext(), g_sp_stok_filter_adapter);
+        VolleyClass.getProductCategory(getApplicationContext(), 3, g_sp_stok_filter_adapter);
 
         //config edittext
         g_et_stok_search.setOnFocusChangeListener(this);
