@@ -30,6 +30,7 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,6 +45,8 @@ import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.networks.VolleyClass;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.ByteArrayOutputStream;
@@ -73,6 +76,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
     //FRAGMENT SECTION DATA MEMBER
     private LinearLayout g_produk_fragment_ll_add_button;
+    private ConstraintLayout g_produk_fragment_not_found;
 
     private RecyclerView g_produkfragment_recyclerview;
     private ProdukAdapter g_produkadapter;
@@ -119,6 +123,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
         //inisiasi layout
         g_produk_fragment_ll_add_button = g_view.findViewById(R.id.apps_produk_fragment_add_btn);
+        g_produk_fragment_not_found = g_view.findViewById(R.id.apps_produk_fragment_not_found);
 
         //inisiasi recyclerview
         g_produkfragment_recyclerview = g_view.findViewById(R.id.apps_produk_fragment_recyclerview);
@@ -138,12 +143,11 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_linearlayoutmanager = new LinearLayoutManager(g_context);
         g_produkadapter = new ProdukAdapter();
 
-//        g_produkadapter.setDatasetProduk(ListProdukDummy.productList);
-
         g_produkadapter.setParentOnCallBack(this);
         g_produkfragment_recyclerview.setAdapter(g_produkadapter);
         g_produkfragment_recyclerview.setLayoutManager(g_linearlayoutmanager);
         VolleyClass.getProduct(g_context, 3, g_produkadapter);
+//        g_produkadapter.setDatasetProduk(ListProdukDummy.productList);
 
         //config imageview
         g_produk_fragment_sort_btn.setOnClickListener(this);
@@ -374,6 +378,22 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         }
     }
 
+    public void showSnackbar(){
+        final Snackbar snackbar = Snackbar.make(g_view, "COBA", BaseTransientBottomBar.LENGTH_LONG).setAction(
+                "refresh", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        VolleyClass.getProduct(g_context, 3, g_produkadapter);
+                    }
+                }
+        );
+
+        snackbar.show();
+        snackbar.setActionTextColor(getResources().getColor(R.color.blue));
+        snackbar.setTextColor(getResources().getColor(R.color.black));
+        snackbar.setBackgroundTint(getResources().getColor(R.color.white));
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -584,6 +604,17 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_bottomsheet_dialog_add.show();
     }
     //endregion
+
+    public void changeLayoutValue(int p_count){
+        if(p_count > 0){
+            g_produkfragment_recyclerview.setVisibility(View.VISIBLE);
+            g_produk_fragment_not_found.setVisibility(View.GONE);
+        }
+        else{
+            g_produkfragment_recyclerview.setVisibility(View.GONE);
+            g_produk_fragment_not_found.setVisibility(View.VISIBLE);
+        }
+    }
 
     public String imageToString(Bitmap bitmap){
         ByteArrayOutputStream bost = new ByteArrayOutputStream();

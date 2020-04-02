@@ -373,8 +373,6 @@ public class VolleyClass {
                         try {
                             String output = NetworkUtil.getOutputSchema(response);
 
-//                            TemplatedText tempObject = gson.fromJson(response, TemplatedText.class);
-
                             List<TemplatedText> tempObject = Arrays.asList(gson.fromJson(output, TemplatedText[].class));
 
                             if(p_adapter instanceof TemplateAdapter){
@@ -392,6 +390,10 @@ public class VolleyClass {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(p_adapter instanceof TemplateAdapter)
+                {
+                    TemplateFragment.g_instance.changeLayoutValue(0);
+                }
                 NetworkUtil.setErrorMessage(error);
             }
         });
@@ -552,6 +554,13 @@ public class VolleyClass {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
+
+//                if(p_adapter instanceof ProdukAdapter){
+//                    ProdukFragment.g_instance.showSnackbar();
+//                    ProdukFragment.g_instance.changeLayoutValue(0);
+//                }
+
                 NetworkUtil.setErrorMessage(error);
             }
         });

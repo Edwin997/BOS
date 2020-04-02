@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,6 +48,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
     private View g_view;
     public static OnlineTransaksiFragment g_instance;
     private TransaksiFragment g_parent;
+    private ConstraintLayout g_transaksi_fragment_not_found;
 
     //Tombol tab status transaksi
     private Button g_btn_tab_semua, g_btn_tab_pesanan_baru, g_btn_tab_pesanan_dibayar,
@@ -99,6 +101,8 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         g_context = container.getContext();
         g_view = inflater.inflate(R.layout.fragment_online_transaction, container, false);
         g_instance = this;
+
+        g_transaksi_fragment_not_found = g_view.findViewById(R.id.apps_online_transaksi_fragment_not_found);
 
         g_linearlayoutmanager = new LinearLayoutManager(g_context);
         g_transaksiadapter = new OnlineTransaksiAdapter(this);
@@ -304,6 +308,17 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         if(p_obj instanceof Transaction){
             Transaction tmpTransaction = (Transaction) p_obj;
             VolleyClass.getTransaksiDetail(g_context, tmpTransaction.getId_transaction(), tmpTransaction.getStatus());
+        }
+    }
+
+    public void changeLayoutValue(int p_count){
+        if(p_count > 0){
+            g_transaksi_fragment_recyclerview.setVisibility(View.VISIBLE);
+            g_transaksi_fragment_not_found.setVisibility(View.GONE);
+        }
+        else{
+            g_transaksi_fragment_recyclerview.setVisibility(View.GONE);
+            g_transaksi_fragment_not_found.setVisibility(View.VISIBLE);
         }
     }
 

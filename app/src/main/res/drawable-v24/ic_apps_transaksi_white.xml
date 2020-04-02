@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:appt="http://schemas.android.com/aapt"
+    android:width="1080dp"
+    android:height="1080.11dp"
+    android:viewportWidth="1080"
+    android:viewportHeight="1080.11">
+
+    <path
+        android:pathData="M327.85,400.17H267.37V512h60.49q33.45,0,50.86-14.66t17.41-41.25q0-27-17.41-41.46T327.85,400.17Z">
+
+        <appt:attr name="android:fillColor">
+
+            <gradient
+                android:gradientRadius="900"
+                android:type="radial"
+                android:angle="0"
+                android:endColor="#FEFEFE"
+                android:startColor="#F0FEFE" />
+
+        </appt:attr>
+
+    </path>
+    <path
+        android:pathData="M796.93,0H283.06C126.73,0,0,126.73,0,283.06V797c0,156.33,126.73,283.06,283.06,283.06H796.93C953.27,1080.11,1080,953.38,1080,797v-514C1080,126.73,953.27,0,796.93,0ZM397.5,660.44l-61.86-89.36H267.37v89.36H193.13V339.69H332q42.61,0,74,14.2t48.35,40.32q16.93,26.12,17,61.86T454.1,517.71q-17.18,25.89-48.8,39.63l71.94,103.1Zm379.86-56.59a113.5,113.5,0,0,1-44.21,44.44Q705,664.12,670.6,664.11q-47.22,0-74.23-29.79v115h-71.5V413.92h68.29v28.41q26.56-32.07,77.44-32.08,34.37,0,62.55,15.82a113.5,113.5,0,0,1,44.21,44.44q16,28.65,16,66.68T777.36,603.86Zm119.15,47.42q-12.83,12.83-31.62,12.84t-31.62-12.84q-12.83-12.81-12.82-32.08,0-19.7,12.82-31.84t31.62-12.15q18.78,0,31.62,12.15t12.84,31.84Q909.34,638.45,896.51,651.28Z">
+
+        <appt:attr name="android:fillColor">
+
+            <gradient
+                android:gradientRadius="900"
+                android:type="radial"
+                android:angle="0"
+                android:endColor="#FEFEFE"
+                android:startColor="#A7A7A7" />
+
+        </appt:attr>
+
+    </path>
+    <path
+        android:pathData="M658.23,468.91q-27.5,0-45.13,18.55t-17.64,49.72q0,31.16,17.64,49.72t45.13,18.55q27.5,0,45.13-18.55T721,537.18q0-31.16-17.64-49.72T658.23,468.91Z">
+
+        <appt:attr name="android:fillColor">
+
+            <gradient
+                android:gradientRadius="900"
+                android:type="radial"
+                android:angle="0"
+                android:endColor="#FEFEFE"
+                android:startColor="#A7A7A7" />
+
+        </appt:attr>
+
+    </path>
+</vector>

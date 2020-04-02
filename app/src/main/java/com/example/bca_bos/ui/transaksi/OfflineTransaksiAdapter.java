@@ -61,6 +61,10 @@ public class OfflineTransaksiAdapter extends RecyclerView.Adapter<OfflineTransak
         return g_list_transaction_master.size();
     }
 
+    public List<Transaction> getList(){
+        return g_list_transaction_master;
+    }
+
     public void setListTransaksi(List<Transaction> p_list){
         g_list_transaction_master = p_list;
         setListTransaksiFiltered(g_list_transaction_master);
@@ -69,6 +73,9 @@ public class OfflineTransaksiAdapter extends RecyclerView.Adapter<OfflineTransak
 
     public void setListTransaksiFiltered(List<Transaction> p_list){
         g_list_transaction_temp = p_list;
+
+        OfflineTransaksiFragment.g_instance.changeLayoutValue(g_list_transaction_temp.size());
+
         notifyDataSetChanged();
     }
 
