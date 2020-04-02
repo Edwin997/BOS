@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +36,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.dummy.ListProdukDummy;
@@ -84,6 +86,9 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
     private ImageView g_produk_fragment_sort_btn, g_produk_fragment_category_btn, g_produk_fragment_search_btn;
     private EditText g_produk_fragment_search_et;
+
+    private TextView g_tv_not_found_judul;
+    private LottieAnimationView g_iv_not_found_animation;
 
     //ADD BOTTOM SHEET PRODUK DATA MEMBER
     private RoundedImageView g_iv_bottom_sheet_produk_add_gambar;
@@ -136,8 +141,15 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         //inisiasi edittext
         g_produk_fragment_search_et = g_view.findViewById(R.id.apps_produk_fragment_search_et);
 
+        //inisiasi textview
+        g_tv_not_found_judul = g_view.findViewById(R.id.apps_tv_not_found_judul);
+
+        //inisiasi lottie
+        g_iv_not_found_animation = g_view.findViewById(R.id.apps_iv_not_found_animation);
+
         //config layout
         g_produk_fragment_ll_add_button.setOnClickListener(this);
+        ProdukFragment.g_instance.showLayout(0, false);
 
         //config recyclerview
         g_linearlayoutmanager = new LinearLayoutManager(g_context);
@@ -378,22 +390,6 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         }
     }
 
-    public void showSnackbar(){
-        final Snackbar snackbar = Snackbar.make(g_view, "COBA", BaseTransientBottomBar.LENGTH_LONG).setAction(
-                "refresh", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        VolleyClass.getProduct(g_context, 3, g_produkadapter);
-                    }
-                }
-        );
-
-        snackbar.show();
-        snackbar.setActionTextColor(getResources().getColor(R.color.blue));
-        snackbar.setTextColor(getResources().getColor(R.color.black));
-        snackbar.setBackgroundTint(getResources().getColor(R.color.white));
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -525,8 +521,6 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     }
 
     public void setSelectionSpinnerEdit(int p_id_prd_category){
-        Log.d("BOSVOLLEY", p_id_prd_category + "");
-        Log.d("BOSVOLLEY", VolleyClass.findPositionFromAllProductCategory(p_id_prd_category) + "");
         g_btn_bottom_sheet_produk_spinner_edit_tambah.setSelection(VolleyClass.findPositionFromAllProductCategory(p_id_prd_category));
     }
 
@@ -605,12 +599,32 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     }
     //endregion
 
-    public void changeLayoutValue(int p_count){
+    private void changeLayoutValue(int p_count){
         if(p_count > 0){
             g_produkfragment_recyclerview.setVisibility(View.VISIBLE);
             g_produk_fragment_not_found.setVisibility(View.GONE);
         }
         else{
+            g_tv_not_found_judul.setText(getText(R.string.PRODUCT_NOT_FOUND));
+            g_iv_not_found_animation.setAnimation(R.raw.no_product_animation);
+            g_iv_not_found_animation.playAnimation();
+            g_iv_not_found_animation.loop(true);
+
+            g_produkfragment_recyclerview.setVisibility(View.GONE);
+            g_produk_fragment_not_found.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void showLayout(int p_count, boolean p_connect){
+        if(p_connect){
+            changeLayoutValue(p_count);
+        }
+        else{
+            g_tv_not_found_judul.setText(getText(R.string.INTERNET_NOT_FOUND));
+            g_iv_not_found_animation.setAnimation(R.raw.no_templatetext_animation);
+            g_iv_not_found_animation.playAnimation();
+            g_iv_not_found_animation.loop(true);
+
             g_produkfragment_recyclerview.setVisibility(View.GONE);
             g_produk_fragment_not_found.setVisibility(View.VISIBLE);
         }

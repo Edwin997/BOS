@@ -64,7 +64,7 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukView
     public void setDatasetProdukFiltered(List<Product> p_list){
         g_list_temp_product = p_list;
 
-        ProdukFragment.g_instance.changeLayoutValue(p_list.size());
+        ProdukFragment.g_instance.showLayout(p_list.size(), true);
 
         notifyDataSetChanged();
     }

@@ -58,7 +58,7 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.Templa
     public void setListTemplateFiltered(List<TemplatedText> p_list){
         g_list_temp_template = p_list;
 
-        TemplateFragment.g_instance.changeLayoutValue(p_list.size());
+        TemplateFragment.g_instance.showLayout(p_list.size(), true);
 
         notifyDataSetChanged();
     }

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -22,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.bca_bos.R;
 import com.example.bca_bos.dummy.ListTemplatedTextDummy;
 import com.example.bca_bos.interfaces.OnCallBackListener;
@@ -55,6 +57,9 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
     private ImageView g_templatedtext_fragment_sort_btn, g_templatedtext_fragment_search_btn;
     private EditText g_templatedtext_fragment_search_et;
 
+    private TextView g_tv_not_found_judul;
+    private LottieAnimationView g_iv_not_found_animation;
+
     //ADD BOTTOM SHEET PRODUK DATA MEMBER
     private EditText g_et_edit_templated_label_add, g_et_edit_templated_deskripsi_add;
     private Button g_btn_templated_simpan_add, g_btn_templated_batal_add;
@@ -87,7 +92,14 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
         //inisiasi edittext
         g_templatedtext_fragment_search_et = g_view.findViewById(R.id.apps_template_fragment_search_et);
 
+        //inisiasi textview
+        g_tv_not_found_judul = g_view.findViewById(R.id.apps_tv_not_found_judul);
+
+        //inisiasi lottie
+        g_iv_not_found_animation = g_view.findViewById(R.id.apps_iv_not_found_animation);
+
         //config layout
+        showLayout(0, false);
         g_ll_template_fragment_add_button.setOnClickListener(this);
 
         //config recyclerview
@@ -174,16 +186,36 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
     }
 
     public void refreshData(){
-        g_templateadapter.setListTemplate(ListTemplatedTextDummy.templatedTextList);
-//        VolleyClass.getTemplatedText(g_context, 3, g_templateadapter);
+//        g_templateadapter.setListTemplate(ListTemplatedTextDummy.templatedTextList);
+        VolleyClass.getTemplatedText(g_context, 3, g_templateadapter);
     }
 
-    public void changeLayoutValue(int p_count){
+    private void changeLayoutValue(int p_count){
         if(p_count > 0){
             g_templatefragment_recyclerview.setVisibility(View.VISIBLE);
             g_template_fragment_not_found.setVisibility(View.GONE);
         }
         else{
+            g_tv_not_found_judul.setText(getText(R.string.TEMPLATETEXT_NOT_FOUND));
+            g_iv_not_found_animation.setAnimation(R.raw.no_templatetext_animation);
+            g_iv_not_found_animation.playAnimation();
+            g_iv_not_found_animation.loop(true);
+
+            g_templatefragment_recyclerview.setVisibility(View.GONE);
+            g_template_fragment_not_found.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void showLayout(int p_count, boolean p_connect){
+        if(p_connect){
+            changeLayoutValue(p_count);
+        }
+        else{
+            g_tv_not_found_judul.setText(getText(R.string.INTERNET_NOT_FOUND));
+            g_iv_not_found_animation.setAnimation(R.raw.no_product_animation);
+            g_iv_not_found_animation.playAnimation();
+            g_iv_not_found_animation.loop(true);
+
             g_templatefragment_recyclerview.setVisibility(View.GONE);
             g_template_fragment_not_found.setVisibility(View.VISIBLE);
         }

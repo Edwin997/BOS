@@ -4,17 +4,16 @@
     android:orientation="vertical"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
-    android:paddingBottom="25dp"
+    android:paddingBottom="15dp"
     android:layout_gravity="center"
     android:gravity="center_horizontal"
     android:background="@drawable/style_gradient_color_rounded_box_white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="75dp">
 
         <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/iv_popup_beranda_produk_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:riv_corner_radius_top_left="10dp"
@@ -27,11 +26,10 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
-            android:id="@+id/tv_dialog_listitem_beranda_judul"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Silahkan pilih pembeli yang ingin ditawarkan:"
+            android:text="Pilih gambar dari:"
             android:textSize="15dp"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -42,12 +40,75 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_dialog_listitem_beranda"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_margin="10dp"
-        android:layout_height="250dp"/>
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/white">
+
+        <LinearLayout
+            android:id="@+id/item_dialog_dari_camera_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="8"
+                android:layout_height="wrap_content"
+                android:text="Dari Kamera"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_apps_from_camera_blue"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/white">
+
+        <LinearLayout
+            android:id="@+id/item_dialog_dari_gallery_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="8"
+                android:layout_height="wrap_content"
+                android:text="Dari Galeri"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_apps_from_gallery_blue"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -55,32 +116,17 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_dialog_listitem_beranda_tutup"
+            android:id="@+id/btn_dialog_choose_cancel"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginTop="10dp"
             android:background="@drawable/style_gradient_color_rounded_box_new_red"
             android:fontFamily="@font/montserrat_bold"
-            android:text="Close"
+            android:text="KEMBALI"
             android:textSize="10dp"
             android:textColor="@color/white"
             android:textStyle="bold"/>
-
-        <Button
-            android:id="@+id/btn_dialog_listitem_beranda_tawarkan"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="16dp"
-            android:background="@drawable/style_gradient_color_rounded_box_blue"
-            android:fontFamily="@font/montserrat_bold"
-            android:text="Tawarkan"
-            android:textSize="10dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"/>
-
     </LinearLayout>
 
 
