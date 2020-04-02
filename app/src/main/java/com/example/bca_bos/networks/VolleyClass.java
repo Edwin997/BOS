@@ -41,9 +41,7 @@ import com.example.bca_bos.ui.transaksi.OfflineTransaksiAdapter;
 import com.example.bca_bos.ui.transaksi.OfflineTransaksiFragment;
 import com.example.bca_bos.ui.transaksi.OnlineTransaksiAdapter;
 import com.example.bca_bos.ui.transaksi.OnlineTransaksiFragment;
-import com.example.bca_bos.ui.transaksi.TransaksiFragment;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,8 +54,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class VolleyClass {
 
@@ -103,14 +99,21 @@ public class VolleyClass {
     private final static  String BASE_URL_LOGIN = "https://login.apps.pcf.dti.co.id";
     private final static String URL_LOGIN = BASE_URL_LOGIN + "/bos/seller";
 
+    //URL REGISTER
+    private final static  String BASE_URL_REGISTER = "https://register.apps.pcf.dti.co.id";
+    private final static String URL_REGISTER = BASE_URL_REGISTER + "/bos/regis/sOTP";
+    private final static String URL_SEND_OTP = BASE_URL_REGISTER + "/bos/regis/vOTP";
+
+
     //URL PROFILE
     private final static  String BASE_URL_PROFILE = "https://profile.apps.pcf.dti.co.id";
     private final static String URL_PROFILE = BASE_URL_PROFILE + "/bos/profile";
     private final static String URL_PROFILE_CHANGE_PASSWORD = BASE_URL_PROFILE + "/bos/profile/pass";
 
     //URL RAJA ONGKIR
-    private final static   String BASE_URL_RAJAONGKIR = "https://rajaongkir.apps.pcf.dti.co.id/bos";
+    private final static  String BASE_URL_RAJAONGKIR = "https://rajaongkir.apps.pcf.dti.co.id/bos";
     private final static String URL_PROVINSI = BASE_URL_RAJAONGKIR + "/provinsi";
+    private final static String URL_ONGKIR_COST = BASE_URL_RAJAONGKIR + "/ongkir";
     private static ArrayAdapter<String> g_rajaongkir_city_adapter;
     public static List<String> g_city_name_list = new ArrayList<>();
 
@@ -1071,6 +1074,100 @@ public class VolleyClass {
 
         g_requestqueue.add(request_json);
     }
+
+    public static void register(final Context p_context, final String p_bos_id, final String p_nama, final String p_no_rek, final String p_no_hp, final String p_password){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("bos_id", p_bos_id);
+        params.put("nama", p_nama);
+        params.put("no_rek",p_no_rek);
+        params.put("no_hp",p_no_hp);
+        params.put("password",p_password);
+
+        JsonObjectRequest request_json = new JsonObjectRequest(URL_REGISTER, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        String message = NetworkUtil.getErrorCode(response.toString());
+                        String output = NetworkUtil.getOutputSchema(response.toString());
+
+                        if(message.equals(ERROR_CODE_BERHASIL)){
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void sendOTP(final Context p_context, final String p_otp, final String p_bos_id){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("bos_id", p_bos_id);
+        params.put("otp", p_otp);
+
+        JsonObjectRequest request_json = new JsonObjectRequest(URL_SEND_OTP, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        String message = NetworkUtil.getErrorCode(response.toString());
+                        String output = NetworkUtil.getOutputSchema(response.toString());
+
+                        if(message.equals(ERROR_CODE_BERHASIL)){
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void resendOTP(final Context p_context, final String p_no_hp){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+
+
+        JsonObjectRequest request_json = new JsonObjectRequest(URL_REGISTER + "/" + p_no_hp, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        String message = NetworkUtil.getErrorCode(response.toString());
+                        String output = NetworkUtil.getOutputSchema(response.toString());
+
+                        if(message.equals(ERROR_CODE_BERHASIL)){
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+
     //endregion
 
     //region PROFILE
@@ -1199,6 +1296,11 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
+
+    //endregion
+
+    //region CEK ONGKIR
+
     public static void getKotaKab(Context p_context){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
@@ -1228,6 +1330,36 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
 
     }
+
+    public static void getOngkirCost(final Context p_context, final String p_asal, final String p_tujuan, final String p_berat, final String p_kurir){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("origin", p_asal);
+        params.put("destination", p_tujuan);
+        params.put("weight",p_berat);
+        params.put("courier",p_kurir);
+
+        JsonObjectRequest request_json = new JsonObjectRequest(URL_ONGKIR_COST, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
     //endregion
+
+
 }
 
