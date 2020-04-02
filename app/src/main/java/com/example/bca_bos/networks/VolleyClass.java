@@ -376,11 +376,10 @@ public class VolleyClass {
                         try {
                             String output = NetworkUtil.getOutputSchema(response);
 
-//                            TemplatedText tempObject = gson.fromJson(response, TemplatedText.class);
-
                             List<TemplatedText> tempObject = Arrays.asList(gson.fromJson(output, TemplatedText[].class));
 
                             if(p_adapter instanceof TemplateAdapter){
+                                TemplateFragment.g_instance.showLayout(tempObject.size(), true);
                                 TemplateAdapter tmpAdapter = (TemplateAdapter) p_adapter;
                                 tmpAdapter.setListTemplate(tempObject);
                             }
@@ -395,6 +394,10 @@ public class VolleyClass {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(p_adapter instanceof TemplateAdapter)
+                {
+                    TemplateFragment.g_instance.showLayout(0, false);
+                }
                 NetworkUtil.setErrorMessage(error);
             }
         });
@@ -523,14 +526,12 @@ public class VolleyClass {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Log.d("BOSVOLLEY", response);
                             String output = NetworkUtil.getOutputSchema(response);
 
-//                            TemplatedText tempObject = gson.fromJson(response, TemplatedText.class);
                             List<Product> tempObject = Arrays.asList(gson.fromJson(output, Product[].class));
 
-                            Log.d("BOSVOLLEY", tempObject.get(0).getPrdCategory().getId_prd_category() + "coy");
                             if(p_adapter instanceof ProdukAdapter){
+                                ProdukFragment.g_instance.showLayout(tempObject.size(), true);
                                 ProdukAdapter tmpAdapter = (ProdukAdapter) p_adapter;
                                 tmpAdapter.setDatasetProduk(tempObject);
                             }
@@ -555,6 +556,12 @@ public class VolleyClass {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
+
+                if(p_adapter instanceof ProdukAdapter){
+                    ProdukFragment.g_instance.showLayout(0, false);
+                }
+
                 NetworkUtil.setErrorMessage(error);
             }
         });

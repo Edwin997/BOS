@@ -9,4 +9,18 @@
 
     <string name="SORT_ASC">A-Z</string>
     <string name="SORT_DESC">Z-A</string>
+
+    <string name="INTERNET_NOT_FOUND">Gagal terhubung ke jaringan internet \nSilahkan coba lagi</string>
+
+    <string name="TEMPLATETEXT_NOT_FOUND">Template-textmu kosong, ayo bantu BOS untuk menambah template-text untuk tokomu!</string>
+
+    <string name="PRODUCT_NOT_FOUND">Produkmu kosong, ayo bantu BOS untuk menambah produk di tokomu!</string>
+
+    <string name="TRANSACTION_ONLINE_NOT_FOUND"></string>
+    <string name="TRANSACTION_BARU_MASUK_NOT_FOUND"></string>
+    <string name="TRANSACTION_SUDAH_DIBAYAR_NOT_FOUND"></string>
+    <string name="TRANSACTION_SUDAH_DIKIRIM_NOT_FOUND"></string>
+    <string name="TRANSACTION_SUDAH_SELESAI_NOT_FOUND"></string>
+
+    <string name="TRANSACTION_OFFLINE_NOT_FOUND"></string>
 </resources>

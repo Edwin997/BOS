@@ -98,53 +98,54 @@
 
         </androidx.cardview.widget.CardView>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/apps_template_fragment_not_found"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            android:layout_marginTop="35dp">
+
+            <TextView
+                android:id="@+id/apps_tv_not_found_judul"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="88dp"
+                android:gravity="center"
+                android:text="@string/INTERNET_NOT_FOUND"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/apps_iv_not_found_animation"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="160dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/apps_tv_not_found_judul"
+                app:layout_constraintVertical_bias="0.0"
+                app:lottie_autoPlay="true"
+                app:lottie_imageAssetsFolder="images"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/no_templatetext_animation" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/apps_template_fragment_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="35dp" />
-
-
-        <!--    <LinearLayout-->
-        <!--        android:id="@+id/apps_template_fragment_actionbar_layout"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="60dp"-->
-        <!--        android:background="@drawable/style_gradient_color_rounded_bottom_box"-->
-        <!--        android:orientation="horizontal"-->
-        <!--        android:padding="10dp">-->
-
-        <!--        <ImageButton-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            android:layout_weight="1"-->
-        <!--            android:background="@android:color/transparent"-->
-        <!--            android:visibility="invisible"/>-->
-
-        <!--        <TextView-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            android:layout_weight="8"-->
-        <!--            android:gravity="center"-->
-        <!--            android:textSize="25dp"-->
-        <!--            android:text="TEMPLATE TEKS"-->
-        <!--            android:textColor="@color/white"-->
-        <!--            android:textStyle="bold"/>-->
-
-        <!--        <ImageButton-->
-        <!--            android:id="@+id/apps_template_fragment_add_btn"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            android:layout_weight="1"-->
-        <!--            android:layout_gravity="center"-->
-        <!--            android:background="@android:color/transparent"-->
-        <!--            android:src="@drawable/ic_keyboard_add_white"/>-->
-
-        <!--    </LinearLayout>-->
-
-        <!--    <androidx.recyclerview.widget.RecyclerView-->
-        <!--        android:id="@+id/apps_template_fragment_recyclerview"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="match_parent" />-->
+            android:layout_marginTop="35dp"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
