@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -23,6 +24,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     ImageButton g_otp_btn_delete, g_otp_btn_refresh;
     TextView g_otp_tv_error;
     String tmp_otp, g_otp_flag;
+    public int g_counter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,17 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
         //Error
         g_otp_tv_error = findViewById(R.id.apps_otp_error_text_view);
+        g_counter = 60;
+        new CountDownTimer(60000, 1000){
+            public void onTick(long millisUntilFinished){
+                g_otp_tv_error.setText("Kirim ulang OTP ("+String.valueOf(g_counter)+")");
+                g_counter--;
+            }
+            public  void onFinish(){
+                g_otp_tv_error.setText("Klik disini untuk mengirim ulang OTP");
+            }
+        }.start();
+
         g_otp_tv_error.setText("");
 
 
@@ -248,9 +261,9 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void closeRegisterActivity(){
-        if(RegisterActivity.registerInstance != null) {
+        if(RegisterActivity.g_instance != null) {
             try {
-                RegisterActivity.registerInstance.finish();
+                RegisterActivity.g_instance.finish();
             } catch (Exception e) {}
         }
     }
@@ -258,9 +271,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent tmp_back_intent = new Intent(OTPActivity.this, RegisterActivity.class);
-        startActivity(tmp_back_intent);
-        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
         finish();
+        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
     }
 }

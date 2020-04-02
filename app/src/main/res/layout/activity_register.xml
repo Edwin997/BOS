@@ -81,13 +81,54 @@
                 android:textColorHint="@color/grey"
                 android:hint="BOS ID"
                 android:imeOptions="actionNext"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                android:inputType="textFilter"
+                android:maxLength="20"/>
 
 
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/register_tv_no_kartu"
+            android:id="@+id/register_tv_nama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Nama Lengkap"
+            android:textColor="@color/dark_blue"
+            android:layout_marginTop="8dp"
+            android:textSize="10dp"
+            android:textStyle="bold"
+            android:visibility="invisible"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="@color/white"
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp">
+
+            <EditText
+                android:id="@+id/register_et_nama"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@android:color/transparent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:textColorHint="@color/grey"
+                android:hint="Nama Lengkap"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
+                android:inputType="textPersonName"/>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/register_tv_no_rekening"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -118,7 +159,9 @@
                 android:textColorHint="@color/grey"
                 android:hint="Nomor Rekening"
                 android:imeOptions="actionNext"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:inputType="number"
+                android:maxLength="10"/>
 
 
         </androidx.cardview.widget.CardView>
@@ -143,6 +186,20 @@
             android:layout_marginRight="32dp"
             android:layout_marginLeft="32dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:background="@drawable/style_gradient_color_box_blue"
+                android:fontFamily="@font/opensans_bold"
+                android:text=" +62 "
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20dp"/>
+
             <EditText
                 android:id="@+id/register_et_no_hp"
                 android:layout_width="match_parent"
@@ -155,7 +212,9 @@
                 android:textColorHint="@color/grey"
                 android:hint="Nomor HP"
                 android:imeOptions="actionNext"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:inputType="phone"
+                android:maxLength="13"/>
 
 
         </androidx.cardview.widget.CardView>
@@ -191,27 +250,31 @@
                 android:textAlignment="center"
                 android:textColorHint="@color/grey"
                 android:hint="Password"
-                android:inputType="numberPassword"
-                android:maxLength="6"
                 android:imeOptions="actionDone"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:inputType="numberPassword"
+                android:maxLength="6"/>
 
 
         </androidx.cardview.widget.CardView>
 
-        <!--    <TextView-->
-        <!--        android:id="@+id/textViewError"-->
-        <!--        android:layout_width="wrap_content"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:text="Error"-->
-        <!--        android:textColor="@color/red"-->
-        <!--        android:textSize="16dp"/>-->
+        <TextView
+            android:id="@+id/register_tv_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:text="Error"
+            android:textColor="@color/red"
+            android:textSize="10dp"
+            android:textStyle="bold"
+            android:textAlignment="center"/>
 
         <Button
             android:id="@+id/register_register_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:layout_marginRight="64dp"
             android:layout_marginLeft="64dp"
