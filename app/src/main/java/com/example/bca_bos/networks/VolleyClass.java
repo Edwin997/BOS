@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.bca_bos.KeyboardBOSnew;
 import com.example.bca_bos.LoginActivity;
 import com.example.bca_bos.PasswordActivity;
 import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
@@ -54,6 +55,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class VolleyClass {
 
@@ -116,6 +118,10 @@ public class VolleyClass {
     private final static String URL_ONGKIR_COST = BASE_URL_RAJAONGKIR + "/ongkir";
     private static ArrayAdapter<String> g_rajaongkir_city_adapter;
     public static List<String> g_city_name_list = new ArrayList<>();
+
+    //URL ORDER
+    private final static  String BASE_URL_ORDER = "https://order.apps.pcf.dti.co.id";
+    private final static String URL_KIRIM_FORM = BASE_URL_ORDER + "/bos/form";
 
     //region BERANDA
 
@@ -1368,5 +1374,63 @@ public class VolleyClass {
     //endregion
 
 
+
+    //region ORDER
+    public static void insertOrder(final KeyboardBOSnew p_parent, final int p_id_seller, final int p_id_origin,
+                                   HashMap<String, Product> p_list) throws JSONException {
+        g_requestqueue = Volley.newRequestQueue(p_parent.getApplicationContext());
+
+        JSONArray jsonArray = new JSONArray();
+
+        int iterator = 0;
+        for (Map.Entry<String, Product> tmpProduct : p_list.entrySet()){
+            JSONObject tmpjsonObject = new JSONObject();
+            tmpjsonObject.put("id_product", tmpProduct.getValue().getId_product());
+            tmpjsonObject.put("quantity", tmpProduct.getValue().getQty());
+
+            jsonArray.put(iterator, tmpjsonObject);
+            iterator++;
+        }
+
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("id_seller", p_id_seller);
+        params.put("origin_city", p_id_origin);
+        params.put("product", jsonArray);
+
+        JsonObjectRequest request_json = new JsonObjectRequest(URL_KIRIM_FORM , new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String message = NetworkUtil.getErrorCode(response.toString());
+                            if(message.equals(ERROR_CODE_BERHASIL)){
+                                Toast.makeText(p_parent.getApplicationContext(), "Order Berhasil", Toast.LENGTH_SHORT).show();
+                                int tmpId = response.getInt("output_schema");
+                                String comment = "Silahkan melengkapi data diri anda dan melakukan pengecekan terakhir" +
+                                        " pesanan anda pada link dibawah ini:\n";
+                                String url_kirimform = "https://webapp.apps.pcf.dti.co.id/order/" + tmpId;
+
+                                p_parent.commitTextToBOSKeyboardEditText(comment + url_kirimform);
+                            }
+                            else
+                            {
+                                Toast.makeText(p_parent.getApplicationContext(), "Penambahan data template text gagal", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+
+        g_requestqueue.add(request_json);
+    }
+    //endregion
 }
 
