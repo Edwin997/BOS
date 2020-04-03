@@ -84,11 +84,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 isInputValid();
                 if (isInputValid()){
                     register();
-                    Intent tmp_register_intent = new Intent(RegisterActivity.this, OTPActivity.class);
-                    startActivity(tmp_register_intent);
-                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+//                    Intent tmp_register_intent = new Intent(RegisterActivity.this, OTPActivity.class);
+//                    startActivity(tmp_register_intent);
+//                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 }
-
                 break;
         }
     }

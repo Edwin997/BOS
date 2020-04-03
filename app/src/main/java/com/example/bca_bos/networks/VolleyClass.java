@@ -15,15 +15,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.bca_bos.KeyboardBOSnew;
 import com.example.bca_bos.LoginActivity;
+import com.example.bca_bos.OTPActivity;
 import com.example.bca_bos.PasswordActivity;
+import com.example.bca_bos.RegisterActivity;
 import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
 import com.example.bca_bos.keyboardadapters.MutasiRekeningAdapter;
 import com.example.bca_bos.keyboardadapters.OfflineMutasiRekeningAdapter;
 import com.example.bca_bos.keyboardadapters.StokProdukAdapter;
 import com.example.bca_bos.keyboardadapters.TemplatedTextAdapter;
 import com.example.bca_bos.models.Buyer;
-import com.example.bca_bos.models.locations.Provinsi;
+import com.example.bca_bos.models.locations.KotaKab;
 import com.example.bca_bos.models.products.PrdCategory;
 import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.models.Seller;
@@ -65,13 +68,18 @@ public class VolleyClass {
     private static Gson gson = new Gson();
 
     private final static String TAG = "BOSVOLLEY";
-    private final static  String BASE_URL = "http://10.26.34.119:8321";
+    private final static String BASE_URL = "http://10.26.34.119:8321";
+
+    //URL DATA SCIENCE
+    private final static  String BASE_URL_DATASCIENCE = "https://datasciencebos.apps.pcf.dti.co.id";
+    private final static String URL_BUYER_RECOMMENDATION = BASE_URL_DATASCIENCE + "/buyer-recommendation";
+    private final static String URL_PRODUCT_RECOMMENDATION = BASE_URL_DATASCIENCE + "/product-recommendation";
 
     //URL BERANDA
     private final static  String BASE_URL_BERANDA= "https://home.apps.pcf.dti.co.id";
-    private final static String URL_BERANDA_JUMLAH_TRANSAKSI = BASE_URL_BERANDA + "/home/trx?seller=";
-    private final static String URL_BERANDA_PRODUK_TERLARIS = BASE_URL_BERANDA + "/home/prd?seller=";
-    private final static String URL_BERANDA_PEMBELI_SETIA = BASE_URL_BERANDA + "/home/byr?seller=";
+    private final static String URL_BERANDA_JUMLAH_TRANSAKSI = BASE_URL_BERANDA + "/bos/home/trx?seller=";
+    private final static String URL_BERANDA_PRODUK_TERLARIS = BASE_URL_BERANDA + "/bos/home/prd?seller=";
+    private final static String URL_BERANDA_PEMBELI_SETIA = BASE_URL_BERANDA + "/bos/home/byr?seller=";
     private final static String JUMLAH_TRANSAKSI_START_DATE = "&start-dt=";
     private final static String JUMLAH_TRANSAKSI_END_DATE = "&end-dt=";
 
@@ -112,10 +120,86 @@ public class VolleyClass {
 
     //URL RAJA ONGKIR
     private final static  String BASE_URL_RAJAONGKIR = "https://rajaongkir.apps.pcf.dti.co.id/bos";
-    private final static String URL_PROVINSI = BASE_URL_RAJAONGKIR + "/provinsi";
+    private final static String URL_CITY = BASE_URL_RAJAONGKIR + "/kotaKab";
     private final static String URL_ONGKIR_COST = BASE_URL_RAJAONGKIR + "/ongkir";
     private static ArrayAdapter<String> g_rajaongkir_city_adapter;
     public static List<String> g_city_name_list = new ArrayList<>();
+
+    //DATA MEMBER getOngkirCost()
+    private static List<String> serviceList = new ArrayList<>();
+    private static List<String> estimationDayList = new ArrayList<>();
+    private static List<String> costList = new ArrayList<>();
+    private static String g_textongkir;
+
+    //region DATA SCIENCE
+    public static void buyerRecommendation(final Context p_context, final String p_seller_id, final String p_product_id){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("seller_id", p_seller_id);
+        params.put("product_id", p_product_id);
+        params.put("n_recommendation", "10");
+
+        JsonObjectRequest request_json = new JsonObjectRequest(URL_BUYER_RECOMMENDATION, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            JSONObject objGeneral = new JSONObject(String.valueOf(response));
+                            JSONArray tmpObjectArray = objGeneral.getJSONArray("result");
+                            String output = tmpObjectArray.toString();
+                            Seller tempObject = gson.fromJson(output, Seller.class);
+
+                        }catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void productRecommendation(final Context p_context, final String p_seller_id, final String p_buyer_id){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("seller_id", p_seller_id);
+        params.put("buyer_id", p_buyer_id);
+        params.put("n_recommendation", "10");
+
+        JsonObjectRequest request_json = new JsonObjectRequest(URL_PRODUCT_RECOMMENDATION, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            JSONObject objGeneral = new JSONObject(String.valueOf(response));
+                            JSONArray tmpObjectArray = objGeneral.getJSONArray("result");
+                            String output = tmpObjectArray.toString();
+                            Seller tempObject = gson.fromJson(output, Seller.class);
+
+                        }catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+    }
+    //endregion
 
     //region BERANDA
 
@@ -1101,7 +1185,7 @@ public class VolleyClass {
                         String output = NetworkUtil.getOutputSchema(response.toString());
 
                         if(message.equals(ERROR_CODE_BERHASIL)){
-
+                            RegisterActivity.g_instance.intentRegister(p_bos_id, p_no_hp);
                         }
 
                     }
@@ -1131,7 +1215,14 @@ public class VolleyClass {
                         String output = NetworkUtil.getOutputSchema(response.toString());
 
                         if(message.equals(ERROR_CODE_BERHASIL)){
-
+                            int tmp_id_seller = 0;
+                            try {
+                                Seller tempObject = gson.fromJson(output, Seller.class);
+                                tmp_id_seller = tempObject.getId_seller();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            OTPActivity.g_instance.registerIntent(tmp_id_seller);
                         }
 
                     }
@@ -1308,10 +1399,10 @@ public class VolleyClass {
 
     //region CEK ONGKIR
 
-    public static void getKotaKab(Context p_context){
+    public static void getCityProfile(Context p_context){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
-        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PROVINSI,
+        StringRequest request_json = new StringRequest(Request.Method.GET , URL_CITY,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -1320,8 +1411,38 @@ public class VolleyClass {
                             Log.d("BOSVOLLEY", response);
                             String output = NetworkUtil.getOutputSchema(response);
 
-                            List<Provinsi> tempObject = Arrays.asList(gson.fromJson(output, Provinsi[].class));
-                            ProfileFragment.g_instance.getKotaKab(tempObject);
+                            List<KotaKab> tempObject = Arrays.asList(gson.fromJson(output, KotaKab[].class));
+                            ProfileFragment.g_instance.getCity(tempObject);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+
+    }
+
+    public static void getCityKeyboard(Context p_context){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET , URL_CITY,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            Log.d("BOSVOLLEY", response);
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            List<KotaKab> tempObject = Arrays.asList(gson.fromJson(output, KotaKab[].class));
+                            KeyboardBOSnew.g_instance.getCity(tempObject);
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -1352,7 +1473,40 @@ public class VolleyClass {
                     @Override
                     public void onResponse(JSONObject response) {
 
+                        g_textongkir = "Daftar Ongkir "+ p_kurir.toUpperCase() +":";
 
+                        serviceList.clear();
+                        estimationDayList.clear();
+                        costList.clear();
+
+                        try {
+                            JSONObject objGeneral = new JSONObject(String.valueOf(response));
+                            JSONArray tmpObjectArray = objGeneral.getJSONArray("output_schema");
+                            JSONObject costResultJSON = tmpObjectArray.getJSONObject(0);
+                            JSONArray costCostsArray = costResultJSON.getJSONArray("costs");
+                            for (int i = 0; i < costCostsArray.length(); i++){
+                                JSONObject costCostsJSON = costCostsArray.getJSONObject(i);
+                                serviceList.add(costCostsJSON.getString("service"));
+
+                                JSONArray costCostArray = costCostsJSON.getJSONArray("cost");
+                                JSONObject costCostJSON = costCostArray.getJSONObject(0);
+
+                                estimationDayList.add(costCostJSON.getString("etd"));
+                                costList.add(costCostJSON.getString("value"));
+
+                                if (!p_kurir.equals("pos")){
+                                    g_textongkir = g_textongkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i)+" hari - "+costList.get(i);
+                                }else {
+                                    g_textongkir = g_textongkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i).toLowerCase()+" - "+costList.get(i);
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        g_textongkir = g_textongkir + "\n";
+                        KeyboardBOSnew.g_instance.commitTextToBOSKeyboardEditText(g_textongkir);
+                        KeyboardBOSnew.g_instance.cekOngkirLoading("hide");
 
                     }
                 }, new Response.ErrorListener() {

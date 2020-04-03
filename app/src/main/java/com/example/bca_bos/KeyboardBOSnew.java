@@ -1,5 +1,6 @@
 package com.example.bca_bos;
 
+import android.content.Context;
 import android.content.Intent;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
@@ -43,11 +44,13 @@ import com.example.bca_bos.keyboardadapters.MutasiRekeningAdapter;
 import com.example.bca_bos.keyboardadapters.OfflineMutasiRekeningAdapter;
 import com.example.bca_bos.keyboardadapters.StokProdukAdapter;
 import com.example.bca_bos.keyboardadapters.TemplatedTextAdapter;
+import com.example.bca_bos.models.locations.KotaKab;
 import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.networks.RajaOngkir;
 import com.example.bca_bos.networks.VolleyClass;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class KeyboardBOSnew extends InputMethodService implements KeyboardView.OnKeyboardActionListener, OnCallBackListener, View.OnClickListener,
         View.OnFocusChangeListener, View.OnTouchListener {
@@ -127,6 +130,10 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private Boolean IS_CHOOSE_JNE = false, IS_CHOOSE_TIKI = false, IS_CHOOSE_POS = false;
 
     private LottieAnimationView g_lav_ongkir_loading;
+
+    public static List<String> g_city_name_list = new ArrayList<>();
+    public List<KotaKab> g_city_list;
+    private String g_asal_city;
     //endregion
 
     //region STOK DATA MEMBER
@@ -391,6 +398,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     }
 
     private void initiateOngkir(){
+
         //inisiasi layout
         g_ongkir_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_layout);
         g_ongkir_berat_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_berat_layout);
@@ -400,8 +408,8 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_ongkir_cekongkir_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_layout);
         g_lav_ongkir_loading = g_viewparent.findViewById(R.id.bcabos_ongkir_loading_animation_view);
 
-        g_autocompleteadapter = RajaOngkir.getRajaOngkirCity(this);
         //inisiasi edittext
+        VolleyClass.getCityKeyboard(getApplicationContext());
         g_actv_ongkir_asal = g_viewparent.findViewById(R.id.bcabos_ongkir_asal_auto_complete_text_view);
         g_actv_ongkir_asal.setAdapter(g_autocompleteadapter);
         g_actv_ongkir_tujuan = g_viewparent.findViewById(R.id.bcabos_ongkir_tujuan_auto_complete_text_view);
@@ -472,6 +480,21 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_btn_ongkir_back.setOnClickListener(this);
         g_btn_ongkir_cekongkir.setOnClickListener(this);
         g_btn_ongkir_refresh.setOnClickListener(this);
+    }
+
+    public void getCity(List<KotaKab> p_kotakab){
+        g_city_name_list.clear();
+        g_city_list = p_kotakab;
+        String l_city_name;
+
+        for (int i = 0; i < p_kotakab.size(); i++){
+            l_city_name = p_kotakab.get(i).getKota_kab_name();
+
+            g_city_name_list.add(l_city_name);
+        }
+
+        g_autocompleteadapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, g_city_name_list);
+        g_autocompleteadapter.notifyDataSetChanged();
     }
 
     public void cekOngkirLoading(String p_status){
@@ -1114,11 +1137,13 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     //Mendapatkan ID dari City
     private void getAsalCityId(AutoCompleteTextView p_autocomplete){
-        g_asal_id_city = String.valueOf(RajaOngkir.g_city_name_list.indexOf(p_autocomplete.getText().toString())+1);
+        int l_position = g_city_name_list.indexOf(p_autocomplete.getText().toString());
+        g_asal_id_city = String.valueOf(g_city_list.get(l_position).getId_kota_kab());
     }
 
     private void getTujuanCityId(AutoCompleteTextView p_autocomplete){
-        g_tujuan_id_city = String.valueOf(RajaOngkir.g_city_name_list.indexOf(p_autocomplete.getText().toString())+1);
+        int l_position = g_city_name_list.indexOf(p_autocomplete.getText().toString());
+        g_tujuan_id_city = String.valueOf(g_city_list.get(l_position).getId_kota_kab());
     }
 
     private void setKeyboardType(){
@@ -1316,13 +1341,13 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     private void getOngkirByCourier() {
         if (IS_CHOOSE_JNE){
-            RajaOngkir.getRajaOngkirCost(this, g_asal_id_city, g_tujuan_id_city, g_berat, "jne");
+            VolleyClass.getOngkirCost(getApplicationContext(), g_asal_id_city, g_tujuan_id_city, g_berat, "jne");
         }
         if (IS_CHOOSE_TIKI){
-            RajaOngkir.getRajaOngkirCost(this, g_asal_id_city, g_tujuan_id_city, g_berat, "tiki");
+            VolleyClass.getOngkirCost(getApplicationContext(), g_asal_id_city, g_tujuan_id_city, g_berat, "tiki");
         }
         if (IS_CHOOSE_POS){
-            RajaOngkir.getRajaOngkirCost(this, g_asal_id_city, g_tujuan_id_city, g_berat, "pos");
+            VolleyClass.getOngkirCost(getApplicationContext(), g_asal_id_city, g_tujuan_id_city, g_berat, "pos");
         }
         if (!IS_CHOOSE_JNE && !IS_CHOOSE_TIKI && !IS_CHOOSE_POS){
             commitTextToBOSKeyboardEditText("Masukan kurir terlebih dahulu");

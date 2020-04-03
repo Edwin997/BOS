@@ -3,12 +3,17 @@ package com.example.bca_bos;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.bca_bos.networks.NetworkUtil;
+import com.example.bca_bos.networks.VolleyClass;
 
 public class OTPActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -22,17 +27,51 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             g_otp_btn_seven,  g_otp_btn_eight, g_otp_btn_nine,
             g_otp_btn_zero;
     ImageButton g_otp_btn_delete, g_otp_btn_refresh;
-    TextView g_otp_tv_error;
     String tmp_otp, g_otp_flag;
     public int g_counter;
+
+    //Error
+    TextView g_otp_tv_error;
+    LinearLayout g_otp_ll_kirim_ulang_otp;
+
+    //Data yang dilempar
+    String g_bos_id, g_no_hp;
+
+    public static OTPActivity g_instance = null;
+
+    //Shared Preference
+    private static final String PREF_LOGIN = "LOGIN_PREF";
+    private static final String BOS_ID = "BOS_ID";
+    private static final String SELLER_ID = "SELLER_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp);
 
+        //Connect Internet
+        NetworkUtil.disableSSL();
+        g_instance = this;
+
         g_otp_flag = "zero";
         tmp_otp = "";
+        g_otp_ll_kirim_ulang_otp.setVisibility(View.GONE);
+
+        //Menerima data intent
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                g_bos_id = null;
+                g_no_hp = null;
+            } else {
+                g_bos_id = extras.getString("bos_id");
+                g_no_hp = extras.getString("no_hp");
+
+            }
+        } else {
+            g_bos_id = (String) savedInstanceState.getSerializable("bos_id");
+            g_no_hp = (String) savedInstanceState.getSerializable("no_hp");
+        }
 
         //OTP number
         g_otp_tv_first_digit = findViewById(R.id.apps_otp_first_digit_text_view);
@@ -72,6 +111,16 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
         //Error
         g_otp_tv_error = findViewById(R.id.apps_otp_error_text_view);
+        g_otp_tv_error.setText("");
+
+        //Kirim ulang OTP
+        g_otp_ll_kirim_ulang_otp = findViewById(R.id.apps_otp_kirim_ulang_linear_layout);
+        startCountDown();
+        g_otp_ll_kirim_ulang_otp.setOnClickListener(this);
+
+    }
+
+    private void startCountDown(){
         g_counter = 60;
         new CountDownTimer(60000, 1000){
             public void onTick(long millisUntilFinished){
@@ -79,13 +128,10 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                 g_counter--;
             }
             public  void onFinish(){
-                g_otp_tv_error.setText("Klik disini untuk mengirim ulang OTP");
+                g_otp_tv_error.setText("SMS OTP belum masuk?");
+                g_otp_ll_kirim_ulang_otp.setVisibility(View.VISIBLE);
             }
         }.start();
-
-        g_otp_tv_error.setText("");
-
-
     }
 
     @Override
@@ -147,6 +193,11 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             case R.id.apps_otp_refresh_button:
                 refreshOTP();
                 break;
+            case R.id.apps_otp_kirim_ulang_linear_layout:
+                g_otp_ll_kirim_ulang_otp.setVisibility(View.GONE);
+                startCountDown();
+                VolleyClass.resendOTP(this, g_no_hp);
+                break;
         }
     }
 
@@ -173,11 +224,15 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             g_otp_flag = "third";
         }else if (g_otp_flag.equals("third")){
             g_otp_flag = "fourth";
-            if (tmp_otp.equals("1111")){
-                moveToMainMenuActivity();
-            }else {
-                g_otp_tv_error.setText("Wrong OTP");
-            }
+
+            //Send OTP
+            VolleyClass.sendOTP(this, tmp_otp, g_bos_id);
+
+//            if (tmp_otp.equals("1111")){
+//                registerIntent();
+//            }else {
+//                g_otp_tv_error.setText("Wrong OTP");
+//            }
         }else if (g_otp_flag.equals("fourth")){
 
         }
@@ -252,12 +307,18 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         return p_str;
     }
 
-    private void moveToMainMenuActivity(){
+    public void registerIntent(int p_seller_id){
         Intent tmp_register_intent = new Intent(OTPActivity.this, FillDataActivity.class);
+        saveStringSharedPreference(BOS_ID, g_bos_id);
+        saveIntegerSharedPreference(SELLER_ID, p_seller_id);
         startActivity(tmp_register_intent);
         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         closeRegisterActivity();
         finish();
+    }
+
+    public void setError(String p_error_message){
+        g_otp_tv_error.setText(p_error_message);
     }
 
     private void closeRegisterActivity(){
@@ -273,5 +334,19 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         super.onBackPressed();
         finish();
         overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
+    }
+
+    private void saveStringSharedPreference(String p_key, String p_value) {
+        //Save Shared Preference
+        SharedPreferences.Editor l_editor = getSharedPreferences(PREF_LOGIN, MODE_PRIVATE).edit();
+        l_editor.putString(p_key, p_value);
+        l_editor.commit();
+    }
+
+    private void saveIntegerSharedPreference(String p_key, int p_value) {
+        //Save Shared Preference
+        SharedPreferences.Editor l_editor = getSharedPreferences(PREF_LOGIN, MODE_PRIVATE).edit();
+        l_editor.putInt(p_key, p_value);
+        l_editor.commit();
     }
 }

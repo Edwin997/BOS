@@ -325,8 +325,33 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Error"
-        android:textColor="@color/red"
+        android:textColor="@color/black"
         android:textSize="16dp"/>
+
+    <LinearLayout
+        android:id="@+id/apps_otp_kirim_ulang_linear_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="4dp"
+            android:text="Kirim ulang OTP"
+            android:textColor="@color/blue"
+            android:textSize="16dp" />
+
+        <View
+            android:layout_width="120dp"
+            android:layout_height="1dp"
+            android:background="@color/blue"/>
+
+    </LinearLayout>
+
+
 
 
 </LinearLayout>

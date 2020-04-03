@@ -2,7 +2,6 @@ package com.example.bca_bos.ui.beranda;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -16,7 +15,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -30,13 +28,9 @@ import com.example.bca_bos.models.Buyer;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.networks.VolleyClass;
-import com.example.bca_bos.ui.transaksi.OnlineTransaksiAdapter;
 import com.makeramen.roundedimageview.RoundedImageView;
 
-import java.util.ArrayList;
-
 import static android.content.Context.MODE_PRIVATE;
-import static java.net.Proxy.Type.HTTP;
 
 public class BerandaFragment extends Fragment implements View.OnClickListener, OnCallBackListener {
 
@@ -95,21 +89,22 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
     //Shared Preference
     private static final String PREF_LOGIN = "LOGIN_PREF";
     private static final String SELLER_ID = "SELLER_ID";
+    int g_seller_id;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         //Get Seller ID
         SharedPreferences l_preference = this.getActivity().getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
-        int l_seller_id = l_preference.getInt(SELLER_ID, -1);
+        g_seller_id = l_preference.getInt(SELLER_ID, -1);
 
         //Inisialisasi
         g_instance = this;
         g_context = container.getContext();
         g_view = inflater.inflate(R.layout.fragment_beranda, container, false);
-        VolleyClass.getProfileForBeranda(g_context, l_seller_id);
-        VolleyClass.getJumlahTransaksiBulanIni(g_context,l_seller_id);
-        VolleyClass.getJumlahTransaksiSudahDIbayar(g_context, l_seller_id);
+        VolleyClass.getProfileForBeranda(g_context, g_seller_id);
+        VolleyClass.getJumlahTransaksiBulanIni(g_context, g_seller_id);
+        VolleyClass.getJumlahTransaksiSudahDIbayar(g_context, g_seller_id);
 
         //PROFILE
         g_beranda_tv_nama_toko = g_view.findViewById(R.id.apps_beranda_nama_toko_text_view);
@@ -125,7 +120,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_produk_fragment_recyclerview = g_view.findViewById(R.id.apps_beranda_produk_fragment_recyclerview);
         g_linearlayoutmanager_produk = new LinearLayoutManager(g_context, RecyclerView.HORIZONTAL, false);
         g_beranda_produk_adapter = new BerandaProdukAdapter();
-        VolleyClass.getProdukTerlaris(g_context, l_seller_id, g_beranda_produk_adapter);
+        VolleyClass.getProdukTerlaris(g_context, g_seller_id, g_beranda_produk_adapter);
 
         g_beranda_produk_fragment_recyclerview.setAdapter(g_beranda_produk_adapter);
         g_beranda_produk_fragment_recyclerview.setLayoutManager(g_linearlayoutmanager_produk);
@@ -140,7 +135,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_pembeli_fragment_recyclerview = g_view.findViewById(R.id.apps_beranda_pembeli_fragment_recyclerview);
         g_linearlayoutmanager_pembeli = new LinearLayoutManager(g_context);
         g_beranda_pembeli_adapter = new BerandaPembeliAdapter();
-        VolleyClass.getPembeliSetia(g_context, l_seller_id, g_beranda_pembeli_adapter);
+        VolleyClass.getPembeliSetia(g_context, g_seller_id, g_beranda_pembeli_adapter);
 
         g_beranda_pembeli_fragment_recyclerview.setAdapter(g_beranda_pembeli_adapter);
         g_beranda_pembeli_fragment_recyclerview.setLayoutManager(g_linearlayoutmanager_pembeli);
@@ -264,6 +259,8 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_produk_popup_btn_tawarkan.setOnClickListener(this);
 
         //Recyclerview
+//        Product product = null;
+//        VolleyClass.buyerRecommendation(g_context, String.valueOf(g_seller_id), String.valueOf(product.getId_product()));
         g_beranda_produk_popup_tawarkan_pembeli_rv = g_beranda_produk_popup.findViewById(R.id.rv_popup_beranda_produk_tawarkan_pembeli);
         g_linearlayoutmanager_tawarkan_pembeli = new LinearLayoutManager(g_context, RecyclerView.VERTICAL, false);
         g_beranda_tawarkan_pembeli_adapter = new BerandaTawarkanPembeliAdapter();
@@ -272,6 +269,10 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
 
         g_beranda_produk_popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         g_beranda_produk_popup.show();
+
+    }
+
+    public void setTawarkanPembeliAdapter(){
 
     }
 

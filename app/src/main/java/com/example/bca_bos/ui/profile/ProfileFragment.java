@@ -10,10 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -26,7 +23,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,7 +34,6 @@ import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Courier;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.locations.KotaKab;
-import com.example.bca_bos.models.locations.Provinsi;
 import com.example.bca_bos.networks.VolleyClass;
 import com.example.bca_bos.ui.produk.ChooseImageFromDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -75,7 +70,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
     private AutoCompleteTextView g_bottomsheet_actv_kota_asal;
     private ArrayAdapter<String> g_autocompleteadapter;
     public static List<String> g_city_name_list = new ArrayList<>();
-    public List<Provinsi> g_provinsi_list;
+    public List<KotaKab> g_city_list;
     private String g_asal_id_city;
     private RoundedImageView g_bottomsheet_iv_profile;
     private ChooseImageFromDialog g_choose_dialog;
@@ -106,7 +101,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         g_context = container.getContext();
         g_choose_dialog = new ChooseImageFromDialog(this);
         VolleyClass.getProfile(g_context, g_seller_id);
-        VolleyClass.getKotaKab(g_context);
+        VolleyClass.getCityProfile(g_context);
         g_bottomsheet_dialog_edit_profile = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         g_bottomsheet_dialog_change_password = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         g_view = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -332,16 +327,16 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
     //Mendapatkan ID dari City
     private void getAsalCityId(AutoCompleteTextView p_autocomplete){
         int l_position = g_city_name_list.indexOf(p_autocomplete.getText().toString());
-        g_asal_id_city = String.valueOf(g_provinsi_list.get(l_position).getId_provinsi());
+        g_asal_id_city = String.valueOf(g_city_list.get(l_position).getId_kota_kab());
     }
 
-    public void getKotaKab(List<Provinsi> p_provinsi){
+    public void getCity(List<KotaKab> p_kotakab){
         g_city_name_list.clear();
-        g_provinsi_list = p_provinsi;
+        g_city_list = p_kotakab;
         String l_city_name;
 
-        for (int i = 0; i < p_provinsi.size(); i++){
-            l_city_name = p_provinsi.get(i).getProvinsi_name();
+        for (int i = 0; i < p_kotakab.size(); i++){
+            l_city_name = p_kotakab.get(i).getKota_kab_name();
 
             g_city_name_list.add(l_city_name);
         }
