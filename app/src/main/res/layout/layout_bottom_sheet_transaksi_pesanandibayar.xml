@@ -131,6 +131,7 @@
         android:layout_height="150dp">
 
         <TextView
+            android:id="@+id/tv_apps_bottom_sheet_transaksi_pesanandibayar_resi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="No. Resi"

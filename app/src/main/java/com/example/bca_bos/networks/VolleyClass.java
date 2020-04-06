@@ -96,6 +96,7 @@ public class VolleyClass {
     private final static String URL_TRANSACTION_OFFLINE = BASE_URL_TRANSACTION + "/bos/offlineTransaction";
     private final static String URL_TRANSACTION_DETAIL = BASE_URL_TRANSACTION + "/bos/onlineTransactionDetail";
     private final static String URL_TRANSACTION_DETAIL_OFFLINE = BASE_URL_TRANSACTION + "/bos/offlineTransactionDetail";
+    private final static  String URL_ORDER_SHIPPED = BASE_URL_TRANSACTION + "/bos/orderShipped";
 
     //URL LOGIN
     private final static  String BASE_URL_LOGIN = "https://login.apps.pcf.dti.co.id";
@@ -967,6 +968,9 @@ public class VolleyClass {
                             else if(p_status == OnlineTransaksiFragment.g_instance.KEY_STATUS_SELESAI){
                                 OnlineTransaksiFragment.g_instance.showBottomSheetPesananSelesai(tempObject);
                             }
+                            else if(p_status == OnlineTransaksiFragment.g_instance.KEY_STATUS_BATAL){
+                                OnlineTransaksiFragment.g_instance.showBottomSheetPesananBatal(tempObject);
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -1006,6 +1010,42 @@ public class VolleyClass {
                 NetworkUtil.setErrorMessage(error);
             }
         });
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void insertShippedCode(final Context p_context, final Transaction p_transaksi){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("id_transaction", String.valueOf(p_transaksi.getId_transaction()));
+        params.put("shipping_code", p_transaksi.getShipping_code());
+
+        JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.PUT, URL_ORDER_SHIPPED, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String message = NetworkUtil.getErrorCode(response.toString());
+                            if(message.equals(ERROR_CODE_BERHASIL)){
+                                Toast.makeText(p_context, "Penambahan data Shipping Code berhasil", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(p_context, "Penambahan data Shipping Code gagal", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
 
         g_requestqueue.add(request_json);
     }
@@ -1372,8 +1412,6 @@ public class VolleyClass {
     }
 
     //endregion
-
-
 
     //region ORDER
     public static void insertOrder(final KeyboardBOSnew p_parent, final int p_id_seller, final int p_id_origin,

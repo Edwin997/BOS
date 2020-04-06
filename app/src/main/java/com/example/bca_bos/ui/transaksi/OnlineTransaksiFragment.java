@@ -1,9 +1,11 @@
 package com.example.bca_bos.ui.transaksi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -16,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -52,9 +53,9 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
 
     //Tombol tab status transaksi
     private Button g_btn_tab_semua, g_btn_tab_pesanan_baru, g_btn_tab_pesanan_dibayar,
-            g_btn_tab_pesanan_dikirim, g_btn_tab_selesai;
+            g_btn_tab_pesanan_dikirim, g_btn_tab_selesai, g_btn_tab_batal;
     private View g_view_tab_semua, g_view_tab_pesanan_baru, g_view_tab_pesanan_dibayar,
-            g_view_tab_pesanan_dikirim, g_view_tab_selesai;
+            g_view_tab_pesanan_dikirim, g_view_tab_selesai, g_view_tab_batal;
 
     private ImageView g_transaksi_iv;
 
@@ -69,12 +70,16 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
 //
 //    private List<Transaction> g_list_transaction;
 
+    private Transaction g_transaction_onclick;
+
     private int FLAG_FRAGMENT_TYPE;
     public final int KEY_STATUS_BARUMASUK = 0;
     public final int KEY_STATUS_SUDAHDIBAYAR = 1;
     public final int KEY_STATUS_SUDAHDIKIRIM = 2;
     public final int KEY_STATUS_SELESAI = 3;
     public final int KEY_STATUS_SEMUA = 4;
+    public final int KEY_STATUS_BATAL = 5;
+
 
     //Shared Preference
     private static final String PREF_LOGIN = "LOGIN_PREF";
@@ -120,12 +125,16 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         g_btn_tab_pesanan_dikirim = g_view.findViewById(R.id.apps_transaksi_fragment_tab_btn_pesanan_dikirim);
         g_btn_tab_selesai = g_view.findViewById(R.id.apps_transaksi_fragment_tab_btn_transaksi_selesai);
         g_btn_tab_semua = g_view.findViewById(R.id.apps_transaksi_fragment_tab_btn_semua_transaksi);
+        g_btn_tab_batal = g_view.findViewById(R.id.apps_transaksi_fragment_tab_btn_transaksi_batal);
+
         g_transaksi_iv = g_view.findViewById(R.id.apps_transaksi_image_view);
+
         g_view_tab_pesanan_baru = g_view.findViewById(R.id.apps_transaksi_underline_pesanan_baru);
         g_view_tab_pesanan_dibayar = g_view.findViewById(R.id.apps_transaksi_underline_pesanan_dibayar);
         g_view_tab_pesanan_dikirim = g_view.findViewById(R.id.apps_transaksi_underline_pesanan_dikirim);
         g_view_tab_selesai = g_view.findViewById(R.id.apps_transaksi_underline_transaksi_selesai);
         g_view_tab_semua = g_view.findViewById(R.id.apps_transaksi_underline_semua_transaksi);
+        g_view_tab_batal = g_view.findViewById(R.id.apps_transaksi_underline_transaksi_batal);
 
 
         g_btn_tab_pesanan_baru.setOnClickListener(this);
@@ -133,6 +142,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         g_btn_tab_pesanan_dibayar.setOnClickListener(this);
         g_btn_tab_selesai.setOnClickListener(this);
         g_btn_tab_semua.setOnClickListener(this);
+        g_btn_tab_batal.setOnClickListener(this);
 
         VolleyClass.getTransaksi(g_context, g_seller_id, g_transaksiadapter);
 
@@ -145,7 +155,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         if (FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIBAYAR){
             g_percentage = g_transaksiadapter.getPersentaseTransaksiSudahDiBayar();
             drawPieChart(new int[]{R.color.yellow, R.color.white},
-                    g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nbenar");
+                    g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
             g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
             g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapter);
             setTabBar();
@@ -153,7 +163,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
             FLAG_FRAGMENT_TYPE = KEY_STATUS_SEMUA;
             g_percentage = 100;
             drawPieChart(new int[]{R.color.white, R.color.white},
-                    g_transaksiadapter.getItemMasterCount() + "\nsalah");
+                    g_transaksiadapter.getItemMasterCount() + "\nTransaksi");
             g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
             g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapter);
             setTabBar();
@@ -167,10 +177,18 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.apps_transaksi_fragment_tab_btn_semua_transaksi:
+                FLAG_FRAGMENT_TYPE = KEY_STATUS_SEMUA;
+                g_percentage = 100;
+                drawPieChart(new int[]{R.color.white, R.color.white},
+                        g_transaksiadapter.getItemMasterCount() + "\nTransaksi");
+                g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
+                setTabBar();
+                break;
             case R.id.apps_transaksi_fragment_tab_btn_pesanan_baru:
                 FLAG_FRAGMENT_TYPE = KEY_STATUS_BARUMASUK;
                 g_percentage = g_transaksiadapter.getPersentaseTransaksiBaruMasuk();
-                drawPieChart(new int[]{R.color.red, R.color.white},
+                drawPieChart(new int[]{R.color.purple, R.color.white},
                         g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
                 g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 setTabBar();
@@ -199,11 +217,11 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
                 g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 setTabBar();
                 break;
-            case R.id.apps_transaksi_fragment_tab_btn_semua_transaksi:
-                FLAG_FRAGMENT_TYPE = KEY_STATUS_SEMUA;
-                g_percentage = 100;
-                drawPieChart(new int[]{R.color.white, R.color.white},
-                        g_transaksiadapter.getItemMasterCount() + "\nTransaksi");
+            case R.id.apps_transaksi_fragment_tab_btn_transaksi_batal:
+                FLAG_FRAGMENT_TYPE = KEY_STATUS_BATAL;
+                g_percentage = g_transaksiadapter.getPersentaseTransaksiBatal();
+                drawPieChart(new int[]{R.color.red, R.color.white},
+                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
                 g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
                 setTabBar();
                 break;
@@ -212,41 +230,43 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
 
     private void setTabBar(){
         refreshButton();
-        if(FLAG_FRAGMENT_TYPE == KEY_STATUS_BARUMASUK){
-            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_red);
-            g_btn_tab_pesanan_baru.setTextColor(g_context.getResources().getColor(R.color.red));
-//            g_btn_tab_pesanan_baru.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_red));
-            g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_red);
+        if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SEMUA){
+            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_black);
+            g_btn_tab_semua.setTextColor(g_context.getResources().getColor(R.color.black));
+            g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_white);
+            g_view_tab_semua.setVisibility(View.VISIBLE);
+        }
+        else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_BARUMASUK){
+            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_purple);
+            g_btn_tab_pesanan_baru.setTextColor(g_context.getResources().getColor(R.color.purple));
+            g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_purple);
             g_view_tab_pesanan_baru.setVisibility(View.VISIBLE);
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIBAYAR){
             g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_orange_layered);
             g_btn_tab_pesanan_dibayar.setTextColor(g_context.getResources().getColor(R.color.yellow));
-//            g_btn_tab_pesanan_dibayar.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_yellow));
             g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_orange);
             g_view_tab_pesanan_dibayar.setVisibility(View.VISIBLE);
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIKIRIM){
             g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_blue);
             g_btn_tab_pesanan_dikirim.setTextColor(g_context.getResources().getColor(R.color.blue));
-//            g_btn_tab_pesanan_dikirim.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_blue));
             g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_blue);
             g_view_tab_pesanan_dikirim.setVisibility(View.VISIBLE);
         }
         else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SELESAI){
             g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_green);
             g_btn_tab_selesai.setTextColor(g_context.getResources().getColor(R.color.green));
-//            g_btn_tab_selesai.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_green));
             g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_green);
             g_view_tab_selesai.setVisibility(View.VISIBLE);
         }
-        else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SEMUA){
-            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_purple);
-            g_btn_tab_semua.setTextColor(g_context.getResources().getColor(R.color.purple));
-//            g_btn_tab_semua.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
-            g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_purple);
-            g_view_tab_semua.setVisibility(View.VISIBLE);
+        else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_BATAL){
+            g_transaksi_iv.setBackgroundResource(R.drawable.style_chart_gradient_red);
+            g_btn_tab_batal.setTextColor(g_context.getResources().getColor(R.color.red));
+            g_parent.changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_red);
+            g_view_tab_batal.setVisibility(View.VISIBLE);
         }
+
     }
 
     private void refreshButton(){
@@ -260,6 +280,8 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         g_view_tab_selesai.setVisibility(View.GONE);
         g_btn_tab_semua.setTextColor(g_context.getResources().getColor(R.color.grey));
         g_view_tab_semua.setVisibility(View.GONE);
+        g_btn_tab_batal.setTextColor(g_context.getResources().getColor(R.color.grey));
+        g_view_tab_batal.setVisibility(View.GONE);
     }
 
     public void drawPieChart(int[] p_colortemplate, String p_centertext){
@@ -306,8 +328,8 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
     @Override
     public void OnCallBack(Object p_obj) {
         if(p_obj instanceof Transaction){
-            Transaction tmpTransaction = (Transaction) p_obj;
-            VolleyClass.getTransaksiDetail(g_context, tmpTransaction.getId_transaction(), tmpTransaction.getStatus());
+            g_transaction_onclick = (Transaction) p_obj;
+            VolleyClass.getTransaksiDetail(g_context, g_transaction_onclick.getId_transaction(), g_transaction_onclick.getStatus());
         }
     }
 
@@ -322,7 +344,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         }
     }
 
-    public void showBottomSheetPesananBaru(Transaction p_transaction){
+    public void showBottomSheetPesananBaru(final Transaction p_transaction){
         g_bottomsheet_dialog = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         View l_bottomsheet_view_add = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_transaksi_pesananbaru,
@@ -335,6 +357,9 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         TextView l_tv_bottom_sheet_transaksi_pesanbaru_total = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananbaru_total);
         TextView l_tv_bottom_sheet_transaksi_pesanbaru_phone = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananbaru_phone);
         TextView l_tv_bottom_sheet_transaksi_pesanbaru_alamat = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananbaru_alamat);
+
+        Button l_btn_bottom_sheet_transaksi_pesanbaru_ingatkan = l_bottomsheet_view_add.findViewById(R.id.btn_apps_bottom_sheet_transaksi_pesananbaru_ingatkan);
+        Button l_btn_bottom_sheet_transaksi_pesanbaru_batalkan = l_bottomsheet_view_add.findViewById(R.id.btn_apps_bottom_sheet_transaksi_pesananbaru_batalkan);
 
         TransaksiDetailAdapter l_tdAdapter = new TransaksiDetailAdapter();
         LinearLayoutManager l_layoutmanager = new LinearLayoutManager(g_context);
@@ -350,11 +375,35 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         l_tv_bottom_sheet_transaksi_pesanbaru_phone.setText(p_transaction.getBuyer().getPhone());
         l_tv_bottom_sheet_transaksi_pesanbaru_alamat.setText(p_transaction.getAddress());
 
+        l_btn_bottom_sheet_transaksi_pesanbaru_ingatkan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendSMS = new Intent(Intent.ACTION_SENDTO);
+                sendSMS.setType("text/plain");
+                sendSMS.setData(Uri.parse("smsto:" + p_transaction.getBuyer().getPhone()));
+                sendSMS.putExtra("sms_body", "Hallo, Kami dari toko Winstok Cell ingin mengingatkan kembali mengenai transaksi anda" +
+                        "pada Tanggal " + Method.formatDate(p_transaction.getOrder_time()) + "\nSilahkan segera membayarkan pada Virtual Account:\n" +
+                        p_transaction.getPayment_account() +
+                        "\nTerima kasih atas perhatiannya.");
+
+                if (sendSMS.resolveActivity(g_context.getPackageManager()) != null) {
+                    startActivity(sendSMS);
+                }
+            }
+        });
+
+        l_btn_bottom_sheet_transaksi_pesanbaru_batalkan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         g_bottomsheet_dialog.setContentView(l_bottomsheet_view_add);
         g_bottomsheet_dialog.show();
     }
 
-    public void showBottomSheetPesananDikirim(Transaction p_transaction){
+    public void showBottomSheetPesananDikirim(final Transaction p_transaction){
         g_bottomsheet_dialog = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         View l_bottomsheet_view_add = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_transaksi_pesanandikirim,
@@ -367,6 +416,8 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         TextView l_tv_bottom_sheet_transaksi_pesandikirim_total = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandikirim_total);
         TextView l_tv_bottom_sheet_transaksi_pesandikirim_phone = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandikirim_phone);
         TextView l_tv_bottom_sheet_transaksi_pesandikirim_alamat = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandikirim_alamat);
+        Button l_btn_bottom_sheet_transaksi_pesandikirim_kirim_konfirmasi = l_bottomsheet_view_add.findViewById(R.id.btn_apps_bottom_sheet_transaksi_pesanandikirim_kirim_konfirmasi);
+
 
         TransaksiDetailAdapter l_tdAdapter = new TransaksiDetailAdapter();
         LinearLayoutManager l_layoutmanager = new LinearLayoutManager(g_context);
@@ -381,6 +432,23 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         l_tv_bottom_sheet_transaksi_pesandikirim_total.setText(Method.getIndoCurrency(Double.parseDouble(p_transaction.getTotal_payment())));
         l_tv_bottom_sheet_transaksi_pesandikirim_phone.setText(p_transaction.getBuyer().getPhone());
         l_tv_bottom_sheet_transaksi_pesandikirim_alamat.setText(p_transaction.getAddress());
+
+        l_btn_bottom_sheet_transaksi_pesandikirim_kirim_konfirmasi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendSMS = new Intent(Intent.ACTION_SENDTO);
+                sendSMS.setType("text/plain");
+                sendSMS.setData(Uri.parse("smsto:" + p_transaction.getBuyer().getPhone()));
+                sendSMS.putExtra("sms_body", "Hallo, Kami dari toko Winstok Cell ingin melakukan konfirmasi mengenai transaksi anda" +
+                        "pada Tanggal " + Method.formatDate(p_transaction.getOrder_time()) + "\nDengan cara melakukan klik pada link berikut ini:\n" +
+                        "https://webapp.apps.pcf.dti.co.id/order/confirm/" + p_transaction.getId_transaction() +
+                        "\nTerima Kasih.");
+
+                if (sendSMS.resolveActivity(g_context.getPackageManager()) != null) {
+                    startActivity(sendSMS);
+                }
+            }
+        });
 
         g_bottomsheet_dialog.setContentView(l_bottomsheet_view_add);
         g_bottomsheet_dialog.show();
@@ -418,6 +486,38 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         g_bottomsheet_dialog.show();
     }
 
+    public void showBottomSheetPesananBatal(Transaction p_transaction){
+        g_bottomsheet_dialog = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
+        View l_bottomsheet_view_add = LayoutInflater.from(g_context).inflate(
+                R.layout.layout_bottom_sheet_transaksi_pesananbatal,
+                (LinearLayout)g_view.findViewById(R.id.layout_apps_bottom_sheet_container_transaksi_pesananbatal)
+        );
+
+        RecyclerView l_rv_bottom_sheet_transaksi_pesananbatal = l_bottomsheet_view_add.findViewById(R.id.rv_apps_bottom_sheet_transaksi_pesananbatal);
+        TextView l_tv_bottom_sheet_transaksi_pesananbatal_nama = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananbatal_nama);
+        TextView l_tv_bottom_sheet_transaksi_pesananbatal_tanggal = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananbatal_tanggal);
+        TextView l_tv_bottom_sheet_transaksi_pesananbatal_total = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananbatal_total);
+        TextView l_tv_bottom_sheet_transaksi_pesananbatal_phone = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananbatal_phone);
+        TextView l_tv_bottom_sheet_transaksi_pesananbatal_alamat = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesananbatal_alamat);
+
+        TransaksiDetailAdapter l_tdAdapter = new TransaksiDetailAdapter();
+        LinearLayoutManager l_layoutmanager = new LinearLayoutManager(g_context);
+
+        l_rv_bottom_sheet_transaksi_pesananbatal.setAdapter(l_tdAdapter);
+        l_rv_bottom_sheet_transaksi_pesananbatal.setLayoutManager(l_layoutmanager);
+
+        l_tdAdapter.setListTransaksiDetail(p_transaction.getTransaction_detail());
+
+        l_tv_bottom_sheet_transaksi_pesananbatal_nama.setText(p_transaction.getBuyer().getBuyer_name());
+        l_tv_bottom_sheet_transaksi_pesananbatal_tanggal.setText(Method.formatDate(p_transaction.getOrder_time()));
+        l_tv_bottom_sheet_transaksi_pesananbatal_total.setText(Method.getIndoCurrency(Double.parseDouble(p_transaction.getTotal_payment())));
+        l_tv_bottom_sheet_transaksi_pesananbatal_phone.setText(p_transaction.getBuyer().getPhone());
+        l_tv_bottom_sheet_transaksi_pesananbatal_alamat.setText(p_transaction.getAddress());
+
+        g_bottomsheet_dialog.setContentView(l_bottomsheet_view_add);
+        g_bottomsheet_dialog.show();
+    }
+
     public void showBottomSheetPesananDibayar(Transaction p_transaction){
         g_bottomsheet_dialog = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         View l_bottomsheet_view_add = LayoutInflater.from(g_context).inflate(
@@ -432,6 +532,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         TextView l_tv_bottom_sheet_transaksi_pesandibayar_total = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandibayar_total);
         TextView l_tv_bottom_sheet_transaksi_pesandibayar_phone = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandibayar_phone);
         TextView l_tv_bottom_sheet_transaksi_pesandibayar_alamat = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandibayar_alamat);
+        TextView l_tv_bottom_sheet_transaksi_pesandibayar_resi = l_bottomsheet_view_add.findViewById(R.id.tv_apps_bottom_sheet_transaksi_pesanandibayar_resi);
 
         final EditText l_et_bottom_sheet_transaksi_pesandibayar_resi = l_bottomsheet_view_add.findViewById(R.id.et_apps_bottom_sheet_transaksi_pesanandibayar_resi);
         Button l_btn_bottom_sheet_transaksi_pesandibayar_kirimresi = l_bottomsheet_view_add.findViewById(R.id.btn_apps_bottom_sheet_transaksi_pesanandibayar_sendresi);
@@ -449,12 +550,14 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         l_tv_bottom_sheet_transaksi_pesandibayar_total.setText(Method.getIndoCurrency(Double.parseDouble(p_transaction.getTotal_payment())));
         l_tv_bottom_sheet_transaksi_pesandibayar_phone.setText(p_transaction.getBuyer().getPhone());
         l_tv_bottom_sheet_transaksi_pesandibayar_alamat.setText(p_transaction.getAddress());
+        l_tv_bottom_sheet_transaksi_pesandibayar_resi.setText("No. Resi (" + p_transaction.getShipping_agent() + ") :");
 
         l_btn_bottom_sheet_transaksi_pesandibayar_kirimresi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!l_et_bottom_sheet_transaksi_pesandibayar_resi.getText().equals("")){
-                    Toast.makeText(g_context, l_et_bottom_sheet_transaksi_pesandibayar_resi.getText(), Toast.LENGTH_SHORT).show();
+                    g_transaction_onclick.setShipping_code(l_et_bottom_sheet_transaksi_pesandibayar_resi.getText().toString());
+                    VolleyClass.insertShippedCode(g_context, g_transaction_onclick);
                     g_bottomsheet_dialog.dismiss();
                 }
             }

@@ -3,6 +3,7 @@ package com.example.bca_bos.ui.transaksi;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -83,14 +85,17 @@ public class TransaksiFragment extends Fragment{
         g_fragment_transaction.commit();
 
         g_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_purple);
+                    changeSwitchAppearance(R.drawable.switch_custom_thumb_selector_white);
+                    g_switch.setSwitchTextAppearance(g_context, R.style.SwitchTextAppearanceBlack);
                     g_fragment_transaction = g_fragment_manager.beginTransaction();
                     g_fragment_transaction.replace(R.id.apps_transaksi_fragment_container, g_offline_fragment);
                     g_fragment_transaction.commit();
                 }else {
+                    g_switch.setSwitchTextAppearance(g_context, R.style.SwitchTextAppearanceWhite);
                     g_fragment_transaction = g_fragment_manager.beginTransaction();
                     g_fragment_transaction.replace(R.id.apps_transaksi_fragment_container, g_online_fragment);
                     g_fragment_transaction.commit();

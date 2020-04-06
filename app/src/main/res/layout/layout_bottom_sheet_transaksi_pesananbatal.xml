@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_apps_bottom_sheet_container_transaksi_pesanandikirim"
+    android:id="@+id/layout_apps_bottom_sheet_container_transaksi_pesananbatal"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,13 +15,13 @@
         android:background="@drawable/bottomsheet_puller"/>
 
     <TextView
-        android:id="@+id/tv_apps_bottom_sheet_transaksi_pesanandikirim_judul"
+        android:id="@+id/tv_apps_bottom_sheet_transaksi_pesananbatal_judul"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingBottom="20dp"
-        android:text="Pesanan Dikirim"
-        android:textColor="@color/blue"
+        android:text="Transaksi Dibatalkan"
+        android:textColor="@color/red"
         android:textSize="18dp"
         android:textStyle="bold"/>
 
@@ -31,7 +31,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_apps_bottom_sheet_transaksi_pesanandikirim_nama"
+            android:id="@+id/tv_apps_bottom_sheet_transaksi_pesananbatal_nama"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/tv_apps_bottom_sheet_transaksi_pesanandikirim_tanggal"
+            android:id="@+id/tv_apps_bottom_sheet_transaksi_pesananbatal_tanggal"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_apps_bottom_sheet_transaksi_pesanandikirim_phone"
+            android:id="@+id/tv_apps_bottom_sheet_transaksi_pesananbatal_phone"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -76,12 +76,12 @@
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:text="0815512345"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="14dp"
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/tv_apps_bottom_sheet_transaksi_pesanandikirim_total"
+            android:id="@+id/tv_apps_bottom_sheet_transaksi_pesananbatal_total"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -89,14 +89,14 @@
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:text="Rp100.000,00"
-            android:textColor="@color/blue"
+            android:textColor="@color/red"
             android:textSize="14dp"
             android:textStyle="bold"/>
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_apps_bottom_sheet_transaksi_pesanandikirim_alamat"
+        android:id="@+id/tv_apps_bottom_sheet_transaksi_pesananbatal_alamat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
@@ -115,27 +115,21 @@
         android:layout_height="150dp">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_apps_bottom_sheet_transaksi_pesanandikirim"
+            android:id="@+id/rv_apps_bottom_sheet_transaksi_pesananbatal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3">
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <Button
-            android:id="@+id/btn_apps_bottom_sheet_transaksi_pesanandikirim_kirim_konfirmasi"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.5"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="Kirim Form Konfirmasi Pesanan Tiba"
-            android:background="@drawable/style_gradient_color_rounded_box_blue"
+            android:layout_height="wrap_content"
+            android:text="Pesanan telah dibatalkan"
+            android:textColor="@color/red"
             android:textStyle="bold"
-            android:textColor="@color/white"
             android:gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             />
     </LinearLayout>
 </LinearLayout>
