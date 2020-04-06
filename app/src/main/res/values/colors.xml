@@ -24,6 +24,7 @@
     <color name="yellow">#803b20</color>
     <color name="red">#7b1a1c</color>
     <color name="purple">#674089</color>
+    <color name="mid_grey">#8c8e91</color>
 
     //Light color
     <color name="lighter_blue">#1D62AF</color>

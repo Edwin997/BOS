@@ -21,7 +21,7 @@
         android:gravity="center"
         android:paddingBottom="20dp"
         android:text="Transaksi Offline"
-        android:textColor="@color/purple"
+        android:textColor="@color/mid_grey"
         android:textSize="18dp"
         android:textStyle="bold"/>
 
@@ -54,7 +54,7 @@
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:text="Rp100.000,00"
-            android:textColor="@color/purple"
+            android:textColor="@color/mid_grey"
             android:textSize="20dp"
             android:textStyle="bold"/>
 

@@ -19,7 +19,7 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:orientation="horizontal"
-        android:background="@drawable/style_transaction_background_purple">
+        android:background="@drawable/style_transaction_gradient_white">
 
         <TextView
             android:id="@+id/tv_apps_transaksi_tanggal_off"
@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="start|center_vertical"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:fontFamily="@font/montserrat_regular"
             android:text="2018-02-20"
             android:textSize="16dp"/>
@@ -38,7 +38,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="end|center_vertical"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:text="100000"
             android:textSize="18dp"
             android:textStyle="bold"/>

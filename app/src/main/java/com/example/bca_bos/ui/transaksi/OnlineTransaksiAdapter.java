@@ -122,6 +122,14 @@ public class OnlineTransaksiAdapter extends RecyclerView.Adapter<OnlineTransaksi
         return tmpHasil;
     }
 
+    public float getPersentaseTransaksiBatal(){
+        float tmpHasil = 0f;
+        if(g_list_transaction_master.size() > 0){
+            tmpHasil = (((float)countTransaksibyStatus(g_parent_online.KEY_STATUS_BATAL)) / g_list_transaction_master.size()) * 100;
+        }
+        return tmpHasil;
+    }
+
     public int countTransaksibyStatus(int p_type){
         int count = 0;
 
@@ -190,9 +198,14 @@ public class OnlineTransaksiAdapter extends RecyclerView.Adapter<OnlineTransaksi
                 tv_status_transaksi.setText("Pesanan Dibayar");
             }
             else if(l_transaction.getStatus() == g_parent_online.KEY_STATUS_BARUMASUK){
+                ll_transaksi.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_background_purple));
+                tv_status_transaksi.setText("Pesanan Baru");
+            }
+            else if(l_transaction.getStatus() == g_parent_online.KEY_STATUS_BATAL){
                 ll_transaksi.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_red));
                 tv_status_transaksi.setText("Pesanan Baru");
-            } else {
+            }
+            else {
                 ll_transaksi.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
                 tv_status_transaksi.setText("NULL");
             }

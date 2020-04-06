@@ -10,7 +10,7 @@
         android:id="@+id/apps_transaksi_image_view_off"
         android:layout_width="match_parent"
         android:layout_height="340dp"
-        android:background="@drawable/style_chart_gradient_black"
+        android:background="@drawable/style_chart_gradient_white"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

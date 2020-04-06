@@ -49,6 +49,8 @@ import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.networks.RajaOngkir;
 import com.example.bca_bos.networks.VolleyClass;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -814,7 +816,12 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                     showFeatureMenu();
                 break;
             case R.id.bcabos_kirimform_produk_button_next_button:
-                showKirimFormNext();
+                if(g_kirimform_produk_adapter.getListOrder().size() > 0){
+                    showKirimFormNext();    
+                } else{
+                    Toast.makeText(this, "Silahkan pilih produk terlebih dahulu", Toast.LENGTH_SHORT).show();
+                }
+                
                 g_actv_kirimform_next_asal.requestFocus();
                 break;
             //endregion
@@ -828,10 +835,11 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 break;
             case R.id.bcabos_kirimform_send_button:
                 focusedEditText = KEY_ET_EXTERNAL;
-                String comment = "Silahkan melengkapi data diri anda dan melakukan pengecekan terakhir" +
-                        " pesanan anda pada link dibawah ini:\n";
-                String url_kirimform = "https://webapp.apps.pcf.dti.co.id/order/1";
-                commitTextToBOSKeyboardEditText(comment + url_kirimform);
+                try {
+                    VolleyClass.insertOrder(this, 3,2, g_kirimform_produk_adapter.getListOrder());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 break;
 
             //endregion

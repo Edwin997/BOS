@@ -21,7 +21,7 @@
         android:gravity="center"
         android:paddingBottom="20dp"
         android:text="Pesanan Baru"
-        android:textColor="@color/red"
+        android:textColor="@color/purple"
         android:textSize="18dp"
         android:textStyle="bold"/>
 
@@ -76,7 +76,7 @@
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:text="0815512345"
-            android:textColor="@color/red"
+            android:textColor="@color/purple"
             android:textSize="14dp"
             android:textStyle="bold"/>
 
@@ -89,7 +89,7 @@
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:text="Rp100.000,00"
-            android:textColor="@color/red"
+            android:textColor="@color/purple"
             android:textSize="14dp"
             android:textStyle="bold"/>
 
@@ -122,14 +122,42 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Menunggu pembayaran dikonfirmasi"
-            android:textColor="@color/red"
-            android:textStyle="bold"
-            android:gravity="center"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_apps_bottom_sheet_transaksi_pesananbaru_ingatkan"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="Ingatkan"
+                android:background="@drawable/switch_custom_thumb_selector_purple"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:gravity="center"/>
+
+            <Button
+                android:id="@+id/btn_apps_bottom_sheet_transaksi_pesananbaru_batalkan"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:text="Batalkan"
+                android:background="@drawable/style_gradient_color_rounded_box_red"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:gravity="center"/>
+
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

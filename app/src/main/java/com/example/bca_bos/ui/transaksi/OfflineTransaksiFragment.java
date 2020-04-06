@@ -100,7 +100,7 @@ public class OfflineTransaksiFragment extends Fragment implements View.OnClickLi
 
     public void firstLoad(){
         g_percentage = 100;
-        drawPieChart(new int[]{R.color.white, R.color.white},
+        drawPieChart(new int[]{R.color.black, R.color.black},
                 g_transaksiadapteroffline.getItemMasterCount() + "\nTransaksi");
         g_transaksiadapteroffline.setListTransaksi(g_transaksiadapteroffline.getList());
         g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapteroffline);
@@ -149,7 +149,7 @@ public class OfflineTransaksiFragment extends Fragment implements View.OnClickLi
         l_transaksi_piechart_dataset.setColors(ColorTemplate.createColors(getResources(), p_colortemplate));
         g_transaksi_fragment_piechart.setCenterText(tmpCustomSizeText);
         g_transaksi_fragment_piechart.setCenterTextSize(18);
-        g_transaksi_fragment_piechart.setCenterTextColor(getResources().getColor(R.color.white));
+        g_transaksi_fragment_piechart.setCenterTextColor(getResources().getColor(R.color.black));
 
 
 
