@@ -48,5 +48,6 @@ dependencies {
 
     //Lottie - for animation
     implementation 'com.airbnb.android:lottie:3.4.0'
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
 
 }

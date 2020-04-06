@@ -25,7 +25,10 @@ public class BerandaTawarkanPembeliAdapter extends RecyclerView.Adapter<BerandaT
 
     public BerandaTawarkanPembeliAdapter(){
         g_list_pembeli = ListPembeliDummy.pembeliList;
+    }
 
+    public BerandaTawarkanPembeliAdapter(List<Buyer> p_list){
+        g_list_pembeli = p_list;
     }
 
     @NonNull

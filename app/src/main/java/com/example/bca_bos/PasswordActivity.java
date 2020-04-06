@@ -64,6 +64,10 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
             g_bos_id= (String) savedInstanceState.getSerializable(BOS_ID);
         }
 
+        //Get BOS ID
+        SharedPreferences l_preference = this.getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
+        g_bos_id = l_preference.getString(BOS_ID, "");
+
         //Password digit
         g_password_iv_first_digit = findViewById(R.id.apps_password_first_digit_image_view);
         g_password_iv_second_digit = findViewById(R.id.apps_password_second_digit_image_view);

@@ -495,6 +495,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
         g_autocompleteadapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, g_city_name_list);
         g_autocompleteadapter.notifyDataSetChanged();
+        g_autocompleteadapter.setNotifyOnChange(true);
     }
 
     public void cekOngkirLoading(String p_status){

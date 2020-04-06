@@ -55,7 +55,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
         g_otp_flag = "zero";
         tmp_otp = "";
-        g_otp_ll_kirim_ulang_otp.setVisibility(View.GONE);
+
 
         //Menerima data intent
         if (savedInstanceState == null) {
@@ -115,6 +115,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
         //Kirim ulang OTP
         g_otp_ll_kirim_ulang_otp = findViewById(R.id.apps_otp_kirim_ulang_linear_layout);
+        g_otp_ll_kirim_ulang_otp.setVisibility(View.GONE);
         startCountDown();
         g_otp_ll_kirim_ulang_otp.setOnClickListener(this);
 
@@ -311,6 +312,9 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         Intent tmp_register_intent = new Intent(OTPActivity.this, FillDataActivity.class);
         saveStringSharedPreference(BOS_ID, g_bos_id);
         saveIntegerSharedPreference(SELLER_ID, p_seller_id);
+
+
+
         startActivity(tmp_register_intent);
         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         closeRegisterActivity();

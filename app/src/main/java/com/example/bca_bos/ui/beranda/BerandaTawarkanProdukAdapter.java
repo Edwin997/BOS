@@ -27,6 +27,10 @@ public class BerandaTawarkanProdukAdapter extends RecyclerView.Adapter<BerandaTa
         g_list_product = ListProdukDummy.productList;
     }
 
+    public BerandaTawarkanProdukAdapter(List<Product> p_list){
+        g_list_product = p_list;
+    }
+
     @NonNull
     @Override
     public BerandaTawarkanProdukViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

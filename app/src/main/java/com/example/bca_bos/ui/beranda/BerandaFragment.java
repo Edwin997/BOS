@@ -30,6 +30,8 @@ import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.networks.VolleyClass;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.util.List;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class BerandaFragment extends Fragment implements View.OnClickListener, OnCallBackListener {
@@ -259,11 +261,11 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_produk_popup_btn_tawarkan.setOnClickListener(this);
 
         //Recyclerview
-//        Product product = null;
-//        VolleyClass.buyerRecommendation(g_context, String.valueOf(g_seller_id), String.valueOf(product.getId_product()));
+
+
         g_beranda_produk_popup_tawarkan_pembeli_rv = g_beranda_produk_popup.findViewById(R.id.rv_popup_beranda_produk_tawarkan_pembeli);
         g_linearlayoutmanager_tawarkan_pembeli = new LinearLayoutManager(g_context, RecyclerView.VERTICAL, false);
-        g_beranda_tawarkan_pembeli_adapter = new BerandaTawarkanPembeliAdapter();
+        VolleyClass.buyerRecommendation(g_context, String.valueOf(g_seller_id), String.valueOf(tmp_id_product));
         g_beranda_produk_popup_tawarkan_pembeli_rv.setAdapter(g_beranda_tawarkan_pembeli_adapter);
         g_beranda_produk_popup_tawarkan_pembeli_rv.setLayoutManager(g_linearlayoutmanager_tawarkan_pembeli);
 
@@ -272,8 +274,8 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
 
     }
 
-    public void setTawarkanPembeliAdapter(){
-
+    public void setTawarkanPembeliAdapter(List<Buyer> p_buyer){
+        g_beranda_tawarkan_pembeli_adapter = new BerandaTawarkanPembeliAdapter(p_buyer);
     }
 
     public void showProdukListPopUp(Product p_product){
@@ -313,6 +315,9 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_pembeli_popup_tv_no_hp = g_beranda_pembeli_popup.findViewById(R.id.tv_popup_beranda_pembeli_no_hp_item);
         g_beranda_pembeli_popup_tv_no_hp.setText(String.valueOf(p_pembeli.getPhone()));
 
+        //get id buyer
+        int tmp_id_buyer = p_pembeli.getId_buyer();
+
         //Button
         g_beranda_pembeli_popup_btn_close = g_beranda_pembeli_popup.findViewById(R.id.btn_popup_beranda_pembeli_close);
         g_beranda_pembeli_popup_btn_tawarkan = g_beranda_pembeli_popup.findViewById(R.id.btn_popup_beranda_pembeli_tawarkan);
@@ -322,13 +327,18 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         //Recyclerview
         g_beranda_pembeli_popup_tawarkan_produk_rv = g_beranda_pembeli_popup.findViewById(R.id.rv_popup_beranda_pembeli_tawarkan_produk);
         g_linearlayoutmanager_tawarkan_produk = new LinearLayoutManager(g_context, RecyclerView.HORIZONTAL, false);
-        g_beranda_tawarkan_produk_adapter = new BerandaTawarkanProdukAdapter();
+        VolleyClass.productRecommendation(g_context, String.valueOf(g_seller_id), String.valueOf(tmp_id_buyer));
         g_beranda_pembeli_popup_tawarkan_produk_rv.setAdapter(g_beranda_tawarkan_produk_adapter);
         g_beranda_pembeli_popup_tawarkan_produk_rv.setLayoutManager(g_linearlayoutmanager_tawarkan_produk);
 
         g_beranda_pembeli_popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         g_beranda_pembeli_popup.show();
     }
+
+    public void setTawarkanProdukAdapter(List<Product> p_product){
+        g_beranda_tawarkan_produk_adapter = new BerandaTawarkanProdukAdapter(p_product);
+    }
+
 
     public void showBuyerListPopUp(Buyer p_pembeli){
         g_beranda_pembeli_list_popup.setContentView(R.layout.layout_dialog_listitem_beranda);

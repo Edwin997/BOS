@@ -84,9 +84,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 isInputValid();
                 if (isInputValid()){
                     register();
-//                    Intent tmp_register_intent = new Intent(RegisterActivity.this, OTPActivity.class);
-//                    startActivity(tmp_register_intent);
-//                    overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
                 }
                 break;
         }
@@ -196,7 +193,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
     }
 
-    public void setError(){
-        g_register_tv_error.setText("Tidak dapat terhubung ke server");
+    public void setError(String p_message){
+        g_register_tv_error.setText(p_message);
     }
 }

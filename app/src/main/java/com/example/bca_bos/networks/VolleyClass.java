@@ -50,6 +50,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,6 +75,8 @@ public class VolleyClass {
     private final static  String BASE_URL_DATASCIENCE = "https://datasciencebos.apps.pcf.dti.co.id";
     private final static String URL_BUYER_RECOMMENDATION = BASE_URL_DATASCIENCE + "/buyer-recommendation";
     private final static String URL_PRODUCT_RECOMMENDATION = BASE_URL_DATASCIENCE + "/product-recommendation";
+    public static List<String> g_datascience_buyer_name = new ArrayList<>();
+    public static List<String> g_datascience_buyer_phone_number = new ArrayList<>();
 
     //URL BERANDA
     private final static  String BASE_URL_BERANDA= "https://home.apps.pcf.dti.co.id";
@@ -135,21 +138,33 @@ public class VolleyClass {
     public static void buyerRecommendation(final Context p_context, final String p_seller_id, final String p_product_id){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("seller_id", p_seller_id);
-        params.put("product_id", p_product_id);
-        params.put("n_recommendation", "10");
+        HashMap<String, Integer> params = new HashMap<String, Integer>();
+        params.put("seller_id", Integer.parseInt(p_seller_id));
+        params.put("product_id", Integer.parseInt(p_product_id));
+        params.put("n_recommendation", 10);
 
         JsonObjectRequest request_json = new JsonObjectRequest(URL_BUYER_RECOMMENDATION, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        g_datascience_buyer_name.clear();
+                        g_datascience_buyer_phone_number.clear();
+                        List<Buyer> l_buyer = new ArrayList<>();
 
                         try {
                             JSONObject objGeneral = new JSONObject(String.valueOf(response));
                             JSONArray tmpObjectArray = objGeneral.getJSONArray("result");
-                            String output = tmpObjectArray.toString();
-                            Seller tempObject = gson.fromJson(output, Seller.class);
+
+                            for (int i = 0; i < tmpObjectArray.length(); i++){
+                                JSONObject buyerResultsJSON = tmpObjectArray.getJSONObject(i);
+
+                                Buyer buyer = new Buyer();
+                                buyer.setBuyer_name(buyerResultsJSON.getString("buyer_name"));
+                                buyer.setPhone(buyerResultsJSON.getString("phone"));
+
+                                l_buyer.add(buyer);
+                            }
+                            BerandaFragment.g_instance.setTawarkanPembeliAdapter(l_buyer);
 
                         }catch (Exception e) {
                             e.printStackTrace();
@@ -169,10 +184,10 @@ public class VolleyClass {
     public static void productRecommendation(final Context p_context, final String p_seller_id, final String p_buyer_id){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("seller_id", p_seller_id);
-        params.put("buyer_id", p_buyer_id);
-        params.put("n_recommendation", "10");
+        HashMap<String, Integer> params = new HashMap<String, Integer>();
+        params.put("seller_id", Integer.valueOf(p_seller_id));
+        params.put("buyer_id", Integer.valueOf(p_buyer_id));
+        params.put("n_recommendation", 10);
 
         JsonObjectRequest request_json = new JsonObjectRequest(URL_PRODUCT_RECOMMENDATION, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
@@ -182,8 +197,17 @@ public class VolleyClass {
                         try {
                             JSONObject objGeneral = new JSONObject(String.valueOf(response));
                             JSONArray tmpObjectArray = objGeneral.getJSONArray("result");
-                            String output = tmpObjectArray.toString();
-                            Seller tempObject = gson.fromJson(output, Seller.class);
+                            List<Product> l_product = new ArrayList<>();
+
+                            for (int i = 0; i < tmpObjectArray.length(); i++){
+                                JSONObject productResultsJSON = tmpObjectArray.getJSONObject(i);
+
+                                Product product = new Product();
+                                product.setProduct_name(productResultsJSON.getString("product_name"));
+                                product.setPrice(productResultsJSON.getInt("price"));
+                                l_product.add(product);
+                            }
+                            BerandaFragment.g_instance.setTawarkanProdukAdapter(l_product);
 
                         }catch (Exception e) {
                             e.printStackTrace();
@@ -1181,11 +1205,20 @@ public class VolleyClass {
                     @Override
                     public void onResponse(JSONObject response) {
 
+                        Log.d("BOSVOLLEY", response.toString());
+
                         String message = NetworkUtil.getErrorCode(response.toString());
-                        String output = NetworkUtil.getOutputSchema(response.toString());
+                        String output = "";
+                        try {
+                            output = response.getString("output_schema");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                         if(message.equals(ERROR_CODE_BERHASIL)){
                             RegisterActivity.g_instance.intentRegister(p_bos_id, p_no_hp);
+                        }else{
+                            RegisterActivity.g_instance.setError(output);
                         }
 
                     }
@@ -1213,17 +1246,24 @@ public class VolleyClass {
 
                         String message = NetworkUtil.getErrorCode(response.toString());
                         String output = NetworkUtil.getOutputSchema(response.toString());
+                        String tmpObject = "";
+                        String output_id_seller = "";
+
+                        try {
+                            JSONObject objGeneral = new JSONObject(response.toString());
+                            tmpObject =  objGeneral.getString("output_schema");
+                            
+                        }catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                        output_id_seller = tmpObject.substring(11);
 
                         if(message.equals(ERROR_CODE_BERHASIL)){
-                            int tmp_id_seller = 0;
-                            try {
-                                Seller tempObject = gson.fromJson(output, Seller.class);
-                                tmp_id_seller = tempObject.getId_seller();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            OTPActivity.g_instance.registerIntent(tmp_id_seller);
+                            OTPActivity.g_instance.registerIntent(Integer.parseInt(output_id_seller));
                         }
+
 
                     }
                 }, new Response.ErrorListener() {
