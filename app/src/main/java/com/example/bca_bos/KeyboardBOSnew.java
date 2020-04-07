@@ -186,7 +186,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     //DATA MEMBER KIRIM FORM NEXT = ONGKIR
     private ArrayAdapter<String> g_autocompleteadapter;
-    private String g_asal_id_city, g_tujuan_id_city, g_berat;
+    private String g_asal_id_city, g_tujuan_id_city, g_asal_id_city_form, g_berat;
 
     //endregion
 
@@ -625,6 +625,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_autocompleteadapter = RajaOngkir.getRajaOngkirCity(this);
 
         //inisiasi edittext
+        VolleyClass.getCityKeyboard(getApplicationContext());
         g_actv_kirimform_next_asal = g_viewparent.findViewById(R.id.bcabos_kirimform_next_asal_auto_complete_text_view);
         g_actv_kirimform_next_asal.setAdapter(g_autocompleteadapter);
 
@@ -851,8 +852,9 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 break;
             case R.id.bcabos_kirimform_send_button:
                 focusedEditText = KEY_ET_EXTERNAL;
+                getAsalCityIdForm(g_actv_kirimform_next_asal);
                 try {
-                    VolleyClass.insertOrder(this, g_seller_id,2, g_kirimform_produk_adapter.getListOrder());
+                    VolleyClass.insertOrder(this, g_seller_id,Integer.valueOf(g_asal_id_city_form), g_kirimform_produk_adapter.getListOrder());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -1169,6 +1171,11 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private void getTujuanCityId(AutoCompleteTextView p_autocomplete){
         int l_position = g_city_name_list.indexOf(p_autocomplete.getText().toString());
         g_tujuan_id_city = String.valueOf(g_city_list.get(l_position).getId_kota_kab());
+    }
+
+    private void getAsalCityIdForm(AutoCompleteTextView p_autocomplete){
+        int l_position = g_city_name_list.indexOf(p_autocomplete.getText().toString());
+        g_asal_id_city_form = String.valueOf(g_city_list.get(l_position).getId_kota_kab());
     }
 
     private void setKeyboardType(){
