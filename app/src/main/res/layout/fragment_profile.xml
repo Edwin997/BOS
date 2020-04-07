@@ -53,9 +53,9 @@
                     android:id="@+id/profile_tv_nama_penjual"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="60dp"
                     android:fontFamily="@font/opensans_bold"
-                    android:text="Kelvin Ng"
+                    android:paddingTop="60dp"
+                    android:text="-"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="24dp"
@@ -69,7 +69,7 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:fontFamily="@font/opensans_bold"
-                    android:text="1234 - 1234 -5678 - 5678"
+                    android:text="-"
                     android:textStyle="bold"
                     android:textAlignment="center"
                     android:textColor="@color/dark_blue"
@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/opensans_regular"
                     android:paddingLeft="24dp"
-                    android:text="bosnyawinstok"
+                    android:text="-"
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
                     android:textSize="12dp"/>
@@ -114,7 +114,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="24dp"
                     android:fontFamily="@font/opensans_regular"
-                    android:text="**********"
+                    android:text="******"
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
                     android:textSize="16dp"/>
@@ -150,7 +150,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="24dp"
                     android:fontFamily="@font/opensans_regular"
-                    android:text="08123123123"
+                    android:text="-"
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
                     android:textSize="12dp"/>
@@ -173,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/opensans_regular"
                     android:paddingLeft="24dp"
-                    android:text="Toko Sepatu Winstok"
+                    android:text="-"
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
                     android:textSize="12dp"/>
@@ -196,7 +196,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/opensans_regular"
                     android:paddingLeft="24dp"
-                    android:text="Mana aja"
+                    android:text="-"
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
                     android:textSize="12dp"/>
@@ -220,7 +220,7 @@
                     android:fontFamily="@font/opensans_regular"
                     android:paddingLeft="24dp"
                     android:paddingBottom="24dp"
-                    android:text="JNE - TIKI"
+                    android:text="-"
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
                     android:textSize="12dp"/>
@@ -256,6 +256,19 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/profile_about_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="64dp"
+            android:layout_marginLeft="64dp"
+            android:background="@drawable/style_gradient_color_rounded_box_new_green"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="ABOUT BOS"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/profile_logout_button"

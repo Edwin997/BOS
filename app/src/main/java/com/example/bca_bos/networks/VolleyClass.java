@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.bca_bos.FillDataActivity;
 import com.example.bca_bos.KeyboardBOSnew;
 import com.example.bca_bos.LoginActivity;
 import com.example.bca_bos.OTPActivity;
@@ -1263,7 +1264,7 @@ public class VolleyClass {
                         if(message.equals(ERROR_CODE_BERHASIL)){
                             RegisterActivity.g_instance.intentRegister(p_bos_id, p_no_hp);
                         }else{
-                            RegisterActivity.g_instance.setError(output);
+                            RegisterActivity.g_instance.setError("\n"+output);
                         }
 
                     }
@@ -1437,6 +1438,60 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
+    public static void updateProfileFillData(Context p_context, Seller p_seller) throws JSONException {
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        JSONArray jsonArray = new JSONArray();
+        JSONObject firstjsonObject = new JSONObject();
+        JSONObject secondjsonObject = new JSONObject();
+        JSONObject thirdjsonObject = new JSONObject();
+
+        firstjsonObject.put("id_courier", p_seller.getSelected_courier().get(0).getId_courier());
+        firstjsonObject.put("is_selected", p_seller.getSelected_courier().get(0).getIs_selected());
+        secondjsonObject.put("id_courier", p_seller.getSelected_courier().get(1).getId_courier());
+        secondjsonObject.put("is_selected",  p_seller.getSelected_courier().get(1).getIs_selected());
+        thirdjsonObject.put("id_courier", p_seller.getSelected_courier().get(2).getId_courier());
+        thirdjsonObject.put("is_selected",  p_seller.getSelected_courier().get(2).getIs_selected());
+
+
+        jsonArray.put(0, firstjsonObject);
+        jsonArray.put(1, secondjsonObject);
+        jsonArray.put(2, thirdjsonObject);
+
+
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("id_seller", String.valueOf(p_seller.getId_seller()));
+        params.put("shop_name", p_seller.getShop_name());
+        params.put("id_kota_kab", p_seller.getKota_kab().getId_kota_kab());
+        params.put("base64StringImage", p_seller.getBase64StringImage());
+        params.put("selected_courier", jsonArray);
+        //params put selected courier
+
+        Log.d("CEEEKKK", new JSONObject(params).toString());
+
+        JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.PUT, URL_PROFILE, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            FillDataActivity.g_instance.filldataIntent();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+
+        g_requestqueue.add(request_json);
+    }
+
     public static void changePassword(final Context p_context, final String p_id_seller, String p_o_password, String p_n_password, String p_c_password){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
@@ -1483,6 +1538,36 @@ public class VolleyClass {
     //endregion
 
     //region CEK ONGKIR
+
+    public static void getCityFillData(Context p_context){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET , URL_CITY,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            Log.d("BOSVOLLEY", response);
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            List<KotaKab> tempObject = Arrays.asList(gson.fromJson(output, KotaKab[].class));
+                            FillDataActivity.g_instance.getCity(tempObject);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        });
+
+        g_requestqueue.add(request_json);
+
+    }
 
     public static void getCityProfile(Context p_context){
         g_requestqueue = Volley.newRequestQueue(p_context);

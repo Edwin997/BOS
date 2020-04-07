@@ -60,7 +60,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
     private TextView g_profile_nama_seller, g_profile_nama_toko, g_profile_rekening, g_profile_bosid,
             g_profile_phone, g_profile_kotkab, g_profile_courier;
     private Button g_profile_btn_change_password, g_profile_button_jne, g_profile_button_tiki,
-            g_profile_button_pos, g_profile_btn_logout;
+            g_profile_button_pos, g_profile_btn_about, g_profile_btn_logout;
 
     //BottomSheet Edit
     private BottomSheetDialog g_bottomsheet_dialog_edit_profile, g_bottomsheet_dialog_change_password;
@@ -131,6 +131,9 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         //Logout Popup
         g_profile_logout_popup = new Dialog(g_context);
 
+        //About Button
+        g_profile_btn_about = g_view.findViewById(R.id.profile_about_button);
+        g_profile_btn_about.setOnClickListener(this);
 
         return g_view;
     }
@@ -250,6 +253,10 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
             case R.id.apps_bottom_sheet_iv_gambar_edit_profile:
                 g_choose_dialog.showChooseDialogEditProfile(g_context);
                 break;
+            case R.id.profile_about_button:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+                startActivity(browserIntent);
+                break;
         }
     }
 
@@ -258,14 +265,6 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
             return 1;
         }else {
             return 0;
-        }
-    }
-
-    private Boolean changeBoolean(Boolean tmp_boolean){
-        if (tmp_boolean){
-            return false;
-        }else {
-            return true;
         }
     }
 
@@ -446,62 +445,5 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         return temp;
     }
 
-//    private class KeyboardBosTextWatcher implements TextWatcher {
-//
-//        private EditText l_edittext;
-//        private String l_type;
-//        private AutoCompleteTextView l_autocomplete;
-//
-//        private int l_delay = 1000;
-//        private int l_count_char = 0;
-//        private long l_time_last_editted = 0;
-//        private Handler l_handler;
-//
-//        private Runnable l_thread_show_dropdown = new Runnable() {
-//            public void run() {
-//                if (l_autocomplete != null) {
-//                    if (System.currentTimeMillis() > (l_time_last_editted + l_delay - 500)) {
-//                        if(!IS_FILLED){
-//                            l_autocomplete.showDropDown();
-//                        }
-//                    }
-//                }
-//            }
-//        };
-//
-//        public KeyboardBosTextWatcher(String p_type, EditText p_edittext){
-//            l_edittext = p_edittext;
-//            l_type = p_type;
-//            l_handler = new Handler();
-//        }
-//
-//        public KeyboardBosTextWatcher(AutoCompleteTextView p_autocomplete) {
-//            l_autocomplete = p_autocomplete;
-//            l_handler = new Handler();
-//        }
-//
-//        @Override
-//        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//            g_autocompleteadapter.notifyDataSetChanged();
-//            l_count_char = charSequence.length();
-//        }
-//
-//        @Override
-//        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//            l_handler.removeCallbacks(l_thread_show_dropdown);
-//
-//        }
-//
-//        @Override
-//        public void afterTextChanged(final Editable editable) {
-//            if(l_autocomplete != null){
-//                if (editable.length() > 0 && l_count_char != editable.length()) {
-//                    l_time_last_editted = System.currentTimeMillis();
-//                    l_handler.postDelayed(l_thread_show_dropdown, l_delay);
-//                }
-//            }
-//
-//        }
-//    }
 
 }
