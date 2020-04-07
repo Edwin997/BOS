@@ -1,6 +1,7 @@
 package com.example.bca_bos.ui.template;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -31,6 +32,8 @@ import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.TemplatedText;
 import com.example.bca_bos.networks.VolleyClass;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class TemplateFragment extends Fragment implements View.OnClickListener, OnCallBackListener, PopupMenu.OnMenuItemClickListener {
 
@@ -69,8 +72,17 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
     private Button g_btn_templated_simpan_edit, g_btn_templated_hapus_edit;
     //endregion
 
+    //Shared Preference
+    private static final String PREF_LOGIN = "LOGIN_PREF";
+    private static final String SELLER_ID = "SELLER_ID";
+    int g_seller_id;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        //Get Seller ID
+        SharedPreferences l_preference = this.getActivity().getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
+        g_seller_id = l_preference.getInt(SELLER_ID, -1);
+
         //inisiasi view, choose dialog, bottom sheet dialog
         g_instance = this;
         g_context = container.getContext();
@@ -187,7 +199,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
 
     public void refreshData(){
 //        g_templateadapter.setListTemplate(ListTemplatedTextDummy.templatedTextList);
-        VolleyClass.getTemplatedText(g_context, 3, g_templateadapter);
+        VolleyClass.getTemplatedText(g_context, g_seller_id, g_templateadapter);
     }
 
     private void changeLayoutValue(int p_count){

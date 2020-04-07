@@ -3,6 +3,7 @@ package com.example.bca_bos.ui.produk;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -58,6 +59,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
 
 public class ProdukFragment extends Fragment implements OnCallBackListener, View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
@@ -116,8 +118,17 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     private Bitmap g_bmp_bottom_sheet_produk_edit;
     //endregion
 
+    //Shared Preference
+    private static final String PREF_LOGIN = "LOGIN_PREF";
+    private static final String SELLER_ID = "SELLER_ID";
+    int g_seller_id;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        //Get Seller ID
+        SharedPreferences l_preference = this.getActivity().getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
+        g_seller_id = l_preference.getInt(SELLER_ID, -1);
+
         //inisiasi view, choose dialog, bottom sheet dialog
         g_instance = this;
         g_context = container.getContext();
@@ -158,7 +169,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_produkadapter.setParentOnCallBack(this);
         g_produkfragment_recyclerview.setAdapter(g_produkadapter);
         g_produkfragment_recyclerview.setLayoutManager(g_linearlayoutmanager);
-        VolleyClass.getProduct(g_context, 3, g_produkadapter);
+        VolleyClass.getProduct(g_context, g_seller_id, g_produkadapter);
 //        g_produkadapter.setDatasetProduk(ListProdukDummy.productList);
 
         //config imageview
@@ -230,7 +241,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 showSortPopupMenu(v);
                 break;
             case R.id.apps_produk_fragment_category_btn:
-                VolleyClass.getProductCategory(g_context, 3, v);
+                VolleyClass.getProductCategory(g_context, g_seller_id, v);
                 break;
             case R.id.apps_produk_fragment_search_btn:
                 g_produkadapter.findProduct(g_produk_fragment_search_et.getText().toString());

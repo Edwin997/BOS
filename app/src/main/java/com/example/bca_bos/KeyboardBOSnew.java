@@ -2,6 +2,7 @@ package com.example.bca_bos;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -191,6 +192,11 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     public static KeyboardBOSnew g_instance;
 
+    //Shared Preference
+    private static final String PREF_LOGIN = "LOGIN_PREF";
+    private static final String SELLER_ID = "SELLER_ID";
+    int g_seller_id;
+
     //region METHOD INITIATE BASE KEYBOARD & KEYBOARD LISTENER
     @Override
     public void onStartInputView(EditorInfo info, boolean restarting) {
@@ -200,6 +206,16 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     public View onCreateInputView(EditorInfo attribute, boolean restarting){
         onStartInput(attribute, restarting);
+
+        //Get Seller ID
+        SharedPreferences l_preference = this.getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
+        if (l_preference.contains(SELLER_ID)){
+            g_seller_id = l_preference.getInt(SELLER_ID, -1);
+        }else {
+            g_seller_id = 0;
+        }
+
+        //Inisialisasi
         g_instance = this;
         IS_INPUT_CONNECTION_EXTERNAL = true;
 
@@ -372,7 +388,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_templatedtext_recyclerview.setLayoutManager(g_linear_layout);
         g_templatedtext_recyclerview.setAdapter(tmpTemplatedTextAdapter);
 
-        VolleyClass.getTemplatedText(getApplicationContext(), 3, tmpTemplatedTextAdapter);
+        VolleyClass.getTemplatedText(getApplicationContext(), g_seller_id, tmpTemplatedTextAdapter);
 
         //config button
         g_btn_home.setOnClickListener(this);
@@ -534,7 +550,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_rv_stok.setLayoutManager(g_stok_item_layout);
         g_rv_stok.setAdapter(g_stok_adapter);
 
-        VolleyClass.getProduct(getApplicationContext(), 3, g_stok_adapter);
+        VolleyClass.getProduct(getApplicationContext(), g_seller_id, g_stok_adapter);
 
         //config spinner
         ArrayList<String> tmpInitialFilterValue = new ArrayList<>();
@@ -554,7 +570,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             }
         });
 
-        VolleyClass.getProductCategory(getApplicationContext(), 3, g_sp_stok_filter_adapter);
+        VolleyClass.getProductCategory(getApplicationContext(), g_seller_id, g_sp_stok_filter_adapter);
 
         //config edittext
         g_et_stok_search.setOnFocusChangeListener(this);
@@ -591,7 +607,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_kirimform_produk_adapter.setParentOnCallBack(this);
         g_rv_kirimform_produk.setLayoutManager(g_kirimform_produk_item_layout);
         g_rv_kirimform_produk.setAdapter(g_kirimform_produk_adapter);
-        VolleyClass.getProduct(getApplicationContext(), 3, g_kirimform_produk_adapter);
+        VolleyClass.getProduct(getApplicationContext(), g_seller_id, g_kirimform_produk_adapter);
 
         //config edittext
         g_et_kirimform_search.setOnFocusChangeListener(this);
@@ -655,12 +671,12 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 if (isChecked){
                     g_mutasi_tv_title.setText("Online");
                     g_mutasi_rekening_adapter = new MutasiRekeningAdapter();
-                    VolleyClass.getTransaksi(getApplicationContext(), 3, g_mutasi_rekening_adapter);
+                    VolleyClass.getTransaksi(getApplicationContext(), g_seller_id, g_mutasi_rekening_adapter);
                     g_mutasi_recyclerview.setAdapter(g_mutasi_rekening_adapter);
                 }else {
                     g_mutasi_tv_title.setText("Offline");
                     g_offline_mutasi_rekening_adapter = new OfflineMutasiRekeningAdapter();
-                    VolleyClass.getTransaksiOffline(getApplicationContext(), 3, g_offline_mutasi_rekening_adapter);
+                    VolleyClass.getTransaksiOffline(getApplicationContext(), g_seller_id, g_offline_mutasi_rekening_adapter);
                     g_mutasi_recyclerview.setAdapter(g_offline_mutasi_rekening_adapter);
                 }
             }
@@ -669,7 +685,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         //config recyclerview
         g_mutasi_item_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL,false);
         g_mutasi_rekening_adapter = new MutasiRekeningAdapter();
-        VolleyClass.getTransaksi(getApplicationContext(), 3, g_mutasi_rekening_adapter);
+        VolleyClass.getTransaksi(getApplicationContext(), g_seller_id, g_mutasi_rekening_adapter);
         g_mutasi_recyclerview.setLayoutManager(g_mutasi_item_layout);
         g_mutasi_recyclerview.setAdapter(g_mutasi_rekening_adapter);
 
@@ -836,7 +852,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             case R.id.bcabos_kirimform_send_button:
                 focusedEditText = KEY_ET_EXTERNAL;
                 try {
-                    VolleyClass.insertOrder(this, 3,2, g_kirimform_produk_adapter.getListOrder());
+                    VolleyClass.insertOrder(this, g_seller_id,2, g_kirimform_produk_adapter.getListOrder());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
