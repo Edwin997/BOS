@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,6 +106,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         //Get Seller ID
         g_preference = this.getActivity().getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
         g_seller_id = g_preference.getInt(SELLER_ID, -1);
+        Log.d("BOSVOLLEY", g_seller_id + "");
 
         //Inisialisasi
         g_context = container.getContext();
@@ -152,12 +154,12 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         g_btn_tab_semua.setOnClickListener(this);
         g_btn_tab_batal.setOnClickListener(this);
 
-        VolleyClass.getTransaksi(g_context, g_seller_id, g_transaksiadapter);
-
-        if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIBAYAR)
-            refreshLayout(KEY_STATUS_SUDAHDIBAYAR);
-        else
-            refreshLayout(KEY_STATUS_SEMUA);
+        if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIBAYAR) {
+            VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_SUDAHDIBAYAR, g_transaksiadapter);
+        }
+        else {
+            VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_SEMUA, g_transaksiadapter);
+        }
 
         return g_view;
     }
@@ -236,7 +238,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.apps_transaksi_fragment_tab_btn_semua_transaksi:
-                refreshLayout(KEY_STATUS_SEMUA);
+                VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_SEMUA, g_transaksiadapter);
 //                FLAG_FRAGMENT_TYPE = KEY_STATUS_SEMUA;
 //                g_percentage = 100;
 //                drawPieChart(new int[]{R.color.white, R.color.white},
@@ -245,7 +247,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
 //                setTabBar();
                 break;
             case R.id.apps_transaksi_fragment_tab_btn_pesanan_baru:
-                refreshLayout(KEY_STATUS_BARUMASUK);
+                VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_BARUMASUK, g_transaksiadapter);
 //                FLAG_FRAGMENT_TYPE = KEY_STATUS_BARUMASUK;
 //                g_percentage = g_transaksiadapter.getPersentaseTransaksiBaruMasuk();
 //                drawPieChart(new int[]{R.color.purple, R.color.white},
@@ -254,7 +256,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
 //                setTabBar();
                 break;
             case R.id.apps_transaksi_fragment_tab_btn_pesanan_dibayar:
-                refreshLayout(KEY_STATUS_SUDAHDIBAYAR);
+                VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_SUDAHDIBAYAR, g_transaksiadapter);
 //                FLAG_FRAGMENT_TYPE = KEY_STATUS_SUDAHDIBAYAR;
 //                g_percentage = g_transaksiadapter.getPersentaseTransaksiSudahDiBayar();
 //                drawPieChart(new int[]{R.color.yellow, R.color.white},
@@ -263,7 +265,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
 //                setTabBar();
                 break;
             case R.id.apps_transaksi_fragment_tab_btn_pesanan_dikirim:
-                refreshLayout(KEY_STATUS_SUDAHDIKIRIM);
+                VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_SUDAHDIKIRIM, g_transaksiadapter);
 //                FLAG_FRAGMENT_TYPE = KEY_STATUS_SUDAHDIKIRIM;
 //                g_percentage = g_transaksiadapter.getPersentaseTransaksiSudahDikirim();
 //                drawPieChart(new int[]{R.color.blue, R.color.white},
@@ -272,7 +274,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
 //                setTabBar();
                 break;
             case R.id.apps_transaksi_fragment_tab_btn_transaksi_selesai:
-                refreshLayout(KEY_STATUS_SELESAI);
+                VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_SELESAI, g_transaksiadapter);
 //                FLAG_FRAGMENT_TYPE = KEY_STATUS_SELESAI;
 //                g_percentage = g_transaksiadapter.getPersentaseTransaksiSudahSelesai();
 //                drawPieChart(new int[]{R.color.green, R.color.white},
@@ -281,7 +283,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
 //                setTabBar();
                 break;
             case R.id.apps_transaksi_fragment_tab_btn_transaksi_batal:
-                refreshLayout(KEY_STATUS_BATAL);
+                VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_BATAL, g_transaksiadapter);
 //                FLAG_FRAGMENT_TYPE = KEY_STATUS_BATAL;
 //                g_percentage = g_transaksiadapter.getPersentaseTransaksiBatal();
 //                drawPieChart(new int[]{R.color.red, R.color.white},
@@ -479,7 +481,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         l_btn_bottom_sheet_transaksi_pesanbaru_batalkan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                VolleyClass.updatePembatalanTransaksi(g_context, p_transaction, g_transaksiadapter);
             }
         });
 
@@ -641,7 +643,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
             public void onClick(View v) {
                 if(!l_et_bottom_sheet_transaksi_pesandibayar_resi.getText().equals("")){
                     g_transaction_onclick.setShipping_code(l_et_bottom_sheet_transaksi_pesandibayar_resi.getText().toString());
-                    VolleyClass.insertShippedCode(g_context, g_transaction_onclick);
+                    VolleyClass.insertShippedCode(g_context, g_transaction_onclick, g_transaksiadapter);
                     g_bottomsheet_dialog.dismiss();
                 }
             }

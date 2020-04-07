@@ -104,15 +104,15 @@ public class VolleyClass {
 
     // URL TRANSAKSI
     private final static  String BASE_URL_TRANSACTION= "/transaction";
-    private final static String URL_TRANSACTION_ONLINE = BASE_URL + BASE_URL_TRANSACTION + "/bos/onlineTransaction";
-    private final static String URL_TRANSACTION_OFFLINE = BASE_URL + BASE_URL_TRANSACTION + "/bos/offlineTransaction";
-    private final static String URL_TRANSACTION_DETAIL = BASE_URL + BASE_URL_TRANSACTION + "/bos/onlineTransactionDetail";
-    private final static String URL_TRANSACTION_DETAIL_OFFLINE = BASE_URL + BASE_URL_TRANSACTION + "/bos/offlineTransactionDetail";
+    private final static String URL_TRANSACTION_ONLINE = BASE_URL + BASE_URL_TRANSACTION + "/bos/online-transaction";
+    private final static String URL_TRANSACTION_OFFLINE = BASE_URL + BASE_URL_TRANSACTION + "/bos/offline-transaction";
+    private final static String URL_TRANSACTION_DETAIL = BASE_URL + BASE_URL_TRANSACTION + "/bos/online-transaction-detail";
+    private final static String URL_TRANSACTION_DETAIL_OFFLINE = BASE_URL + BASE_URL_TRANSACTION + "/bos/offline-transaction-detail";
     private final static  String URL_ORDER_SHIPPED = BASE_URL + BASE_URL_TRANSACTION + "/bos/orderShipped";
 
     //URL LOGIN
-    private final static  String BASE_URL_LOGIN = "/login";
-    private final static String URL_LOGIN = BASE_URL + BASE_URL_LOGIN + "/bos/seller";
+    private final static  String BASE_URL_LOGIN = "/account";
+    private final static String URL_LOGIN = BASE_URL + BASE_URL_LOGIN + "/bos/login";
 
     //URL REGISTER
     private final static  String BASE_URL_REGISTER = "/register";
@@ -1218,7 +1218,7 @@ public class VolleyClass {
     //endregion
 
     //region TRANSAKSI
-    public static void  getTransaksi(Context p_context, int p_id_seller, final RecyclerView.Adapter p_adapter){
+    public static void  getTransaksi(Context p_context, int p_id_seller, final int p_type, final RecyclerView.Adapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         StringRequest request_json = new StringRequest(Request.Method.GET ,URL_TRANSACTION_ONLINE + "/" + p_id_seller,
@@ -1229,14 +1229,14 @@ public class VolleyClass {
                             Log.d(TAG, response);
                             String output = NetworkUtil.getOutputSchema(response);
 
-//                            TemplatedText tempObject = gson.fromJson(response, TemplatedText.class);
-
                             List<Transaction> tempObject = Arrays.asList(gson.fromJson(output, Transaction[].class));
 
                             if(p_adapter instanceof OnlineTransaksiAdapter){
                                 OnlineTransaksiFragment.g_instance.showLayout(tempObject.size(), true);
                                 OnlineTransaksiAdapter tmpAdapter = (OnlineTransaksiAdapter) p_adapter;
                                 tmpAdapter.setListTransaksi(tempObject);
+
+                                OnlineTransaksiFragment.g_instance.refreshLayout(p_type);
 
                             }else if (p_adapter instanceof MutasiRekeningAdapter){
                                 MutasiRekeningAdapter tmpAdapter = (MutasiRekeningAdapter) p_adapter;
@@ -1254,7 +1254,12 @@ public class VolleyClass {
                 }
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -1294,7 +1299,12 @@ public class VolleyClass {
                 NetworkUtil.setErrorMessage(error);
 
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -1336,7 +1346,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -1365,12 +1380,17 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
 
-    public static void insertShippedCode(final Context p_context, final Transaction p_transaksi){
+    public static void insertShippedCode(final Context p_context, final Transaction p_transaksi, final RecyclerView.Adapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -1385,6 +1405,7 @@ public class VolleyClass {
                             String message = NetworkUtil.getErrorCode(response.toString());
                             if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Penambahan data Shipping Code berhasil", Toast.LENGTH_SHORT).show();
+                                VolleyClass.getTransaksi(p_context, p_transaksi.getSeller().getId_seller(), OnlineTransaksiFragment.g_instance.KEY_STATUS_SUDAHDIKIRIM, p_adapter);
                             }
                             else
                             {
@@ -1400,7 +1421,52 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
+
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void updatePembatalanTransaksi(final Context p_context, final Transaction p_transaksi, final RecyclerView.Adapter p_adapter){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+
+        StringRequest request_json = new StringRequest(Request.Method.PUT, URL_TRANSACTION_ONLINE + "/" + p_transaksi.getId_transaction(),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            String message = NetworkUtil.getErrorCode(response);
+                            if(message.equals(ERROR_CODE_BERHASIL)){
+
+                                Toast.makeText(p_context, "Pembatalan Transaksi berhasil", Toast.LENGTH_SHORT).show();
+                                VolleyClass.getTransaksi(p_context, p_transaksi.getSeller().getId_seller(), OnlineTransaksiFragment.g_instance.KEY_STATUS_BATAL, p_adapter);
+                            }
+                            else
+                            {
+                                Toast.makeText(p_context, "Pembatalan Transaksi gagal", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
 
         g_requestqueue.add(request_json);
@@ -1436,7 +1502,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -1479,7 +1550,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -1512,7 +1588,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -1542,7 +1623,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -1571,11 +1657,15 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
-
 
     //endregion
 
