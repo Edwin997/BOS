@@ -234,31 +234,37 @@
         android:visibility="gone">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/apps_tv_not_found_judul"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="88dp"
             android:gravity="center"
-            android:text="Tidak Ditemukan"
-            android:textColor="@color/black"
-            android:textSize="30dp"
+            android:text="@string/INTERNET_NOT_FOUND"
+            android:textColor="@color/white"
+            android:textSize="18dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/img_type_not_found"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_apps_transaksi"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/apps_iv_not_found_animation"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="160dp"
+            android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            app:layout_constraintVertical_bias="0.039" />
+            app:layout_constraintTop_toBottomOf="@+id/apps_tv_not_found_judul"
+            app:layout_constraintVertical_bias="0.0"
+            app:lottie_autoPlay="true"
+            app:lottie_imageAssetsFolder="images"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/no_product_animation" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

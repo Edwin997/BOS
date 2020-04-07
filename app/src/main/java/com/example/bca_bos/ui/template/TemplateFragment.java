@@ -212,7 +212,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
         }
         else{
             g_tv_not_found_judul.setText(getText(R.string.INTERNET_NOT_FOUND));
-            g_iv_not_found_animation.setAnimation(R.raw.no_product_animation);
+            g_iv_not_found_animation.setAnimation(R.raw.no_internet_animation);
             g_iv_not_found_animation.playAnimation();
             g_iv_not_found_animation.loop(true);
 

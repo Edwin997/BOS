@@ -42,6 +42,7 @@ import com.example.bca_bos.ui.transaksi.OfflineTransaksiAdapter;
 import com.example.bca_bos.ui.transaksi.OfflineTransaksiFragment;
 import com.example.bca_bos.ui.transaksi.OnlineTransaksiAdapter;
 import com.example.bca_bos.ui.transaksi.OnlineTransaksiFragment;
+import com.example.bca_bos.ui.transaksi.TransaksiFragment;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -67,62 +68,63 @@ public class VolleyClass {
     private static Gson gson = new Gson();
 
     private final static String TAG = "BOSVOLLEY";
-    private final static  String BASE_URL = "http://10.26.34.119:8321";
+    public final static String BASE_WEB_URL = "https://bos.bca.co.id";
+    private final static String BASE_URL = "https://apigateway.apps.pcf.dti.co.id";
 
     //URL BERANDA
-    private final static  String BASE_URL_BERANDA= "https://home.apps.pcf.dti.co.id";
-    private final static String URL_BERANDA_JUMLAH_TRANSAKSI = BASE_URL_BERANDA + "/home/trx?seller=";
-    private final static String URL_BERANDA_PRODUK_TERLARIS = BASE_URL_BERANDA + "/home/prd?seller=";
-    private final static String URL_BERANDA_PEMBELI_SETIA = BASE_URL_BERANDA + "/home/byr?seller=";
+    private final static  String BASE_URL_BERANDA= "/home";
+    private final static String URL_BERANDA_JUMLAH_TRANSAKSI = BASE_URL + BASE_URL_BERANDA + "/home/trx?seller=";
+    private final static String URL_BERANDA_PRODUK_TERLARIS = BASE_URL + BASE_URL_BERANDA + "/home/prd?seller=";
+    private final static String URL_BERANDA_PEMBELI_SETIA = BASE_URL + BASE_URL_BERANDA + "/home/byr?seller=";
     private final static String JUMLAH_TRANSAKSI_START_DATE = "&start-dt=";
     private final static String JUMLAH_TRANSAKSI_END_DATE = "&end-dt=";
 
     // URL TEMPLATE TEXT
-    private final static  String BASE_URL_TEMPLATED_TEXT= "https://templatetext.apps.pcf.dti.co.id";
-    private final static String URL_TEMPLATED_TEXT = BASE_URL_TEMPLATED_TEXT + "/bos/templateText";
+    private final static  String BASE_URL_TEMPLATED_TEXT= "/templatetext";
+    private final static String URL_TEMPLATED_TEXT = BASE_URL + BASE_URL_TEMPLATED_TEXT + "/bos/templateText";
 
     //URL PRODUK
-    private final static  String BASE_URL_PRODUCT = "https://product.apps.pcf.dti.co.id";
-    private final static String URL_PRODUCT = BASE_URL_PRODUCT + "/bos/product";
-    private final static String URL_PRODUCT_CATEGORY = BASE_URL_PRODUCT + "/bos/productCategory";
-    private final static String URL_PRODUK_DETAIL = BASE_URL_PRODUCT + "/bos/productDetail/";
+    private final static  String BASE_URL_PRODUCT = "/product";
+    private final static String URL_PRODUCT = BASE_URL + BASE_URL_PRODUCT + "/bos/product";
+    private final static String URL_PRODUCT_CATEGORY = BASE_URL + BASE_URL_PRODUCT + "/bos/productCategory";
+    private final static String URL_PRODUK_DETAIL = BASE_URL + BASE_URL_PRODUCT + "/bos/productDetail/";
     private static List<PrdCategory> g_list_product_category = new ArrayList<>();
     private static List<PrdCategory> g_list_product_category_all = new ArrayList<>();
     private static String KEY_SEMUA_PRODUCT = "Semua Produk";
 
     // URL TRANSAKSI
-    private final static  String BASE_URL_TRANSACTION= "https://transaction.apps.pcf.dti.co.id";
-    private final static String URL_TRANSACTION_ONLINE = BASE_URL_TRANSACTION + "/bos/onlineTransaction";
-    private final static String URL_TRANSACTION_OFFLINE = BASE_URL_TRANSACTION + "/bos/offlineTransaction";
-    private final static String URL_TRANSACTION_DETAIL = BASE_URL_TRANSACTION + "/bos/onlineTransactionDetail";
-    private final static String URL_TRANSACTION_DETAIL_OFFLINE = BASE_URL_TRANSACTION + "/bos/offlineTransactionDetail";
-    private final static  String URL_ORDER_SHIPPED = BASE_URL_TRANSACTION + "/bos/orderShipped";
+    private final static  String BASE_URL_TRANSACTION= "/transaction";
+    private final static String URL_TRANSACTION_ONLINE = BASE_URL + BASE_URL_TRANSACTION + "/bos/onlineTransaction";
+    private final static String URL_TRANSACTION_OFFLINE = BASE_URL + BASE_URL_TRANSACTION + "/bos/offlineTransaction";
+    private final static String URL_TRANSACTION_DETAIL = BASE_URL + BASE_URL_TRANSACTION + "/bos/onlineTransactionDetail";
+    private final static String URL_TRANSACTION_DETAIL_OFFLINE = BASE_URL + BASE_URL_TRANSACTION + "/bos/offlineTransactionDetail";
+    private final static  String URL_ORDER_SHIPPED = BASE_URL + BASE_URL_TRANSACTION + "/bos/orderShipped";
 
     //URL LOGIN
-    private final static  String BASE_URL_LOGIN = "https://login.apps.pcf.dti.co.id";
-    private final static String URL_LOGIN = BASE_URL_LOGIN + "/bos/seller";
+    private final static  String BASE_URL_LOGIN = "/login";
+    private final static String URL_LOGIN = BASE_URL + BASE_URL_LOGIN + "/bos/seller";
 
     //URL REGISTER
-    private final static  String BASE_URL_REGISTER = "https://register.apps.pcf.dti.co.id";
-    private final static String URL_REGISTER = BASE_URL_REGISTER + "/bos/regis/sOTP";
-    private final static String URL_SEND_OTP = BASE_URL_REGISTER + "/bos/regis/vOTP";
+    private final static  String BASE_URL_REGISTER = "/register";
+    private final static String URL_REGISTER = BASE_URL + BASE_URL_REGISTER + "/bos/regis/sOTP";
+    private final static String URL_SEND_OTP = BASE_URL + BASE_URL_REGISTER + "/bos/regis/vOTP";
 
 
     //URL PROFILE
-    private final static  String BASE_URL_PROFILE = "https://profile.apps.pcf.dti.co.id";
-    private final static String URL_PROFILE = BASE_URL_PROFILE + "/bos/profile";
-    private final static String URL_PROFILE_CHANGE_PASSWORD = BASE_URL_PROFILE + "/bos/profile/pass";
+    private final static  String BASE_URL_PROFILE = "/profile";
+    private final static String URL_PROFILE = BASE_URL + BASE_URL_PROFILE + "/bos/profile";
+    private final static String URL_PROFILE_CHANGE_PASSWORD = BASE_URL + BASE_URL_PROFILE + "/bos/profile/pass";
 
     //URL RAJA ONGKIR
-    private final static  String BASE_URL_RAJAONGKIR = "https://rajaongkir.apps.pcf.dti.co.id/bos";
-    private final static String URL_PROVINSI = BASE_URL_RAJAONGKIR + "/provinsi";
-    private final static String URL_ONGKIR_COST = BASE_URL_RAJAONGKIR + "/ongkir";
+    private final static  String BASE_URL_RAJAONGKIR = "/rajaongkir";
+    private final static String URL_PROVINSI = BASE_URL + BASE_URL_RAJAONGKIR + "/bos/provinsi";
+    private final static String URL_ONGKIR_COST = BASE_URL + BASE_URL_RAJAONGKIR + "/bos/ongkir";
     private static ArrayAdapter<String> g_rajaongkir_city_adapter;
     public static List<String> g_city_name_list = new ArrayList<>();
 
     //URL ORDER
-    private final static  String BASE_URL_ORDER = "https://order.apps.pcf.dti.co.id";
-    private final static String URL_KIRIM_FORM = BASE_URL_ORDER + "/bos/form";
+    private final static  String BASE_URL_ORDER = "/order";
+    private final static String URL_KIRIM_FORM = BASE_URL + BASE_URL_ORDER + "/bos/form";
 
     //region BERANDA
 
@@ -884,10 +886,10 @@ public class VolleyClass {
                             List<Transaction> tempObject = Arrays.asList(gson.fromJson(output, Transaction[].class));
 
                             if(p_adapter instanceof OnlineTransaksiAdapter){
+                                OfflineTransaksiFragment.g_instance.showLayout(tempObject.size(), true);
                                 OnlineTransaksiAdapter tmpAdapter = (OnlineTransaksiAdapter) p_adapter;
                                 tmpAdapter.setListTransaksi(tempObject);
 
-                                OnlineTransaksiFragment.g_instance.firstLoad();
                             }else if (p_adapter instanceof MutasiRekeningAdapter){
                                 MutasiRekeningAdapter tmpAdapter = (MutasiRekeningAdapter) p_adapter;
                                 tmpAdapter.setListTransaksi(tempObject);
@@ -899,6 +901,9 @@ public class VolleyClass {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(p_adapter instanceof OnlineTransaksiAdapter) {
+                    OfflineTransaksiFragment.g_instance.showLayout(0, false);
+                }
                 NetworkUtil.setErrorMessage(error);
             }
         });
@@ -917,11 +922,10 @@ public class VolleyClass {
                             Log.d(TAG, response);
                             String output = NetworkUtil.getOutputSchema(response);
 
-//                            TemplatedText tempObject = gson.fromJson(response, TemplatedText.class);
-
                             List<Transaction> tempObject = Arrays.asList(gson.fromJson(output, Transaction[].class));
 
                             if(p_adapter instanceof OfflineTransaksiAdapter){
+                                OfflineTransaksiFragment.g_instance.showLayout(tempObject.size(), true);
                                 OfflineTransaksiAdapter tmpAdapter = (OfflineTransaksiAdapter) p_adapter;
                                 tmpAdapter.setListTransaksi(tempObject);
                                 OfflineTransaksiFragment.g_instance.firstLoad();
@@ -936,7 +940,11 @@ public class VolleyClass {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(p_adapter instanceof OfflineTransaksiAdapter){
+                    OfflineTransaksiFragment.g_instance.showLayout(0, false);
+                }
                 NetworkUtil.setErrorMessage(error);
+
             }
         });
 
