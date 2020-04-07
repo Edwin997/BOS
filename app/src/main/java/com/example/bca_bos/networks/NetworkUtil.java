@@ -1,5 +1,6 @@
 package com.example.bca_bos.networks;
 
+import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -18,6 +19,7 @@ import org.json.JSONObject;
 
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
+import java.util.HashMap;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -122,5 +124,13 @@ public class NetworkUtil {
             });
         } catch (Exception e) {
         }
+    }
+
+    public static HashMap<String, String> setBasicAuth(){
+        HashMap<String, String> tempHeaderAuth = new HashMap<String, String>();
+        String user_pass = String.format("%s:%s","user","password");
+        String auth = "Basic " + Base64.encodeToString(user_pass.getBytes(), Base64.DEFAULT);
+        tempHeaderAuth.put("Authorization", auth);
+        return tempHeaderAuth;
     }
 }

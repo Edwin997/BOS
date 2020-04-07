@@ -74,7 +74,7 @@ public class OfflineTransaksiAdapter extends RecyclerView.Adapter<OfflineTransak
     public void setListTransaksiFiltered(List<Transaction> p_list){
         g_list_transaction_temp = p_list;
 
-        OfflineTransaksiFragment.g_instance.changeLayoutValue(g_list_transaction_temp.size());
+        OfflineTransaksiFragment.g_instance.showLayout(g_list_transaction_temp.size(), true);
 
         notifyDataSetChanged();
     }

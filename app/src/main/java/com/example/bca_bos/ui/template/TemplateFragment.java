@@ -25,8 +25,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
-import com.example.bca_bos.dummy.ListTemplatedTextDummy;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.TemplatedText;
@@ -199,7 +199,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
 
     public void refreshData(){
 //        g_templateadapter.setListTemplate(ListTemplatedTextDummy.templatedTextList);
-        VolleyClass.getTemplatedText(g_context, g_seller_id, g_templateadapter);
+        VolleyClass.getTemplatedTextByName(g_context, 3, Method.ASC, g_templateadapter);
     }
 
     private void changeLayoutValue(int p_count){
@@ -224,7 +224,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
         }
         else{
             g_tv_not_found_judul.setText(getText(R.string.INTERNET_NOT_FOUND));
-            g_iv_not_found_animation.setAnimation(R.raw.no_product_animation);
+            g_iv_not_found_animation.setAnimation(R.raw.no_internet_animation);
             g_iv_not_found_animation.playAnimation();
             g_iv_not_found_animation.loop(true);
 
@@ -290,7 +290,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
     public void showSortPopupMenu(View p_view) {
         g_popup = new PopupMenu(g_context, p_view);
         MenuInflater inflater = g_popup.getMenuInflater();
-        inflater.inflate(R.menu.produk_fragment_bar, g_popup.getMenu());
+        inflater.inflate(R.menu.templatetext_fragment_bar, g_popup.getMenu());
         g_popup.setOnMenuItemClickListener(this);
         g_popup.show();
     }
@@ -298,11 +298,17 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.apps_produk_item_sort_asc:
-                g_templateadapter.sortTemplatedText("ASC");
+            case R.id.apps_templatetext_item_sort_asc:
+                VolleyClass.getTemplatedTextByName(g_context, 3, Method.ASC, g_templateadapter);
                 break;
-            case R.id.apps_produk_item_sort_desc:
-                g_templateadapter.sortTemplatedText("DESC");
+            case R.id.apps_templatetext_item_sort_desc:
+                VolleyClass.getTemplatedTextByName(g_context, 3, Method.DESC, g_templateadapter);
+                break;
+            case R.id.apps_templatetext_item_sort_date_asc:
+                VolleyClass.getTemplatedTextByDate(g_context, 3, Method.ASC, g_templateadapter);
+                break;
+            case R.id.apps_templatetext_item_sort_date_desc:
+                VolleyClass.getTemplatedTextByDate(g_context, 3, Method.DESC, g_templateadapter);
                 break;
         }
         return true;

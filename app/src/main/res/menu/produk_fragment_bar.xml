@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
     <item android:id="@+id/apps_produk_item_sort_asc"
-        android:title="@string/SORT_ASC" />
+        android:title="@string/SORT_NAME_ASC"
+        app:showAsAction="always"/>
 
     <item android:id="@+id/apps_produk_item_sort_desc"
-        android:title="@string/SORT_DESC" />
+        android:title="@string/SORT_NAME_DESC" />
+
+    <item
+        android:id="@+id/apps_produk_item_sort_date_asc"
+        android:title="@string/SORT_DATE_ASC" />
+    <item
+        android:id="@+id/apps_produk_item_sort_date_desc"
+        android:title="@string/SORT_DATE_DESC"/>
+
+    <item
+        android:id="@+id/apps_produk_item_sort_price_asc"
+        android:title="@string/SORT_PRICE_ASC" />
+    <item
+        android:id="@+id/apps_produk_item_sort_price_desc"
+        android:title="@string/SORT_PRICE_DESC"/>
+
+    <item
+        android:id="@+id/apps_produk_item_sort_best_selling_asc"
+        android:title="@string/SORT_BESTSELLING_ASC" />
 
 </menu>

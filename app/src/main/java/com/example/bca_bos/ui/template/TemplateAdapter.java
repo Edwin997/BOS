@@ -78,18 +78,6 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.Templa
         }
     }
 
-    public void sortTemplatedText(String p_type){
-        List<TemplatedText> tempList = g_list_template_master;
-        if(p_type.equals("ASC"))
-        {
-            Collections.sort(tempList);
-        }
-        else if(p_type.equals("DESC")){
-            Collections.reverse(tempList);
-        }
-        setListTemplateFiltered(tempList);
-    }
-
     public void setParentOnCallBack(OnCallBackListener p_oncallback){
         this.g_parent_oncallbacklistener = p_oncallback;
     }
