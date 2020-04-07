@@ -87,9 +87,9 @@ public class VolleyClass {
 
     //URL BERANDA
     private final static  String BASE_URL_BERANDA= "/home";
-    private final static String URL_BERANDA_JUMLAH_TRANSAKSI = BASE_URL + BASE_URL_BERANDA + "/home/trx?seller=";
-    private final static String URL_BERANDA_PRODUK_TERLARIS = BASE_URL + BASE_URL_BERANDA + "/home/prd?seller=";
-    private final static String URL_BERANDA_PEMBELI_SETIA = BASE_URL + BASE_URL_BERANDA + "/home/byr?seller=";
+    private final static String URL_BERANDA_JUMLAH_TRANSAKSI = BASE_URL + BASE_URL_BERANDA + "/bos/home/trx?seller=";
+    private final static String URL_BERANDA_PRODUK_TERLARIS = BASE_URL + BASE_URL_BERANDA + "/bos/home/prd?seller=";
+    private final static String URL_BERANDA_PEMBELI_SETIA = BASE_URL + BASE_URL_BERANDA + "/bos/home/byr?seller=";
     private final static String JUMLAH_TRANSAKSI_START_DATE = "&start-dt=";
     private final static String JUMLAH_TRANSAKSI_END_DATE = "&end-dt=";
 
@@ -140,9 +140,7 @@ public class VolleyClass {
     private final static  String BASE_URL_RAJAONGKIR = "/rajaongkir";
     private final static String URL_PROVINSI = BASE_URL + BASE_URL_RAJAONGKIR + "/bos/provinsi";
     private final static String URL_ONGKIR_COST = BASE_URL + BASE_URL_RAJAONGKIR + "/bos/ongkir";
-    private final static  String BASE_URL_RAJAONGKIR = "https://rajaongkir.apps.pcf.dti.co.id/bos";
-    private final static String URL_CITY = BASE_URL_RAJAONGKIR + "/kotaKab";
-    private final static String URL_ONGKIR_COST = BASE_URL_RAJAONGKIR + "/ongkir";
+    private final static String URL_CITY = BASE_URL_RAJAONGKIR + "/bos/kotaKab";
     private static ArrayAdapter<String> g_rajaongkir_city_adapter;
     public static List<String> g_city_name_list = new ArrayList<>();
 
