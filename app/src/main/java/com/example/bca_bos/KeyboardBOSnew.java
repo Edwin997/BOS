@@ -35,8 +35,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.bca_bos.dummy.ListKategoriDummy;
-import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
 import com.example.bca_bos.keyboardadapters.MutasiRekeningAdapter;
@@ -365,7 +363,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_templatedtext_recyclerview.setLayoutManager(g_linear_layout);
         g_templatedtext_recyclerview.setAdapter(tmpTemplatedTextAdapter);
 
-        VolleyClass.getTemplatedText(getApplicationContext(), 3, tmpTemplatedTextAdapter);
+        VolleyClass.getTemplatedTextByName(getApplicationContext(), 3, Method.ASC, tmpTemplatedTextAdapter);
 
         //config button
         g_btn_home.setOnClickListener(this);
@@ -510,7 +508,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_rv_stok.setLayoutManager(g_stok_item_layout);
         g_rv_stok.setAdapter(g_stok_adapter);
 
-        VolleyClass.getProduct(getApplicationContext(), 3, g_stok_adapter);
+        VolleyClass.getProductByName(getApplicationContext(), 3, Method.ASC, g_stok_adapter);
 
         //config spinner
         ArrayList<String> tmpInitialFilterValue = new ArrayList<>();
@@ -567,7 +565,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_kirimform_produk_adapter.setParentOnCallBack(this);
         g_rv_kirimform_produk.setLayoutManager(g_kirimform_produk_item_layout);
         g_rv_kirimform_produk.setAdapter(g_kirimform_produk_adapter);
-        VolleyClass.getProduct(getApplicationContext(), 3, g_kirimform_produk_adapter);
+        VolleyClass.getProductByName(getApplicationContext(), 3, Method.ASC, g_kirimform_produk_adapter);
 
         //config edittext
         g_et_kirimform_search.setOnFocusChangeListener(this);

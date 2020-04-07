@@ -7,8 +7,13 @@
     <string name="title_transaksi">Transaksi</string>
     <string name="title_profile">Profile</string>
 
-    <string name="SORT_ASC">A-Z</string>
-    <string name="SORT_DESC">Z-A</string>
+    <string name="SORT_NAME_ASC">A-Z</string>
+    <string name="SORT_NAME_DESC">Z-A</string>
+    <string name="SORT_DATE_ASC">Terbaru</string>
+    <string name="SORT_DATE_DESC">Terlama</string>
+    <string name="SORT_PRICE_ASC">Termurah</string>
+    <string name="SORT_PRICE_DESC">Termahal</string>
+    <string name="SORT_BESTSELLING_ASC">Terfavorit</string>
 
     <string name="INTERNET_NOT_FOUND">Gagal terhubung ke jaringan internet \nSilahkan coba lagi</string>
 

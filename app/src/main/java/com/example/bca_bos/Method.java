@@ -11,6 +11,9 @@ import java.util.Locale;
 
 public class Method {
 
+    public static String ASC = "asc";
+    public static String DESC = "desc";
+
     private static Locale tmpLocale = new Locale("in", "ID");
     private static NumberFormat l_currencyformat = NumberFormat.getCurrencyInstance(tmpLocale);
 

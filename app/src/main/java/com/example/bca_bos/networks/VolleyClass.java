@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -17,6 +18,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.bca_bos.KeyboardBOSnew;
 import com.example.bca_bos.LoginActivity;
+import com.example.bca_bos.Method;
 import com.example.bca_bos.PasswordActivity;
 import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
 import com.example.bca_bos.keyboardadapters.MutasiRekeningAdapter;
@@ -42,7 +44,7 @@ import com.example.bca_bos.ui.transaksi.OfflineTransaksiAdapter;
 import com.example.bca_bos.ui.transaksi.OfflineTransaksiFragment;
 import com.example.bca_bos.ui.transaksi.OnlineTransaksiAdapter;
 import com.example.bca_bos.ui.transaksi.OnlineTransaksiFragment;
-import com.example.bca_bos.ui.transaksi.TransaksiFragment;
+import com.google.android.material.theme.overlay.MaterialThemeOverlay;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -53,6 +55,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -81,13 +84,20 @@ public class VolleyClass {
 
     // URL TEMPLATE TEXT
     private final static  String BASE_URL_TEMPLATED_TEXT= "/templatetext";
-    private final static String URL_TEMPLATED_TEXT = BASE_URL + BASE_URL_TEMPLATED_TEXT + "/bos/templateText";
+    private final static String URL_TEMPLATED_TEXT_BY_NAME = BASE_URL + BASE_URL_TEMPLATED_TEXT + "/bos/template-text-by-name";
+    private final static String URL_TEMPLATED_TEXT_BY_DATE = BASE_URL + BASE_URL_TEMPLATED_TEXT + "/bos/template-text-by-date";
+    private final static String URL_TEMPLATED_TEXT = BASE_URL + BASE_URL_TEMPLATED_TEXT + "/bos/template-text";
 
     //URL PRODUK
     private final static  String BASE_URL_PRODUCT = "/product";
+    private final static String URL_PRODUCT_BY_NAME = BASE_URL + BASE_URL_PRODUCT + "/bos/product-by-name";
+    private final static String URL_PRODUCT_BY_DATE = BASE_URL + BASE_URL_PRODUCT + "/bos/product-by-date";
+    private final static String URL_PRODUCT_BY_PRICE = BASE_URL + BASE_URL_PRODUCT + "/bos/product-by-price";
+    private final static String URL_PRODUCT_BY_BEST_SELLING = BASE_URL + BASE_URL_PRODUCT + "/bos/product-by-best-selling";
     private final static String URL_PRODUCT = BASE_URL + BASE_URL_PRODUCT + "/bos/product";
-    private final static String URL_PRODUCT_CATEGORY = BASE_URL + BASE_URL_PRODUCT + "/bos/productCategory";
-    private final static String URL_PRODUK_DETAIL = BASE_URL + BASE_URL_PRODUCT + "/bos/productDetail/";
+
+    private final static String URL_PRODUCT_CATEGORY = BASE_URL + BASE_URL_PRODUCT + "/bos/product-category";
+    private final static String URL_PRODUK_DETAIL = BASE_URL + BASE_URL_PRODUCT + "/bos/product-detail";
     private static List<PrdCategory> g_list_product_category = new ArrayList<>();
     private static List<PrdCategory> g_list_product_category_all = new ArrayList<>();
     private static String KEY_SEMUA_PRODUCT = "Semua Produk";
@@ -375,10 +385,10 @@ public class VolleyClass {
     //endregion
 
     //region TEMPLATED TEXT
-    public static void getTemplatedText(Context p_context, int p_id_seller, final RecyclerView.Adapter p_adapter){
+    public static void getTemplatedTextByName(Context p_context, int p_id_seller, final String p_order, final RecyclerView.Adapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
-        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_TEMPLATED_TEXT + "/" + p_id_seller,
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_TEMPLATED_TEXT_BY_NAME + "/" + p_id_seller,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -387,14 +397,25 @@ public class VolleyClass {
 
                             List<TemplatedText> tempObject = Arrays.asList(gson.fromJson(output, TemplatedText[].class));
 
+                            List<TemplatedText> tempResult = new ArrayList<>();
+
+                            if(p_order.equals(Method.DESC)){
+                                for (int i = tempObject.size()-1; i >= 0; i--)
+                                {
+                                    tempResult.add(tempObject.get(i));
+                                }
+                            }else{
+                                tempResult = tempObject;
+                            }
+
                             if(p_adapter instanceof TemplateAdapter){
-                                TemplateFragment.g_instance.showLayout(tempObject.size(), true);
+                                TemplateFragment.g_instance.showLayout(tempResult.size(), true);
                                 TemplateAdapter tmpAdapter = (TemplateAdapter) p_adapter;
-                                tmpAdapter.setListTemplate(tempObject);
+                                tmpAdapter.setListTemplate(tempResult);
                             }
                             else if(p_adapter instanceof TemplatedTextAdapter){
                                 TemplatedTextAdapter tmpAdapter = (TemplatedTextAdapter) p_adapter;
-                                tmpAdapter.setListTemplate(tempObject);
+                                tmpAdapter.setListTemplate(tempResult);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -409,7 +430,67 @@ public class VolleyClass {
                 }
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void getTemplatedTextByDate(Context p_context, int p_id_seller, final String p_order, final RecyclerView.Adapter p_adapter){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_TEMPLATED_TEXT_BY_DATE + "/" + p_id_seller,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            List<TemplatedText> tempObject = Arrays.asList(gson.fromJson(output, TemplatedText[].class));
+
+                            List<TemplatedText> tempResult = new ArrayList<>();
+
+                            if(p_order.equals(Method.DESC)){
+                                for (int i = tempObject.size()-1; i >= 0; i--)
+                                {
+                                    tempResult.add(tempObject.get(i));
+                                }
+                            }else{
+                                tempResult = tempObject;
+                            }
+
+                            if(p_adapter instanceof TemplateAdapter){
+                                TemplateFragment.g_instance.showLayout(tempResult.size(), true);
+                                TemplateAdapter tmpAdapter = (TemplateAdapter) p_adapter;
+                                tmpAdapter.setListTemplate(tempResult);
+                            }
+                            else if(p_adapter instanceof TemplatedTextAdapter){
+                                TemplatedTextAdapter tmpAdapter = (TemplatedTextAdapter) p_adapter;
+                                tmpAdapter.setListTemplate(tempResult);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(p_adapter instanceof TemplateAdapter)
+                {
+                    TemplateFragment.g_instance.showLayout(0, false);
+                }
+                NetworkUtil.setErrorMessage(error);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -430,7 +511,7 @@ public class VolleyClass {
                             String message = NetworkUtil.getErrorCode(response.toString());
                             if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Penambahan data template text berhasil", Toast.LENGTH_SHORT).show();
-//                                getTemplatedText(p_context, p_templatedtext.getId_template_text(), p_adapter);
+//                                getTemplatedTextByName(p_context, p_templatedtext.getId_template_text(), p_adapter);
                                 TemplateFragment.g_instance.refreshData();
                             }
                             else
@@ -447,7 +528,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
 
         g_requestqueue.add(request_json);
@@ -470,7 +556,7 @@ public class VolleyClass {
                             String message = NetworkUtil.getErrorCode(response.toString());
                             if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Pengubahan data template text berhasil", Toast.LENGTH_SHORT).show();
-//                                getTemplatedText(p_context, p_templatedtext.getId_template_text(), p_adapter);
+//                                getTemplatedTextByName(p_context, p_templatedtext.getId_template_text(), p_adapter);
                                 TemplateFragment.g_instance.refreshData();
                             }
                             else
@@ -486,7 +572,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
 
         g_requestqueue.add(request_json);
@@ -503,7 +594,7 @@ public class VolleyClass {
                             String message = NetworkUtil.getErrorCode(response.toString());
                             if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Hapus data template text berhasil", Toast.LENGTH_SHORT).show();
-//                                getTemplatedText(p_context, p_id_templatetext, p_adapter);
+//                                getTemplatedTextByName(p_context, p_id_templatetext, p_adapter);
                                 TemplateFragment.g_instance.refreshData();
                             }
                             else
@@ -520,17 +611,22 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
     //endregion
 
     //region PRODUCT
-    public static void getProduct(Context p_context, int p_id_seller, final RecyclerView.Adapter p_adapter){
+    public static void getProductByName(Context p_context, int p_id_seller, final String p_order, final RecyclerView.Adapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
-        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PRODUCT + "/" + p_id_seller,
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PRODUCT_BY_NAME + "/" + p_id_seller,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -539,16 +635,27 @@ public class VolleyClass {
 
                             List<Product> tempObject = Arrays.asList(gson.fromJson(output, Product[].class));
 
+                            List<Product> tempResult = new ArrayList<>();
+
+                            if(p_order.equals(Method.DESC)){
+                                for (int i = tempObject.size()-1; i >= 0; i--)
+                                {
+                                    tempResult.add(tempObject.get(i));
+                                }
+                            }else{
+                                tempResult = tempObject;
+                            }
+
                             if(p_adapter instanceof ProdukAdapter){
-                                ProdukFragment.g_instance.showLayout(tempObject.size(), true);
+                                ProdukFragment.g_instance.showLayout(tempResult.size(), true);
                                 ProdukAdapter tmpAdapter = (ProdukAdapter) p_adapter;
-                                tmpAdapter.setDatasetProduk(tempObject);
+                                tmpAdapter.setDatasetProduk(tempResult);
                             }
                             else if(p_adapter instanceof StokProdukAdapter){
                                 List<Product> tmpList = new ArrayList<>();
                                 tmpList.add(0, new Product(-1, "Tambah Produk", 0, "", 0, new PrdCategory(-1, "kosong")));
-                                for (int i = 0; i < tempObject.size(); i++){
-                                    tmpList.add(tempObject.get(i));
+                                for (int i = 0; i < tempResult.size(); i++){
+                                    tmpList.add(tempResult.get(i));
                                 }
 
                                 StokProdukAdapter tmpAdapter = (StokProdukAdapter) p_adapter;
@@ -556,7 +663,7 @@ public class VolleyClass {
                             }
                             else if(p_adapter instanceof KirimFormProdukAdapter){
                                 KirimFormProdukAdapter tmpAdapter = (KirimFormProdukAdapter) p_adapter;
-                                tmpAdapter.setDatasetProduk(tempObject);
+                                tmpAdapter.setDatasetProduk(tempResult);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -573,7 +680,213 @@ public class VolleyClass {
 
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void getProductByDate(Context p_context, int p_id_seller, final String p_order, final RecyclerView.Adapter p_adapter){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PRODUCT_BY_DATE + "/" + p_id_seller,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            List<Product> tempObject = Arrays.asList(gson.fromJson(output, Product[].class));
+
+                            List<Product> tempResult = new ArrayList<>();
+
+                            if(p_order.equals(Method.DESC)){
+                                for (int i = tempObject.size()-1; i >= 0; i--)
+                                {
+                                    tempResult.add(tempObject.get(i));
+                                }
+                            }else{
+                                tempResult = tempObject;
+                            }
+
+                            if(p_adapter instanceof ProdukAdapter){
+                                ProdukFragment.g_instance.showLayout(tempResult.size(), true);
+                                ProdukAdapter tmpAdapter = (ProdukAdapter) p_adapter;
+                                tmpAdapter.setDatasetProduk(tempResult);
+                            }
+                            else if(p_adapter instanceof StokProdukAdapter){
+                                List<Product> tmpList = new ArrayList<>();
+                                tmpList.add(0, new Product(-1, "Tambah Produk", 0, "", 0, new PrdCategory(-1, "kosong")));
+                                for (int i = 0; i < tempResult.size(); i++){
+                                    tmpList.add(tempResult.get(i));
+                                }
+
+                                StokProdukAdapter tmpAdapter = (StokProdukAdapter) p_adapter;
+                                tmpAdapter.setDatasetProduk(tmpList);
+                            }
+                            else if(p_adapter instanceof KirimFormProdukAdapter){
+                                KirimFormProdukAdapter tmpAdapter = (KirimFormProdukAdapter) p_adapter;
+                                tmpAdapter.setDatasetProduk(tempResult);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                if(p_adapter instanceof ProdukAdapter){
+                    ProdukFragment.g_instance.showLayout(0, false);
+                }
+
+                NetworkUtil.setErrorMessage(error);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void getProductByPrice(Context p_context, int p_id_seller, final String p_order, final RecyclerView.Adapter p_adapter){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PRODUCT_BY_PRICE + "/" + p_id_seller,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            List<Product> tempObject = Arrays.asList(gson.fromJson(output, Product[].class));
+
+                            List<Product> tempResult = new ArrayList<>();
+
+                            if(p_order.equals(Method.DESC)){
+                                for (int i = tempObject.size()-1; i >= 0; i--)
+                                {
+                                    tempResult.add(tempObject.get(i));
+                                }
+                            }else{
+                                tempResult = tempObject;
+                            }
+
+                            if(p_adapter instanceof ProdukAdapter){
+                                ProdukFragment.g_instance.showLayout(tempResult.size(), true);
+                                ProdukAdapter tmpAdapter = (ProdukAdapter) p_adapter;
+                                tmpAdapter.setDatasetProduk(tempResult);
+                            }
+                            else if(p_adapter instanceof StokProdukAdapter){
+                                List<Product> tmpList = new ArrayList<>();
+                                tmpList.add(0, new Product(-1, "Tambah Produk", 0, "", 0, new PrdCategory(-1, "kosong")));
+                                for (int i = 0; i < tempResult.size(); i++){
+                                    tmpList.add(tempResult.get(i));
+                                }
+
+                                StokProdukAdapter tmpAdapter = (StokProdukAdapter) p_adapter;
+                                tmpAdapter.setDatasetProduk(tmpList);
+                            }
+                            else if(p_adapter instanceof KirimFormProdukAdapter){
+                                KirimFormProdukAdapter tmpAdapter = (KirimFormProdukAdapter) p_adapter;
+                                tmpAdapter.setDatasetProduk(tempResult);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                if(p_adapter instanceof ProdukAdapter){
+                    ProdukFragment.g_instance.showLayout(0, false);
+                }
+
+                NetworkUtil.setErrorMessage(error);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void getProductByBestSelling(Context p_context, int p_id_seller, final String p_order, final RecyclerView.Adapter p_adapter){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PRODUCT_BY_BEST_SELLING + "/" + p_id_seller,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            List<Product> tempObject = Arrays.asList(gson.fromJson(output, Product[].class));
+
+                            List<Product> tempResult = new ArrayList<>();
+
+                            if(p_order.equals(Method.DESC)){
+                                for (int i = tempObject.size()-1; i >= 0; i--)
+                                {
+                                    tempResult.add(tempObject.get(i));
+                                }
+                            }else{
+                                tempResult = tempObject;
+                            }
+
+                            if(p_adapter instanceof ProdukAdapter){
+                                ProdukFragment.g_instance.showLayout(tempResult.size(), true);
+                                ProdukAdapter tmpAdapter = (ProdukAdapter) p_adapter;
+                                tmpAdapter.setDatasetProduk(tempResult);
+                            }
+                            else if(p_adapter instanceof StokProdukAdapter){
+                                List<Product> tmpList = new ArrayList<>();
+                                tmpList.add(0, new Product(-1, "Tambah Produk", 0, "", 0, new PrdCategory(-1, "kosong")));
+                                for (int i = 0; i < tempResult.size(); i++){
+                                    tmpList.add(tempResult.get(i));
+                                }
+
+                                StokProdukAdapter tmpAdapter = (StokProdukAdapter) p_adapter;
+                                tmpAdapter.setDatasetProduk(tmpList);
+                            }
+                            else if(p_adapter instanceof KirimFormProdukAdapter){
+                                KirimFormProdukAdapter tmpAdapter = (KirimFormProdukAdapter) p_adapter;
+                                tmpAdapter.setDatasetProduk(tempResult);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                if(p_adapter instanceof ProdukAdapter){
+                    ProdukFragment.g_instance.showLayout(0, false);
+                }
+
+                NetworkUtil.setErrorMessage(error);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -597,7 +910,7 @@ public class VolleyClass {
                         String message = NetworkUtil.getErrorCode(response.toString());
                         if(message.equals(ERROR_CODE_BERHASIL)){
                             Toast.makeText(p_context, "Penambahan data product berhasil", Toast.LENGTH_SHORT).show();
-                            getProduct(p_context, p_product.getSeller().getId_seller(), p_adapter);
+                            getProductByName(p_context, p_product.getSeller().getId_seller(), Method.ASC, p_adapter);
                         }
                         else
                         {
@@ -610,7 +923,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
 
         g_requestqueue.add(request_json);
@@ -637,7 +955,7 @@ public class VolleyClass {
                         String message = NetworkUtil.getErrorCode(response.toString());
                         if(message.equals(ERROR_CODE_BERHASIL)){
                             Toast.makeText(p_context, "Pengubahan data product berhasil", Toast.LENGTH_SHORT).show();
-                            getProduct(p_context, p_product.getSeller().getId_seller(), p_adapter);
+                            getProductByName(p_context, p_product.getSeller().getId_seller(), Method.ASC, p_adapter);
                         }
                         else
                         {
@@ -649,7 +967,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
 
         g_requestqueue.add(request_json);
@@ -666,7 +989,7 @@ public class VolleyClass {
                             String message = NetworkUtil.getErrorCode(response);
                             if(message.equals(ERROR_CODE_BERHASIL)){
                                 Toast.makeText(p_context, "Hapus data product berhasil", Toast.LENGTH_SHORT).show();
-                                getProduct(p_context, p_id_product, p_adapter);
+                                getProductByName(p_context, p_id_product, Method.ASC, p_adapter);
                             }
                             else
                             {
@@ -682,7 +1005,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -721,7 +1049,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -750,7 +1083,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -795,7 +1133,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -834,7 +1177,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -886,7 +1234,7 @@ public class VolleyClass {
                             List<Transaction> tempObject = Arrays.asList(gson.fromJson(output, Transaction[].class));
 
                             if(p_adapter instanceof OnlineTransaksiAdapter){
-                                OfflineTransaksiFragment.g_instance.showLayout(tempObject.size(), true);
+                                OnlineTransaksiFragment.g_instance.showLayout(tempObject.size(), true);
                                 OnlineTransaksiAdapter tmpAdapter = (OnlineTransaksiAdapter) p_adapter;
                                 tmpAdapter.setListTransaksi(tempObject);
 
@@ -902,7 +1250,7 @@ public class VolleyClass {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if(p_adapter instanceof OnlineTransaksiAdapter) {
-                    OfflineTransaksiFragment.g_instance.showLayout(0, false);
+                    OnlineTransaksiFragment.g_instance.showLayout(0, false);
                 }
                 NetworkUtil.setErrorMessage(error);
             }

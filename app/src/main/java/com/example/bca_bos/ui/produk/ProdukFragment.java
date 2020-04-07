@@ -39,7 +39,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
-import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.products.PrdCategory;
@@ -47,13 +46,10 @@ import com.example.bca_bos.models.products.Product;
 import com.example.bca_bos.networks.VolleyClass;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -158,7 +154,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_produkadapter.setParentOnCallBack(this);
         g_produkfragment_recyclerview.setAdapter(g_produkadapter);
         g_produkfragment_recyclerview.setLayoutManager(g_linearlayoutmanager);
-        VolleyClass.getProduct(g_context, 3, g_produkadapter);
+        VolleyClass.getProductByName(g_context, 3, Method.ASC, g_produkadapter);
 //        g_produkadapter.setDatasetProduk(ListProdukDummy.productList);
 
         //config imageview
@@ -176,10 +172,25 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
             case R.id.apps_produk_item_sort_asc:
-                g_produkadapter.sortProduct("ASC");
+                VolleyClass.getProductByName(g_context, 3, Method.ASC, g_produkadapter);
                 break;
             case R.id.apps_produk_item_sort_desc:
-                g_produkadapter.sortProduct("DESC");
+                VolleyClass.getProductByName(g_context, 3, Method.DESC, g_produkadapter);
+                break;
+            case R.id.apps_produk_item_sort_date_asc:
+                VolleyClass.getProductByDate(g_context, 3, Method.ASC, g_produkadapter);
+                break;
+            case R.id.apps_produk_item_sort_date_desc:
+                VolleyClass.getProductByDate(g_context, 3, Method.DESC, g_produkadapter);
+                break;
+            case R.id.apps_produk_item_sort_price_asc:
+                VolleyClass.getProductByPrice(g_context, 3, Method.ASC, g_produkadapter);
+                break;
+            case R.id.apps_produk_item_sort_price_desc:
+                VolleyClass.getProductByPrice(g_context, 3, Method.DESC, g_produkadapter);
+                break;
+            case R.id.apps_produk_item_sort_best_selling_asc:
+                VolleyClass.getProductByBestSelling(g_context, 3, Method.ASC, g_produkadapter);
                 break;
             default:
                 int idx = VolleyClass.findProductCategoryId(item.getOrder());
@@ -248,7 +259,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 tmpProduct.setProduct_name(g_tv_bottom_sheet_produk_add_nama.getText().toString());
                 tmpProduct.setPrice(Integer.parseInt(g_tv_bottom_sheet_produk_add_harga.getText().toString()));
                 tmpProduct.setStock(Integer.parseInt(g_tv_bottom_sheet_produk_add_stok.getText().toString()));
-                tmpProduct.setWeight(Integer.parseInt(g_tv_bottom_sheet_produk_add_berat.getText().toString()));
+                tmpProduct.setWeight(g_tv_bottom_sheet_produk_add_berat.getText().toString());
                 tmpProduct.setImage_path(imageToString(g_bmp_bottom_sheet_produk_add));
                 tmpProduct.setPrdCategory(g_product_category_add);
                 tmpProduct.setSeller(seller);
@@ -325,7 +336,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 tmpProductedit.setProduct_name(g_tv_bottom_sheet_produk_edit_nama.getText().toString());
                 tmpProductedit.setPrice(Integer.parseInt(g_tv_bottom_sheet_produk_edit_harga.getText().toString()));
                 tmpProductedit.setStock(Integer.parseInt(g_tv_bottom_sheet_produk_edit_stok.getText().toString()));
-                tmpProductedit.setWeight(Integer.parseInt(g_tv_bottom_sheet_produk_edit_berat.getText().toString()));
+                tmpProductedit.setWeight(g_tv_bottom_sheet_produk_edit_berat.getText().toString());
                 tmpProductedit.setImage_path(imageToString(g_bmp_bottom_sheet_produk_edit));
                 tmpProductedit.setPrdCategory(g_product_category_edit);
                 tmpProductedit.setSeller(selleredit);
