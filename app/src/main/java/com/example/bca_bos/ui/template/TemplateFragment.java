@@ -33,6 +33,11 @@ import com.example.bca_bos.models.TemplatedText;
 import com.example.bca_bos.networks.VolleyClass;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class TemplateFragment extends Fragment implements View.OnClickListener, OnCallBackListener, PopupMenu.OnMenuItemClickListener {
@@ -63,13 +68,20 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
     private TextView g_tv_not_found_judul;
     private LottieAnimationView g_iv_not_found_animation;
 
-    //ADD BOTTOM SHEET PRODUK DATA MEMBER
+    //ADD BOTTOM SHEET TEMPLATED TEXT DATA MEMBER
     private EditText g_et_edit_templated_label_add, g_et_edit_templated_deskripsi_add;
+    private TextView g_tv_error_templated_label_add, g_tv_error_templated_deskripsi_add;
     private Button g_btn_templated_simpan_add, g_btn_templated_batal_add;
+    private List<EditText> g_list_edittext_add;
+    private List<TextView> g_list_textview_add;
 
     //EDIT BOTTOM SHEET TEMPLATED TEXT DATA MEMBER
     private EditText g_et_edit_templated_label_edit, g_et_edit_templated_deskripsi_edit;
+    private TextView g_tv_error_templated_label_edit, g_tv_error_templated_deskripsi_edit;
     private Button g_btn_templated_simpan_edit, g_btn_templated_hapus_edit;
+    private List<EditText> g_list_edittext_edit;
+    private List<TextView> g_list_textview_edit;
+
     //endregion
 
     //Shared Preference
@@ -148,18 +160,21 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
 
             //region ADD PRODUK BOTTOM SHEET
             case R.id.apps_bottom_sheet_btn_simpan_add:
-                Seller seller_add = new Seller();
-                seller_add.setId_seller(3);
+                if(cekValidasi(g_list_edittext_add, g_list_textview_add)) {
+                    Seller seller_add = new Seller();
+                    seller_add.setId_seller(3);
 
-                TemplatedText tmpTemplate = new TemplatedText();
-                tmpTemplate.setTemplate_code(g_et_edit_templated_label_add.getText().toString());
-                tmpTemplate.setText(g_et_edit_templated_deskripsi_add.getText().toString());
-                tmpTemplate.setSeller(seller_add);
+                    TemplatedText tmpTemplate = new TemplatedText();
+                    tmpTemplate.setTemplate_code(g_et_edit_templated_label_add.getText().toString());
+                    tmpTemplate.setText(g_et_edit_templated_deskripsi_add.getText().toString());
+                    tmpTemplate.setSeller(seller_add);
 
-                VolleyClass.insertTemplatedText(g_context, tmpTemplate, g_templateadapter);
-                refreshData();
+                    VolleyClass.insertTemplatedText(g_context, tmpTemplate, g_templateadapter);
+                    refreshData();
+                    g_bottomsheet_dialog_add.dismiss();
+                }
 
-                g_bottomsheet_dialog_add.dismiss();
+
                 break;
             case R.id.apps_bottom_sheet_btn_batal_add:
                 g_bottomsheet_dialog_add.dismiss();
@@ -168,18 +183,20 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
 
             //region EDIT PRODUK BOTTOM SHEET
             case R.id.apps_bottom_sheet_btn_simpan_edit:
-                Seller seller_edit = new Seller();
-                seller_edit.setId_seller(3);
+                if(cekValidasi(g_list_edittext_edit, g_list_textview_edit)) {
+                    Seller seller_edit = new Seller();
+                    seller_edit.setId_seller(3);
 
-                TemplatedText tmpTemplateEdit = new TemplatedText();
-                tmpTemplateEdit.setId_template_text(g_template_onclick.getId_template_text());
-                tmpTemplateEdit.setTemplate_code(g_et_edit_templated_label_edit.getText().toString());
-                tmpTemplateEdit.setText(g_et_edit_templated_deskripsi_edit.getText().toString());
-                tmpTemplateEdit.setSeller(seller_edit);
+                    TemplatedText tmpTemplateEdit = new TemplatedText();
+                    tmpTemplateEdit.setId_template_text(g_template_onclick.getId_template_text());
+                    tmpTemplateEdit.setTemplate_code(g_et_edit_templated_label_edit.getText().toString());
+                    tmpTemplateEdit.setText(g_et_edit_templated_deskripsi_edit.getText().toString());
+                    tmpTemplateEdit.setSeller(seller_edit);
 
-                VolleyClass.updateTemplatedText(g_context, tmpTemplateEdit, g_templateadapter);
+                    VolleyClass.updateTemplatedText(g_context, tmpTemplateEdit, g_templateadapter);
+                    g_bottomsheet_dialog_edit.dismiss();
+                }
 
-                g_bottomsheet_dialog_edit.dismiss();
                 break;
             case R.id.apps_bottom_sheet_btn_hapus_edit:
                 VolleyClass.deleteTemplatedText(g_context, g_template_onclick.getId_template_text(), g_templateadapter);
@@ -253,6 +270,18 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
         g_et_edit_templated_label_edit.setText(p_template.getTemplate_code());
         g_et_edit_templated_deskripsi_edit.setText(p_template.getText());
 
+        //inisiasi textview
+        g_tv_error_templated_label_edit = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_tv_label_edit_error);
+        g_tv_error_templated_deskripsi_edit = l_bottomsheet_view_edit.findViewById(R.id.apps_bottom_sheet_tv_deskripsi_edit_error);
+
+        g_list_edittext_edit = new ArrayList<>();
+        g_list_edittext_edit.add(g_et_edit_templated_label_edit);
+        g_list_edittext_edit.add(g_et_edit_templated_deskripsi_edit);
+
+        g_list_textview_edit = new ArrayList<>();
+        g_list_textview_add.add(g_tv_error_templated_label_edit);
+        g_list_textview_add.add(g_tv_error_templated_deskripsi_add);
+
         //config button
         g_btn_templated_simpan_edit.setOnClickListener(this);
         g_btn_templated_hapus_edit.setOnClickListener(this);
@@ -277,6 +306,18 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
         g_btn_templated_simpan_add = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_btn_simpan_add);
         g_btn_templated_batal_add = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_btn_batal_add);
 
+        //inisiasi textview
+        g_tv_error_templated_label_add = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_tv_label_add_error);
+        g_tv_error_templated_deskripsi_add = l_bottomsheet_view_add.findViewById(R.id.apps_bottom_sheet_tv_deskripsi_add_error);
+
+        g_list_edittext_add = new ArrayList<>();
+        g_list_edittext_add.add(g_et_edit_templated_label_add);
+        g_list_edittext_add.add(g_et_edit_templated_deskripsi_add);
+
+        g_list_textview_add = new ArrayList<>();
+        g_list_textview_add.add(g_tv_error_templated_label_add);
+        g_list_textview_add.add(g_tv_error_templated_deskripsi_add);
+
         //config button
         g_btn_templated_simpan_add.setOnClickListener(this);
         g_btn_templated_batal_add.setOnClickListener(this);
@@ -293,6 +334,22 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
         inflater.inflate(R.menu.templatetext_fragment_bar, g_popup.getMenu());
         g_popup.setOnMenuItemClickListener(this);
         g_popup.show();
+    }
+
+    public boolean cekValidasi(List<EditText> p_isi, List<TextView> p_error){
+        boolean tmpCheck = true;
+
+        for(int i = 0; i < p_isi.size(); i++){
+            if(p_isi.get(i).getText().toString().isEmpty()){
+                tmpCheck = false;
+                p_error.get(i).setText("Mohon diisi terlebih dahulu");
+            }
+            else{
+                p_error.get(i).setText("");
+            }
+        }
+
+        return tmpCheck;
     }
 
     @Override

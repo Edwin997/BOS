@@ -670,7 +670,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 if (isChecked){
                     g_mutasi_tv_title.setText("Online");
                     g_mutasi_rekening_adapter = new MutasiRekeningAdapter();
-                    VolleyClass.getTransaksi(getApplicationContext(), g_seller_id, g_mutasi_rekening_adapter);
+                    VolleyClass.getTransaksi(getApplicationContext(), g_seller_id, -1, g_mutasi_rekening_adapter);
                     g_mutasi_recyclerview.setAdapter(g_mutasi_rekening_adapter);
                 }else {
                     g_mutasi_tv_title.setText("Offline");
@@ -684,7 +684,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         //config recyclerview
         g_mutasi_item_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL,false);
         g_mutasi_rekening_adapter = new MutasiRekeningAdapter();
-        VolleyClass.getTransaksi(getApplicationContext(), g_seller_id, g_mutasi_rekening_adapter);
+        VolleyClass.getTransaksi(getApplicationContext(), g_seller_id, -1, g_mutasi_rekening_adapter);
         g_mutasi_recyclerview.setLayoutManager(g_mutasi_item_layout);
         g_mutasi_recyclerview.setAdapter(g_mutasi_rekening_adapter);
 

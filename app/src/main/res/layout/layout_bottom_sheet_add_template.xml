@@ -48,15 +48,28 @@
             android:id="@+id/apps_bottom_sheet_et_label_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"            android:padding="10dp"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:maxLines="1"
+            android:maxLength="20"
+            android:maxLines="2"
             android:inputType="textPersonName"
             />
 
     </androidx.cardview.widget.CardView>
 
+    <TextView
+        android:id="@+id/apps_bottom_sheet_tv_label_add_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:textSize="12dp"/>
 
 
     <TextView
@@ -83,13 +96,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="100dp"
-            android:background="@android:color/transparent"            android:padding="10dp"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:maxLength="200"
             android:inputType="textPersonName|textMultiLine"
             />
 
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/apps_bottom_sheet_tv_deskripsi_add_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:textSize="12dp"/>
 
 
 
