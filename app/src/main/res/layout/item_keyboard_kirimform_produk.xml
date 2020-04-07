@@ -20,7 +20,8 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:scaleType="fitCenter"
-            android:src="@drawable/shoes_red_jordan"/>
+            android:background="@color/white"
+            android:src="@drawable/ic_bos_mascot"/>
 
         <TextView
             android:id="@+id/et_kirimform_produk_item_nama"
