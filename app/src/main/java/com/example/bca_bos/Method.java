@@ -1,5 +1,8 @@
 package com.example.bca_bos;
 
+import android.widget.EditText;
+import android.widget.TextView;
+
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +10,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class Method {
@@ -48,5 +52,21 @@ public class Method {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static boolean cekValidasi(List<EditText> p_isi, List<TextView> p_error){
+        boolean tmpCheck = true;
+
+        for(int i = 0; i < p_isi.size(); i++){
+            if(p_isi.get(i).getText().toString().isEmpty()){
+                tmpCheck = false;
+                p_error.get(i).setText("Mohon diisi terlebih dahulu");
+            }
+            else{
+                p_error.get(i).setText("");
+            }
+        }
+
+        return tmpCheck;
     }
 }

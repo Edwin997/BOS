@@ -160,7 +160,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
 
             //region ADD PRODUK BOTTOM SHEET
             case R.id.apps_bottom_sheet_btn_simpan_add:
-                if(cekValidasi(g_list_edittext_add, g_list_textview_add)) {
+                if(Method.cekValidasi(g_list_edittext_add, g_list_textview_add)) {
                     Seller seller_add = new Seller();
                     seller_add.setId_seller(3);
 
@@ -183,7 +183,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
 
             //region EDIT PRODUK BOTTOM SHEET
             case R.id.apps_bottom_sheet_btn_simpan_edit:
-                if(cekValidasi(g_list_edittext_edit, g_list_textview_edit)) {
+                if(Method.cekValidasi(g_list_edittext_edit, g_list_textview_edit)) {
                     Seller seller_edit = new Seller();
                     seller_edit.setId_seller(3);
 
@@ -334,22 +334,6 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
         inflater.inflate(R.menu.templatetext_fragment_bar, g_popup.getMenu());
         g_popup.setOnMenuItemClickListener(this);
         g_popup.show();
-    }
-
-    public boolean cekValidasi(List<EditText> p_isi, List<TextView> p_error){
-        boolean tmpCheck = true;
-
-        for(int i = 0; i < p_isi.size(); i++){
-            if(p_isi.get(i).getText().toString().isEmpty()){
-                tmpCheck = false;
-                p_error.get(i).setText("Mohon diisi terlebih dahulu");
-            }
-            else{
-                p_error.get(i).setText("");
-            }
-        }
-
-        return tmpCheck;
     }
 
     @Override

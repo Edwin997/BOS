@@ -61,6 +61,18 @@
         android:layout_marginEnd="20dp"/>
 
     <TextView
+        android:id="@+id/apps_bottom_sheet_spinner_produk_edit_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:textSize="12dp"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nama Produk"
@@ -94,6 +106,18 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
+        android:id="@+id/apps_bottom_sheet_tv_nama_produk_edit_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:textSize="12dp"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Harga"
@@ -125,6 +149,18 @@
             />
 
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/apps_bottom_sheet_tv_harga_produk_edit_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:textSize="12dp"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -187,6 +223,18 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/apps_bottom_sheet_tv_stok_produk_edit_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:textSize="12dp"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Berat"
@@ -245,6 +293,18 @@
             android:background="@android:color/transparent"
             android:src="@drawable/ic_keyboard_add_fill_blue"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/apps_bottom_sheet_tv_berat_produk_edit_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:textSize="12dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
