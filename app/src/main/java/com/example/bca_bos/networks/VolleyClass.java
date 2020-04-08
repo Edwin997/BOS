@@ -1922,7 +1922,14 @@ public class VolleyClass {
                     public void onResponse(JSONObject response) {
                         try {
 
-                            FillDataActivity.g_instance.filldataIntent();
+                            String message = NetworkUtil.getErrorCode(response.toString());
+                            String output = NetworkUtil.getOutputSchema(response.toString());
+
+                            if(message.equals(ERROR_CODE_BERHASIL)){
+                                FillDataActivity.g_instance.filldataIntent();
+                            }else {
+                                FillDataActivity.g_instance.setError(output);
+                            }
 
                         } catch (Exception e) {
                             e.printStackTrace();
