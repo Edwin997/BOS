@@ -50,6 +50,9 @@ public class BerandaProdukAdapter extends RecyclerView.Adapter<BerandaProdukAdap
 
     public void setDatasetProduk(List<Product> p_list){
         g_list_product = p_list;
+
+        BerandaFragment.g_instance.showLayoutProduk(p_list.size(), true);
+
         notifyDataSetChanged();
     }
 

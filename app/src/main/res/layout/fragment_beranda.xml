@@ -27,14 +27,6 @@
             android:layout_marginTop="16dp"
             android:orientation="horizontal">
 
-<!--            <ImageView-->
-<!--                android:layout_width="60dp"-->
-<!--                android:layout_height="60dp"-->
-<!--                android:layout_gravity="center_vertical"-->
-<!--                android:layout_marginEnd="20dp"-->
-<!--                android:layout_marginStart="24dp"-->
-<!--                android:src="@drawable/bos_logo_new" />-->
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -143,11 +135,46 @@
             android:text="Produk terlaris sebulan terakhir"
             android:textColor="@color/white"/>
 
+        <LinearLayout
+            android:id="@+id/apps_produk_terlaris_beranda_fragment_not_found"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_marginTop="10dp">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/apps_produk_terlaris_iv_not_found_animation"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="100dp"
+                android:layout_gravity="start"
+                android:layout_marginStart="25dp"
+                android:scaleType="fitCenter"
+                app:lottie_autoPlay="true"
+                app:lottie_imageAssetsFolder="images"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/no_internet_animation" />
+
+            <TextView
+                android:id="@+id/apps_produk_terlaris_tv_not_found_judul"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:gravity="top|center_horizontal"
+                android:text="@string/INTERNET_NOT_FOUND"
+                android:textColor="@color/white"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/apps_beranda_produk_fragment_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:visibility="gone"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -157,6 +184,46 @@
             android:fontFamily="@font/montserrat_medium"
             android:text="Pembeli setia sebulan terakhir "
             android:textColor="@color/black"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/apps_pembeli_setia_beranda_fragment_not_found"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/apps_pembeli_setia_tv_not_found_judul"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/INTERNET_NOT_FOUND"
+                android:textColor="@color/black"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/apps_pembeli_setia_iv_not_found_animation"
+                android:layout_width="match_parent"
+                android:layout_height="135dp"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/apps_pembeli_setia_tv_not_found_judul"
+                app:layout_constraintVertical_bias="0.0"
+                app:lottie_autoPlay="true"
+                app:lottie_imageAssetsFolder="images"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/no_internet_animation" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/apps_beranda_pembeli_fragment_recyclerview"

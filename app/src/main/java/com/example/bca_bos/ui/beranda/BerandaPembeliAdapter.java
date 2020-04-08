@@ -49,6 +49,9 @@ public class BerandaPembeliAdapter extends RecyclerView.Adapter<BerandaPembeliAd
 
     public void setDatasetPembeli(List<Buyer> p_list){
         g_list_pembeli = p_list;
+
+        BerandaFragment.g_instance.showLayoutPembeli(p_list.size(), true);
+
         notifyDataSetChanged();
     }
 

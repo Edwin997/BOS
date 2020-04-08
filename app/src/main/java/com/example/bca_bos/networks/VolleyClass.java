@@ -424,6 +424,7 @@ public class VolleyClass {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                BerandaFragment.g_instance.showLayoutProduk(0, false);
                 NetworkUtil.setErrorMessage(error);
             }
         }){
@@ -458,6 +459,7 @@ public class VolleyClass {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                BerandaFragment.g_instance.showLayoutPembeli(0, false);
                 NetworkUtil.setErrorMessage(error);
             }
         }){

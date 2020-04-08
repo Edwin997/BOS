@@ -21,11 +21,15 @@
 
     <string name="PRODUCT_NOT_FOUND">Produkmu kosong, ayo bantu BOS untuk menambah produk di tokomu!</string>
 
-    <string name="TRANSACTION_ONLINE_NOT_FOUND"></string>
-    <string name="TRANSACTION_BARU_MASUK_NOT_FOUND"></string>
-    <string name="TRANSACTION_SUDAH_DIBAYAR_NOT_FOUND"></string>
-    <string name="TRANSACTION_SUDAH_DIKIRIM_NOT_FOUND"></string>
-    <string name="TRANSACTION_SUDAH_SELESAI_NOT_FOUND"></string>
+    <string name="PRODUCT_BERANDA_NOT_FOUND">Maaf, analisa rekomendasi produk belum dapat dilakukan</string>
+    <string name="PEMBELI_BERANDA_NOT_FOUND">>Maaf, analisa rekomendasi pembeli belum dapat dilakukan</string>
 
-    <string name="TRANSACTION_OFFLINE_NOT_FOUND"></string>
+    <string name="TRANSACTION_ONLINE_NOT_FOUND">Belum ada transaksi online yang terjadi.\nTetap Semangat!</string>
+    <string name="TRANSACTION_BARU_MASUK_NOT_FOUND">Tidak ada transaksi baru masuk</string>
+    <string name="TRANSACTION_SUDAH_DIBAYAR_NOT_FOUND">Tidak ada transaksi yang sudah dibayar</string>
+    <string name="TRANSACTION_SUDAH_DIKIRIM_NOT_FOUND">Tidak ada transaksi yang sudah dikirim</string>
+    <string name="TRANSACTION_SUDAH_SELESAI_NOT_FOUND">Tidak ada transaksi yang sudah selesai</string>
+    <string name="TRANSACTION_BATAL_NOT_FOUND">Tidak ada transaksi yang dibatalkan</string>
+
+    <string name="TRANSACTION_OFFLINE_NOT_FOUND">Belum ada transaksi offline yang terjadi.\nTetap Semangat!</string>
 </resources>

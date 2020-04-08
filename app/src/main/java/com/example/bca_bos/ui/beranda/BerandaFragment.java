@@ -12,15 +12,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
@@ -70,6 +73,11 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
     private LinearLayoutManager g_beranda_produk_list_layout_manager;
     private BerandaListTawarkanPembeliAdapter g_beranda_produk_list_adapter;
 
+    //Product NOT FOUND
+    private LinearLayout g_produk_beranda_fragment_not_found;
+    private TextView g_tv_produk_not_found_judul;
+    private LottieAnimationView g_iv_produk_not_found_animation;
+
     //Buyer Popup
     private Dialog g_beranda_pembeli_popup;
     private TextView g_beranda_pembeli_popup_tv_nama ,g_beranda_pembeli_popup_tv_no_hp ,g_beranda_pembeli_popup_tv_transaksi;
@@ -87,6 +95,11 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
     private RecyclerView g_beranda_pembeli_list_rv;
     private LinearLayoutManager g_beranda_pembeli_list_layout_manager;
     private BerandaListTawarkanProdukAdapter g_beranda_pembeli_list_adapter;
+
+    //Buyer NOT FOUND
+    private ConstraintLayout g_buyer_beranda_fragment_not_found;
+    private TextView g_tv_buyer_not_found_judul;
+    private LottieAnimationView g_iv_buyer_not_found_animation;
 
     //Shared Preference
     private static final String PREF_LOGIN = "LOGIN_PREF";
@@ -132,6 +145,13 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_produk_popup = new Dialog(g_context);
         g_beranda_produk_list_popup = new Dialog(g_context);
 
+        //Not Found
+        g_produk_beranda_fragment_not_found = g_view.findViewById(R.id.apps_produk_terlaris_beranda_fragment_not_found);
+        g_tv_produk_not_found_judul = g_view.findViewById(R.id.apps_produk_terlaris_tv_not_found_judul);
+        g_iv_produk_not_found_animation = g_view.findViewById(R.id.apps_produk_terlaris_iv_not_found_animation);
+
+        showLayoutProduk(0, false);
+
         //PEMBELI
         //RecyclerView
         g_beranda_pembeli_fragment_recyclerview = g_view.findViewById(R.id.apps_beranda_pembeli_fragment_recyclerview);
@@ -146,6 +166,13 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_pembeli_adapter.setParentOnCallBack(this);
         g_beranda_pembeli_popup = new Dialog(g_context);
         g_beranda_pembeli_list_popup = new Dialog(g_context);
+
+        //Not Found
+        g_buyer_beranda_fragment_not_found = g_view.findViewById(R.id.apps_pembeli_setia_beranda_fragment_not_found);
+        g_tv_buyer_not_found_judul = g_view.findViewById(R.id.apps_pembeli_setia_tv_not_found_judul);
+        g_iv_buyer_not_found_animation = g_view.findViewById(R.id.apps_pembeli_setia_iv_not_found_animation);
+
+        showLayoutPembeli(0, false);
 
         return g_view;
     }
@@ -336,11 +363,6 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_pembeli_popup.show();
     }
 
-    public void setTawarkanProdukAdapter(List<Product> p_product){
-        g_beranda_tawarkan_produk_adapter = new BerandaTawarkanProdukAdapter(p_product);
-    }
-
-
     public void showBuyerListPopUp(Buyer p_pembeli, List<Product> p_list){
         g_beranda_pembeli_list_popup.setContentView(R.layout.layout_dialog_listitem_beranda);
 
@@ -365,6 +387,68 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_pembeli_list_popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         g_beranda_pembeli_list_popup.show();
 
+    }
+
+    private void changeLayoutValueProduk(int p_count){
+        if(p_count > 0){
+            g_beranda_produk_fragment_recyclerview.setVisibility(View.VISIBLE);
+            g_produk_beranda_fragment_not_found.setVisibility(View.GONE);
+        }
+        else{
+            g_tv_produk_not_found_judul.setText(getText(R.string.PRODUCT_BERANDA_NOT_FOUND));
+            g_iv_produk_not_found_animation.setAnimation(R.raw.no_product_animation);
+            g_iv_produk_not_found_animation.playAnimation();
+            g_iv_produk_not_found_animation.loop(true);
+
+            g_beranda_produk_fragment_recyclerview.setVisibility(View.GONE);
+            g_produk_beranda_fragment_not_found.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void showLayoutProduk(int p_count, boolean p_connect){
+        if(p_connect){
+            changeLayoutValueProduk(p_count);
+        }
+        else{
+            g_tv_produk_not_found_judul.setText(getText(R.string.INTERNET_NOT_FOUND));
+            g_iv_produk_not_found_animation.setAnimation(R.raw.no_internet_animation);
+            g_iv_produk_not_found_animation.playAnimation();
+            g_iv_produk_not_found_animation.loop(true);
+
+            g_beranda_produk_fragment_recyclerview.setVisibility(View.GONE);
+            g_produk_beranda_fragment_not_found.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void changeLayoutValuePembeli(int p_count){
+        if(p_count > 0){
+            g_beranda_pembeli_fragment_recyclerview.setVisibility(View.VISIBLE);
+            g_buyer_beranda_fragment_not_found.setVisibility(View.GONE);
+        }
+        else{
+            g_tv_buyer_not_found_judul.setText(getText(R.string.PEMBELI_BERANDA_NOT_FOUND));
+            g_iv_buyer_not_found_animation.setAnimation(R.raw.no_buyer_animation);
+            g_iv_buyer_not_found_animation.playAnimation();
+            g_iv_buyer_not_found_animation.loop(true);
+
+            g_beranda_pembeli_fragment_recyclerview.setVisibility(View.GONE);
+            g_buyer_beranda_fragment_not_found.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void showLayoutPembeli(int p_count, boolean p_connect){
+        if(p_connect){
+            changeLayoutValuePembeli(p_count);
+        }
+        else{
+            g_tv_buyer_not_found_judul.setText(getText(R.string.INTERNET_NOT_FOUND));
+            g_iv_buyer_not_found_animation.setAnimation(R.raw.no_internet_animation);
+            g_iv_buyer_not_found_animation.playAnimation();
+            g_iv_buyer_not_found_animation.loop(true);
+
+            g_beranda_pembeli_fragment_recyclerview.setVisibility(View.GONE);
+            g_buyer_beranda_fragment_not_found.setVisibility(View.VISIBLE);
+        }
     }
 
     public void refreshNamaToko(Seller p_seller){
