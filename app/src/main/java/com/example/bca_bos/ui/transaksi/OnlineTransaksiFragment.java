@@ -405,7 +405,24 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
             g_transaksi_fragment_not_found.setVisibility(View.GONE);
         }
         else{
-            g_tv_not_found_judul.setText(getText(R.string.TRANSACTION_OFFLINE_NOT_FOUND));
+            if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SEMUA){
+                g_tv_not_found_judul.setText(getText(R.string.TRANSACTION_ONLINE_NOT_FOUND));
+            }
+            else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_BARUMASUK){
+                g_tv_not_found_judul.setText(getText(R.string.TRANSACTION_BARU_MASUK_NOT_FOUND));
+            }
+            else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIBAYAR){
+                g_tv_not_found_judul.setText(getText(R.string.TRANSACTION_SUDAH_DIBAYAR_NOT_FOUND));
+            }
+            else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIKIRIM){
+                g_tv_not_found_judul.setText(getText(R.string.TRANSACTION_SUDAH_DIKIRIM_NOT_FOUND));
+            }
+            else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SELESAI){
+                g_tv_not_found_judul.setText(getText(R.string.TRANSACTION_SUDAH_SELESAI_NOT_FOUND));
+            }
+            else if(FLAG_FRAGMENT_TYPE == KEY_STATUS_BATAL){
+                g_tv_not_found_judul.setText(getText(R.string.TRANSACTION_BATAL_NOT_FOUND));
+            }
             g_iv_not_found_animation.setAnimation(R.raw.no_transaction_animation);
             g_iv_not_found_animation.playAnimation();
             g_iv_not_found_animation.loop(true);
