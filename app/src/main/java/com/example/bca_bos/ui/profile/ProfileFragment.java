@@ -65,7 +65,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
     //BottomSheet Edit
     private BottomSheetDialog g_bottomsheet_dialog_edit_profile, g_bottomsheet_dialog_change_password;
     private Button g_bottomsheet_simpan_profil, g_bottomsheet_simpan_password;
-    private TextView g_bottomsheet_tv_nama_seller, g_bottomsheet_tv_error_nama_toko, g_bottomsheet_tv_error_kota;
+    private TextView g_bottomsheet_tv_nama_seller, g_bottomsheet_tv_error_password_lama, g_bottomsheet_tv_error_password_baru, g_bottomsheet_tv_error_konfirmasi_password_baru, g_bottomsheet_tv_error_nama_toko, g_bottomsheet_tv_error_kota;
     private EditText g_bottomsheet_et_nama_toko, g_bottomsheet_et_password_lama, g_bottomsheet_et_password_baru, g_bottomsheet_et_konfirmasi_password;
     private AutoCompleteTextView g_bottomsheet_actv_kota_asal;
     private ArrayAdapter<String> g_autocompleteadapter;
@@ -156,6 +156,11 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                 g_bottomsheet_et_password_lama = l_bottomsheet_view_change_password.findViewById(R.id.apps_profile_bottom_sheet_et_password_lama);
                 g_bottomsheet_et_konfirmasi_password = l_bottomsheet_view_change_password.findViewById(R.id.apps_profile_bottom_sheet_et_konfirmasi_password);
 
+                //Error Text View
+                g_bottomsheet_tv_error_password_lama = l_bottomsheet_view_change_password.findViewById(R.id.apps_bottom_sheet_tv_password_lama_error);
+                g_bottomsheet_tv_error_password_baru = l_bottomsheet_view_change_password.findViewById(R.id.apps_bottom_sheet_tv_password_baru_error);
+                g_bottomsheet_tv_error_konfirmasi_password_baru = l_bottomsheet_view_change_password.findViewById(R.id.apps_bottom_sheet_tv_konfirmasi_password_baru_error);
+
                 //Button
                 g_bottomsheet_simpan_password = l_bottomsheet_view_change_password.findViewById(R.id.apps_bottom_sheet_btn_simpan_password);
                 g_bottomsheet_simpan_password.setOnClickListener(this);
@@ -214,18 +219,22 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                         e.printStackTrace();
                     }
                     g_bottomsheet_dialog_edit_profile.dismiss();
-                }else {}
+                }else {
 
-
-
+                }
                 break;
             case R.id.apps_bottom_sheet_btn_simpan_password:
                 String l_password_lama = g_bottomsheet_et_password_lama.getText().toString();
                 String l_password_baru = g_bottomsheet_et_password_baru.getText().toString();
                 String l_konfirmasi_password = g_bottomsheet_et_konfirmasi_password.getText().toString();
 
-                VolleyClass.changePassword(g_context, String.valueOf(g_seller_id), l_password_lama, l_password_baru, l_konfirmasi_password);
-                g_bottomsheet_dialog_change_password.dismiss();
+                if (isSimpanPasswordValid()){
+                    VolleyClass.changePassword(g_context, String.valueOf(g_seller_id), l_password_lama, l_password_baru, l_konfirmasi_password);
+                    g_bottomsheet_dialog_change_password.dismiss();
+                }else {
+
+                }
+
                 break;
             case R.id.profile_logout_button:
                 g_profile_logout_popup.setContentView(R.layout.layout_popup_profile_logout);
@@ -326,6 +335,61 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         g_bottomsheet_dialog_edit_profile.setContentView(l_bottomsheet_view_edit_profile);
         g_bottomsheet_dialog_edit_profile.show();
 
+    }
+
+    private Boolean isSimpanPasswordValid(){
+        g_bottomsheet_tv_error_password_lama.setText("");
+        g_bottomsheet_tv_error_password_baru.setText("");
+        g_bottomsheet_tv_error_konfirmasi_password_baru.setText("");
+
+        String l_password_lama = g_bottomsheet_et_password_lama.getText().toString();
+        String l_password_baru = g_bottomsheet_et_password_baru.getText().toString();
+        String l_konfirmasi_password_baru = g_bottomsheet_et_konfirmasi_password.getText().toString();
+
+        Boolean b_password_lama, b_password_baru, b_konfirmasi_password_baru;
+
+        if (l_password_lama.isEmpty()){
+            g_bottomsheet_tv_error_password_lama.setText("Mohon diisi terlebih dahulu");
+            b_password_lama = false;
+        }else if (l_password_lama.length() < 6){
+            g_bottomsheet_tv_error_password_lama.setText("Password harus 6 digit");
+            b_password_lama = false;
+        }
+        else {
+            b_password_lama = true;
+        }
+
+        if (l_password_baru.isEmpty()){
+            g_bottomsheet_tv_error_password_baru.setText("Mohon diisi terlebih dahulu");
+            b_password_baru = false;
+        }else if (l_password_baru.length() < 6){
+            g_bottomsheet_tv_error_password_baru.setText("Password harus 6 digit");
+            b_password_baru = false;
+        }else if (l_password_baru.equals(l_password_lama)){
+            g_bottomsheet_tv_error_password_baru.setText("Password baru harus berbeda dengan password lama");
+            b_password_baru = false;
+        }else {
+            b_password_baru = true;
+        }
+
+        if (l_konfirmasi_password_baru.isEmpty()){
+            g_bottomsheet_tv_error_konfirmasi_password_baru.setText("Mohon diisi terlebih dahulu");
+            b_konfirmasi_password_baru = false;
+        }else if (l_konfirmasi_password_baru.length() < 6){
+            g_bottomsheet_tv_error_konfirmasi_password_baru.setText("Password harus 6 digit");
+            b_konfirmasi_password_baru = false;
+        }else if (!l_password_baru.equals(l_konfirmasi_password_baru)){
+            g_bottomsheet_tv_error_konfirmasi_password_baru.setText("Konfirmasi password tidak cocok");
+            b_konfirmasi_password_baru = false;
+        }else {
+            b_konfirmasi_password_baru = true;
+        }
+
+
+
+        if (b_password_lama.equals(true) && b_password_baru.equals(true) && b_konfirmasi_password_baru.equals(true)){
+            return true;
+        }else return false;
     }
 
     private Boolean isEditProfileValid(){
