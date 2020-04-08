@@ -26,8 +26,8 @@ public class BerandaListTawarkanProdukAdapter extends RecyclerView.Adapter<Beran
     private List<Product> g_list_product;
     private HashMap<Product, Boolean> g_map_pembeli;
 
-    public BerandaListTawarkanProdukAdapter(){
-        g_list_product = ListProdukDummy.productList;
+    public BerandaListTawarkanProdukAdapter(List<Product> p_list){
+        g_list_product = p_list;
         g_map_pembeli = new HashMap<>();
 
         for(int i = 0; i < g_list_product.size(); i++){

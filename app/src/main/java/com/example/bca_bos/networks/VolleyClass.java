@@ -38,6 +38,8 @@ import com.example.bca_bos.ui.beranda.BerandaFragment;
 import com.example.bca_bos.ui.beranda.BerandaPembeliAdapter;
 import com.example.bca_bos.ui.beranda.BerandaProdukAdapter;
 import com.example.bca_bos.models.transactions.Transaction;
+import com.example.bca_bos.ui.beranda.BerandaTawarkanPembeliAdapter;
+import com.example.bca_bos.ui.beranda.BerandaTawarkanProdukAdapter;
 import com.example.bca_bos.ui.produk.ProdukAdapter;
 import com.example.bca_bos.ui.produk.ProdukFragment;
 import com.example.bca_bos.ui.profile.ProfileFragment;
@@ -79,11 +81,14 @@ public class VolleyClass {
     private final static String BASE_URL = "https://apigateway.apps.pcf.dti.co.id";
 
     //URL DATA SCIENCE
-    private final static  String BASE_URL_DATASCIENCE = "https://datasciencebos.apps.pcf.dti.co.id";
-    private final static String URL_BUYER_RECOMMENDATION = BASE_URL_DATASCIENCE + "/buyer-recommendation";
+//    private final static  String BASE_URL_DATASCIENCE = "https://datasciencebos.apps.pcf.dti.co.id";
+    private final static  String BASE_URL_DATASCIENCE = "/datasciencebos";
+    private final static String URL_BUYER_RECOMMENDATION = BASE_URL + BASE_URL_DATASCIENCE + "/buyer-recommendation";
     private final static String URL_PRODUCT_RECOMMENDATION = BASE_URL_DATASCIENCE + "/product-recommendation";
     public static List<String> g_datascience_buyer_name = new ArrayList<>();
     public static List<String> g_datascience_buyer_phone_number = new ArrayList<>();
+    public static List<String> g_datascience_product_name = new ArrayList<>();
+    public static List<String> g_datascience_price = new ArrayList<>();
 
     //URL BERANDA
     private final static  String BASE_URL_BERANDA= "/home";
@@ -126,7 +131,7 @@ public class VolleyClass {
     private final static String URL_LOGIN = BASE_URL + BASE_URL_LOGIN + "/bos/login";
 
     //URL REGISTER
-    private final static  String BASE_URL_REGISTER = "/register";
+    private final static  String BASE_URL_REGISTER = "/account";
     private final static String URL_REGISTER = BASE_URL + BASE_URL_REGISTER + "/bos/regis/sOTP";
     private final static String URL_SEND_OTP = BASE_URL + BASE_URL_REGISTER + "/bos/regis/vOTP";
 
@@ -140,7 +145,7 @@ public class VolleyClass {
     private final static  String BASE_URL_RAJAONGKIR = "/rajaongkir";
     private final static String URL_PROVINSI = BASE_URL + BASE_URL_RAJAONGKIR + "/bos/provinsi";
     private final static String URL_ONGKIR_COST = BASE_URL + BASE_URL_RAJAONGKIR + "/bos/ongkir";
-    private final static String URL_CITY = BASE_URL_RAJAONGKIR + "/bos/kotaKab";
+    private final static String URL_CITY = BASE_URL + BASE_URL_RAJAONGKIR + "/bos/kota-kab";
     private static ArrayAdapter<String> g_rajaongkir_city_adapter;
     public static List<String> g_city_name_list = new ArrayList<>();
 
@@ -150,8 +155,12 @@ public class VolleyClass {
     private static List<String> costList = new ArrayList<>();
     private static String g_textongkir;
 
+    //URL ORDER
+    private final static  String BASE_URL_ORDER = "/order";
+    private final static String URL_KIRIM_FORM = BASE_URL + BASE_URL_ORDER + "/bos/form";
+
     //region DATA SCIENCE
-    public static void buyerRecommendation(final Context p_context, final String p_seller_id, final String p_product_id){
+    public static void buyerRecommendation(final Context p_context, final String p_seller_id, final String p_product_id, final RecyclerView.Adapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         HashMap<String, Integer> params = new HashMap<String, Integer>();
@@ -180,7 +189,13 @@ public class VolleyClass {
 
                                 l_buyer.add(buyer);
                             }
-                            BerandaFragment.g_instance.setTawarkanPembeliAdapter(l_buyer);
+
+                            if(p_adapter instanceof BerandaTawarkanPembeliAdapter)
+                            {
+                                BerandaTawarkanPembeliAdapter tmpadapter = (BerandaTawarkanPembeliAdapter) p_adapter;
+                                tmpadapter.setDatasetPembeli(l_buyer);
+                            }
+
 
                         }catch (Exception e) {
                             e.printStackTrace();
@@ -192,12 +207,17 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
 
-    public static void productRecommendation(final Context p_context, final String p_seller_id, final String p_buyer_id){
+    public static void productRecommendation(final Context p_context, final String p_seller_id, final String p_buyer_id, final RecyclerView.Adapter p_adapter){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         HashMap<String, Integer> params = new HashMap<String, Integer>();
@@ -210,10 +230,13 @@ public class VolleyClass {
                     @Override
                     public void onResponse(JSONObject response) {
 
+                        g_datascience_product_name.clear();
+                        g_datascience_price.clear();
+                        List<Product> l_product = new ArrayList<>();
+
                         try {
                             JSONObject objGeneral = new JSONObject(String.valueOf(response));
                             JSONArray tmpObjectArray = objGeneral.getJSONArray("result");
-                            List<Product> l_product = new ArrayList<>();
 
                             for (int i = 0; i < tmpObjectArray.length(); i++){
                                 JSONObject productResultsJSON = tmpObjectArray.getJSONObject(i);
@@ -223,7 +246,12 @@ public class VolleyClass {
                                 product.setPrice(productResultsJSON.getInt("price"));
                                 l_product.add(product);
                             }
-                            BerandaFragment.g_instance.setTawarkanProdukAdapter(l_product);
+
+                            if(p_adapter instanceof BerandaTawarkanProdukAdapter)
+                            {
+                                BerandaTawarkanProdukAdapter tmpadapter = (BerandaTawarkanProdukAdapter) p_adapter;
+                                tmpadapter.setDatasetProduk(l_product);
+                            }
 
                         }catch (Exception e) {
                             e.printStackTrace();
@@ -240,10 +268,6 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
     //endregion
-
-    //URL ORDER
-    private final static  String BASE_URL_ORDER = "/order";
-    private final static String URL_KIRIM_FORM = BASE_URL + BASE_URL_ORDER + "/bos/form";
 
     //region BERANDA
 
@@ -271,7 +295,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -302,7 +331,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -342,7 +376,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -387,7 +426,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -416,7 +460,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -445,7 +494,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -475,7 +529,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -1596,15 +1655,12 @@ public class VolleyClass {
                     public void onResponse(JSONObject response) {
 //                        Log.d(TAG, response.toString());
                         String message = NetworkUtil.getErrorCode(response.toString());
+                        String output = NetworkUtil.getErrorMessage(response.toString());
                         if (message.equals(ERROR_CODE_PASSWORD_SALAH)){
                             LoginActivity.g_instance.intentLogin(p_bos_id);
-                        }else if (message.equals(ERROR_CODE_BOS_ID_TIDAK_DITEMUKAN)){
-                            LoginActivity.g_instance.setError();
+                        }else{
+                            LoginActivity.g_instance.setError(output);
                         }
-                        else {
-                            Toast.makeText(p_context, message, Toast.LENGTH_SHORT).show();
-                        }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -1635,6 +1691,7 @@ public class VolleyClass {
 //                        Log.d(TAG, response.toString());
                         String message = NetworkUtil.getErrorCode(response.toString());
                         String output = NetworkUtil.getOutputSchema(response.toString());
+                        String error_message = NetworkUtil.getErrorMessage(response.toString());
 
                         if(message.equals(ERROR_CODE_BERHASIL)){
                             //Get BOS ID
@@ -1647,10 +1704,8 @@ public class VolleyClass {
                             }
                             PasswordActivity.g_instance.intentLogin(tmp_id_seller);
 
-                        }else if(message.equals(ERROR_CODE_PASSWORD_SALAH)){
-                            PasswordActivity.g_instance.setErrorPasswordSalah();
-                        }else if(message.equals(ERROR_CODE_BOS_ID_TIDAK_DITEMUKAN)){
-                            PasswordActivity.g_instance.setErrorIDSalah();
+                        }else {
+                            PasswordActivity.g_instance.setError(error_message);
                         }
 
                     }
@@ -1826,7 +1881,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -1879,7 +1939,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
 
         g_requestqueue.add(request_json);
@@ -1940,7 +2005,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
 
         g_requestqueue.add(request_json);
@@ -1983,7 +2053,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
@@ -2015,9 +2090,15 @@ public class VolleyClass {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d("BOSVOLLEY", "MASUK");
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
 
@@ -2047,7 +2128,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
 
@@ -2077,7 +2163,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
 
@@ -2138,7 +2229,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }

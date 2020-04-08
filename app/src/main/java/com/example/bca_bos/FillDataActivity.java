@@ -2,10 +2,12 @@ package com.example.bca_bos;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.example.bca_bos.models.Courier;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.locations.KotaKab;
+import com.example.bca_bos.networks.NetworkUtil;
 import com.example.bca_bos.networks.VolleyClass;
 
 import org.json.JSONException;
@@ -56,18 +59,20 @@ public class FillDataActivity extends AppCompatActivity implements View.OnClickL
     SharedPreferences g_preference;
     int g_seller_id;
 
-
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill_data);
 
+        NetworkUtil.disableSSL();
+
         //Inisialisasi
         g_instance = this;
-        g_context =getApplicationContext();
+        g_context = getApplicationContext();
 
         //Get City
-        VolleyClass.getCityFillData(g_context);
+        VolleyClass.getCityFillData(this);
 
         //Get Seller ID
         g_preference = this.getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
@@ -81,7 +86,7 @@ public class FillDataActivity extends AppCompatActivity implements View.OnClickL
         g_filldata_et_nama_toko = findViewById(R.id.filldata_et_nama_toko);
         g_filldata_et_nama_toko.setOnTouchListener(this);
         g_filldata_actv_kota = findViewById(R.id.filldata_actv_kota);
-        g_filldata_actv_kota.setAdapter(g_autocompleteadapter);
+//        g_filldata_actv_kota.setAdapter(g_autocompleteadapter);
         g_filldata_actv_kota.setOnTouchListener(this);
 
         //Kurir Button
@@ -175,6 +180,7 @@ public class FillDataActivity extends AppCompatActivity implements View.OnClickL
                 g_filldata_et_nama_toko.setHint("");
                 break;
             case R.id.filldata_actv_kota:
+//                VolleyClass.getCityFillData(this);
                 g_filldata_tv_kota.setVisibility(View.VISIBLE);
                 g_filldata_actv_kota.setHint("");
                 g_filldata_actv_kota.showDropDown();
@@ -193,15 +199,18 @@ public class FillDataActivity extends AppCompatActivity implements View.OnClickL
 
     public void getCity(List<KotaKab> p_kotakab){
         g_city_name_list.clear();
+        g_city_list = p_kotakab;
         String l_city_name;
 
         for (int i = 0; i < p_kotakab.size(); i++){
             l_city_name = p_kotakab.get(i).getKota_kab_name();
+            Log.d("BOSVOLLEY", l_city_name);
 
             g_city_name_list.add(l_city_name);
         }
 
         g_autocompleteadapter = new ArrayAdapter<>(g_context, android.R.layout.simple_list_item_1, g_city_name_list);
+        g_filldata_actv_kota.setAdapter(g_autocompleteadapter);
         g_autocompleteadapter.notifyDataSetChanged();
     }
 

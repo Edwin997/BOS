@@ -175,7 +175,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_produkadapter.setParentOnCallBack(this);
         g_produkfragment_recyclerview.setAdapter(g_produkadapter);
         g_produkfragment_recyclerview.setLayoutManager(g_linearlayoutmanager);
-        VolleyClass.getProductByName(g_context, 3, Method.ASC, g_produkadapter);
+        VolleyClass.getProductByName(g_context, g_seller_id, Method.ASC, g_produkadapter);
 //        g_produkadapter.setDatasetProduk(ListProdukDummy.productList);
 
         //config imageview
@@ -193,25 +193,25 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
             case R.id.apps_produk_item_sort_asc:
-                VolleyClass.getProductByName(g_context, 3, Method.ASC, g_produkadapter);
+                VolleyClass.getProductByName(g_context, g_seller_id, Method.ASC, g_produkadapter);
                 break;
             case R.id.apps_produk_item_sort_desc:
-                VolleyClass.getProductByName(g_context, 3, Method.DESC, g_produkadapter);
+                VolleyClass.getProductByName(g_context, g_seller_id, Method.DESC, g_produkadapter);
                 break;
             case R.id.apps_produk_item_sort_date_asc:
-                VolleyClass.getProductByDate(g_context, 3, Method.ASC, g_produkadapter);
+                VolleyClass.getProductByDate(g_context, g_seller_id, Method.ASC, g_produkadapter);
                 break;
             case R.id.apps_produk_item_sort_date_desc:
-                VolleyClass.getProductByDate(g_context, 3, Method.DESC, g_produkadapter);
+                VolleyClass.getProductByDate(g_context, g_seller_id, Method.DESC, g_produkadapter);
                 break;
             case R.id.apps_produk_item_sort_price_asc:
-                VolleyClass.getProductByPrice(g_context, 3, Method.ASC, g_produkadapter);
+                VolleyClass.getProductByPrice(g_context, g_seller_id, Method.ASC, g_produkadapter);
                 break;
             case R.id.apps_produk_item_sort_price_desc:
-                VolleyClass.getProductByPrice(g_context, 3, Method.DESC, g_produkadapter);
+                VolleyClass.getProductByPrice(g_context, g_seller_id, Method.DESC, g_produkadapter);
                 break;
             case R.id.apps_produk_item_sort_best_selling_asc:
-                VolleyClass.getProductByBestSelling(g_context, 3, Method.ASC, g_produkadapter);
+                VolleyClass.getProductByBestSelling(g_context, g_seller_id, Method.ASC, g_produkadapter);
                 break;
             default:
                 int idx = VolleyClass.findProductCategoryId(item.getOrder());
@@ -281,7 +281,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                     g_tv_error_produk_spinner_add.setText("");
                     if(Method.cekValidasi(g_list_edittext_add, g_list_textview_add)) {
                         Seller seller = new Seller();
-                        seller.setId_seller(3);
+                        seller.setId_seller(g_seller_id);
 
                         Product tmpProduct = new Product();
                         tmpProduct.setProduct_name(g_tv_bottom_sheet_produk_add_nama.getText().toString());
@@ -370,7 +370,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                     g_tv_error_produk_spinner_edit.setText("");
                     if(Method.cekValidasi(g_list_edittext_edit, g_list_textview_edit)) {
                         Seller selleredit = new Seller();
-                        selleredit.setId_seller(3);
+                        selleredit.setId_seller(g_seller_id);
 
                         Product tmpProductedit = new Product();
                         tmpProductedit.setId_product(g_product_onclick.getId_product());

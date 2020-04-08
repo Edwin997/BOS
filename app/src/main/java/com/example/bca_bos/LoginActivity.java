@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -119,6 +120,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void intentLogin(String p_bos_id){
+        //save BOS ID
+//        SharedPreferences.Editor l_editor = getSharedPreferences(PREF_LOGIN, MODE_PRIVATE).edit();
+//        l_editor.putString(BOS_ID, p_bos_id);
+//        l_editor.commit();
         Intent tmp_login_intent = new Intent(LoginActivity.this, PasswordActivity.class);
         tmp_login_intent.putExtra("BOS_ID",p_bos_id);
         startActivity(tmp_login_intent);
@@ -126,8 +131,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         finish();
     }
 
-    public void setError(){
-        g_login_tv_error.setText("BOS ID tidak ditemukan");
+    public void setError(String p_message){
+        g_login_tv_error.setText(p_message);
     }
 
 }

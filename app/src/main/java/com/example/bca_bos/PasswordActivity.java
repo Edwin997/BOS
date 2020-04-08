@@ -65,8 +65,8 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
         }
 
         //Get BOS ID
-        SharedPreferences l_preference = this.getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
-        g_bos_id = l_preference.getString(BOS_ID, "");
+//        SharedPreferences l_preference = this.getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
+//        g_bos_id = l_preference.getString(BOS_ID, "");
 
         //Password digit
         g_password_iv_first_digit = findViewById(R.id.apps_password_first_digit_image_view);
@@ -308,12 +308,9 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
         finish();
     }
 
-    public void setErrorPasswordSalah(){
-        g_password_tv_error.setText("Password Salah");
+    public void setError(String p_message){
+        g_password_tv_error.setText(p_message);
     }
 
-    public void setErrorIDSalah(){
-        g_password_tv_error.setText("ID Salah");
-    }
 
 }

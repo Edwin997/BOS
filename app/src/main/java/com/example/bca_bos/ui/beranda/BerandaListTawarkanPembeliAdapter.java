@@ -17,6 +17,8 @@ import com.example.bca_bos.dummy.ListPembeliDummy;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Buyer;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +28,8 @@ public class BerandaListTawarkanPembeliAdapter extends RecyclerView.Adapter<Bera
     private List<Buyer> g_list_pembeli;
     private HashMap<Buyer, Boolean> g_map_pembeli;
 
-    public BerandaListTawarkanPembeliAdapter(){
-        g_list_pembeli = ListPembeliDummy.pembeliList;
+    public BerandaListTawarkanPembeliAdapter(List<Buyer> p_list){
+        g_list_pembeli = p_list;
         g_map_pembeli = new HashMap<>();
 
         for(int i = 0; i < g_list_pembeli.size(); i++){

@@ -162,7 +162,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
             case R.id.apps_bottom_sheet_btn_simpan_add:
                 if(Method.cekValidasi(g_list_edittext_add, g_list_textview_add)) {
                     Seller seller_add = new Seller();
-                    seller_add.setId_seller(3);
+                    seller_add.setId_seller(g_seller_id);
 
                     TemplatedText tmpTemplate = new TemplatedText();
                     tmpTemplate.setTemplate_code(g_et_edit_templated_label_add.getText().toString());
@@ -185,7 +185,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
             case R.id.apps_bottom_sheet_btn_simpan_edit:
                 if(Method.cekValidasi(g_list_edittext_edit, g_list_textview_edit)) {
                     Seller seller_edit = new Seller();
-                    seller_edit.setId_seller(3);
+                    seller_edit.setId_seller(g_seller_id);
 
                     TemplatedText tmpTemplateEdit = new TemplatedText();
                     tmpTemplateEdit.setId_template_text(g_template_onclick.getId_template_text());
@@ -216,7 +216,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
 
     public void refreshData(){
 //        g_templateadapter.setListTemplate(ListTemplatedTextDummy.templatedTextList);
-        VolleyClass.getTemplatedTextByName(g_context, 3, Method.ASC, g_templateadapter);
+        VolleyClass.getTemplatedTextByName(g_context, g_seller_id, Method.ASC, g_templateadapter);
     }
 
     private void changeLayoutValue(int p_count){
@@ -278,8 +278,8 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
         g_list_edittext_edit.add(g_et_edit_templated_label_edit);
         g_list_edittext_edit.add(g_et_edit_templated_deskripsi_edit);
 
-        g_list_textview_edit = new ArrayList<>();
-        g_list_textview_add.add(g_tv_error_templated_label_edit);
+        g_list_textview_add = new ArrayList<>();
+        g_list_textview_add.add(g_tv_error_templated_label_add);
         g_list_textview_add.add(g_tv_error_templated_deskripsi_add);
 
         //config button
@@ -340,16 +340,16 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
             case R.id.apps_templatetext_item_sort_asc:
-                VolleyClass.getTemplatedTextByName(g_context, 3, Method.ASC, g_templateadapter);
+                VolleyClass.getTemplatedTextByName(g_context, g_seller_id, Method.ASC, g_templateadapter);
                 break;
             case R.id.apps_templatetext_item_sort_desc:
-                VolleyClass.getTemplatedTextByName(g_context, 3, Method.DESC, g_templateadapter);
+                VolleyClass.getTemplatedTextByName(g_context, g_seller_id, Method.DESC, g_templateadapter);
                 break;
             case R.id.apps_templatetext_item_sort_date_asc:
-                VolleyClass.getTemplatedTextByDate(g_context, 3, Method.ASC, g_templateadapter);
+                VolleyClass.getTemplatedTextByDate(g_context, g_seller_id, Method.ASC, g_templateadapter);
                 break;
             case R.id.apps_templatetext_item_sort_date_desc:
-                VolleyClass.getTemplatedTextByDate(g_context, 3, Method.DESC, g_templateadapter);
+                VolleyClass.getTemplatedTextByDate(g_context, g_seller_id, Method.DESC, g_templateadapter);
                 break;
         }
         return true;

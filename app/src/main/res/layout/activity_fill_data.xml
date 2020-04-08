@@ -87,12 +87,12 @@
                 android:background="@android:color/transparent"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:maxLines="1"
                 android:textColor="@color/black"
                 android:textAlignment="center"
                 android:textColorHint="@color/grey"
-                android:hint="Kota"
-                android:imeOptions="actionNext"
-                android:singleLine="true"/>
+                android:dropDownHeight="150dp"
+                android:hint="Kota" />
 
 
         </androidx.cardview.widget.CardView>

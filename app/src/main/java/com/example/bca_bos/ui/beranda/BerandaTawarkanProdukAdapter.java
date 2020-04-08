@@ -16,6 +16,7 @@ import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.products.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BerandaTawarkanProdukAdapter extends RecyclerView.Adapter<BerandaTawarkanProdukAdapter.BerandaTawarkanProdukViewHolder> implements OnCallBackListener {
@@ -24,7 +25,7 @@ public class BerandaTawarkanProdukAdapter extends RecyclerView.Adapter<BerandaTa
     private OnCallBackListener g_parent_oncallbacklistener;
 
     public BerandaTawarkanProdukAdapter(){
-        g_list_product = ListProdukDummy.productList;
+        g_list_product = new ArrayList<>();
     }
 
     public BerandaTawarkanProdukAdapter(List<Product> p_list){
@@ -50,6 +51,10 @@ public class BerandaTawarkanProdukAdapter extends RecyclerView.Adapter<BerandaTa
     @Override
     public int getItemCount() {
         return g_list_product.size();
+    }
+
+    public List<Product> getListProductFavorit(){
+        return g_list_product;
     }
 
     public void setDatasetProduk(List<Product> p_list){

@@ -1,5 +1,6 @@
 package com.example.bca_bos;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -523,6 +524,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             g_lav_ongkir_loading.setVisibility(View.GONE);
     }
 
+    @SuppressLint("ClickableViewAccessibility") //ini biar dropdownnya langsung muncul data
     private void initiateStok(){
         //inisiasi layout
         g_stok_layout = g_viewparent.findViewById(R.id.bcabos_stok_layout);
