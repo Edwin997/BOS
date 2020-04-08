@@ -225,6 +225,11 @@ public class FillDataActivity extends AppCompatActivity implements View.OnClickL
         finish();
     }
 
+    public void setError(String p_message){
+        g_filldata_tv_error.setVisibility(View.VISIBLE);
+        g_filldata_tv_error.setText(p_message);
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
