@@ -128,7 +128,7 @@ public class VolleyClass {
 
     //URL LOGIN
     private final static  String BASE_URL_LOGIN = "/account";
-    private final static String URL_LOGIN = BASE_URL + BASE_URL_LOGIN + "/bos/login";
+    private final static String URL_LOGIN = BASE_URL + BASE_URL_LOGIN + "/bos/seller";
 
     //URL REGISTER
     private final static  String BASE_URL_REGISTER = "/account";
@@ -1751,6 +1751,8 @@ public class VolleyClass {
 
                         if(message.equals(ERROR_CODE_BERHASIL)){
                             RegisterActivity.g_instance.intentRegister(p_bos_id, p_no_hp);
+                        }else if(message.equals("BIT-999")){
+                            RegisterActivity.g_instance.intentRegister(p_bos_id, p_no_hp);
                         }else{
                             RegisterActivity.g_instance.setError("\n"+output);
                         }
@@ -2292,7 +2294,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
 
         g_requestqueue.add(request_json);

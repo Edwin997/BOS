@@ -39,7 +39,7 @@
         android:id="@+id/apps_bottom_sheet_tv_nama_edit_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Kelvin Ng"
+        android:text="Nama"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="24dp"
@@ -48,7 +48,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nama Toko"
+        android:text="Nama Toko *"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
@@ -59,7 +59,6 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         app:cardCornerRadius="20dp"
@@ -80,9 +79,21 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
+        android:id="@+id/apps_bottom_sheet_tv_nama_toko_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:textSize="12dp"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Kota"
+        android:text="Kota *"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_marginStart="20dp"
@@ -92,7 +103,6 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         app:cardCornerRadius="20dp"
@@ -113,6 +123,18 @@
             />
 
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/apps_bottom_sheet_tv_kota_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:textSize="12dp"/>
 
     <TextView
         android:layout_width="match_parent"

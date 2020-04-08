@@ -198,7 +198,8 @@
                 android:text=" +62 "
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                tools:ignore="RtlCompat" />
 
             <EditText
                 android:id="@+id/register_et_no_hp"
@@ -242,7 +243,7 @@
             <EditText
                 android:id="@+id/register_et_password"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:background="@android:color/transparent"

@@ -28,7 +28,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Judul"
+        android:text="Judul *"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_marginTop="15dp"
@@ -73,10 +73,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Template Teks"
+        android:text="Template Teks *"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="4dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="5dp"/>

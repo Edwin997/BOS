@@ -618,11 +618,12 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_btn_kirimform_next.setOnClickListener(this);
     }
 
+    @SuppressLint("ClickableViewAccessibility") //ini biar dropdownnya langsung muncul data
     private void initiateKirimFormNext(){
         //inisiasi layout
         g_kirimform_next_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_layout);
         g_kirimform_next_asal_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_asal_layout);
-        g_autocompleteadapter = RajaOngkir.getRajaOngkirCity(this);
+//        g_autocompleteadapter = RajaOngkir.getRajaOngkirCity(this);
 
         //inisiasi edittext
         VolleyClass.getCityKeyboard(getApplicationContext());

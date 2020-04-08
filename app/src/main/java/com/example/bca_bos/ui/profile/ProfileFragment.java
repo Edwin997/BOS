@@ -65,7 +65,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
     //BottomSheet Edit
     private BottomSheetDialog g_bottomsheet_dialog_edit_profile, g_bottomsheet_dialog_change_password;
     private Button g_bottomsheet_simpan_profil, g_bottomsheet_simpan_password;
-    private TextView g_bottomsheet_tv_nama_seller;
+    private TextView g_bottomsheet_tv_nama_seller, g_bottomsheet_tv_error_nama_toko, g_bottomsheet_tv_error_kota;
     private EditText g_bottomsheet_et_nama_toko, g_bottomsheet_et_password_lama, g_bottomsheet_et_password_baru, g_bottomsheet_et_konfirmasi_password;
     private AutoCompleteTextView g_bottomsheet_actv_kota_asal;
     private ArrayAdapter<String> g_autocompleteadapter;
@@ -183,12 +183,6 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                 tmp_seller.setShop_name(g_bottomsheet_et_nama_toko.getText().toString());
                 tmp_seller.setBase64StringImage("");
 
-                //get city id
-                getAsalCityId(g_bottomsheet_actv_kota_asal);
-
-                tmp_kotakab.setId_kota_kab(Integer.parseInt(g_asal_id_city));
-                tmp_seller.setKota_kab(tmp_kotakab);
-
                 List<Courier> listCourier = new ArrayList<>();
                 Courier tmp_courier1 = new Courier();
                 tmp_courier1.setId_courier(1);
@@ -207,13 +201,23 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
 
                 tmp_seller.setSelected_courier(listCourier);
 
-                try {
-                    VolleyClass.updateProfile(g_context, tmp_seller);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                if (isEditProfileValid()){
 
-                g_bottomsheet_dialog_edit_profile.dismiss();
+                    //get city id
+                    getAsalCityId(g_bottomsheet_actv_kota_asal);
+                    tmp_kotakab.setId_kota_kab(Integer.parseInt(g_asal_id_city));
+                    tmp_seller.setKota_kab(tmp_kotakab);
+
+                    try {
+                        VolleyClass.updateProfile(g_context, tmp_seller);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    g_bottomsheet_dialog_edit_profile.dismiss();
+                }else {}
+
+
+
                 break;
             case R.id.apps_bottom_sheet_btn_simpan_password:
                 String l_password_lama = g_bottomsheet_et_password_lama.getText().toString();
@@ -284,6 +288,8 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
 
         //TextView dan EditText
         g_bottomsheet_tv_nama_seller = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_tv_nama_edit_profile);
+        g_bottomsheet_tv_error_nama_toko = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_tv_nama_toko_error);
+        g_bottomsheet_tv_error_kota = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_tv_kota_error);
         g_bottomsheet_et_nama_toko = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_et_nama_toko_edit_profile);
         g_bottomsheet_actv_kota_asal = l_bottomsheet_view_edit_profile.findViewById(R.id.apps_bottom_sheet_actv_kota_asal_edit_profile);
         g_bottomsheet_actv_kota_asal.setAdapter(g_autocompleteadapter);
@@ -320,7 +326,41 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         g_bottomsheet_dialog_edit_profile.setContentView(l_bottomsheet_view_edit_profile);
         g_bottomsheet_dialog_edit_profile.show();
 
+    }
 
+    private Boolean isEditProfileValid(){
+        g_bottomsheet_tv_error_kota.setText("");
+        g_bottomsheet_tv_error_nama_toko.setText("");
+
+        String l_nama_toko = g_bottomsheet_et_nama_toko.getText().toString();
+        String l_kota = g_bottomsheet_actv_kota_asal.getText().toString();
+
+        Boolean b_nama_toko = false, b_kota = false;
+
+        if (l_nama_toko.isEmpty()){
+            g_bottomsheet_tv_error_nama_toko.setText("Mohon diisi terlebih dahulu");
+            b_nama_toko = false;
+        }else {
+            b_nama_toko = true;
+        }
+
+        if (l_kota.isEmpty()){
+            g_bottomsheet_tv_error_kota.setText("Mohon diisi terlebih dahulu");
+            b_kota = false;
+        }else {
+            b_kota = true;
+        }
+
+        if(!g_city_name_list.contains(l_kota)){
+            g_bottomsheet_tv_error_kota.setText("Mohon diisi sesuai dropdown");
+            b_kota = false;
+        }else {
+            b_kota = true;
+        }
+
+        if (b_nama_toko.equals(true) && b_kota.equals(true)){
+            return true;
+        }else return false;
     }
 
     //Mendapatkan ID dari City

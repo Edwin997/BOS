@@ -122,7 +122,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_produk_fragment_recyclerview = g_view.findViewById(R.id.apps_beranda_produk_fragment_recyclerview);
         g_linearlayoutmanager_produk = new LinearLayoutManager(g_context, RecyclerView.HORIZONTAL, false);
         g_beranda_produk_adapter = new BerandaProdukAdapter();
-        VolleyClass.getProdukTerlaris(g_context, 3, g_beranda_produk_adapter);
+        VolleyClass.getProdukTerlaris(g_context, g_seller_id, g_beranda_produk_adapter);
 
         g_beranda_produk_fragment_recyclerview.setAdapter(g_beranda_produk_adapter);
         g_beranda_produk_fragment_recyclerview.setLayoutManager(g_linearlayoutmanager_produk);
@@ -137,7 +137,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_pembeli_fragment_recyclerview = g_view.findViewById(R.id.apps_beranda_pembeli_fragment_recyclerview);
         g_linearlayoutmanager_pembeli = new LinearLayoutManager(g_context);
         g_beranda_pembeli_adapter = new BerandaPembeliAdapter();
-        VolleyClass.getPembeliSetia(g_context, 3, g_beranda_pembeli_adapter);
+        VolleyClass.getPembeliSetia(g_context, g_seller_id, g_beranda_pembeli_adapter);
 
         g_beranda_pembeli_fragment_recyclerview.setAdapter(g_beranda_pembeli_adapter);
         g_beranda_pembeli_fragment_recyclerview.setLayoutManager(g_linearlayoutmanager_pembeli);
@@ -270,7 +270,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_produk_popup_tawarkan_pembeli_rv.setAdapter(g_beranda_tawarkan_pembeli_adapter);
         g_beranda_produk_popup_tawarkan_pembeli_rv.setLayoutManager(g_linearlayoutmanager_tawarkan_pembeli);
 
-        VolleyClass.buyerRecommendation(g_context, String.valueOf(3), String.valueOf(tmp_id_product), g_beranda_tawarkan_pembeli_adapter);
+        VolleyClass.buyerRecommendation(g_context, String.valueOf(g_seller_id), String.valueOf(tmp_id_product), g_beranda_tawarkan_pembeli_adapter);
 
         g_beranda_produk_popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         g_beranda_produk_popup.show();
@@ -330,7 +330,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
 
         g_beranda_pembeli_popup_tawarkan_produk_rv.setAdapter(g_beranda_tawarkan_produk_adapter);
         g_beranda_pembeli_popup_tawarkan_produk_rv.setLayoutManager(g_linearlayoutmanager_tawarkan_produk);
-        VolleyClass.productRecommendation(g_context, String.valueOf(3), String.valueOf(tmp_id_buyer), g_beranda_tawarkan_produk_adapter);
+        VolleyClass.productRecommendation(g_context, String.valueOf(g_seller_id), String.valueOf(tmp_id_buyer), g_beranda_tawarkan_produk_adapter);
 
         g_beranda_pembeli_popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         g_beranda_pembeli_popup.show();
