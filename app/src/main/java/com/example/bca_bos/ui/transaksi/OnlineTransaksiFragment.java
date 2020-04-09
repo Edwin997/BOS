@@ -544,7 +544,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
                 sendSMS.setData(Uri.parse("smsto:" + p_transaction.getBuyer().getPhone()));
                 sendSMS.putExtra("sms_body", "Hallo, Kami dari toko Winstok Cell ingin melakukan konfirmasi mengenai transaksi anda" +
                         "pada Tanggal " + Method.formatDate(p_transaction.getOrder_time()) + "\nDengan cara melakukan klik pada link berikut ini:\n" +
-                        "https://webapp.apps.pcf.dti.co.id/order/confirm/" + p_transaction.getId_transaction() +
+                        VolleyClass.BASE_WEB_URL + "/order/confirm/" + p_transaction.getId_transaction() +
                         "\nTerima Kasih.");
 
                 if (sendSMS.resolveActivity(g_context.getPackageManager()) != null) {

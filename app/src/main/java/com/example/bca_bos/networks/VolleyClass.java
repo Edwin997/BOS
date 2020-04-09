@@ -127,14 +127,15 @@ public class VolleyClass {
     private final static  String URL_ORDER_SHIPPED = BASE_URL + BASE_URL_TRANSACTION + "/bos/orderShipped";
 
     //URL LOGIN
-    private final static  String BASE_URL_LOGIN = "/account";
-    private final static String URL_LOGIN = BASE_URL + BASE_URL_LOGIN + "/bos/seller";
+    private final static  String BASE_URL_LOGIN_REGISTER = "/account";
+    private final static String URL_LOGIN = BASE_URL + BASE_URL_LOGIN_REGISTER + "/bos/seller";
+    private final static String URL_REGISTER = BASE_URL + BASE_URL_LOGIN_REGISTER + "/bos/regis/sOTP";
+    private final static String URL_SEND_OTP = BASE_URL + BASE_URL_LOGIN_REGISTER + "/bos/regis/vOTP";
 
     //URL REGISTER
     private final static  String BASE_URL_REGISTER = "/account";
     private final static String URL_REGISTER = BASE_URL + BASE_URL_REGISTER + "/bos/seller/sOTP";
     private final static String URL_SEND_OTP = BASE_URL + BASE_URL_REGISTER + "/bos/seller/vOTP";
-
 
     //URL PROFILE
     private final static  String BASE_URL_PROFILE = "/profile";
@@ -822,14 +823,14 @@ public class VolleyClass {
                                 tmpAdapter.setDatasetProduk(tempResult);
                             }
                             else if(p_adapter instanceof StokProdukAdapter){
-                                List<Product> tmpList = new ArrayList<>();
-                                tmpList.add(0, new Product(-1, "Tambah Produk", 0, "", 0, new PrdCategory(-1, "kosong")));
-                                for (int i = 0; i < tempResult.size(); i++){
-                                    tmpList.add(tempResult.get(i));
-                                }
+//                                List<Product> tmpList = new ArrayList<>();
+//                                tmpList.add(0, new Product(-1, "Tambah Produk", 0, "", 0, new PrdCategory(-1, "kosong")));
+//                                for (int i = 0; i < tempResult.size(); i++){
+//                                    tmpList.add(tempResult.get(i));
+//                                }
 
                                 StokProdukAdapter tmpAdapter = (StokProdukAdapter) p_adapter;
-                                tmpAdapter.setDatasetProduk(tmpList);
+                                tmpAdapter.setDatasetProduk(tempResult);
                             }
                             else if(p_adapter instanceof KirimFormProdukAdapter){
                                 KirimFormProdukAdapter tmpAdapter = (KirimFormProdukAdapter) p_adapter;

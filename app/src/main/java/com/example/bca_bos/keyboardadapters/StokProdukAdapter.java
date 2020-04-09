@@ -68,7 +68,7 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
         }
         else {
             List<Product> tempList = new ArrayList<>();
-            tempList.add(g_list_product_master.get(0));
+//            tempList.add(g_list_product_master.get(0));
             for (int i = 0; i < g_list_product_master.size(); i++){
                 if(g_list_product_master.get(i).getPrdCategory().getId_prd_category() == id_category){
                     tempList.add(g_list_product_master.get(i));
@@ -84,7 +84,7 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
         }
         else {
             List<Product> tempList = new ArrayList<>();
-            tempList.add(g_list_product_master.get(0));
+//            tempList.add(g_list_product_master.get(0));
             for (int i = 1; i < g_list_product_master.size(); i++){
                 if(g_list_product_master.get(i).getProduct_name().toLowerCase().contains(p_name.toLowerCase())){
                     tempList.add(g_list_product_master.get(i));
