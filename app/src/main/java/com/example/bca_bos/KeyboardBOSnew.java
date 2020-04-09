@@ -139,7 +139,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     //endregion
 
     //region STOK DATA MEMBER
-    private LinearLayout g_stok_layout, g_stok_search_layout, g_stok_produk_layout;
+    private LinearLayout g_stok_layout, g_stok_search_layout, g_stok_produk_layout, g_stok_produk_add_layout;
     private RecyclerView g_rv_stok;
     private LinearLayoutManager g_stok_item_layout;
     private StokProdukAdapter g_stok_adapter;
@@ -530,6 +530,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_stok_layout = g_viewparent.findViewById(R.id.bcabos_stok_layout);
         g_stok_search_layout = g_viewparent.findViewById(R.id.bcabos_stok_search_layout);
         g_stok_produk_layout = g_viewparent.findViewById(R.id.bcabos_stok_produk_layout);
+        g_stok_produk_add_layout = g_viewparent.findViewById(R.id.bcabos_stok_tambah_product);
 
         //inisiasi recyclerview
         g_rv_stok = g_viewparent.findViewById(R.id.bcabos_stok_recyclerview);
@@ -542,6 +543,9 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
         //inisiasi button
         g_btn_stok_back = g_viewparent.findViewById(R.id.bcabos_stok_search_back_button);
+
+        //config linearlayout
+        g_stok_produk_add_layout.setOnClickListener(this);
 
         //config recyclerview
         g_stok_item_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
@@ -699,19 +703,19 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     public void OnCallBack(Object p_obj) {
         if(p_obj instanceof Product){
             Product tmpProduct = (Product) p_obj;
-            if(tmpProduct.getId_product() == -1){
-                Intent tmpIntent = new Intent(this, ApplicationContainer.class);
-                tmpIntent.putExtra(ApplicationContainer.KEY_OPEN_APPS, ApplicationContainer.ID_PRODUK);
-                tmpIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(tmpIntent);
-            }
-            else {
+//            if(tmpProduct.getId_product() == -1){
+//                Intent tmpIntent = new Intent(this, ApplicationContainer.class);
+//                tmpIntent.putExtra(ApplicationContainer.KEY_OPEN_APPS, ApplicationContainer.ID_PRODUK);
+//                tmpIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(tmpIntent);
+//            }
+//            else {
                 if(tmpProduct.getStock() <= 0){
                     commitTextToBOSKeyboardEditText("Maaf, stok kami untuk produk tersebut sudah habis. \nTerima kasih.");
                 }else{
                     commitTextToBOSKeyboardEditText("Stok kami untuk produk tersebut masih ada. \nTerima kasih.");
                 }
-            }
+//            }
         }
         else if(p_obj instanceof String){
             String p_text = p_obj.toString();
@@ -731,6 +735,13 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     @Override
     public void onClick(View p_view) {
+        if(p_view == g_stok_produk_add_layout){
+            Intent tmpIntent = new Intent(this, ApplicationContainer.class);
+            tmpIntent.putExtra(ApplicationContainer.KEY_OPEN_APPS, ApplicationContainer.ID_PRODUK);
+            tmpIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(tmpIntent);
+        }
+
         switch (p_view.getId()){
             //region ONCLICK AT HOME
             case R.id.bcabos_extended_home_button:
