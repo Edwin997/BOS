@@ -99,6 +99,8 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private boolean IS_FILLED = false;
     private boolean IS_FIRST_SPACE = true;
 
+    private boolean IS_LOGIN = false;
+
     private int KEYCODE_DONE_TYPE = 0;
 
     //KEYBOARD TEXT HANDLER
@@ -110,6 +112,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private ImageButton g_btn_home, g_btn_template_openapps;
     private RecyclerView g_templatedtext_recyclerview;
     private LinearLayoutManager g_linear_layout;
+    private TextView g_no_login_message;
     //endregion
 
     //region FEATURE DATA MEMBER
@@ -213,8 +216,10 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         SharedPreferences l_preference = this.getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
         if (l_preference.contains(SELLER_ID)){
             g_seller_id = l_preference.getInt(SELLER_ID, -1);
+            IS_LOGIN = true;
         }else {
             g_seller_id = -1;
+            IS_LOGIN = false;
         }
 
         //Inisialisasi
@@ -382,15 +387,29 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_btn_home = g_viewparent.findViewById(R.id.bcabos_extended_home_button);
         g_btn_template_openapps = g_viewparent.findViewById(R.id.bcabos_extended_home_button_add_template);
 
-        //config recyclerview
-        g_linear_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
-        TemplatedTextAdapter tmpTemplatedTextAdapter = new TemplatedTextAdapter();
-        tmpTemplatedTextAdapter.setParentOnCallBack(this);
+        //inisiasi textview
+        g_no_login_message = g_viewparent.findViewById(R.id.bcabos_extended_home_text_not_login);
 
-        g_templatedtext_recyclerview.setLayoutManager(g_linear_layout);
-        g_templatedtext_recyclerview.setAdapter(tmpTemplatedTextAdapter);
+        if(IS_LOGIN){
+            //config recyclerview
+            g_linear_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
+            TemplatedTextAdapter tmpTemplatedTextAdapter = new TemplatedTextAdapter();
+            tmpTemplatedTextAdapter.setParentOnCallBack(this);
 
-        VolleyClass.getTemplatedTextByName(getApplicationContext(), g_seller_id, Method.ASC, tmpTemplatedTextAdapter);
+            g_templatedtext_recyclerview.setLayoutManager(g_linear_layout);
+            g_templatedtext_recyclerview.setAdapter(tmpTemplatedTextAdapter);
+
+            g_templatedtext_recyclerview.setVisibility(View.VISIBLE);
+            g_no_login_message.setVisibility(View.GONE);
+            g_btn_template_openapps.setVisibility(View.VISIBLE);
+
+            VolleyClass.getTemplatedTextByName(getApplicationContext(), g_seller_id, Method.ASC, tmpTemplatedTextAdapter);
+        }
+        else{
+            g_templatedtext_recyclerview.setVisibility(View.GONE);
+            g_no_login_message.setVisibility(View.VISIBLE);
+            g_btn_template_openapps.setVisibility(View.GONE);
+        }
 
         //config button
         g_btn_home.setOnClickListener(this);
@@ -784,7 +803,15 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         switch (p_view.getId()){
             //region ONCLICK AT HOME
             case R.id.bcabos_extended_home_button:
-                showFeatureMenu();
+                if(IS_LOGIN){
+                    showFeatureMenu();
+                }
+                else{
+                    Intent tmpIntent = new Intent(this, StartActivity.class);
+                    tmpIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(tmpIntent);
+                }
+
                 break;
             case R.id.bcabos_extended_home_button_add_template:
                 Intent tmpIntent = new Intent(this, ApplicationContainer.class);

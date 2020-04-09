@@ -24,6 +24,7 @@ import com.example.bca_bos.OTPActivity;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.PasswordActivity;
 import com.example.bca_bos.RegisterActivity;
+import com.example.bca_bos.cobaImage;
 import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
 import com.example.bca_bos.keyboardadapters.MutasiRekeningAdapter;
 import com.example.bca_bos.keyboardadapters.OfflineMutasiRekeningAdapter;
@@ -80,6 +81,8 @@ public class VolleyClass {
     private final static String TAG = "BOSVOLLEY";
     public final static String BASE_WEB_URL = "https://bos.bca.co.id";
     private final static String BASE_URL = "https://apigateway.apps.pcf.dti.co.id";
+
+    private final static String URLRRR = "https://apigateway.apps.pcf.dti.co.id/product/bos/getImage/20200409_165540988.jpg";
 
     //URL DATA SCIENCE
 //    private final static  String BASE_URL_DATASCIENCE = "https://datasciencebos.apps.pcf.dti.co.id";
@@ -165,6 +168,36 @@ public class VolleyClass {
     private static final String SELLER_ID = "SELLER_ID";
     private static final String NAMA_TOKO = "NAMA_TOKO";
     SharedPreferences g_preference;
+
+    public static void getImage(Context p_context){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URLRRR,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.d("BOSVOLLEY", response);
+
+                            cobaImage.g_instance.settt(response);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
+
+        g_requestqueue.add(request_json);
+    }
 
     //region DATA SCIENCE
     public static void buyerRecommendation(final Context p_context, final String p_seller_id, final String p_product_id, final RecyclerView.Adapter p_adapter){
