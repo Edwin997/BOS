@@ -17,6 +17,8 @@
 
     <string name="INTERNET_NOT_FOUND">Gagal terhubung ke jaringan internet \nSilahkan coba lagi</string>
 
+    <string name="INTERNET_NOT_FOUND_KEYBOARD">Gagal terhubung ke jaringan internet \nKlik disini untuk kembali</string>
+
     <string name="TEMPLATETEXT_NOT_FOUND">Template-textmu kosong, ayo bantu BOS untuk menambah template-text untuk tokomu!</string>
 
     <string name="PRODUCT_NOT_FOUND">Produkmu kosong, ayo bantu BOS untuk menambah produk di tokomu!</string>

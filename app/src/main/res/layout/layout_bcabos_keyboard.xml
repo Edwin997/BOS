@@ -148,7 +148,7 @@
             android:background="@color/light_grey"
             android:elevation="20dp"
             android:gravity="center"
-            android:text="@string/INTERNET_NOT_FOUND"
+            android:text="@string/INTERNET_NOT_FOUND_KEYBOARD"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -455,7 +455,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="8dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/bcabos_stok_search_layout"
@@ -677,7 +677,7 @@
         android:id="@+id/bcabos_kirimform_next_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/bcabos_kirimform_next_error_text_view"
@@ -686,7 +686,7 @@
             android:elevation="20dp"
             android:gravity="center"
             android:background="@color/light_grey"
-            android:text="@string/INTERNET_NOT_FOUND"
+            android:text="@string/INTERNET_NOT_FOUND_KEYBOARD"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

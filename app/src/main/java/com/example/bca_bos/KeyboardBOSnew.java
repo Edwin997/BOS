@@ -453,6 +453,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
         //Error Text View
         g_tv_ongkir_error = g_viewparent.findViewById(R.id.bcabos_ongkir_error_text_view);
+        g_tv_ongkir_error.setOnClickListener(this);
 
         //config edittext
         //ASAL
@@ -656,6 +657,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
         //Error Text View
         g_tv_kirimform_next_error = g_viewparent.findViewById(R.id.bcabos_kirimform_next_error_text_view);
+        g_tv_kirimform_next_error.setOnClickListener(this);
 
         //config edittext
         //ASAL
@@ -861,6 +863,9 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             case R.id.bcabos_ongkir_cekongkir_refresh_button:
                 refreshOngkir();
                 break;
+            case R.id.bcabos_ongkir_error_text_view:
+                g_tv_ongkir_error.setVisibility(View.GONE);
+                break;
                 //endregion
 
             //region ONCLICK AT STOK
@@ -908,6 +913,9 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                break;
+            case R.id.bcabos_kirimform_next_error_text_view:
+                g_tv_kirimform_next_error.setVisibility(View.GONE);
                 break;
 
             //endregion
