@@ -30,6 +30,7 @@ public class Transaction {
     private String shipping_agent; //20
     private String confirmation_time; //date
     private int status;
+    private String va_number;
     private List<TransactionDetail> transaction_detail;
 
     public Transaction(Buyer p_buyer, Seller p_seller, String p_payment_account, String p_total_payment,
