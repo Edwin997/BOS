@@ -207,7 +207,7 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
                 VolleyClass.loginByPassword(this, l_bos_id, tmp_password);
             }else {
                 VolleyClass.loginByPassword(this, g_bos_id, tmp_password);
-                saveStringSharedPreference(BOS_ID, g_bos_id);
+
             }
         }else if (g_password_flag.equals("sixth")){
 
@@ -283,7 +283,7 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
         return p_str;
     }
 
-    private void saveStringSharedPreference(String p_key, String p_value) {
+    public void saveStringSharedPreference(String p_key, String p_value) {
         //Save Shared Preference
         SharedPreferences.Editor l_editor = getSharedPreferences(PREF_LOGIN, MODE_PRIVATE).edit();
         l_editor.putString(p_key, p_value);
@@ -299,6 +299,17 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
 
     public void intentLogin(int p_id_seller){
         Intent tmp_login_intent = new Intent(PasswordActivity.this, ApplicationContainer.class);
+
+        //menyimpan id seller dalam Shared Preference
+        saveIntegerSharedPreference(SELLER_ID, p_id_seller);
+
+        startActivity(tmp_login_intent);
+        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+        finish();
+    }
+
+    public void intentFillData(int p_id_seller){
+        Intent tmp_login_intent = new Intent(PasswordActivity.this, FillDataActivity.class);
 
         //menyimpan id seller dalam Shared Preference
         saveIntegerSharedPreference(SELLER_ID, p_id_seller);

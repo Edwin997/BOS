@@ -1,6 +1,7 @@
 package com.example.bca_bos.networks;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -129,8 +130,6 @@ public class VolleyClass {
     //URL LOGIN
     private final static  String BASE_URL_LOGIN_REGISTER = "/account";
     private final static String URL_LOGIN = BASE_URL + BASE_URL_LOGIN_REGISTER + "/bos/seller";
-    private final static String URL_REGISTER = BASE_URL + BASE_URL_LOGIN_REGISTER + "/bos/regis/sOTP";
-    private final static String URL_SEND_OTP = BASE_URL + BASE_URL_LOGIN_REGISTER + "/bos/regis/vOTP";
 
     //URL REGISTER
     private final static  String BASE_URL_REGISTER = "/account";
@@ -159,6 +158,13 @@ public class VolleyClass {
     //URL ORDER
     private final static  String BASE_URL_ORDER = "/order";
     private final static String URL_KIRIM_FORM = BASE_URL + BASE_URL_ORDER + "/bos/form";
+
+    //Shared Preference
+    private static final String PREF_LOGIN = "LOGIN_PREF";
+    private static final String BOS_ID = "BOS_ID";
+    private static final String SELLER_ID = "SELLER_ID";
+    private static final String NAMA_TOKO = "NAMA_TOKO";
+    SharedPreferences g_preference;
 
     //region DATA SCIENCE
     public static void buyerRecommendation(final Context p_context, final String p_seller_id, final String p_product_id, final RecyclerView.Adapter p_adapter){
@@ -1705,8 +1711,8 @@ public class VolleyClass {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            PasswordActivity.g_instance.intentLogin(tmp_id_seller);
-
+                            PasswordActivity.g_instance.saveStringSharedPreference(BOS_ID, p_bos_id);
+                            saveTokoToSharedPreference(p_context, tmp_id_seller);
                         }else {
                             PasswordActivity.g_instance.setError(error_message);
                         }
@@ -1725,6 +1731,47 @@ public class VolleyClass {
         };
 
         g_requestqueue.add(request_json);
+    }
+
+    public static void saveTokoToSharedPreference(Context p_context, final int p_id_seller){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PROFILE + "/" + p_id_seller,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            Log.d("BOSVOLLEY", response);
+                            String output = NetworkUtil.getOutputSchema(response);
+
+                            Seller tempObject = gson.fromJson(output, Seller.class);
+                            if (!tempObject.getShop_name().isEmpty()){
+                                PasswordActivity.g_instance.saveStringSharedPreference("NAMA_TOKO", tempObject.getShop_name());
+                                PasswordActivity.g_instance.intentLogin(p_id_seller);
+                            }else {
+                                PasswordActivity.g_instance.intentFillData(p_id_seller);
+                            }
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
+
+        g_requestqueue.add(request_json);
+
     }
 
     public static void register(final Context p_context, final String p_bos_id, final String p_nama, final String p_no_rek, final String p_no_hp, final String p_password){
