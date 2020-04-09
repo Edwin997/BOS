@@ -312,9 +312,6 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         Intent tmp_register_intent = new Intent(OTPActivity.this, FillDataActivity.class);
         saveStringSharedPreference(BOS_ID, g_bos_id);
         saveIntegerSharedPreference(SELLER_ID, p_seller_id);
-
-
-
         startActivity(tmp_register_intent);
         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         closeRegisterActivity();

@@ -136,10 +136,25 @@
 
     <!--CEK ONGKIR-->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bcabos_ongkir_layout"
         android:visibility="gone">
+
+        <TextView
+            android:id="@+id/bcabos_ongkir_error_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="283dp"
+            android:background="@color/light_grey"
+            android:elevation="20dp"
+            android:gravity="center"
+            android:text="@string/INTERNET_NOT_FOUND"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/bcabos_ongkir_loading_animation_view"
@@ -147,7 +162,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="@color/white_transparent_80"
-            android:elevation="100dp"
+            android:elevation="10dp"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/bos_loading_animation"
@@ -433,7 +448,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <!--STOK PRODUK-->
     <LinearLayout
         android:id="@+id/bcabos_stok_layout"
@@ -624,286 +638,329 @@
     </LinearLayout>
 
     <!--KIRIM FORM NEXT-->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bcabos_kirimform_next_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:background="@color/light_grey"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/bcabos_kirimform_next_error_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:elevation="20dp"
+            android:gravity="center"
+            android:background="@color/light_grey"
+            android:text="@string/INTERNET_NOT_FOUND"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/bcabos_kirimform_next_loading_animation_view"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_gravity="center"
+            android:background="@color/light_grey"
+            android:elevation="10dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/bos_loading_animation"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
 
         <LinearLayout
-            android:id="@+id/bcabos_kirimform_next_asal_layout"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:gravity="top"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:background="@color/light_grey"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:visibility="visible">
 
-            <ImageButton
-                android:id="@+id/bcabos_kirimform_next_asal_back_button"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:background="@android:color/transparent"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:src="@drawable/ic_keyboard_back_gradient"/>
+            <LinearLayout
+                android:id="@+id/bcabos_kirimform_next_asal_layout"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:gravity="top"
+                android:orientation="horizontal"
+                android:visibility="visible">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="8"
-                app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="@color/white"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginLeft="16dp">
+                <ImageButton
+                    android:id="@+id/bcabos_kirimform_next_asal_back_button"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:background="@android:color/transparent"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:src="@drawable/ic_keyboard_back_gradient"/>
 
-                <AutoCompleteTextView
-                    android:id="@+id/bcabos_kirimform_next_asal_auto_complete_text_view"
-                    style="@style/editText_style_white"
-                    android:dropDownHeight="200dp"
-                    android:dropDownHorizontalOffset="0dp"
-                    android:dropDownVerticalOffset="250dp"
-                    android:layout_width="match_parent"
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/grey"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    android:completionThreshold="1"
-                    android:hint="Asal pengiriman*"/>
+                    android:layout_weight="8"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp">
 
-            </androidx.cardview.widget.CardView>
+                    <AutoCompleteTextView
+                        android:id="@+id/bcabos_kirimform_next_asal_auto_complete_text_view"
+                        style="@style/editText_style_white"
+                        android:dropDownHeight="200dp"
+                        android:dropDownHorizontalOffset="0dp"
+                        android:dropDownVerticalOffset="250dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/grey"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:completionThreshold="1"
+                        android:hint="Asal pengiriman*"/>
 
-            <ImageButton
-                android:id="@+id/bcabos_kirimform_send_button"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:background="@android:color/transparent"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:src="@drawable/ic_keyboard_send"/>
+                </androidx.cardview.widget.CardView>
+
+                <ImageButton
+                    android:id="@+id/bcabos_kirimform_send_button"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:background="@android:color/transparent"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:src="@drawable/ic_keyboard_send"/>
+
+            </LinearLayout>
+
+            <!--        <LinearLayout-->
+            <!--            android:id="@+id/bcabos_kirimform_next_tujuan_layout"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="55dp"-->
+            <!--            android:gravity="top"-->
+            <!--            android:orientation="horizontal"-->
+            <!--            android:visibility="visible">-->
+
+            <!--            <ImageButton-->
+            <!--                android:id="@+id/bcabos_kirimform_next_tujuan_back_button"-->
+            <!--                android:layout_gravity="center_vertical"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="40dp"-->
+            <!--                android:background="@android:color/transparent"-->
+            <!--                android:paddingLeft="16dp"-->
+            <!--                android:paddingRight="16dp"-->
+            <!--                android:src="@drawable/ic_keyboard_back_gradient"/>-->
+
+            <!--            <androidx.cardview.widget.CardView-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_weight="9"-->
+            <!--                app:cardCornerRadius="20dp"-->
+            <!--                app:cardBackgroundColor="@color/white"-->
+            <!--                android:layout_marginTop="5dp"-->
+            <!--                android:layout_marginBottom="5dp"-->
+            <!--                android:layout_marginRight="16dp"-->
+            <!--                android:layout_marginLeft="16dp">-->
+
+            <!--                <AutoCompleteTextView-->
+            <!--                    android:id="@+id/bcabos_kirimform_next_tujuan_auto_complete_text_view"-->
+            <!--                    style="@style/editText_style_white"-->
+            <!--                    android:dropDownHeight="200dp"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:textColorHint="@color/grey"-->
+            <!--                    android:textSize="16dp"-->
+            <!--                    android:textStyle="bold"-->
+            <!--                    android:completionThreshold="1"-->
+            <!--                    android:hint="Tujuan Pengiriman*"/>-->
+
+            <!--            </androidx.cardview.widget.CardView>-->
+
+            <!--        </LinearLayout>-->
+
+            <!--        <LinearLayout-->
+            <!--            android:id="@+id/bcabos_kirimform_next_berat_layout"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="55dp"-->
+            <!--            android:gravity="top"-->
+            <!--            android:orientation="horizontal"-->
+            <!--            android:visibility="visible">-->
+
+            <!--            <ImageButton-->
+            <!--                android:id="@+id/bcabos_kirimform_next_berat_back_button"-->
+            <!--                android:layout_gravity="center_vertical"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="40dp"-->
+            <!--                android:background="@android:color/transparent"-->
+            <!--                android:paddingLeft="16dp"-->
+            <!--                android:paddingRight="16dp"-->
+            <!--                android:src="@drawable/ic_keyboard_back_gradient"/>-->
+
+            <!--            <androidx.cardview.widget.CardView-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_weight="9"-->
+            <!--                app:cardCornerRadius="20dp"-->
+            <!--                app:cardBackgroundColor="@color/white"-->
+            <!--                android:layout_marginTop="5dp"-->
+            <!--                android:layout_marginBottom="5dp"-->
+            <!--                android:layout_marginRight="16dp"-->
+            <!--                android:layout_marginLeft="16dp">-->
+
+            <!--                <EditText-->
+            <!--                    android:id="@+id/bcabos_kirimform_next_berat_text"-->
+            <!--                    style="@style/editText_style_white"-->
+            <!--                    android:dropDownHeight="200dp"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:textColorHint="@color/grey"-->
+            <!--                    android:textSize="16dp"-->
+            <!--                    android:textStyle="bold"-->
+            <!--                    android:hint="Berat(gram)*"-->
+            <!--                    android:inputType="number"/>-->
+
+            <!--            </androidx.cardview.widget.CardView>-->
+
+            <!--        </LinearLayout>-->
+
+            <!--        <LinearLayout-->
+            <!--            android:id="@+id/bcabos_kirimform_next_kurir_layout"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="50dp"-->
+            <!--            android:gravity="center_vertical"-->
+            <!--            android:orientation="horizontal"-->
+            <!--            android:visibility="visible">-->
+
+            <!--            <ImageButton-->
+            <!--                android:id="@+id/bcabos_kirimform_next_kurir_back_button"-->
+            <!--                android:layout_gravity="center_vertical"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="40dp"-->
+            <!--                android:background="@android:color/transparent"-->
+            <!--                android:paddingLeft="16dp"-->
+            <!--                android:paddingRight="16dp"-->
+            <!--                android:src="@drawable/ic_keyboard_back_gradient"/>-->
+
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:layout_weight="9"-->
+            <!--                android:layout_marginRight="16dp"-->
+            <!--                android:layout_marginLeft="16dp"-->
+            <!--                android:weightSum="3"-->
+            <!--                android:gravity="center_vertical"-->
+            <!--                android:orientation="horizontal">-->
+
+            <!--                <Button-->
+            <!--                    android:id="@+id/bcabos_kirimform_next_jne_btn"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="30dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:layout_marginRight="16dp"-->
+            <!--                    android:layout_marginLeft="16dp"-->
+            <!--                    android:background="@drawable/style_gradient_color_rounded_box_grey"-->
+            <!--                    android:text="JNE"-->
+            <!--                    android:textColor="@color/white"-->
+            <!--                    android:textStyle="bold"/>-->
+
+            <!--                <Button-->
+            <!--                    android:id="@+id/bcabos_kirimform_next_tiki_btn"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="30dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:layout_marginRight="16dp"-->
+            <!--                    android:layout_marginLeft="16dp"-->
+            <!--                    android:background="@drawable/style_gradient_color_rounded_box_grey"-->
+            <!--                    android:text="TIKI"-->
+            <!--                    android:textColor="@color/white"-->
+            <!--                    android:textStyle="bold"/>-->
+
+            <!--                <Button-->
+            <!--                    android:id="@+id/bcabos_kirimform_next_pos_btn"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="30dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:layout_marginRight="16dp"-->
+            <!--                    android:layout_marginLeft="16dp"-->
+            <!--                    android:background="@drawable/style_gradient_color_rounded_box_grey"-->
+            <!--                    android:text="POS"-->
+            <!--                    android:textColor="@color/white"-->
+            <!--                    android:textStyle="bold"/>-->
+
+            <!--            </LinearLayout>-->
+
+            <!--        </LinearLayout>-->
+
+            <!--        <LinearLayout-->
+            <!--            android:id="@+id/bcabos_kirimform_next_kirim_layout"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="match_parent"-->
+            <!--            android:gravity="center"-->
+            <!--            android:orientation="horizontal"-->
+            <!--            android:layout_marginBottom="10dp"-->
+            <!--            android:paddingTop="10dp"-->
+            <!--            android:weightSum="10"-->
+            <!--            android:visibility="visible">-->
+
+            <!--            <ImageButton-->
+            <!--                android:id="@+id/bcabos_kirimform_next_back_button"-->
+            <!--                android:layout_gravity="top"-->
+            <!--                android:layout_weight="1.5"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="40dp"-->
+            <!--                android:background="@android:color/transparent"-->
+            <!--                android:paddingLeft="16dp"-->
+            <!--                android:paddingRight="16dp"-->
+            <!--                android:src="@drawable/ic_keyboard_back_gradient" />-->
+
+            <!--            <Button-->
+            <!--                android:id="@+id/bcabos_kirimform_next_kirim_button"-->
+            <!--                android:layout_weight="7"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:layout_marginLeft="16dp"-->
+            <!--                android:layout_marginRight="16dp"-->
+            <!--                android:background="@drawable/style_gradient_color_rounded_box"-->
+            <!--                android:fontFamily="@font/montserrat_bold"-->
+            <!--                android:text="KIRIM FORMULIR"-->
+            <!--                android:textAlignment="center"-->
+            <!--                android:textColor="@color/dark_white"-->
+            <!--                android:textSize="13dp"-->
+            <!--                android:textStyle="bold" />-->
+
+            <!--            <ImageButton-->
+            <!--                android:id="@+id/bcabos_kirimform_next_refresh_button"-->
+            <!--                android:layout_gravity="top"-->
+            <!--                android:layout_weight="1.5"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="40dp"-->
+            <!--                android:layout_marginRight="8dp"-->
+            <!--                android:background="@android:color/transparent"-->
+            <!--                android:src="@drawable/ic_keyboard_refresh_gradient_20dp" />-->
+
+            <!--        </LinearLayout>-->
 
         </LinearLayout>
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/bcabos_kirimform_next_tujuan_layout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="55dp"-->
-<!--            android:gravity="top"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:visibility="visible">-->
 
-<!--            <ImageButton-->
-<!--                android:id="@+id/bcabos_kirimform_next_tujuan_back_button"-->
-<!--                android:layout_gravity="center_vertical"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="40dp"-->
-<!--                android:background="@android:color/transparent"-->
-<!--                android:paddingLeft="16dp"-->
-<!--                android:paddingRight="16dp"-->
-<!--                android:src="@drawable/ic_keyboard_back_gradient"/>-->
-
-<!--            <androidx.cardview.widget.CardView-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="9"-->
-<!--                app:cardCornerRadius="20dp"-->
-<!--                app:cardBackgroundColor="@color/white"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:layout_marginBottom="5dp"-->
-<!--                android:layout_marginRight="16dp"-->
-<!--                android:layout_marginLeft="16dp">-->
-
-<!--                <AutoCompleteTextView-->
-<!--                    android:id="@+id/bcabos_kirimform_next_tujuan_auto_complete_text_view"-->
-<!--                    style="@style/editText_style_white"-->
-<!--                    android:dropDownHeight="200dp"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:textColorHint="@color/grey"-->
-<!--                    android:textSize="16dp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:completionThreshold="1"-->
-<!--                    android:hint="Tujuan Pengiriman*"/>-->
-
-<!--            </androidx.cardview.widget.CardView>-->
-
-<!--        </LinearLayout>-->
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/bcabos_kirimform_next_berat_layout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="55dp"-->
-<!--            android:gravity="top"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:visibility="visible">-->
-
-<!--            <ImageButton-->
-<!--                android:id="@+id/bcabos_kirimform_next_berat_back_button"-->
-<!--                android:layout_gravity="center_vertical"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="40dp"-->
-<!--                android:background="@android:color/transparent"-->
-<!--                android:paddingLeft="16dp"-->
-<!--                android:paddingRight="16dp"-->
-<!--                android:src="@drawable/ic_keyboard_back_gradient"/>-->
-
-<!--            <androidx.cardview.widget.CardView-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="9"-->
-<!--                app:cardCornerRadius="20dp"-->
-<!--                app:cardBackgroundColor="@color/white"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:layout_marginBottom="5dp"-->
-<!--                android:layout_marginRight="16dp"-->
-<!--                android:layout_marginLeft="16dp">-->
-
-<!--                <EditText-->
-<!--                    android:id="@+id/bcabos_kirimform_next_berat_text"-->
-<!--                    style="@style/editText_style_white"-->
-<!--                    android:dropDownHeight="200dp"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:textColorHint="@color/grey"-->
-<!--                    android:textSize="16dp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:hint="Berat(gram)*"-->
-<!--                    android:inputType="number"/>-->
-
-<!--            </androidx.cardview.widget.CardView>-->
-
-<!--        </LinearLayout>-->
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/bcabos_kirimform_next_kurir_layout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:gravity="center_vertical"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:visibility="visible">-->
-
-<!--            <ImageButton-->
-<!--                android:id="@+id/bcabos_kirimform_next_kurir_back_button"-->
-<!--                android:layout_gravity="center_vertical"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="40dp"-->
-<!--                android:background="@android:color/transparent"-->
-<!--                android:paddingLeft="16dp"-->
-<!--                android:paddingRight="16dp"-->
-<!--                android:src="@drawable/ic_keyboard_back_gradient"/>-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="9"-->
-<!--                android:layout_marginRight="16dp"-->
-<!--                android:layout_marginLeft="16dp"-->
-<!--                android:weightSum="3"-->
-<!--                android:gravity="center_vertical"-->
-<!--                android:orientation="horizontal">-->
-
-<!--                <Button-->
-<!--                    android:id="@+id/bcabos_kirimform_next_jne_btn"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:layout_marginRight="16dp"-->
-<!--                    android:layout_marginLeft="16dp"-->
-<!--                    android:background="@drawable/style_gradient_color_rounded_box_grey"-->
-<!--                    android:text="JNE"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textStyle="bold"/>-->
-
-<!--                <Button-->
-<!--                    android:id="@+id/bcabos_kirimform_next_tiki_btn"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:layout_marginRight="16dp"-->
-<!--                    android:layout_marginLeft="16dp"-->
-<!--                    android:background="@drawable/style_gradient_color_rounded_box_grey"-->
-<!--                    android:text="TIKI"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textStyle="bold"/>-->
-
-<!--                <Button-->
-<!--                    android:id="@+id/bcabos_kirimform_next_pos_btn"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:layout_marginRight="16dp"-->
-<!--                    android:layout_marginLeft="16dp"-->
-<!--                    android:background="@drawable/style_gradient_color_rounded_box_grey"-->
-<!--                    android:text="POS"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textStyle="bold"/>-->
-
-<!--            </LinearLayout>-->
-
-<!--        </LinearLayout>-->
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/bcabos_kirimform_next_kirim_layout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:gravity="center"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:layout_marginBottom="10dp"-->
-<!--            android:paddingTop="10dp"-->
-<!--            android:weightSum="10"-->
-<!--            android:visibility="visible">-->
-
-<!--            <ImageButton-->
-<!--                android:id="@+id/bcabos_kirimform_next_back_button"-->
-<!--                android:layout_gravity="top"-->
-<!--                android:layout_weight="1.5"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="40dp"-->
-<!--                android:background="@android:color/transparent"-->
-<!--                android:paddingLeft="16dp"-->
-<!--                android:paddingRight="16dp"-->
-<!--                android:src="@drawable/ic_keyboard_back_gradient" />-->
-
-<!--            <Button-->
-<!--                android:id="@+id/bcabos_kirimform_next_kirim_button"-->
-<!--                android:layout_weight="7"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_marginLeft="16dp"-->
-<!--                android:layout_marginRight="16dp"-->
-<!--                android:background="@drawable/style_gradient_color_rounded_box"-->
-<!--                android:fontFamily="@font/montserrat_bold"-->
-<!--                android:text="KIRIM FORMULIR"-->
-<!--                android:textAlignment="center"-->
-<!--                android:textColor="@color/dark_white"-->
-<!--                android:textSize="13dp"-->
-<!--                android:textStyle="bold" />-->
-
-<!--            <ImageButton-->
-<!--                android:id="@+id/bcabos_kirimform_next_refresh_button"-->
-<!--                android:layout_gravity="top"-->
-<!--                android:layout_weight="1.5"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="40dp"-->
-<!--                android:layout_marginRight="8dp"-->
-<!--                android:background="@android:color/transparent"-->
-<!--                android:src="@drawable/ic_keyboard_refresh_gradient_20dp" />-->
-
-<!--        </LinearLayout>-->
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--MUTASI REKENING-->
     <LinearLayout

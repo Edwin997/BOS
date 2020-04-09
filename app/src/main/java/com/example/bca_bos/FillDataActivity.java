@@ -56,6 +56,7 @@ public class FillDataActivity extends AppCompatActivity implements View.OnClickL
     private static final String PREF_LOGIN = "LOGIN_PREF";
     private static final String BOS_ID = "BOS_ID";
     private static final String SELLER_ID = "SELLER_ID";
+    private static final String NAMA_TOKO = "NAMA_TOKO";
     SharedPreferences g_preference;
     int g_seller_id;
 
@@ -154,7 +155,7 @@ public class FillDataActivity extends AppCompatActivity implements View.OnClickL
 
                 break;
             case R.id.filldata_tv_skip:
-                filldataIntent();
+                filldataIntent("");
                 break;
             case R.id.filldata_jne_button:
                 IS_CHOOSE_JNE = !IS_CHOOSE_JNE;
@@ -227,8 +228,11 @@ public class FillDataActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    public void filldataIntent(){
+    public void filldataIntent(String p_nama_toko){
         Intent tmp_filldata_intent = new Intent(FillDataActivity.this, ApplicationContainer.class);
+        if (!p_nama_toko.isEmpty()){
+            saveStringSharedPreference(NAMA_TOKO, p_nama_toko);
+        }
         startActivity(tmp_filldata_intent);
         overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
         finish();
@@ -246,6 +250,13 @@ public class FillDataActivity extends AppCompatActivity implements View.OnClickL
         startActivity(tmp_back_intent);
         overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
         finish();
+    }
+
+    private void saveStringSharedPreference(String p_key, String p_value) {
+        //Save Shared Preference
+        SharedPreferences.Editor l_editor = getSharedPreferences(PREF_LOGIN, MODE_PRIVATE).edit();
+        l_editor.putString(p_key, p_value);
+        l_editor.commit();
     }
 
 }

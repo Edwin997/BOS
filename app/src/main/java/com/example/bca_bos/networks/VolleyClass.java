@@ -132,8 +132,8 @@ public class VolleyClass {
 
     //URL REGISTER
     private final static  String BASE_URL_REGISTER = "/account";
-    private final static String URL_REGISTER = BASE_URL + BASE_URL_REGISTER + "/bos/regis/sOTP";
-    private final static String URL_SEND_OTP = BASE_URL + BASE_URL_REGISTER + "/bos/regis/vOTP";
+    private final static String URL_REGISTER = BASE_URL + BASE_URL_REGISTER + "/bos/seller/sOTP";
+    private final static String URL_SEND_OTP = BASE_URL + BASE_URL_REGISTER + "/bos/seller/vOTP";
 
 
     //URL PROFILE
@@ -1895,7 +1895,7 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
-    public static void updateProfile(Context p_context, Seller p_seller) throws JSONException {
+    public static void updateProfile(Context p_context, final Seller p_seller) throws JSONException {
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         JSONArray jsonArray = new JSONArray();
@@ -1933,6 +1933,7 @@ public class VolleyClass {
                         try {
 
                             ProfileFragment.g_instance.refreshLayoutAfterPut();
+                            ProfileFragment.g_instance.updateStringSharedPreference("NAMA_TOKO" ,p_seller.getShop_name());
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -1954,7 +1955,7 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
-    public static void updateProfileFillData(Context p_context, Seller p_seller) throws JSONException {
+    public static void updateProfileFillData(Context p_context, final Seller p_seller) throws JSONException {
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         JSONArray jsonArray = new JSONArray();
@@ -1995,7 +1996,7 @@ public class VolleyClass {
                             String output = NetworkUtil.getOutputSchema(response.toString());
 
                             if(message.equals(ERROR_CODE_BERHASIL)){
-                                FillDataActivity.g_instance.filldataIntent();
+                                FillDataActivity.g_instance.filldataIntent(p_seller.getShop_name());
                             }else {
                                 FillDataActivity.g_instance.setError(output);
                             }
@@ -2219,19 +2220,21 @@ public class VolleyClass {
                                     g_textongkir = g_textongkir + "\n" + serviceList.get(i)+" - "+estimationDayList.get(i).toLowerCase()+" - "+costList.get(i);
                                 }
                             }
+                            KeyboardBOSnew.g_instance.cekOngkirLoading("hide");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
 
                         g_textongkir = g_textongkir + "\n";
                         KeyboardBOSnew.g_instance.commitTextToBOSKeyboardEditText(g_textongkir);
-                        KeyboardBOSnew.g_instance.cekOngkirLoading("hide");
 
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
+                KeyboardBOSnew.g_instance.cekOngkirError("show");
+                KeyboardBOSnew.g_instance.cekOngkirLoading("hide");
             }
         }){
             @Override
@@ -2278,7 +2281,7 @@ public class VolleyClass {
                                 int tmpId = response.getInt("output_schema");
                                 String comment = "Silahkan melengkapi data diri anda dan melakukan pengecekan terakhir" +
                                         " pesanan anda pada link dibawah ini:\n";
-                                String url_kirimform = "https://webapp.apps.pcf.dti.co.id/order/" + tmpId;
+                                String url_kirimform = BASE_WEB_URL + "/order/" + tmpId;
 
                                 p_parent.commitTextToBOSKeyboardEditText(comment + url_kirimform);
                             }
@@ -2287,6 +2290,7 @@ public class VolleyClass {
                                 Toast.makeText(p_parent.getApplicationContext(), "Penambahan data template text gagal", Toast.LENGTH_SHORT).show();
                             }
 
+                            KeyboardBOSnew.g_instance.kirimFormNextLoading("hide");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -2295,6 +2299,8 @@ public class VolleyClass {
             @Override
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
+                KeyboardBOSnew.g_instance.kirimFormNextError("show");
+                KeyboardBOSnew.g_instance.kirimFormNextLoading("hide");
             }
         }){
             @Override

@@ -266,7 +266,7 @@
             android:layout_marginLeft="64dp"
             android:background="@drawable/style_gradient_color_rounded_box_new_green"
             android:fontFamily="@font/montserrat_bold"
-            android:text="ABOUT BOS"
+            android:text="TUTORIAL"
             android:textColor="@color/white"
             android:textStyle="bold" />
 

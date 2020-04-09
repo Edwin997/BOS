@@ -1,7 +1,6 @@
 package com.example.bca_bos;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.inputmethodservice.InputMethodService;
@@ -46,7 +45,6 @@ import com.example.bca_bos.keyboardadapters.StokProdukAdapter;
 import com.example.bca_bos.keyboardadapters.TemplatedTextAdapter;
 import com.example.bca_bos.models.locations.KotaKab;
 import com.example.bca_bos.models.products.Product;
-import com.example.bca_bos.networks.RajaOngkir;
 import com.example.bca_bos.networks.VolleyClass;
 
 import org.json.JSONException;
@@ -132,6 +130,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private Boolean IS_CHOOSE_JNE = false, IS_CHOOSE_TIKI = false, IS_CHOOSE_POS = false;
 
     private LottieAnimationView g_lav_ongkir_loading;
+    private TextView g_tv_ongkir_error;
 
     public static List<String> g_city_name_list = new ArrayList<>();
     public List<KotaKab> g_city_list;
@@ -166,9 +165,13 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     //endregion
 
     //region KIRIM FORM NEXT DATA MEMBER
-    private LinearLayout g_kirimform_next_layout, g_kirimform_next_asal_layout;
+    private LinearLayout g_kirimform_next_asal_layout;
+    private ConstraintLayout g_kirimform_next_layout;
     private ImageButton g_btn_kirimform_next_asal_back, g_btn_kirimform_next_send;
     private AutoCompleteTextView g_actv_kirimform_next_asal;
+    private LottieAnimationView g_lav_kirimform_next_loading;
+    private TextView g_tv_kirimform_next_error;
+
 
     //endregion
 
@@ -211,7 +214,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         if (l_preference.contains(SELLER_ID)){
             g_seller_id = l_preference.getInt(SELLER_ID, -1);
         }else {
-            g_seller_id = 0;
+            g_seller_id = -1;
         }
 
         //Inisialisasi
@@ -387,7 +390,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_templatedtext_recyclerview.setLayoutManager(g_linear_layout);
         g_templatedtext_recyclerview.setAdapter(tmpTemplatedTextAdapter);
 
-        VolleyClass.getTemplatedTextByName(getApplicationContext(), 3, Method.ASC, tmpTemplatedTextAdapter);
+        VolleyClass.getTemplatedTextByName(getApplicationContext(), g_seller_id, Method.ASC, tmpTemplatedTextAdapter);
 
         //config button
         g_btn_home.setOnClickListener(this);
@@ -414,6 +417,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     }
 
+    @SuppressLint("ClickableViewAccessibility") //ini biar dropdownnya langsung muncul data
     private void initiateOngkir(){
 
         //inisiasi layout
@@ -446,6 +450,9 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_btn_ongkir_back = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_back_button);
         g_btn_ongkir_cekongkir = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_check_button);
         g_btn_ongkir_refresh = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_refresh_button);
+
+        //Error Text View
+        g_tv_ongkir_error = g_viewparent.findViewById(R.id.bcabos_ongkir_error_text_view);
 
         //config edittext
         //ASAL
@@ -524,7 +531,15 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             g_lav_ongkir_loading.setVisibility(View.GONE);
     }
 
-    @SuppressLint("ClickableViewAccessibility") //ini biar dropdownnya langsung muncul data
+    public void cekOngkirError(String p_status){
+        if (p_status.equals("show")){
+            g_tv_ongkir_error.setVisibility(View.VISIBLE);
+        }else if (p_status.equals("hide")){
+            g_tv_ongkir_error.setVisibility(View.GONE);
+        }else
+            g_tv_ongkir_error.setVisibility(View.GONE);
+    }
+
     private void initiateStok(){
         //inisiasi layout
         g_stok_layout = g_viewparent.findViewById(R.id.bcabos_stok_layout);
@@ -550,7 +565,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_rv_stok.setLayoutManager(g_stok_item_layout);
         g_rv_stok.setAdapter(g_stok_adapter);
 
-        VolleyClass.getProductByName(getApplicationContext(), 3, Method.ASC, g_stok_adapter);
+        VolleyClass.getProductByName(getApplicationContext(), g_seller_id, Method.ASC, g_stok_adapter);
 
         //config spinner
         ArrayList<String> tmpInitialFilterValue = new ArrayList<>();
@@ -607,7 +622,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_kirimform_produk_adapter.setParentOnCallBack(this);
         g_rv_kirimform_produk.setLayoutManager(g_kirimform_produk_item_layout);
         g_rv_kirimform_produk.setAdapter(g_kirimform_produk_adapter);
-        VolleyClass.getProductByName(getApplicationContext(), 3, Method.ASC, g_kirimform_produk_adapter);
+        VolleyClass.getProductByName(getApplicationContext(), g_seller_id, Method.ASC, g_kirimform_produk_adapter);
 
         //config edittext
         g_et_kirimform_search.setOnFocusChangeListener(this);
@@ -624,6 +639,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_kirimform_next_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_layout);
         g_kirimform_next_asal_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_next_asal_layout);
 //        g_autocompleteadapter = RajaOngkir.getRajaOngkirCity(this);
+        g_lav_kirimform_next_loading = g_viewparent.findViewById(R.id.bcabos_kirimform_next_loading_animation_view);
 
         //inisiasi edittext
         VolleyClass.getCityKeyboard(getApplicationContext());
@@ -633,6 +649,9 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         //inisiasi button
         g_btn_kirimform_next_asal_back = g_viewparent.findViewById(R.id.bcabos_kirimform_next_asal_back_button);
         g_btn_kirimform_next_send = g_viewparent.findViewById(R.id.bcabos_kirimform_send_button);
+
+        //Error Text View
+        g_tv_kirimform_next_error = g_viewparent.findViewById(R.id.bcabos_kirimform_next_error_text_view);
 
         //config edittext
         //ASAL
@@ -652,6 +671,24 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_btn_kirimform_next_asal_back.setOnClickListener(this);
         g_btn_kirimform_next_send.setOnClickListener(this);
 
+    }
+
+    public void kirimFormNextLoading(String p_status){
+        if (p_status.equals("show")){
+            g_lav_kirimform_next_loading.setVisibility(View.VISIBLE);
+        }else if (p_status.equals("hide")){
+            g_lav_kirimform_next_loading.setVisibility(View.GONE);
+        }else
+            g_lav_kirimform_next_loading.setVisibility(View.GONE);
+    }
+
+    public void kirimFormNextError(String p_status){
+        if (p_status.equals("show")){
+            g_tv_kirimform_next_error.setVisibility(View.VISIBLE);
+        }else if (p_status.equals("hide")){
+            g_tv_kirimform_next_error.setVisibility(View.GONE);
+        }else
+            g_tv_kirimform_next_error.setVisibility(View.GONE);
     }
 
     private void initiateMutasi() {
@@ -852,6 +889,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 setKeyboardType();
                 break;
             case R.id.bcabos_kirimform_send_button:
+                kirimFormNextLoading("show");
                 focusedEditText = KEY_ET_EXTERNAL;
                 getAsalCityIdForm(g_actv_kirimform_next_asal);
                 try {

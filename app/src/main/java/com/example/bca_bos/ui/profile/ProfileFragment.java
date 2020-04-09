@@ -87,6 +87,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
     private static final String PREF_LOGIN = "LOGIN_PREF";
     private static final String BOS_ID = "BOS_ID";
     private static final String SELLER_ID = "SELLER_ID";
+    private static final String NAMA_TOKO = "NAMA_TOKO";
     SharedPreferences g_preference;
     int g_seller_id;
 
@@ -539,6 +540,13 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                 startActivityForResult(intent, ChooseImageFromDialog.CODE_GALLERY_EDIT_PROFILE);
             }
         }
+    }
+
+    public void updateStringSharedPreference(String p_key, String p_value) {
+        //Save Shared Preference
+        SharedPreferences.Editor l_editor = this.getActivity().getSharedPreferences(PREF_LOGIN, MODE_PRIVATE).edit();
+        l_editor.putString(p_key, p_value);
+        l_editor.commit();
     }
 
     public String imageToString(Bitmap bitmap){
