@@ -401,12 +401,14 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
             g_templatedtext_recyclerview.setVisibility(View.VISIBLE);
             g_no_login_message.setVisibility(View.GONE);
+            g_btn_template_openapps.setVisibility(View.VISIBLE);
 
             VolleyClass.getTemplatedTextByName(getApplicationContext(), g_seller_id, Method.ASC, tmpTemplatedTextAdapter);
         }
         else{
             g_templatedtext_recyclerview.setVisibility(View.GONE);
             g_no_login_message.setVisibility(View.VISIBLE);
+            g_btn_template_openapps.setVisibility(View.GONE);
         }
 
         //config button
