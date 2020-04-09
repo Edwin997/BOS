@@ -14,8 +14,6 @@
         android:background="@drawable/style_gradient_color_box_blue"
         android:orientation="horizontal">
 
-
-
         <ImageButton
             android:id="@+id/bcabos_extended_home_button"
             android:layout_width="0dp"
@@ -25,12 +23,26 @@
             android:padding="16dp"
             android:src="@drawable/bos_logo_new_round_small" />
 
+        <TextView
+            android:id="@+id/bcabos_extended_home_text_not_login"
+            android:layout_width="0dp"
+            android:layout_weight="8"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:text="Silahkan melakukan login terlebih dahulu"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:visibility="visible"
+            android:textStyle="bold"
+            />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/bcabos_extended_home_recyclerview"
             android:layout_width="0dp"
             android:layout_weight="8"
             android:layout_height="match_parent"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:visibility="gone"/>
 
         <ImageButton
             android:id="@+id/bcabos_extended_home_button_add_template"
@@ -455,7 +467,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="8dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/bcabos_stok_search_layout"
@@ -677,7 +689,7 @@
         android:id="@+id/bcabos_kirimform_next_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/bcabos_kirimform_next_error_text_view"
