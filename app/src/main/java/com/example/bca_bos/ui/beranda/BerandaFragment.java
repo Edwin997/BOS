@@ -104,7 +104,9 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
     //Shared Preference
     private static final String PREF_LOGIN = "LOGIN_PREF";
     private static final String SELLER_ID = "SELLER_ID";
+    private static final String NAMA_TOKO = "NAMA_TOKO";
     int g_seller_id;
+    String g_nama_toko;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -112,6 +114,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         //Get Seller ID
         SharedPreferences l_preference = this.getActivity().getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
         g_seller_id = l_preference.getInt(SELLER_ID, -1);
+        g_nama_toko = l_preference.getString(NAMA_TOKO, "");
 
         //Inisialisasi
         g_instance = this;
@@ -223,7 +226,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
                     Intent sendSMS = new Intent(Intent.ACTION_SENDTO);
                     sendSMS.setType("text/plain");
                     sendSMS.setData(Uri.parse("smsto:" + g_pembeli_onclick.getPhone()));
-                    sendSMS.putExtra("sms_body", "Hallo, Kami dari toko Winstok Cell ingin menawarkan produk kami yaitu:" +
+                    sendSMS.putExtra("sms_body", "Hallo, kami dari Toko " + g_nama_toko + " ingin menawarkan produk kami yaitu:" +
                             g_beranda_pembeli_list_adapter.getProdukUntukTawarkan() +
                             "\nTerima Kasih.");
 
@@ -237,7 +240,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
                     Intent sendSMS = new Intent(Intent.ACTION_SENDTO);
                     sendSMS.setType("text/plain");
                     sendSMS.setData(Uri.parse("smsto:" + g_beranda_produk_list_adapter.getNomorUntukTawarkan()));
-                    sendSMS.putExtra("sms_body", "Hallo, Kami dari toko Winstok Cell ingin menawarkan produk kami yaitu:" +
+                    sendSMS.putExtra("sms_body", "Hallo, kami dari Toko " + g_nama_toko + " ingin menawarkan produk kami yaitu:" +
                             "\n- Nama Produk : " + g_product_onclick.getProduct_name() + "\n- Harga/Produk : " + Method.getIndoCurrency(g_product_onclick.getPrice()) +
                             "\nTerima Kasih.");
 

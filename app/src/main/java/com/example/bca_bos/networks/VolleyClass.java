@@ -125,7 +125,7 @@ public class VolleyClass {
     private final static String URL_TRANSACTION_OFFLINE = BASE_URL + BASE_URL_TRANSACTION + "/bos/offline-transaction";
     private final static String URL_TRANSACTION_DETAIL = BASE_URL + BASE_URL_TRANSACTION + "/bos/online-transaction-detail";
     private final static String URL_TRANSACTION_DETAIL_OFFLINE = BASE_URL + BASE_URL_TRANSACTION + "/bos/offline-transaction-detail";
-    private final static  String URL_ORDER_SHIPPED = BASE_URL + BASE_URL_TRANSACTION + "/bos/orderShipped";
+//    private final static  String URL_ORDER_SHIPPED = BASE_URL + BASE_URL_TRANSACTION + "/bos/orderShipped";
 
     //URL LOGIN
     private final static  String BASE_URL_LOGIN_REGISTER = "/account";
@@ -1574,7 +1574,7 @@ public class VolleyClass {
         params.put("id_transaction", String.valueOf(p_transaksi.getId_transaction()));
         params.put("shipping_code", p_transaksi.getShipping_code());
 
-        JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.PUT, URL_ORDER_SHIPPED, new JSONObject(params),
+        JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.PUT, URL_TRANSACTION_ONLINE, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

@@ -90,8 +90,10 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
     private static final String PREF_LOGIN = "LOGIN_PREF";
     private static final String BOS_ID = "BOS_ID";
     private static final String SELLER_ID = "SELLER_ID";
+    private static final String NAMA_TOKO = "NAMA_TOKO";
     SharedPreferences g_preference;
     int g_seller_id;
+    String g_nama_toko;
 
     public OnlineTransaksiFragment(){
     }
@@ -106,6 +108,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         //Get Seller ID
         g_preference = this.getActivity().getSharedPreferences(PREF_LOGIN, MODE_PRIVATE);
         g_seller_id = g_preference.getInt(SELLER_ID, -1);
+        g_nama_toko = g_preference.getString(NAMA_TOKO, "");
         Log.d("BOSVOLLEY", g_seller_id + "");
 
         //Inisialisasi
@@ -211,25 +214,6 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         }
     }
 
-//    public void firstLoad(){
-//        if (FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIBAYAR){
-//            g_percentage = g_transaksiadapter.getPersentaseTransaksiSudahDiBayar();
-//            drawPieChart(new int[]{R.color.yellow, R.color.white},
-//                    g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
-//            g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
-//            g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapter);
-//            setTabBar();
-//        } else {
-//            FLAG_FRAGMENT_TYPE = KEY_STATUS_SEMUA;
-//            g_percentage = 100;
-//            drawPieChart(new int[]{R.color.white, R.color.white},
-//                    g_transaksiadapter.getItemMasterCount() + "\nTransaksi");
-//            g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
-//            g_transaksi_fragment_recyclerview.setAdapter(g_transaksiadapter);
-//            setTabBar();
-//        }
-//    }
-
     public void setParent(TransaksiFragment transaksiFragment){
         g_parent = transaksiFragment;
     }
@@ -239,57 +223,21 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         switch (v.getId()){
             case R.id.apps_transaksi_fragment_tab_btn_semua_transaksi:
                 VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_SEMUA, g_transaksiadapter);
-//                FLAG_FRAGMENT_TYPE = KEY_STATUS_SEMUA;
-//                g_percentage = 100;
-//                drawPieChart(new int[]{R.color.white, R.color.white},
-//                        g_transaksiadapter.getItemMasterCount() + "\nTransaksi");
-//                g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
-//                setTabBar();
                 break;
             case R.id.apps_transaksi_fragment_tab_btn_pesanan_baru:
                 VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_BARUMASUK, g_transaksiadapter);
-//                FLAG_FRAGMENT_TYPE = KEY_STATUS_BARUMASUK;
-//                g_percentage = g_transaksiadapter.getPersentaseTransaksiBaruMasuk();
-//                drawPieChart(new int[]{R.color.purple, R.color.white},
-//                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
-//                g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
-//                setTabBar();
                 break;
             case R.id.apps_transaksi_fragment_tab_btn_pesanan_dibayar:
                 VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_SUDAHDIBAYAR, g_transaksiadapter);
-//                FLAG_FRAGMENT_TYPE = KEY_STATUS_SUDAHDIBAYAR;
-//                g_percentage = g_transaksiadapter.getPersentaseTransaksiSudahDiBayar();
-//                drawPieChart(new int[]{R.color.yellow, R.color.white},
-//                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
-//                g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
-//                setTabBar();
                 break;
             case R.id.apps_transaksi_fragment_tab_btn_pesanan_dikirim:
                 VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_SUDAHDIKIRIM, g_transaksiadapter);
-//                FLAG_FRAGMENT_TYPE = KEY_STATUS_SUDAHDIKIRIM;
-//                g_percentage = g_transaksiadapter.getPersentaseTransaksiSudahDikirim();
-//                drawPieChart(new int[]{R.color.blue, R.color.white},
-//                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
-//                g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
-//                setTabBar();
                 break;
             case R.id.apps_transaksi_fragment_tab_btn_transaksi_selesai:
                 VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_SELESAI, g_transaksiadapter);
-//                FLAG_FRAGMENT_TYPE = KEY_STATUS_SELESAI;
-//                g_percentage = g_transaksiadapter.getPersentaseTransaksiSudahSelesai();
-//                drawPieChart(new int[]{R.color.green, R.color.white},
-//                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
-//                g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
-//                setTabBar();
                 break;
             case R.id.apps_transaksi_fragment_tab_btn_transaksi_batal:
                 VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_BATAL, g_transaksiadapter);
-//                FLAG_FRAGMENT_TYPE = KEY_STATUS_BATAL;
-//                g_percentage = g_transaksiadapter.getPersentaseTransaksiBatal();
-//                drawPieChart(new int[]{R.color.red, R.color.white},
-//                        g_transaksiadapter.countTransaksibyStatus(FLAG_FRAGMENT_TYPE) + "\nTransaksi");
-//                g_transaksiadapter.setListTransaksiFiltered(g_transaksiadapter.getListTransaksiByType(FLAG_FRAGMENT_TYPE));
-//                setTabBar();
                 break;
         }
     }
@@ -484,9 +432,9 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
                 Intent sendSMS = new Intent(Intent.ACTION_SENDTO);
                 sendSMS.setType("text/plain");
                 sendSMS.setData(Uri.parse("smsto:" + p_transaction.getBuyer().getPhone()));
-                sendSMS.putExtra("sms_body", "Hallo, Kami dari toko Winstok Cell ingin mengingatkan kembali mengenai transaksi anda" +
+                sendSMS.putExtra("sms_body", "Hallo, kami dari Toko " + g_nama_toko + " ingin mengingatkan kembali mengenai transaksi anda " +
                         "pada Tanggal " + Method.formatDate(p_transaction.getOrder_time()) + "\nSilahkan segera membayarkan pada Virtual Account:\n" +
-                        p_transaction.getPayment_account() +
+                        p_transaction.getVa_number() +
                         "\nTerima kasih atas perhatiannya.");
 
                 if (sendSMS.resolveActivity(g_context.getPackageManager()) != null) {
@@ -542,7 +490,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
                 Intent sendSMS = new Intent(Intent.ACTION_SENDTO);
                 sendSMS.setType("text/plain");
                 sendSMS.setData(Uri.parse("smsto:" + p_transaction.getBuyer().getPhone()));
-                sendSMS.putExtra("sms_body", "Hallo, Kami dari toko Winstok Cell ingin melakukan konfirmasi mengenai transaksi anda" +
+                sendSMS.putExtra("sms_body", "Hallo, kami dari Toko " + g_nama_toko + " ingin melakukan konfirmasi mengenai transaksi anda" +
                         "pada Tanggal " + Method.formatDate(p_transaction.getOrder_time()) + "\nDengan cara melakukan klik pada link berikut ini:\n" +
                         VolleyClass.BASE_WEB_URL + "/order/confirm/" + p_transaction.getId_transaction() +
                         "\nTerima Kasih.");
@@ -621,7 +569,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         g_bottomsheet_dialog.show();
     }
 
-    public void showBottomSheetPesananDibayar(Transaction p_transaction){
+    public void showBottomSheetPesananDibayar(final Transaction p_transaction){
         g_bottomsheet_dialog = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         View l_bottomsheet_view_add = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_transaksi_pesanandibayar,
@@ -661,7 +609,22 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
                 if(!l_et_bottom_sheet_transaksi_pesandibayar_resi.getText().equals("")){
                     g_transaction_onclick.setShipping_code(l_et_bottom_sheet_transaksi_pesandibayar_resi.getText().toString());
                     VolleyClass.insertShippedCode(g_context, g_transaction_onclick, g_transaksiadapter);
+
+                    Intent sendSMS = new Intent(Intent.ACTION_SENDTO);
+                    sendSMS.setType("text/plain");
+                    sendSMS.setData(Uri.parse("smsto:" + p_transaction.getBuyer().getPhone()));
+                    sendSMS.putExtra("sms_body", "Hallo, kami dari Toko " + g_nama_toko + " ingin menginfokan mengenai no. resi dari transaksi anda " +
+                            "pada Tanggal " + Method.formatDate(p_transaction.getOrder_time()) + "\nBerikut adalah no. resi anda:\n" +
+                            g_transaction_onclick.getShipping_code() +
+                            "\nTerima kasih atas perhatiannya.");
+
+                    if (sendSMS.resolveActivity(g_context.getPackageManager()) != null) {
+                        startActivity(sendSMS);
+                    }
+
                     g_bottomsheet_dialog.dismiss();
+
+
                 }
             }
         });
