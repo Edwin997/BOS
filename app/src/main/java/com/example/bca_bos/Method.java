@@ -1,5 +1,8 @@
 package com.example.bca_bos;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -52,6 +55,13 @@ public class Method {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static Bitmap convertToBitmap(String p_string){
+        byte[] decodedString = Base64.decode(p_string, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+        return decodedByte;
     }
 
     public static boolean cekValidasi(List<EditText> p_isi, List<TextView> p_error){

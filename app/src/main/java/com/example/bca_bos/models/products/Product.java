@@ -22,6 +22,7 @@ public class Product implements Parcelable, Comparable<Product> {
     private int stock;
     private int qty;
     private String image_path;
+    private String base64StringImage;
     private PrdCategory prdCategory;
     private Seller seller;
     private String weight;

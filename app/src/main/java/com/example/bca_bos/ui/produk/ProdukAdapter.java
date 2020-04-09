@@ -148,7 +148,14 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukView
 
         public void setData(Product product){
             l_product = product;
-//            iv_produk.setImageResource((int)product.getImage_path());
+            if(l_product.getBase64StringImage().equals(""))
+            {
+                iv_produk.setImageResource(R.drawable.ic_bos_mascot);
+            }
+            else {
+                iv_produk.setImageBitmap(Method.convertToBitmap(l_product.getBase64StringImage()));
+            }
+
             tv_nama_produk.setText(product.getProduct_name());
             tv_harga_produk.setText(Method.getIndoCurrency(product.getPrice()));
             tv_stok_produk.setText("Stok : " + product.getStock());
