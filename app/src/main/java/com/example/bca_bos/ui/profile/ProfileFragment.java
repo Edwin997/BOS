@@ -28,6 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.StartActivity;
 import com.example.bca_bos.interfaces.OnCallBackListener;
@@ -210,9 +211,11 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                 if (isEditProfileValid()){
 
                     //get city id
+
                     getAsalCityId(g_bottomsheet_actv_kota_asal);
                     tmp_kotakab.setId_kota_kab(Integer.parseInt(g_asal_id_city));
                     tmp_seller.setKota_kab(tmp_kotakab);
+                    tmp_seller.setBase64StringImage(imageToString(g_bmp_bottom_sheet_edit_profile));
 
                     try {
                         VolleyClass.updateProfile(g_context, tmp_seller);
@@ -458,6 +461,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
     }
 
     public void refreshLayout(Seller p_seller){
+        g_profile_image.setImageBitmap(Method.convertToBitmap(p_seller.getBase64StringImage()));
         g_profile_nama_seller.setText(p_seller.getName());
         g_profile_nama_toko.setText(p_seller.getShop_name());
         g_profile_rekening.setText(p_seller.getCard_number());
