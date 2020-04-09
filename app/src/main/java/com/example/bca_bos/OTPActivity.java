@@ -225,15 +225,9 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             g_otp_flag = "third";
         }else if (g_otp_flag.equals("third")){
             g_otp_flag = "fourth";
-
             //Send OTP
             VolleyClass.sendOTP(this, tmp_otp, g_bos_id);
 
-//            if (tmp_otp.equals("1111")){
-//                registerIntent();
-//            }else {
-//                g_otp_tv_error.setText("Wrong OTP");
-//            }
         }else if (g_otp_flag.equals("fourth")){
 
         }
@@ -308,9 +302,9 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         return p_str;
     }
 
-    public void registerIntent(int p_seller_id){
+    public void registerIntent(int p_seller_id, String p_bos_id){
         Intent tmp_register_intent = new Intent(OTPActivity.this, FillDataActivity.class);
-        saveStringSharedPreference(BOS_ID, g_bos_id);
+        saveStringSharedPreference(BOS_ID, p_bos_id);
         saveIntegerSharedPreference(SELLER_ID, p_seller_id);
         startActivity(tmp_register_intent);
         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);

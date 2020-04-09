@@ -1852,7 +1852,7 @@ public class VolleyClass {
                         output_id_seller = tmpObject.substring(11);
 
                         if(message.equals(ERROR_CODE_BERHASIL)){
-                            OTPActivity.g_instance.registerIntent(Integer.parseInt(output_id_seller));
+                            OTPActivity.g_instance.registerIntent(Integer.parseInt(output_id_seller), p_bos_id);
                         }
 
 

@@ -39,6 +39,9 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
     private static final String PREF_LOGIN = "LOGIN_PREF";
     private static final String BOS_ID = "BOS_ID";
     private static final String SELLER_ID = "SELLER_ID";
+    private static final String NAMA_TOKO = "NAMA_TOKO";
+    SharedPreferences g_preference;
+    String g_nama_toko;
 
 
     @Override
@@ -309,12 +312,12 @@ public class PasswordActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void intentFillData(int p_id_seller){
-        Intent tmp_login_intent = new Intent(PasswordActivity.this, FillDataActivity.class);
+        Intent tmp_filldata_intent = new Intent(PasswordActivity.this, FillDataActivity.class);
 
         //menyimpan id seller dalam Shared Preference
         saveIntegerSharedPreference(SELLER_ID, p_id_seller);
 
-        startActivity(tmp_login_intent);
+        startActivity(tmp_filldata_intent);
         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
         finish();
     }
