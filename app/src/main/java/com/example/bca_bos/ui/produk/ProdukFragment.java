@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -91,7 +92,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     private LottieAnimationView g_iv_not_found_animation;
 
     //ADD BOTTOM SHEET PRODUK DATA MEMBER
-    private RoundedImageView g_iv_bottom_sheet_produk_add_gambar;
+    private ImageView g_iv_bottom_sheet_produk_add_gambar;
     private EditText g_tv_bottom_sheet_produk_add_nama, g_tv_bottom_sheet_produk_add_harga,
             g_tv_bottom_sheet_produk_add_stok, g_tv_bottom_sheet_produk_add_berat;
     private Button g_btn_bottom_sheet_produk_add_tambah, g_btn_bottom_sheet_produk_add_batal;
@@ -108,7 +109,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     private List<TextView> g_list_textview_add;
 
     //EDIT BOTTOM SHEET PRODUK DATA MEMBER
-    private RoundedImageView g_iv_bottom_sheet_produk_edit_gambar;
+    private ImageView g_iv_bottom_sheet_produk_edit_gambar;
     private EditText g_tv_bottom_sheet_produk_edit_nama, g_tv_bottom_sheet_produk_edit_harga,
             g_tv_bottom_sheet_produk_edit_stok, g_tv_bottom_sheet_produk_edit_berat;
     private Button g_btn_bottom_sheet_produk_edit_simpan, g_btn_bottom_sheet_produk_edit_hapus;
@@ -122,12 +123,12 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
             g_tv_error_produk_stok_edit, g_tv_error_produk_harga_edit, g_tv_error_produk_spinner_edit;
     private List<EditText> g_list_edittext_edit;
     private List<TextView> g_list_textview_edit;
-    //endregion
 
     //Shared Preference
     private static final String PREF_LOGIN = "LOGIN_PREF";
     private static final String SELLER_ID = "SELLER_ID";
     int g_seller_id;
+    //endregion
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -140,8 +141,6 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_context = container.getContext();
         g_view = inflater.inflate(R.layout.fragment_produk, container, false);
         g_choose_dialog = new ChooseImageFromDialog(this);
-        g_bottomsheet_dialog_add = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
-        g_bottomsheet_dialog_edit = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
 
         //inisiasi layout
         g_produk_fragment_ll_add_button = g_view.findViewById(R.id.apps_produk_fragment_add_btn);
@@ -294,6 +293,8 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
                         VolleyClass.insertProduct(g_context, tmpProduct, g_produkadapter);
 
+                        g_bmp_bottom_sheet_produk_add = null;
+
                         g_bottomsheet_dialog_add.dismiss();
                     }
                 }
@@ -381,9 +382,11 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                         tmpProductedit.setImage_path(imageToString(g_bmp_bottom_sheet_produk_edit));
                         tmpProductedit.setPrdCategory(g_product_category_edit);
                         tmpProductedit.setSeller(selleredit);
-                        g_bottomsheet_dialog_edit.dismiss();
+
                         VolleyClass.updateProduct(g_context, tmpProductedit, g_produkadapter);
 
+                        g_bmp_bottom_sheet_produk_edit = null;
+                        g_bottomsheet_dialog_edit.dismiss();
                     }
                 }
                 else {
@@ -499,6 +502,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
     //region BOTTOM SHEET METHOD
     private void showBottomSheetEditProduk(final Product p_product){
         //inisiasi view
+        g_bottomsheet_dialog_edit = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         final View l_bottomsheet_view_edit = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_edit_produk,
                 (LinearLayout)g_view.findViewById(R.id.layout_apps_bottom_sheet_container_edit_produk)
@@ -546,7 +550,13 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         g_list_textview_edit.add(g_tv_error_produk_berat_edit);
 
         //config imageview
-//        g_iv_bottom_sheet_produk_edit_gambar.setImageDrawable(getResources().getDrawable(p_product.getBase64StringImage()));
+        if(p_product.getBase64StringImage().isEmpty()){
+            g_iv_bottom_sheet_produk_edit_gambar.setImageResource(R.drawable.ic_bos_mascot);
+        }
+        else
+        {
+            g_iv_bottom_sheet_produk_edit_gambar.setImageBitmap(Method.convertToBitmap(p_product.getBase64StringImage()));
+        }
         g_iv_bottom_sheet_produk_edit_gambar.setOnClickListener(this);
 
         //config edittext
@@ -604,6 +614,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
     private void showBottomSheetAddProduk(){
         //inisiasi view
+        g_bottomsheet_dialog_add = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         final View l_bottomsheet_view_add = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_add_produk,
                 (LinearLayout)g_view.findViewById(R.id.layout_apps_bottom_sheet_container_add_produk)

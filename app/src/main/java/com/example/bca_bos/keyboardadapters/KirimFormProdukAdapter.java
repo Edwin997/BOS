@@ -112,7 +112,12 @@ public class KirimFormProdukAdapter extends RecyclerView.Adapter<KirimFormProduk
 
         public void setData(Product product){
             l_product = product;
-//            iv_kirimformproduk.setImageResource(product.getGambar());
+
+            if(product.getBase64StringImage().isEmpty())
+                iv_kirimformproduk.setImageResource(R.drawable.ic_bos_mascot);
+            else
+                iv_kirimformproduk.setImageBitmap(Method.convertToBitmap(l_product.getBase64StringImage()));
+
             tv_nama.setText(product.getProduct_name());
             tv_harga.setText(Method.getIndoCurrency(product.getPrice()));
 

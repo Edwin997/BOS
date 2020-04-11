@@ -25,15 +25,16 @@
         android:textSize="18dp"
         android:textStyle="bold"/>
 
-    <com.makeramen.roundedimageview.RoundedImageView
+    <ImageView
         android:id="@+id/apps_bottom_sheet_iv_gambar_edit_profile"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_margin="10dp"
         android:layout_gravity="center"
-        android:scaleType="fitXY"
-        android:src="@drawable/avatar_kekpin"
-        app:riv_oval="true"/>
+        android:padding="1dp"
+        android:background="@drawable/style_border_tambah_gambar"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_bos_mascot"/>
 
     <TextView
         android:id="@+id/apps_bottom_sheet_tv_nama_edit_profile"

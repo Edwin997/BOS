@@ -31,15 +31,16 @@
         android:textSize="18dp"
         android:textStyle="bold"/>
 
-    <com.makeramen.roundedimageview.RoundedImageView
+    <ImageView
         android:id="@+id/apps_bottom_sheet_iv_gambar_edit_produk"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_gravity="center"
         android:layout_margin="10dp"
+        android:padding="1dp"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_image_blue_24dp"
-        android:background="@drawable/style_border_tambah_gambar"
-        app:riv_corner_radius="40dp"/>
+        android:background="@drawable/style_border_tambah_gambar"/>
 
     <TextView
         android:layout_width="match_parent"

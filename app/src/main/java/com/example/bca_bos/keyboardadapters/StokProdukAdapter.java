@@ -84,7 +84,6 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
         }
         else {
             List<Product> tempList = new ArrayList<>();
-//            tempList.add(g_list_product_master.get(0));
             for (int i = 1; i < g_list_product_master.size(); i++){
                 if(g_list_product_master.get(i).getProduct_name().toLowerCase().contains(p_name.toLowerCase())){
                     tempList.add(g_list_product_master.get(i));
@@ -130,7 +129,11 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
 
         public void setData(Product product){
             l_product = product;
-//            iv_stokproduk.setImageResource(product.getGambar());
+            if(product.getBase64StringImage().isEmpty())
+                iv_stokproduk.setImageResource(R.drawable.ic_bos_mascot);
+            else
+                iv_stokproduk.setImageBitmap(Method.convertToBitmap(l_product.getBase64StringImage()));
+
             tv_nama.setText(product.getProduct_name());
             tv_harga.setText(Method.getIndoCurrency(product.getPrice()));
             tv_stok.setText("Stok : " + product.getStock());
