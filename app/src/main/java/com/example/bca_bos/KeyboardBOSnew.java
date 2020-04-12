@@ -150,6 +150,10 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private Spinner g_sp_stok_filter;
     private ArrayAdapter g_sp_stok_filter_adapter;
 
+    private ConstraintLayout g_stok_not_found_layout;
+    private TextView g_stok_not_found_judul;
+    private LottieAnimationView g_stok_not_found_animation;
+
     private boolean IS_STOK_FOCUS = false;
     //endregion
 
@@ -163,6 +167,10 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private EditText g_et_kirimform_search;
 
     private int g_kirimform_produk_total = 0;
+
+    private ConstraintLayout g_kirimform_not_found_layout;
+    private TextView g_kirimform_not_found_judul;
+    private LottieAnimationView g_kirimform_not_found_animation;
 
     private boolean IS_KIRIMFORM_FOCUS = false;
     //endregion
@@ -187,6 +195,10 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private OfflineMutasiRekeningAdapter g_offline_mutasi_rekening_adapter;
     private Switch g_switch;
     private TextView g_mutasi_tv_title;
+
+    private ConstraintLayout g_mutasi_not_found_layout;
+    private TextView g_mutasi_not_found_judul;
+    private LottieAnimationView g_mutasi_not_found_animation;
     //endregion
 
     //DATA MEMBER KIRIM FORM NEXT = ONGKIR
@@ -399,13 +411,12 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             g_templatedtext_recyclerview.setLayoutManager(g_linear_layout);
             g_templatedtext_recyclerview.setAdapter(tmpTemplatedTextAdapter);
 
-            g_templatedtext_recyclerview.setVisibility(View.VISIBLE);
-            g_no_login_message.setVisibility(View.GONE);
-            g_btn_template_openapps.setVisibility(View.VISIBLE);
+            showLayoutTemplateText(0, false);
 
             VolleyClass.getTemplatedTextByName(getApplicationContext(), g_seller_id, Method.ASC, tmpTemplatedTextAdapter);
         }
         else{
+            g_no_login_message.setText("Silahkan melakukan login terlebih dahulu");
             g_templatedtext_recyclerview.setVisibility(View.GONE);
             g_no_login_message.setVisibility(View.VISIBLE);
             g_btn_template_openapps.setVisibility(View.GONE);
@@ -579,6 +590,11 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         //inisiasi button
         g_btn_stok_back = g_viewparent.findViewById(R.id.bcabos_stok_search_back_button);
 
+        //inisiasi not found layout
+        g_stok_not_found_layout = g_viewparent.findViewById(R.id.bcabos_stok_produk_not_found_layout);
+        g_stok_not_found_judul = g_viewparent.findViewById(R.id.bcabos_stok_produk_not_found_judul);
+        g_stok_not_found_animation = g_viewparent.findViewById(R.id.bcabos_stok_produk_not_found_animation);
+
         //config linearlayout
         g_stok_produk_add_layout.setOnClickListener(this);
 
@@ -614,10 +630,12 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         //config edittext
         g_et_stok_search.setOnFocusChangeListener(this);
         g_et_stok_search.setOnTouchListener(this);
-        g_et_stok_search.addTextChangedListener(new KeyboardBosTextWatcher(KEY_ET_TEXTWATCHER_SEARCH, g_et_stok_search));
+        g_et_stok_search.addTextChangedListener(new KeyboardBosTextWatcher(KEY_ET_TEXTWATCHER_SEARCH, g_et_stok_search, g_stok_adapter));
 
         //config button
         g_btn_stok_back.setOnClickListener(this);
+
+        showLayoutStok(0, false);
     }
 
     private void initiateKirimForm(){
@@ -640,6 +658,11 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_btn_kirimform_back = g_viewparent.findViewById(R.id.bcabos_kirimform_produk_button_back_button);
         g_btn_kirimform_next = g_viewparent.findViewById(R.id.bcabos_kirimform_produk_button_next_button);
 
+        //inisiasi not found layout
+        g_kirimform_not_found_layout = g_viewparent.findViewById(R.id.bcabos_kirimform_produk_not_found_layout);
+        g_kirimform_not_found_judul = g_viewparent.findViewById(R.id.bcabos_kirimform_produk_not_found_judul);
+        g_kirimform_not_found_animation = g_viewparent.findViewById(R.id.bcabos_kirimform_produk_not_found_animation);
+
         //config recyclerview
         g_kirimform_produk_item_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
         g_kirimform_produk_adapter = new KirimFormProdukAdapter();
@@ -651,10 +674,13 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         //config edittext
         g_et_kirimform_search.setOnFocusChangeListener(this);
         g_et_kirimform_search.setOnTouchListener(this);
+        g_et_kirimform_search.addTextChangedListener(new KeyboardBosTextWatcher(KEY_ET_TEXTWATCHER_SEARCH, g_et_kirimform_search, g_kirimform_produk_adapter));
 
         //config button
         g_btn_kirimform_back.setOnClickListener(this);
         g_btn_kirimform_next.setOnClickListener(this);
+
+        showLayoutKirimForm(0, false);
     }
 
     @SuppressLint("ClickableViewAccessibility") //ini biar dropdownnya langsung muncul data
@@ -727,6 +753,11 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         //inisiasi button
         g_btn_mutasi_back = g_viewparent.findViewById(R.id.bcabos_mutasi_back_button);
 
+        //inisiasi not found layout
+        g_mutasi_not_found_layout = g_viewparent.findViewById(R.id.bcabos_extended_mutasi_not_found_layout);
+        g_mutasi_not_found_judul = g_viewparent.findViewById(R.id.bcabos_extended_mutasi_not_found_judul);
+        g_mutasi_not_found_animation = g_viewparent.findViewById(R.id.bcabos_extended_mutasi_not_found_animation);
+
         //config switch
         g_switch = g_viewparent.findViewById(R.id.bcabos_mutasi_switch);
         g_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -755,6 +786,8 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
         //config button
         g_btn_mutasi_back.setOnClickListener(this);
+
+        showLayoutMutasi(0, false);
     }
 
     @Override
@@ -1053,6 +1086,135 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         }
         return false;
     }
+
+    //region Keyboard SHOW NOTFOUND LAYOUT
+    private void changeLayoutTemplateText(int p_count){
+        if(p_count > 0){
+            g_templatedtext_recyclerview.setVisibility(View.VISIBLE);
+            g_no_login_message.setVisibility(View.GONE);
+        }
+        else{
+            g_no_login_message.setText("Silahkan menambahkan Template Text terlebih dahulu");
+            g_templatedtext_recyclerview.setVisibility(View.GONE);
+            g_no_login_message.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void showLayoutTemplateText(int p_count, boolean p_connect){
+        g_btn_template_openapps.setVisibility(View.VISIBLE);
+
+        if(p_connect){
+            changeLayoutTemplateText(p_count);
+        }
+        else{
+            g_no_login_message.setText("Gagal terhubung dengan koneksi internet");
+            g_templatedtext_recyclerview.setVisibility(View.GONE);
+            g_no_login_message.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void changeLayoutStok(int p_count){
+        if(p_count > 0){
+            g_rv_stok.setVisibility(View.VISIBLE);
+            g_stok_not_found_layout.setVisibility(View.GONE);
+        }
+        else{
+            g_stok_not_found_judul.setText(getText(R.string.PRODUCT_NOT_FOUND));
+            g_stok_not_found_animation.setAnimation(R.raw.no_product_animation);
+            g_stok_not_found_animation.playAnimation();
+            g_stok_not_found_animation.loop(true);
+
+            g_rv_stok.setVisibility(View.GONE);
+            g_stok_not_found_layout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void showLayoutStok(int p_count, boolean p_connect){
+        if(p_connect){
+            changeLayoutStok(p_count);
+        }
+        else{
+            g_stok_not_found_judul.setText(getText(R.string.INTERNET_NOT_FOUND));
+            g_stok_not_found_animation.setAnimation(R.raw.no_internet_animation);
+            g_stok_not_found_animation.playAnimation();
+            g_stok_not_found_animation.loop(true);
+
+            g_rv_stok.setVisibility(View.GONE);
+            g_stok_not_found_layout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void changeLayoutKirimForm(int p_count){
+        if(p_count > 0){
+            g_rv_kirimform_produk.setVisibility(View.VISIBLE);
+            g_kirimform_not_found_layout.setVisibility(View.GONE);
+
+            g_btn_kirimform_next.setEnabled(true);
+        }
+        else{
+            g_kirimform_not_found_judul.setText(getText(R.string.PRODUCT_NOT_FOUND));
+            g_kirimform_not_found_animation.setAnimation(R.raw.no_product_animation);
+            g_kirimform_not_found_animation.playAnimation();
+            g_kirimform_not_found_animation.loop(true);
+
+            g_rv_kirimform_produk.setVisibility(View.GONE);
+            g_kirimform_not_found_layout.setVisibility(View.VISIBLE);
+
+            g_btn_kirimform_next.setEnabled(false);
+        }
+    }
+
+    public void showLayoutKirimForm(int p_count, boolean p_connect){
+        if(p_connect){
+            changeLayoutKirimForm(p_count);
+        }
+        else{
+            g_kirimform_not_found_judul.setText(getText(R.string.INTERNET_NOT_FOUND));
+            g_kirimform_not_found_animation.setAnimation(R.raw.no_internet_animation);
+            g_kirimform_not_found_animation.playAnimation();
+            g_kirimform_not_found_animation.loop(true);
+
+            g_rv_kirimform_produk.setVisibility(View.GONE);
+            g_kirimform_not_found_layout.setVisibility(View.VISIBLE);
+
+            g_btn_kirimform_next.setEnabled(false);
+        }
+    }
+
+    private void changeLayoutMutasi(int p_count){
+        if(p_count > 0){
+            g_mutasi_recyclerview.setVisibility(View.VISIBLE);
+            g_mutasi_not_found_layout.setVisibility(View.GONE);
+        }
+        else{
+            if(g_mutasi_tv_title.getText().toString().equals("Online"))
+                g_mutasi_not_found_judul.setText(getText(R.string.TRANSACTION_ONLINE_NOT_FOUND));
+            else
+                g_mutasi_not_found_judul.setText(getText(R.string.TRANSACTION_OFFLINE_NOT_FOUND));
+            g_mutasi_not_found_animation.setAnimation(R.raw.no_transaction_animation);
+            g_mutasi_not_found_animation.playAnimation();
+            g_mutasi_not_found_animation.loop(true);
+
+            g_mutasi_recyclerview.setVisibility(View.GONE);
+            g_mutasi_not_found_layout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void showLayoutMutasi(int p_count, boolean p_connect){
+        if(p_connect){
+            changeLayoutMutasi(p_count);
+        }
+        else{
+            g_mutasi_not_found_judul.setText(getText(R.string.INTERNET_NOT_FOUND));
+            g_mutasi_not_found_animation.setAnimation(R.raw.no_internet_animation);
+            g_mutasi_not_found_animation.playAnimation();
+            g_mutasi_not_found_animation.loop(true);
+
+            g_mutasi_recyclerview.setVisibility(View.GONE);
+            g_mutasi_not_found_layout.setVisibility(View.VISIBLE);
+        }
+    }
+    //endregion
 
     //region KEYBOARD BOS SHOW VIEW UTIL
     private void refreshDisplay(){
@@ -1485,6 +1647,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
         private EditText l_edittext;
         private String l_type;
+        private RecyclerView.Adapter l_adapter;
         private AutoCompleteTextView l_autocomplete;
 
         private int l_delay = 1000;
@@ -1509,8 +1672,17 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             public void run() {
                 if (l_edittext != null) {
                     if (System.currentTimeMillis() > (l_time_last_editted + l_delay - 500)) {
-                        g_stok_adapter.findProduct(l_edittext.getText().toString());
-                        showStok();
+                        if(l_adapter instanceof StokProdukAdapter){
+                            StokProdukAdapter tmpAdapter = (StokProdukAdapter) l_adapter;
+                            tmpAdapter.findProduct(l_edittext.getText().toString());
+                            showStok();
+                        }
+                        else if(l_adapter instanceof KirimFormProdukAdapter){
+                            KirimFormProdukAdapter tmpAdapter = (KirimFormProdukAdapter) l_adapter;
+                            tmpAdapter.findProduct(l_edittext.getText().toString());
+                            showKirimForm();
+                        }
+
                     }
                 }
             }
@@ -1518,6 +1690,13 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
         public KeyboardBosTextWatcher(String p_type, EditText p_edittext){
             l_edittext = p_edittext;
+            l_type = p_type;
+            l_handler = new Handler();
+        }
+
+        public KeyboardBosTextWatcher(String p_type, EditText p_edittext, RecyclerView.Adapter p_adapter_type){
+            l_edittext = p_edittext;
+            l_adapter = p_adapter_type;
             l_type = p_type;
             l_handler = new Handler();
         }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bca_bos.KeyboardBOSnew;
 import com.example.bca_bos.dummy.ListProdukDummy;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
@@ -24,14 +25,15 @@ import java.util.List;
 
 public class KirimFormProdukAdapter extends RecyclerView.Adapter<KirimFormProdukAdapter.KirimFormProdukItemViewHolder> implements OnCallBackListener {
 
-    private List<Product> g_list_product;
+    private List<Product> g_list_product_master;
+    private List<Product> g_list_product_temp;
     private OnCallBackListener g_parent_oncallbacklistener;
 
     private HashMap<String, Product> g_hash_order;
 
     public KirimFormProdukAdapter(){
-        g_list_product = new ArrayList<>();
-        g_list_product = new ArrayList<>();
+        g_list_product_master = new ArrayList<>();
+        g_list_product_temp = new ArrayList<>();
         g_hash_order = new HashMap<>();
     }
 
@@ -48,12 +50,12 @@ public class KirimFormProdukAdapter extends RecyclerView.Adapter<KirimFormProduk
 
     @Override
     public void onBindViewHolder(@NonNull KirimFormProdukItemViewHolder holder, int position) {
-        holder.setData(g_list_product.get(position));
+        holder.setData(g_list_product_temp.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return g_list_product.size();
+        return g_list_product_temp.size();
     }
 
     public HashMap<String, Product> getListOrder(){
@@ -65,8 +67,32 @@ public class KirimFormProdukAdapter extends RecyclerView.Adapter<KirimFormProduk
     }
 
     public void setDatasetProduk(List<Product> p_product){
-        g_list_product = p_product;
+        g_list_product_master = p_product;
+        setDatasetProdukFiltered(g_list_product_master);
         notifyDataSetChanged();
+    }
+
+    public void setDatasetProdukFiltered(List<Product> p_list){
+        g_list_product_temp = p_list;
+
+        KeyboardBOSnew.g_instance.showLayoutKirimForm(g_list_product_temp.size(), true);
+
+        notifyDataSetChanged();
+    }
+
+    public void findProduct(String p_name){
+        if(p_name.equals("")){
+            setDatasetProdukFiltered(g_list_product_master);
+        }
+        else {
+            List<Product> tempList = new ArrayList<>();
+            for (int i = 1; i < g_list_product_master.size(); i++){
+                if(g_list_product_master.get(i).getProduct_name().toLowerCase().contains(p_name.toLowerCase())){
+                    tempList.add(g_list_product_master.get(i));
+                }
+            }
+            setDatasetProdukFiltered(tempList);
+        }
     }
 
     @Override

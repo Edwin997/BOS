@@ -624,8 +624,10 @@ public class VolleyClass {
                                 tmpAdapter.setListTemplate(tempResult);
                             }
                             else if(p_adapter instanceof TemplatedTextAdapter){
+                                KeyboardBOSnew.g_instance.showLayoutTemplateText(tempResult.size(), true);
                                 TemplatedTextAdapter tmpAdapter = (TemplatedTextAdapter) p_adapter;
                                 tmpAdapter.setListTemplate(tempResult);
+
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -637,6 +639,10 @@ public class VolleyClass {
                 if(p_adapter instanceof TemplateAdapter)
                 {
                     TemplateFragment.g_instance.showLayout(0, false);
+                }
+                else if(p_adapter instanceof TemplatedTextAdapter){
+                    KeyboardBOSnew.g_instance.showLayoutTemplateText(0, false);
+
                 }
                 NetworkUtil.setErrorMessage(error);
             }
@@ -862,16 +868,12 @@ public class VolleyClass {
                                 tmpAdapter.setDatasetProduk(tempResult);
                             }
                             else if(p_adapter instanceof StokProdukAdapter){
-//                                List<Product> tmpList = new ArrayList<>();
-//                                tmpList.add(0, new Product(-1, "Tambah Produk", 0, "", 0, new PrdCategory(-1, "kosong")));
-//                                for (int i = 0; i < tempResult.size(); i++){
-//                                    tmpList.add(tempResult.get(i));
-//                                }
-
+                                KeyboardBOSnew.g_instance.showLayoutStok(tempResult.size(), true);
                                 StokProdukAdapter tmpAdapter = (StokProdukAdapter) p_adapter;
                                 tmpAdapter.setDatasetProduk(tempResult);
                             }
                             else if(p_adapter instanceof KirimFormProdukAdapter){
+                                KeyboardBOSnew.g_instance.showLayoutKirimForm(tempResult.size(), true);
                                 KirimFormProdukAdapter tmpAdapter = (KirimFormProdukAdapter) p_adapter;
                                 tmpAdapter.setDatasetProduk(tempResult);
                             }
@@ -886,6 +888,12 @@ public class VolleyClass {
 
                 if(p_adapter instanceof ProdukAdapter){
                     ProdukFragment.g_instance.showLayout(0, false);
+                }
+                else if(p_adapter instanceof StokProdukAdapter){
+                    KeyboardBOSnew.g_instance.showLayoutStok(0, false);
+                }
+                else if(p_adapter instanceof KirimFormProdukAdapter){
+                    KeyboardBOSnew.g_instance.showLayoutKirimForm(0, false);
                 }
 
                 NetworkUtil.setErrorMessage(error);
@@ -926,20 +934,6 @@ public class VolleyClass {
                             if(p_adapter instanceof ProdukAdapter){
                                 ProdukFragment.g_instance.showLayout(tempResult.size(), true);
                                 ProdukAdapter tmpAdapter = (ProdukAdapter) p_adapter;
-                                tmpAdapter.setDatasetProduk(tempResult);
-                            }
-                            else if(p_adapter instanceof StokProdukAdapter){
-                                List<Product> tmpList = new ArrayList<>();
-                                tmpList.add(0, new Product(-1, "Tambah Produk", 0, "", 0, new PrdCategory(-1, "kosong")));
-                                for (int i = 0; i < tempResult.size(); i++){
-                                    tmpList.add(tempResult.get(i));
-                                }
-
-                                StokProdukAdapter tmpAdapter = (StokProdukAdapter) p_adapter;
-                                tmpAdapter.setDatasetProduk(tmpList);
-                            }
-                            else if(p_adapter instanceof KirimFormProdukAdapter){
-                                KirimFormProdukAdapter tmpAdapter = (KirimFormProdukAdapter) p_adapter;
                                 tmpAdapter.setDatasetProduk(tempResult);
                             }
                         } catch (Exception e) {
@@ -995,20 +989,6 @@ public class VolleyClass {
                                 ProdukAdapter tmpAdapter = (ProdukAdapter) p_adapter;
                                 tmpAdapter.setDatasetProduk(tempResult);
                             }
-                            else if(p_adapter instanceof StokProdukAdapter){
-                                List<Product> tmpList = new ArrayList<>();
-                                tmpList.add(0, new Product(-1, "Tambah Produk", 0, "", 0, new PrdCategory(-1, "kosong")));
-                                for (int i = 0; i < tempResult.size(); i++){
-                                    tmpList.add(tempResult.get(i));
-                                }
-
-                                StokProdukAdapter tmpAdapter = (StokProdukAdapter) p_adapter;
-                                tmpAdapter.setDatasetProduk(tmpList);
-                            }
-                            else if(p_adapter instanceof KirimFormProdukAdapter){
-                                KirimFormProdukAdapter tmpAdapter = (KirimFormProdukAdapter) p_adapter;
-                                tmpAdapter.setDatasetProduk(tempResult);
-                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -1060,20 +1040,6 @@ public class VolleyClass {
                             if(p_adapter instanceof ProdukAdapter){
                                 ProdukFragment.g_instance.showLayout(tempResult.size(), true);
                                 ProdukAdapter tmpAdapter = (ProdukAdapter) p_adapter;
-                                tmpAdapter.setDatasetProduk(tempResult);
-                            }
-                            else if(p_adapter instanceof StokProdukAdapter){
-                                List<Product> tmpList = new ArrayList<>();
-                                tmpList.add(0, new Product(-1, "Tambah Produk", 0, "", 0, new PrdCategory(-1, "kosong")));
-                                for (int i = 0; i < tempResult.size(); i++){
-                                    tmpList.add(tempResult.get(i));
-                                }
-
-                                StokProdukAdapter tmpAdapter = (StokProdukAdapter) p_adapter;
-                                tmpAdapter.setDatasetProduk(tmpList);
-                            }
-                            else if(p_adapter instanceof KirimFormProdukAdapter){
-                                KirimFormProdukAdapter tmpAdapter = (KirimFormProdukAdapter) p_adapter;
                                 tmpAdapter.setDatasetProduk(tempResult);
                             }
                         } catch (Exception e) {

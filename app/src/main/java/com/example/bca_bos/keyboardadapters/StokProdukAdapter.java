@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bca_bos.KeyboardBOSnew;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
@@ -59,6 +60,9 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
 
     public void setDatasetProdukFiltered(List<Product> p_list){
         g_list_temp_product = p_list;
+
+        KeyboardBOSnew.g_instance.showLayoutStok(g_list_temp_product.size(), true);
+
         notifyDataSetChanged();
     }
 
@@ -68,7 +72,6 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
         }
         else {
             List<Product> tempList = new ArrayList<>();
-//            tempList.add(g_list_product_master.get(0));
             for (int i = 0; i < g_list_product_master.size(); i++){
                 if(g_list_product_master.get(i).getPrdCategory().getId_prd_category() == id_category){
                     tempList.add(g_list_product_master.get(i));

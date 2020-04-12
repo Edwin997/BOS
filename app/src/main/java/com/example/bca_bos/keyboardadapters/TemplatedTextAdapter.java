@@ -9,6 +9,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bca_bos.KeyboardBOSnew;
 import com.example.bca_bos.dummy.ListTemplatedTextDummy;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
@@ -59,6 +60,9 @@ public class TemplatedTextAdapter extends RecyclerView.Adapter<TemplatedTextAdap
 
     public void setListTemplate(List<TemplatedText> p_list){
         this.g_list_templatedtext = p_list;
+
+        KeyboardBOSnew.g_instance.showLayoutTemplateText(g_list_templatedtext.size(), true);
+
         notifyDataSetChanged();
     }
 
