@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -80,7 +81,7 @@
             android:layout_width="0dp"
             android:layout_marginTop="2dp"
             android:padding="4dp"
-            android:drawableTop="@drawable/ic_keyboard_stok_produk"
+            android:drawableTop="@drawable/ic_keyboard_circle_produk"
             android:gravity="left|center_vertical"
             android:drawablePadding="2dp"
             android:fontFamily="@font/opensans_bold"
@@ -89,7 +90,8 @@
             android:textSize="10dp"
             android:textAlignment="center"
             android:textStyle="bold"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent"
+            tools:ignore="RtlCompat" />
 
         <Button
             android:id="@+id/bcabos_extended_feature_ongkir_button"
@@ -98,7 +100,7 @@
             android:layout_width="0dp"
             android:layout_marginTop="2dp"
             android:padding="4dp"
-            android:drawableTop="@drawable/ic_bcabos_cek_ongkir"
+            android:drawableTop="@drawable/ic_keyboard_circle_ongkir"
             android:drawablePadding="2dp"
             android:gravity="left|center_vertical"
             android:fontFamily="@font/opensans_bold"
@@ -107,7 +109,8 @@
             android:textColor="@color/dark_white"
             android:textSize="10dp"
             android:textStyle="bold"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent"
+            tools:ignore="RtlCompat" />
 
         <Button
             android:id="@+id/bcabos_extended_feature_form_button"
@@ -116,7 +119,7 @@
             android:layout_width="0dp"
             android:layout_marginTop="2dp"
             android:padding="4dp"
-            android:drawableTop="@drawable/ic_bcabos_kirim_form"
+            android:drawableTop="@drawable/ic_keyboard_circle_order"
             android:drawablePadding="2dp"
             android:gravity="left|center_vertical"
             android:fontFamily="@font/opensans_bold"
@@ -125,7 +128,8 @@
             android:textColor="@color/dark_white"
             android:textSize="10dp"
             android:textStyle="bold"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent"
+            tools:ignore="RtlCompat" />
 
         <Button
             android:id="@+id/bcabos_extended_feature_mutasi_button"
@@ -134,7 +138,7 @@
             android:layout_width="0dp"
             android:layout_marginTop="2dp"
             android:padding="4dp"
-            android:drawableTop="@drawable/ic_bcabos_cek_mutasi"
+            android:drawableTop="@drawable/ic_keyboard_circle_transaksi"
             android:drawablePadding="2dp"
             android:gravity="left|center_vertical"
             android:fontFamily="@font/opensans_bold"
@@ -143,7 +147,8 @@
             android:textColor="@color/dark_white"
             android:textSize="10dp"
             android:textStyle="bold"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent"
+            tools:ignore="RtlCompat" />
     </LinearLayout>
 
     <!--CEK ONGKIR-->
@@ -430,7 +435,7 @@
                     android:src="@drawable/ic_keyboard_back_gradient" />
 
                 <Button
-                    android:id="@+id/bcabos_ongkir_cekongkir_check_button"
+                    android:id="@+id/bcabos_ongkir_cekongkir_button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"

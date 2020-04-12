@@ -467,7 +467,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_btn_ongkir_kurir_back = g_viewparent.findViewById(R.id.bcabos_ongkir_kurir_back_button);
 
         g_btn_ongkir_back = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_back_button);
-        g_btn_ongkir_cekongkir = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_check_button);
+        g_btn_ongkir_cekongkir = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_button);
         g_btn_ongkir_refresh = g_viewparent.findViewById(R.id.bcabos_ongkir_cekongkir_refresh_button);
 
         //Error Text View
@@ -878,20 +878,27 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 refreshOngkir();
                 showFeatureMenu();
                 break;
-            case R.id.bcabos_ongkir_cekongkir_check_button:
+            case R.id.bcabos_ongkir_cekongkir_button:
                 cekOngkirLoading("show");
                 focusedEditText = KEY_ET_EXTERNAL;
                 getAsalCityId(g_actv_ongkir_asal);
                 getTujuanCityId(g_actv_ongkir_tujuan);
                 g_berat = g_et_ongkir_berat.getText().toString();
-                getOngkirByCourier();
+                if (isGetOngkirValid()){
+                    getOngkirByCourier();
+                }else {
+                    g_tv_ongkir_error.setText("Semua field harus diisi \nKlik disini untuk kembali");
+                    g_tv_ongkir_error.setVisibility(View.VISIBLE);
+                }
                 showOngkir();
                 break;
             case R.id.bcabos_ongkir_cekongkir_refresh_button:
                 refreshOngkir();
                 break;
             case R.id.bcabos_ongkir_error_text_view:
+                g_tv_ongkir_error.setText("Gagal terhubung ke jaringan internet \nKlik disini untuk kembali");
                 g_tv_ongkir_error.setVisibility(View.GONE);
+                cekOngkirLoading("hide");
                 break;
                 //endregion
 
@@ -1247,20 +1254,47 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_btn_ongkir_pos.setBackgroundResource(R.drawable.style_gradient_color_rounded_box_grey);
     }
 
+    //Validasi Ongkir
+    public boolean isGetOngkirValid(){
+        String l_asal = g_actv_ongkir_asal.getText().toString();
+        String l_tujuan = g_actv_ongkir_tujuan.getText().toString();
+        String l_berat = g_et_ongkir_berat.getText().toString();
+
+        Boolean b_kurir = false;
+
+        if (IS_CHOOSE_JNE ||  IS_CHOOSE_TIKI || IS_CHOOSE_POS == true){
+            b_kurir = true;
+        }else {
+            b_kurir = false;
+        }
+
+        if (!l_asal.isEmpty() && !l_tujuan.isEmpty() && !l_berat.isEmpty() && b_kurir){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
     //Mendapatkan ID dari City
     private void getAsalCityId(AutoCompleteTextView p_autocomplete){
-        int l_position = g_city_name_list.indexOf(p_autocomplete.getText().toString());
-        g_asal_id_city = String.valueOf(g_city_list.get(l_position).getId_kota_kab());
+        if (g_city_name_list.contains(p_autocomplete.getText().toString())){
+            int l_position = g_city_name_list.indexOf(p_autocomplete.getText().toString());
+            g_asal_id_city = String.valueOf(g_city_list.get(l_position).getId_kota_kab());
+        }
     }
 
     private void getTujuanCityId(AutoCompleteTextView p_autocomplete){
-        int l_position = g_city_name_list.indexOf(p_autocomplete.getText().toString());
-        g_tujuan_id_city = String.valueOf(g_city_list.get(l_position).getId_kota_kab());
+        if (g_city_name_list.contains(p_autocomplete.getText().toString())){
+            int l_position = g_city_name_list.indexOf(p_autocomplete.getText().toString());
+            g_tujuan_id_city = String.valueOf(g_city_list.get(l_position).getId_kota_kab());
+        }
     }
 
     private void getAsalCityIdForm(AutoCompleteTextView p_autocomplete){
-        int l_position = g_city_name_list.indexOf(p_autocomplete.getText().toString());
-        g_asal_id_city_form = String.valueOf(g_city_list.get(l_position).getId_kota_kab());
+        if (g_city_name_list.contains(p_autocomplete.getText().toString())){
+            int l_position = g_city_name_list.indexOf(p_autocomplete.getText().toString());
+            g_asal_id_city_form = String.valueOf(g_city_list.get(l_position).getId_kota_kab());
+        }
     }
 
     private void setKeyboardType(){
