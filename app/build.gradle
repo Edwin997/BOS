@@ -35,6 +35,8 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.google.android.material:material:1.2.0-alpha02'
 
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
 
     //Circle Imageview
     implementation 'com.makeramen:roundedimageview:2.3.0'

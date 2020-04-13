@@ -23,6 +23,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.bca_bos.Method;
@@ -56,6 +57,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
 
     //FRAGMENT SECTION DATA MEMBER
     private LinearLayout g_ll_template_fragment_add_button;
+    private SwipeRefreshLayout g_template_fragment_refresh;
     private ConstraintLayout g_template_fragment_not_found;
 
     private RecyclerView g_templatefragment_recyclerview;
@@ -105,6 +107,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
         //inisiasi layout
         g_ll_template_fragment_add_button = g_view.findViewById(R.id.ll_apps_template_tambah_btn);
         g_template_fragment_not_found = g_view.findViewById(R.id.apps_template_fragment_not_found);
+        g_template_fragment_refresh = g_view.findViewById(R.id.apps_template_fragment_refresh);
 
         //inisiasi recyclerview
         g_templatefragment_recyclerview = g_view.findViewById(R.id.apps_template_fragment_recyclerview);
@@ -141,6 +144,14 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
 
         //config edittext
         g_templatedtext_fragment_search_et.addTextChangedListener(new SearchTextWatcher(g_templatedtext_fragment_search_et));
+
+        g_template_fragment_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshData();
+                g_template_fragment_refresh.setRefreshing(false);
+            }
+        });
 
         return g_view;
     }
