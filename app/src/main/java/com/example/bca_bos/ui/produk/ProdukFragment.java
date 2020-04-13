@@ -39,6 +39,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.bca_bos.CustomDialogBoxWarning;
@@ -80,6 +81,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
     //FRAGMENT SECTION DATA MEMBER
     private LinearLayout g_produk_fragment_ll_add_button;
+    private SwipeRefreshLayout g_produk_fragment_refresh;
     private ConstraintLayout g_produk_fragment_not_found;
 
     private RecyclerView g_produkfragment_recyclerview;
@@ -146,6 +148,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
         //inisiasi layout
         g_produk_fragment_ll_add_button = g_view.findViewById(R.id.apps_produk_fragment_add_btn);
         g_produk_fragment_not_found = g_view.findViewById(R.id.apps_produk_fragment_not_found);
+        g_produk_fragment_refresh = g_view.findViewById(R.id.apps_produk_fragment_refresh);
 
         //inisiasi recyclerview
         g_produkfragment_recyclerview = g_view.findViewById(R.id.apps_produk_fragment_recyclerview);
@@ -185,6 +188,15 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
         //config edittext
         g_produk_fragment_search_et.addTextChangedListener(new SearchTextWatcher(g_produk_fragment_search_et));
+
+        g_produk_fragment_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                VolleyClass.getProductByName(g_context, g_seller_id, Method.ASC, g_produkadapter);
+                g_produk_fragment_refresh.setRefreshing(false);
+            }
+        });
+
 
         return g_view;
     }
@@ -301,6 +313,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                                         g_bmp_bottom_sheet_produk_add = null;
 
                                         g_bottomsheet_dialog_add.dismiss();
+                                        CustomDialogBoxWarning.dismissWarning();
                                     }
                                 },
                                 new View.OnClickListener() {

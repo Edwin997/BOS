@@ -98,7 +98,11 @@ public class BerandaTawarkanProdukAdapter extends RecyclerView.Adapter<BerandaTa
 
         public void setData(Product product){
             l_product = product;
-//            l_iv_beranda_produk.setImageResource(product.getImage_path());
+            if(l_product.getBase64StringImage() == null || l_product.getBase64StringImage().isEmpty())
+                l_iv_beranda_tawarkan_produk.setImageResource(R.drawable.ic_bos_mascot);
+            else
+                l_iv_beranda_tawarkan_produk.setImageBitmap(Method.convertToBitmap(l_product.getBase64StringImage()));
+
             l_tv_beranda_tawarkan_produk_nama.setText(product.getProduct_name());
             l_tv_beranda_tawarkan_produk_harga.setText(Method.getIndoCurrency(product.getPrice()));
             l_tv_beranda_tawarkan_produk_stok.setText("Stok : " + product.getStock());

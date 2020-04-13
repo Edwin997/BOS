@@ -86,7 +86,7 @@ public class VolleyClass {
 //    private final static  String BASE_URL_DATASCIENCE = "https://datasciencebos.apps.pcf.dti.co.id";
     private final static  String BASE_URL_DATASCIENCE = "/datasciencebos";
     private final static String URL_BUYER_RECOMMENDATION = BASE_URL + BASE_URL_DATASCIENCE + "/buyer-recommendation";
-    private final static String URL_PRODUCT_RECOMMENDATION = BASE_URL_DATASCIENCE + "/product-recommendation";
+    private final static String URL_PRODUCT_RECOMMENDATION = BASE_URL + BASE_URL_DATASCIENCE + "/product-recommendation";
     public static List<String> g_datascience_buyer_name = new ArrayList<>();
     public static List<String> g_datascience_buyer_phone_number = new ArrayList<>();
     public static List<String> g_datascience_product_name = new ArrayList<>();
@@ -301,7 +301,12 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
 
         g_requestqueue.add(request_json);
     }
