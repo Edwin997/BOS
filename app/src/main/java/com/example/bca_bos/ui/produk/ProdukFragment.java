@@ -41,6 +41,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.bca_bos.CustomDialogBoxWarning;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
@@ -282,7 +283,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                         Seller seller = new Seller();
                         seller.setId_seller(g_seller_id);
 
-                        Product tmpProduct = new Product();
+                        final Product tmpProduct = new Product();
                         tmpProduct.setProduct_name(g_tv_bottom_sheet_produk_add_nama.getText().toString());
                         tmpProduct.setPrice(Integer.parseInt(g_tv_bottom_sheet_produk_add_harga.getText().toString()));
                         tmpProduct.setStock(Integer.parseInt(g_tv_bottom_sheet_produk_add_stok.getText().toString()));
@@ -291,11 +292,24 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                         tmpProduct.setPrdCategory(g_product_category_add);
                         tmpProduct.setSeller(seller);
 
-                        VolleyClass.insertProduct(g_context, tmpProduct, g_produkadapter);
+                        CustomDialogBoxWarning.showWarning(g_context,
+                                "Apakah anda yakin dengan data yang telah anda inputkan?",
+                                new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        VolleyClass.insertProduct(g_context, tmpProduct, g_produkadapter);
+                                        g_bmp_bottom_sheet_produk_add = null;
 
-                        g_bmp_bottom_sheet_produk_add = null;
+                                        g_bottomsheet_dialog_add.dismiss();
+                                    }
+                                },
+                                new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        CustomDialogBoxWarning.dismissWarning();
+                                    }
+                                });
 
-                        g_bottomsheet_dialog_add.dismiss();
                     }
                 }
                     else {
