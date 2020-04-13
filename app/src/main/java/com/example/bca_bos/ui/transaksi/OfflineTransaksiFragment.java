@@ -97,8 +97,6 @@ public class OfflineTransaksiFragment extends Fragment implements View.OnClickLi
         g_transaksi_fragment_piechart = g_view.findViewById(R.id.apps_transaksi_filterdetail_piechart_off);
         g_percentage = g_transaksiadapteroffline.getItemCount();
 
-        firstLoad();
-
         VolleyClass.getTransaksiOffline(g_context, g_seller_id, g_transaksiadapteroffline);
 
         return g_view;

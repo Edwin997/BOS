@@ -92,7 +92,7 @@ public class BerandaProdukAdapter extends RecyclerView.Adapter<BerandaProdukAdap
 
         public void setData(Product product){
             l_product = product;
-            if(product.getBase64StringImage().isEmpty())
+            if(l_product.getBase64StringImage() == null || l_product.getBase64StringImage().isEmpty())
                 l_iv_beranda_produk.setImageResource(R.drawable.ic_bos_mascot);
             else
                 l_iv_beranda_produk.setImageBitmap(Method.convertToBitmap(product.getBase64StringImage()));
