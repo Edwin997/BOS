@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.networks.NetworkUtil;
 import com.example.bca_bos.networks.VolleyClass;
 
@@ -119,12 +120,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public void intentLogin(String p_bos_id){
+    public void moveToPasswordActivity(String p_bos_id){
         //save BOS ID
 //        SharedPreferences.Editor l_editor = getSharedPreferences(PREF_LOGIN, MODE_PRIVATE).edit();
 //        l_editor.putString(BOS_ID, p_bos_id);
 //        l_editor.commit();
         Intent tmp_login_intent = new Intent(LoginActivity.this, PasswordActivity.class);
+        tmp_login_intent.putExtra("BOS_ID",p_bos_id);
+        startActivity(tmp_login_intent);
+        overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
+        finish();
+    }
+
+    public void getProfile(String p_bos_id, int p_seller_id){
+        VolleyClass.getProfileLogin(this, p_seller_id);
+
+    }
+
+    public void generateOTP(Seller p_seller){
+        String l_bos_id = p_seller.getUsername();
+        String l_no_hp = p_seller.getPhone();
+        VolleyClass.getOTPLogin(this, l_no_hp, l_bos_id);
+    }
+
+    public void moveToOTPActivity(String p_bos_id){
+        Intent tmp_login_intent = new Intent(LoginActivity.this, OTPActivity.class);
         tmp_login_intent.putExtra("BOS_ID",p_bos_id);
         startActivity(tmp_login_intent);
         overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);

@@ -17,7 +17,11 @@
         </activity>
         <activity android:name=".PasswordActivity" />
         <activity android:name=".StartActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".OTPActivity" />
@@ -40,11 +44,7 @@
         <activity
             android:name=".ApplicationContainer"
             android:label="@string/title_activity_application_container">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
     </application>

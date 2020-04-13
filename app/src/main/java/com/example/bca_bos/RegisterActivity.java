@@ -25,6 +25,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     //
     public static RegisterActivity g_instance = null;
 
+    //Shared Preference
+    private static final String PREF_LOGIN = "LOGIN_PREF";
+    private static final String BOS_ID = "BOS_ID";
+    private static final String SELLER_ID = "SELLER_ID";
+    private static final String NO_HP = "NO_HP";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -185,9 +191,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 //       g_register_tv_error.setText(l_bos_id + "\n" + l_nama + "\n" + l_no_rekening + "\n" + l_no_hp + "\n" + l_password);
     }
 
-    public void intentRegister(String p_bos_id, String p_no_hp){
+    public void moveToOTPActivity(String p_bos_id, String p_no_hp){
         Intent tmp_register_intent = new Intent(RegisterActivity.this, OTPActivity.class);
-        tmp_register_intent.putExtra("bos_id", p_bos_id);
+        tmp_register_intent.putExtra(BOS_ID, p_bos_id);
         tmp_register_intent.putExtra("no_hp", p_no_hp);
         startActivity(tmp_register_intent);
         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);

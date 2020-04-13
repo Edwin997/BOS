@@ -43,6 +43,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     private static final String PREF_LOGIN = "LOGIN_PREF";
     private static final String BOS_ID = "BOS_ID";
     private static final String SELLER_ID = "SELLER_ID";
+    private static final String NO_HP = "NO_HP";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +65,13 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                 g_bos_id = null;
                 g_no_hp = null;
             } else {
-                g_bos_id = extras.getString("bos_id");
-                g_no_hp = extras.getString("no_hp");
+                g_bos_id = extras.getString(BOS_ID);
+                g_no_hp = extras.getString(NO_HP);
 
             }
         } else {
-            g_bos_id = (String) savedInstanceState.getSerializable("bos_id");
-            g_no_hp = (String) savedInstanceState.getSerializable("no_hp");
+            g_bos_id = (String) savedInstanceState.getSerializable(BOS_ID);
+            g_no_hp = (String) savedInstanceState.getSerializable(NO_HP);
         }
 
         //OTP number

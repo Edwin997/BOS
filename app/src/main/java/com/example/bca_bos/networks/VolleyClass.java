@@ -51,19 +51,16 @@ import com.example.bca_bos.ui.transaksi.OfflineTransaksiAdapter;
 import com.example.bca_bos.ui.transaksi.OfflineTransaksiFragment;
 import com.example.bca_bos.ui.transaksi.OnlineTransaksiAdapter;
 import com.example.bca_bos.ui.transaksi.OnlineTransaksiFragment;
-import com.google.android.material.theme.overlay.MaterialThemeOverlay;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -72,6 +69,7 @@ import java.util.Map;
 public class VolleyClass {
 
     private static final String ERROR_CODE_BERHASIL = "BIT-000";
+    private static final String ERROR_CODE_AKUN_BELUM_TERVERIFIKASI = "BOS-202";
     private static final String ERROR_CODE_BOS_ID_TIDAK_DITEMUKAN = "BOS-201";
     private static final String ERROR_CODE_PASSWORD_SALAH = "BOS-200";
 
@@ -1696,13 +1694,89 @@ public class VolleyClass {
                     @Override
                     public void onResponse(JSONObject response) {
 //                        Log.d(TAG, response.toString());
-                        String message = NetworkUtil.getErrorCode(response.toString());
-                        String output = NetworkUtil.getErrorMessage(response.toString());
-                        if (message.equals(ERROR_CODE_PASSWORD_SALAH)){
-                            LoginActivity.g_instance.intentLogin(p_bos_id);
+                        String errorCode = NetworkUtil.getErrorCode(response.toString());
+                        String message = NetworkUtil.getErrorMessage(response.toString());
+                        String output = NetworkUtil.getOutputSchema(response.toString());
+                        int tmp_seller_id = 0;
+                        if (errorCode.equals(ERROR_CODE_PASSWORD_SALAH)){
+                            LoginActivity.g_instance.moveToPasswordActivity(p_bos_id);
+                        }else if (errorCode.equals(ERROR_CODE_AKUN_BELUM_TERVERIFIKASI)){
+                            Seller tempObject = gson.fromJson(output, Seller.class);
+                            tmp_seller_id = tempObject.getId_seller();
+                            LoginActivity.g_instance.getProfile(p_bos_id, tmp_seller_id);
                         }else{
-                            LoginActivity.g_instance.setError(output);
+                            LoginActivity.g_instance.setError(message);
                         }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                LoginActivity.g_instance.setError("Gagal terhubung ke jaringan internet");
+                NetworkUtil.setErrorMessage(error);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void getProfileLogin(Context p_context, int p_seller_id){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PROFILE + "/" + p_seller_id,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.d("BOSVOLLEY", response);
+                            String output = NetworkUtil.getOutputSchema(response);
+                            Seller tempObject = gson.fromJson(output, Seller.class);
+                            LoginActivity.g_instance.generateOTP(tempObject);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkUtil.setErrorMessage(error);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtil.setBasicAuth();
+            }
+        };
+
+        g_requestqueue.add(request_json);
+    }
+
+    public static void getOTPLogin(final Context p_context, final String p_no_hp, final String p_bos_id){
+        g_requestqueue = Volley.newRequestQueue(p_context);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+
+
+        JsonObjectRequest request_json = new JsonObjectRequest(URL_REGISTER + "/" + p_no_hp, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        String errorCode = NetworkUtil.getErrorCode(response.toString());
+                        String output = NetworkUtil.getOutputSchema(response.toString());
+                        String message = NetworkUtil.getErrorMessage(response.toString());
+
+                        if(errorCode.equals(ERROR_CODE_BERHASIL)){
+                            LoginActivity.g_instance.moveToOTPActivity(p_bos_id);
+                        }else{
+                            LoginActivity.g_instance.setError(message);
+                        }
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -1737,15 +1811,15 @@ public class VolleyClass {
 
                         if(message.equals(ERROR_CODE_BERHASIL)){
                             //Get BOS ID
-                            int tmp_id_seller = 0;
+                            int tmp_seller_id = 0;
                             try {
                                 Seller tempObject = gson.fromJson(output, Seller.class);
-                                tmp_id_seller = tempObject.getId_seller();
+                                tmp_seller_id = tempObject.getId_seller();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             PasswordActivity.g_instance.saveStringSharedPreference(BOS_ID, p_bos_id);
-                            saveTokoToSharedPreference(p_context, tmp_id_seller);
+                            saveTokoToSharedPreference(p_context, tmp_seller_id);
                         }else {
                             PasswordActivity.g_instance.setError(error_message);
                         }
@@ -1754,6 +1828,7 @@ public class VolleyClass {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                PasswordActivity.g_instance.setError("Gagal terhubung ke jaringan internet");
                 NetworkUtil.setErrorMessage(error);
             }
         }){
@@ -1824,7 +1899,8 @@ public class VolleyClass {
 
                         Log.d("BOSVOLLEY", response.toString());
 
-                        String message = NetworkUtil.getErrorCode(response.toString());
+                        String errorCode = NetworkUtil.getErrorCode(response.toString());
+                        String message = NetworkUtil.getErrorMessage(response.toString());
                         String output = "";
                         try {
                             output = response.getString("output_schema");
@@ -1832,18 +1908,19 @@ public class VolleyClass {
                             e.printStackTrace();
                         }
 
-                        if(message.equals(ERROR_CODE_BERHASIL)){
-                            RegisterActivity.g_instance.intentRegister(p_bos_id, p_no_hp);
-                        }else if(message.equals("BIT-999")){
-                            RegisterActivity.g_instance.intentRegister(p_bos_id, p_no_hp);
+                        if(errorCode.equals(ERROR_CODE_BERHASIL)){
+                            RegisterActivity.g_instance.moveToOTPActivity(p_bos_id, p_no_hp);
+                        }else if(errorCode.equals("BIT-999")){
+                            RegisterActivity.g_instance.moveToOTPActivity(p_bos_id, p_no_hp);
                         }else{
-                            RegisterActivity.g_instance.setError("\n"+output);
+                            RegisterActivity.g_instance.setError("\n"+message);
                         }
 
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                RegisterActivity.g_instance.setError("Gagal terhubung ke jaringan internet");
                 NetworkUtil.setErrorMessage(error);
             }
         }){
@@ -1868,8 +1945,9 @@ public class VolleyClass {
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        String message = NetworkUtil.getErrorCode(response.toString());
+                        String errorCode = NetworkUtil.getErrorCode(response.toString());
                         String output = NetworkUtil.getOutputSchema(response.toString());
+                        String message = NetworkUtil.getErrorMessage(response.toString());
                         String tmpObject = "";
                         String output_id_seller = "";
 
@@ -1884,8 +1962,10 @@ public class VolleyClass {
 
                         output_id_seller = tmpObject.substring(11);
 
-                        if(message.equals(ERROR_CODE_BERHASIL)){
+                        if(errorCode.equals(ERROR_CODE_BERHASIL)){
                             OTPActivity.g_instance.registerIntent(Integer.parseInt(output_id_seller), p_bos_id);
+                        }else {
+                            OTPActivity.g_instance.setError(message);
                         }
 
 
@@ -1942,10 +2022,10 @@ public class VolleyClass {
     //endregion
 
     //region PROFILE
-    public static void getProfile(Context p_context, int p_id_seller){
+    public static void getProfile(Context p_context, int p_seller_id){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
-        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PROFILE + "/" + p_id_seller,
+        StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PROFILE + "/" + p_seller_id,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -2061,7 +2141,7 @@ public class VolleyClass {
         params.put("id_seller", String.valueOf(p_seller.getId_seller()));
         params.put("shop_name", p_seller.getShop_name());
         params.put("id_kota_kab", p_seller.getKota_kab().getId_kota_kab());
-        params.put("base64StringImage", p_seller.getBase64StringImage());
+        params.put("base64StringImage", "/NASBOS/7.jpg");
         params.put("selected_courier", jsonArray);
         //params put selected courier
 

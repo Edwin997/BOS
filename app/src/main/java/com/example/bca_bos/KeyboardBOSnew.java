@@ -561,6 +561,11 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     }
 
     private void initiateStok(){
+        //inisialisasi kurir
+        IS_CHOOSE_JNE = false;
+        IS_CHOOSE_TIKI = false;
+        IS_CHOOSE_POS = false;
+
         //inisiasi layout
         g_stok_layout = g_viewparent.findViewById(R.id.bcabos_stok_layout);
         g_stok_search_layout = g_viewparent.findViewById(R.id.bcabos_stok_search_layout);
