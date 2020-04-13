@@ -55,6 +55,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class ProfileFragment extends Fragment implements OnCallBackListener, View.OnClickListener {
 
     private Context g_context;
+    private Seller g_seller;
     private Boolean IS_CHOOSE_JNE = false, IS_CHOOSE_TIKI = false, IS_CHOOSE_POS = false;
     View g_view;
 
@@ -333,6 +334,18 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         configChooseCourierButton(g_profile_button_pos, IS_CHOOSE_POS);
         g_profile_button_pos.setOnClickListener(this);
 
+        //Set Image
+        if (g_seller != null){
+            if (g_seller.getBase64StringImage().isEmpty()){
+                g_bottomsheet_iv_profile.setImageResource(R.drawable.ic_bos_mascot_default_profile);
+            }else {
+                g_bottomsheet_iv_profile.setImageBitmap(Method.convertToBitmap(g_seller.getBase64StringImage()));
+            }
+        }else {
+            g_bottomsheet_iv_profile.setImageResource(R.drawable.ic_bos_mascot_default_profile);
+        }
+
+
         //Set Text
         g_bottomsheet_tv_nama_seller.setText(g_profile_nama_seller.getText());
         g_bottomsheet_et_nama_toko.setText(g_profile_nama_toko.getText());
@@ -467,6 +480,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
     }
 
     public void refreshLayout(Seller p_seller){
+        g_seller = p_seller;
         if(p_seller.getBase64StringImage().isEmpty()){
             g_profile_image.setImageResource(R.drawable.ic_bos_mascot_default_profile);
         }

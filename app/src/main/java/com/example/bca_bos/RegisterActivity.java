@@ -19,8 +19,11 @@ import com.example.bca_bos.networks.VolleyClass;
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
     Button g_register_btn;
-    EditText g_register_et_bos_id, g_register_et_nama, g_register_et_no_rekening, g_register_et_no_hp, g_register_et_password;
-    TextView g_register_tv_bos_id, g_register_tv_nama, g_register_tv_no_rekening, g_register_tv_no_hp, g_register_tv_password, g_register_tv_error;
+    EditText g_register_et_bos_id, g_register_et_nama, g_register_et_no_rekening, g_register_et_no_hp, g_register_et_password, g_register_et_confirm_password;
+    TextView g_register_tv_bos_id, g_register_tv_nama, g_register_tv_no_rekening, g_register_tv_no_hp, g_register_tv_password, g_register_tv_confirm_password;
+
+    //Error
+    TextView g_register_tv_error, g_register_tv_bos_id_error, g_register_tv_nama_error, g_register_tv_no_rek_error, g_register_no_hp_error, g_register_password_error, g_register_confirm_error;
 
     //
     public static RegisterActivity g_instance = null;
@@ -71,14 +74,24 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         });
         g_register_et_password = findViewById(R.id.register_et_password);
         g_register_et_password.setOnTouchListener(this);
+        g_register_et_confirm_password = findViewById(R.id.register_et_confirm_password);
+        g_register_et_confirm_password.setOnTouchListener(this);
 
         g_register_tv_bos_id = findViewById(R.id.register_tv_bos_id);
         g_register_tv_nama = findViewById(R.id.register_tv_nama);
         g_register_tv_no_rekening = findViewById(R.id.register_tv_no_rekening);
         g_register_tv_no_hp = findViewById(R.id.register_tv_no_hp);
         g_register_tv_password = findViewById(R.id.register_tv_password);
+        g_register_tv_confirm_password = findViewById(R.id.register_tv_confirm_password);
+
+        //Error
         g_register_tv_error = findViewById(R.id.register_tv_error);
-        g_register_tv_error.setText("");
+        g_register_tv_bos_id_error = findViewById(R.id.register_tv_bos_id_error);
+        g_register_tv_nama_error = findViewById(R.id.register_tv_nama_error);
+        g_register_tv_no_rek_error = findViewById(R.id.register_tv_no_rek_error);
+        g_register_no_hp_error = findViewById(R.id.register_tv_no_hp_error);
+        g_register_password_error = findViewById(R.id.register_tv_password_error);
+        g_register_confirm_error = findViewById(R.id.register_tv_confirm_error);
 
     }
 
@@ -118,6 +131,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 g_register_et_password.setHint("");
                 g_register_tv_password.setVisibility(View.VISIBLE);
                 break;
+            case R.id.register_et_confirm_password:
+                g_register_et_confirm_password.setHint("");
+                g_register_tv_confirm_password.setVisibility(View.VISIBLE);
+                break;
         }
         return false;
     }
@@ -138,43 +155,70 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private Boolean isInputValid(){
-        g_register_tv_error.setText("");
+        g_register_tv_bos_id_error.setText("");
+        g_register_tv_nama_error.setText("");
+        g_register_tv_no_rek_error.setText("");
+        g_register_no_hp_error.setText("");
+        g_register_password_error.setText("");
+        g_register_confirm_error.setText("");
         String l_bos_id = g_register_et_bos_id.getText().toString();
         String l_nama = g_register_et_nama.getText().toString();
         String l_no_rekening = g_register_et_no_rekening.getText().toString();
         String l_no_hp = g_register_et_no_hp.getText().toString();
         String l_password = g_register_et_password.getText().toString();
+        String l_confirm = g_register_et_confirm_password.getText().toString();
 
-        Boolean b_bos_id = false, b_nama = false, b_no_rekekning = false, b_no_hp = false, b_password = false;
+        Boolean b_bos_id = false, b_nama = false, b_no_rekekning = false, b_no_hp = false, b_password = false, b_confirm = false;
 
-        if (l_bos_id.isEmpty() || l_nama.isEmpty() || l_no_rekening.isEmpty() || l_no_hp.isEmpty() || l_password.isEmpty()){
-            g_register_tv_error.setText("\nSemua field harus diisi");
-            b_bos_id = false; b_nama = false; b_no_rekekning = false; b_no_hp = false; b_password = false;
-        }else {
-            b_bos_id = true; b_nama = true; b_no_rekekning = true; b_no_hp = true; b_password = true;
-
-        }
-        if (l_bos_id.length()<8){
-            g_register_tv_error.append("\nBOS ID minimal 8 karakter");
+        if (l_bos_id.isEmpty()){
+            g_register_tv_bos_id_error.setText("BOS ID harus diisi");
+            b_bos_id = false;
+        }else if (l_bos_id.length()<8){
+            g_register_tv_bos_id_error.setText("BOS ID minimal 8 karakter");
             b_bos_id = false;
         }else b_bos_id = true;
 
-        if (l_no_rekening.length()<10){
-            g_register_tv_error.append("\nNo rekening harus 10 digit angka");
+        if (l_nama.isEmpty()){
+            g_register_tv_nama_error.setText("Nama harus diisi");
+            b_nama = false;
+        }else b_nama = true;
+
+        if (l_no_rekening.isEmpty()){
+            g_register_tv_no_rek_error.setText("No rekening harus diisi");
+            b_no_rekekning = false;
+        }else if (l_no_rekening.length()<10){
+            g_register_tv_no_rek_error.setText("No rekening harus 10 digit angka");
             b_no_rekekning = false;
         }else b_no_rekekning = true;
 
-        if (l_no_hp.length()<9){
-            g_register_tv_error.append("\nNo HP minimal 10 digit angka");
+        if (l_no_hp.isEmpty()){
+            g_register_no_hp_error.setText("No HP harus diisi");
+            b_no_hp = false;
+        }else if (l_no_hp.length()<9){
+            g_register_no_hp_error.setText("No HP minimal 10 digit angka");
             b_no_hp = false;
         }else b_no_hp = true;
 
-        if (l_password.length()<6){
-            g_register_tv_error.append("\nPassword harus 6 digit angka");
+        if (l_password.isEmpty()){
+            g_register_password_error.setText("Password harus diisi");
+            b_password = false;
+        }else if (l_password.length()<6){
+            g_register_password_error.setText("Password harus 6 digit angka");
             b_password = false;
         }else b_password = true;
 
-        if (b_bos_id && b_nama && b_no_rekekning && b_no_hp && b_password){
+        if (l_confirm.isEmpty()){
+            g_register_confirm_error.setText("Konfirmasi Password harus diisi");
+            b_confirm = false;
+        } else if (l_confirm.length()<6){
+            g_register_confirm_error.setText("Konfirmasi Password harus 6 digit angka");
+            b_confirm = false;
+        }else if (!l_password.equals(l_confirm)){
+            g_register_confirm_error.setText("\nPassword tidak cocok");
+            b_confirm = false;
+        }else b_confirm = true;
+
+        if (b_bos_id && b_nama && b_no_rekekning && b_no_hp && b_password && b_confirm){
             return true;
         }else return false;
     }
@@ -200,6 +244,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void setError(String p_message){
+        g_register_tv_error.setVisibility(View.VISIBLE);
         g_register_tv_error.setText(p_message);
     }
 }
