@@ -474,7 +474,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
     public void refreshProduk(Product p_product){
         g_beranda_produk_popup_tv_harga.setText(Method.getIndoCurrency(p_product.getPrice()));
         g_beranda_produk_popup_tv_berat.setText(String.valueOf(p_product.getWeight())+ " gram");
-        g_beranda_produk_popup_tv_stok.setText(p_product.getStock());
+        g_beranda_produk_popup_tv_stok.setText(String.valueOf(p_product.getStock()));
     }
 
     public void refreshJumlahTransaksiSudahDIbayar(int tmp_jumlah_transaksi){
