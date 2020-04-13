@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -45,6 +46,7 @@ import com.example.bca_bos.keyboardadapters.StokProdukAdapter;
 import com.example.bca_bos.keyboardadapters.TemplatedTextAdapter;
 import com.example.bca_bos.models.locations.KotaKab;
 import com.example.bca_bos.models.products.Product;
+import com.example.bca_bos.networks.NetworkUtil;
 import com.example.bca_bos.networks.VolleyClass;
 
 import org.json.JSONException;
@@ -237,6 +239,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         //Inisialisasi
         g_instance = this;
         IS_INPUT_CONNECTION_EXTERNAL = true;
+        NetworkUtil.disableSSL();
 
         try{
             initiateMenu();
@@ -840,6 +843,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                     showFeatureMenu();
                 }
                 else{
+                    Log.d("BOSVOLLEY", "coba");
                     Intent tmpIntent = new Intent(this, StartActivity.class);
                     tmpIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(tmpIntent);

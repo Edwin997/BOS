@@ -1415,6 +1415,7 @@ public class VolleyClass {
                                 OnlineTransaksiFragment.g_instance.refreshLayout(p_type);
 
                             }else if (p_adapter instanceof MutasiRekeningAdapter){
+                                KeyboardBOSnew.g_instance.showLayoutMutasi(tempObject.size(), true);
                                 MutasiRekeningAdapter tmpAdapter = (MutasiRekeningAdapter) p_adapter;
                                 tmpAdapter.setListTransaksi(tempObject);
                             }
@@ -1427,6 +1428,9 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 if(p_adapter instanceof OnlineTransaksiAdapter) {
                     OnlineTransaksiFragment.g_instance.showLayout(0, false);
+                }
+                else if (p_adapter instanceof MutasiRekeningAdapter){
+                    KeyboardBOSnew.g_instance.showLayoutMutasi(0, false);
                 }
                 NetworkUtil.setErrorMessage(error);
             }
@@ -1459,6 +1463,7 @@ public class VolleyClass {
                                 tmpAdapter.setListTransaksi(tempObject);
                                 OfflineTransaksiFragment.g_instance.firstLoad();
                             }else if (p_adapter instanceof OfflineMutasiRekeningAdapter){
+                                KeyboardBOSnew.g_instance.showLayoutMutasi(tempObject.size(), true);
                                 OfflineMutasiRekeningAdapter tmpAdapter = (OfflineMutasiRekeningAdapter) p_adapter;
                                 tmpAdapter.setListTransaksi(tempObject);
                             }
@@ -1471,6 +1476,9 @@ public class VolleyClass {
             public void onErrorResponse(VolleyError error) {
                 if(p_adapter instanceof OfflineTransaksiAdapter){
                     OfflineTransaksiFragment.g_instance.showLayout(0, false);
+                }
+                else if (p_adapter instanceof OfflineMutasiRekeningAdapter){
+                    KeyboardBOSnew.g_instance.showLayoutMutasi(0, false);
                 }
                 NetworkUtil.setErrorMessage(error);
 

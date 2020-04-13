@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bca_bos.KeyboardBOSnew;
 import com.example.bca_bos.dummy.ListMutasiRekeningDummy;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
@@ -33,6 +34,7 @@ public class MutasiRekeningAdapter extends RecyclerView.Adapter<MutasiRekeningAd
     public final int KEY_STATUS_SUDAHDIKIRIM = 2;
     public final int KEY_STATUS_SELESAI = 3;
     public final int KEY_STATUS_SEMUA = 4;
+    public final int KEY_STATUS_BATAL = 5;
 
     public MutasiRekeningAdapter(){
         g_list_transaction_master = new ArrayList<>();
@@ -66,6 +68,7 @@ public class MutasiRekeningAdapter extends RecyclerView.Adapter<MutasiRekeningAd
 
     public void setListTransaksi(List<Transaction> p_list){
         g_list_transaction_master = p_list;
+        KeyboardBOSnew.g_instance.showLayoutMutasi(g_list_transaction_master.size(), true);
         notifyDataSetChanged();
     }
 
@@ -111,9 +114,14 @@ public class MutasiRekeningAdapter extends RecyclerView.Adapter<MutasiRekeningAd
                 l_mutasi_tv_status.setText("Pesanan Dibayar");
             }
             else if(l_transaction.getStatus() == KEY_STATUS_BARUMASUK){
-                l_mutasi_ll.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_red));
+                l_mutasi_ll.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_background_purple));
                 l_mutasi_tv_status.setText("Pesanan Baru");
-            } else {
+            }
+            else if(l_transaction.getStatus() == KEY_STATUS_BATAL){
+                l_mutasi_ll.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_red));
+                l_mutasi_tv_status.setText("Pesanan Dibatalkan");
+            }
+            else {
                 l_mutasi_ll.setBackground(g_context.getResources().getDrawable(R.drawable.style_gradient_color_rounded_box_black));
                 l_mutasi_tv_status.setText("NULL");
             }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bca_bos.KeyboardBOSnew;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
 import com.example.bca_bos.interfaces.OnCallBackListener;
@@ -58,6 +59,7 @@ public class OfflineMutasiRekeningAdapter extends RecyclerView.Adapter<OfflineMu
 
     public void setListTransaksi(List<Transaction> p_list){
         g_list_transaction_master = p_list;
+        KeyboardBOSnew.g_instance.showLayoutMutasi(g_list_transaction_master.size(), true);
         notifyDataSetChanged();
     }
 
@@ -78,9 +80,13 @@ public class OfflineMutasiRekeningAdapter extends RecyclerView.Adapter<OfflineMu
 
             l_mutasi_ll = itemView.findViewById(R.id.bcabos_mutasi_liniear_layout);
             l_mutasi_tv_pembeli = itemView.findViewById(R.id.bcabos_mutasi_pembeli_text);
+            l_mutasi_tv_pembeli.setTextColor(g_context.getResources().getColor(R.color.black));
             l_mutasi_tv_tanggal = itemView.findViewById(R.id.bcabos_mutasi_tanggal_text);
+            l_mutasi_tv_tanggal.setTextColor(g_context.getResources().getColor(R.color.black));
             l_mutasi_tv_nominal = itemView.findViewById(R.id.bcabos_mutasi_nominal_text);
+            l_mutasi_tv_nominal.setTextColor(g_context.getResources().getColor(R.color.black));
             l_mutasi_tv_status = itemView.findViewById(R.id.bcabos_mutasi_status_text);
+            l_mutasi_tv_status.setTextColor(g_context.getResources().getColor(R.color.black));
 
         }
 
@@ -91,7 +97,7 @@ public class OfflineMutasiRekeningAdapter extends RecyclerView.Adapter<OfflineMu
             l_mutasi_tv_tanggal.setText(l_transaction.getOrder_time());
             l_mutasi_tv_nominal.setText(Method.getIndoCurrency(Double.parseDouble(l_transaction.getTotal_payment())));
             l_mutasi_tv_status.setVisibility(View.GONE);
-            l_mutasi_ll.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_blue));
+            l_mutasi_ll.setBackground(g_context.getResources().getDrawable(R.drawable.style_transaction_gradient_white));
 
         }
     }
