@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -73,7 +75,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
     public static List<String> g_city_name_list = new ArrayList<>();
     public List<KotaKab> g_city_list;
     private String g_asal_id_city;
-    private RoundedImageView g_bottomsheet_iv_profile;
+    private ImageView g_bottomsheet_iv_profile;
     private ChooseImageFromDialog g_choose_dialog;
     private Bitmap g_bmp_bottom_sheet_edit_profile;
     private Uri pathh;
@@ -148,6 +150,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                 buttonSheetEditProfile();
                 break;
             case R.id.profile_change_password_button:
+                g_bottomsheet_dialog_change_password = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
                 View l_bottomsheet_view_change_password = LayoutInflater.from(g_context).inflate(
                         R.layout.layout_bottom_sheet_change_password,
                         (LinearLayout)g_view.findViewById(R.id.layout_apps_bottom_sheet_container_change_password)
@@ -183,12 +186,17 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                 configChooseCourierButton(p_view, IS_CHOOSE_POS);
                 break;
             case R.id.apps_bottom_sheet_btn_simpan_profil:
+                if(g_bmp_bottom_sheet_edit_profile == null){
+                    g_bmp_bottom_sheet_edit_profile = ((BitmapDrawable)g_bottomsheet_iv_profile.getDrawable()).getBitmap();
+                }
+
+
                 Seller tmp_seller = new Seller();
                 KotaKab tmp_kotakab = new KotaKab();
 
                 tmp_seller.setId_seller(g_seller_id);
                 tmp_seller.setShop_name(g_bottomsheet_et_nama_toko.getText().toString());
-                tmp_seller.setBase64StringImage("");
+                tmp_seller.setBase64StringImage(imageToString(g_bmp_bottom_sheet_edit_profile));
 
                 List<Courier> listCourier = new ArrayList<>();
                 Courier tmp_courier1 = new Courier();
@@ -209,16 +217,14 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                 tmp_seller.setSelected_courier(listCourier);
 
                 if (isEditProfileValid()){
-
                     //get city id
-
                     getAsalCityId(g_bottomsheet_actv_kota_asal);
                     tmp_kotakab.setId_kota_kab(Integer.parseInt(g_asal_id_city));
-                    tmp_seller.setKota_kab(tmp_kotakab);
-                    tmp_seller.setBase64StringImage(imageToString(g_bmp_bottom_sheet_edit_profile));
+                    tmp_seller.setKota_kab(tmp_kotakab);;
 
                     try {
                         VolleyClass.updateProfile(g_context, tmp_seller);
+                        g_bmp_bottom_sheet_edit_profile = null;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -461,6 +467,13 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
     }
 
     public void refreshLayout(Seller p_seller){
+        if(p_seller.getBase64StringImage().isEmpty()){
+            g_profile_image.setImageResource(R.drawable.ic_bos_mascot);
+        }
+        else
+        {
+            g_profile_image.setImageBitmap(Method.convertToBitmap(p_seller.getBase64StringImage()));
+        }
         g_profile_image.setImageBitmap(Method.convertToBitmap(p_seller.getBase64StringImage()));
         g_profile_nama_seller.setText(p_seller.getName());
         g_profile_nama_toko.setText(p_seller.getShop_name());

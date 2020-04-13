@@ -253,6 +253,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
     //region BOTTOM SHEET METHOD
     private void showBottomSheetEditTemplatedText(final TemplatedText p_template){
         //inisiasi view
+        g_bottomsheet_dialog_edit = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         View l_bottomsheet_view_edit = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_edit_template,
                 (LinearLayout)g_view.findViewById(R.id.layout_apps_bottom_sheet_container_edit)
@@ -293,6 +294,7 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
 
     private void showBottomSheetAddTemplatedText(){
         //inisiasi view
+        g_bottomsheet_dialog_add = new BottomSheetDialog(g_context, R.style.BottomSheetDialogTheme);
         View l_bottomsheet_view_add = LayoutInflater.from(g_context).inflate(
                 R.layout.layout_bottom_sheet_add_template,
                 (LinearLayout)g_view.findViewById(R.id.layout_apps_bottom_sheet_container_add)

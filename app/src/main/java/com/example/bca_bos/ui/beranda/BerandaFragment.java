@@ -265,6 +265,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         }
     }
 
+    //region show Bottom Sheet and Dialog
     public void showProdukPopUp(Product p_product){
         g_beranda_produk_popup.setContentView(R.layout.layout_popup_beranda_produk);
 
@@ -276,7 +277,10 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         VolleyClass.getProdukDetail(g_context, tmp_id_product);
 
         g_beranda_produk_popup_gambar = g_beranda_produk_popup.findViewById(R.id.iv_popup_beranda_produk_item);
-//        g_beranda_produk_popup_gambar.setImageDrawable(getResources().getDrawable(p_product.getGambar()));
+        if(p_product.getBase64StringImage().isEmpty())
+            g_beranda_produk_popup_gambar.setImageResource(R.drawable.ic_bos_mascot);
+        else
+            g_beranda_produk_popup_gambar.setImageBitmap(Method.convertToBitmap(p_product.getBase64StringImage()));
 
         //Text View
         g_beranda_produk_popup_tv_nama = g_beranda_produk_popup.findViewById(R.id.tv_popup_beranda_produk_nama_item);
@@ -391,7 +395,9 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_pembeli_list_popup.show();
 
     }
+    //endregion
 
+    //region show/hide layout when not found
     private void changeLayoutValueProduk(int p_count){
         if(p_count > 0){
             g_beranda_produk_fragment_recyclerview.setVisibility(View.VISIBLE);
@@ -453,6 +459,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
             g_buyer_beranda_fragment_not_found.setVisibility(View.VISIBLE);
         }
     }
+    //endregion
 
     public void refreshNamaToko(Seller p_seller){
         g_beranda_tv_nama_toko.setText(p_seller.getShop_name());
@@ -478,5 +485,4 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         }
 
     }
-
 }
