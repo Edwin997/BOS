@@ -277,8 +277,8 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         VolleyClass.getProdukDetail(g_context, tmp_id_product);
 
         g_beranda_produk_popup_gambar = g_beranda_produk_popup.findViewById(R.id.iv_popup_beranda_produk_item);
-        if(p_product.getBase64StringImage().isEmpty())
-            g_beranda_produk_popup_gambar.setImageResource(R.drawable.ic_bos_mascot);
+        if(p_product.getBase64StringImage() == null || p_product.getBase64StringImage().isEmpty())
+            g_beranda_produk_popup_gambar.setImageResource(R.drawable.ic_bos_mascot_default_product);
         else
             g_beranda_produk_popup_gambar.setImageBitmap(Method.convertToBitmap(p_product.getBase64StringImage()));
 

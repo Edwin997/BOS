@@ -275,7 +275,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
             case R.id.apps_bottom_sheet_btn_tambah_add_produk:
                 if(g_bmp_bottom_sheet_produk_add == null){
                     g_bmp_bottom_sheet_produk_add = BitmapFactory.decodeResource(getResources(),
-                            R.drawable.ic_bos_mascot);
+                            R.drawable.ic_bos_mascot_default_product);
                 }
                 if(g_product_category_add != null){
                     g_tv_error_produk_spinner_add.setText("");
@@ -565,7 +565,7 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
         //config imageview
         if(p_product.getBase64StringImage().isEmpty()){
-            g_iv_bottom_sheet_produk_edit_gambar.setImageResource(R.drawable.ic_bos_mascot);
+            g_iv_bottom_sheet_produk_edit_gambar.setImageResource(R.drawable.ic_bos_mascot_default_product);
         }
         else
         {

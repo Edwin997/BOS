@@ -53,10 +53,6 @@ public class BerandaTawarkanProdukAdapter extends RecyclerView.Adapter<BerandaTa
         return g_list_product.size();
     }
 
-    public List<Product> getListProductFavorit(){
-        return g_list_product;
-    }
-
     public void setDatasetProduk(List<Product> p_list){
         g_list_product = p_list;
         notifyDataSetChanged();
@@ -64,6 +60,10 @@ public class BerandaTawarkanProdukAdapter extends RecyclerView.Adapter<BerandaTa
 
     public void setParentOnCallBack(OnCallBackListener p_oncallback){
         this.g_parent_oncallbacklistener = p_oncallback;
+    }
+
+    public List<Product> getListProductFavorit(){
+        return g_list_product;
     }
 
     @Override
@@ -98,7 +98,10 @@ public class BerandaTawarkanProdukAdapter extends RecyclerView.Adapter<BerandaTa
 
         public void setData(Product product){
             l_product = product;
-//            l_iv_beranda_produk.setImageResource(product.getImage_path());
+            if(l_product.getBase64StringImage() == null || l_product.getBase64StringImage().isEmpty())
+                l_iv_beranda_tawarkan_produk.setImageResource(R.drawable.ic_bos_mascot_default_product);
+            else
+                l_iv_beranda_tawarkan_produk.setImageBitmap(Method.convertToBitmap(product.getBase64StringImage()));
             l_tv_beranda_tawarkan_produk_nama.setText(product.getProduct_name());
             l_tv_beranda_tawarkan_produk_harga.setText(Method.getIndoCurrency(product.getPrice()));
             l_tv_beranda_tawarkan_produk_stok.setText("Stok : " + product.getStock());

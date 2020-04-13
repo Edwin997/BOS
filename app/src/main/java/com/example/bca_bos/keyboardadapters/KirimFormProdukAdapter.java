@@ -140,7 +140,7 @@ public class KirimFormProdukAdapter extends RecyclerView.Adapter<KirimFormProduk
             l_product = product;
 
             if(product.getBase64StringImage().isEmpty())
-                iv_kirimformproduk.setImageResource(R.drawable.ic_bos_mascot);
+                iv_kirimformproduk.setImageResource(R.drawable.ic_bos_mascot_default_product);
             else
                 iv_kirimformproduk.setImageBitmap(Method.convertToBitmap(l_product.getBase64StringImage()));
 

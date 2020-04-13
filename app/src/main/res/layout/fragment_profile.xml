@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             app:riv_corner_radius="48dp"
             android:foreground="@drawable/style_border_profile"
-            android:src="@drawable/ic_bos_mascot"
+            android:src="@drawable/ic_bos_mascot_default_profile"
             android:scaleType="fitCenter"
             android:translationZ="3dp"
             />

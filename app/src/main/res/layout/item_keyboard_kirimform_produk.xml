@@ -21,7 +21,7 @@
             android:layout_gravity="center"
             android:scaleType="fitCenter"
             android:background="@color/white"
-            android:src="@drawable/ic_bos_mascot"/>
+            android:src="@drawable/ic_bos_mascot_default_product"/>
 
         <TextView
             android:id="@+id/et_kirimform_produk_item_nama"

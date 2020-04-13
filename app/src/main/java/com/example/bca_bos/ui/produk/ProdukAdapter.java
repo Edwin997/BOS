@@ -150,7 +150,7 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ProdukView
             l_product = product;
             if(l_product.getBase64StringImage().equals(""))
             {
-                iv_produk.setImageResource(R.drawable.ic_bos_mascot);
+                iv_produk.setImageResource(R.drawable.ic_bos_mascot_default_product);
             }
             else {
                 iv_produk.setImageBitmap(Method.convertToBitmap(l_product.getBase64StringImage()));

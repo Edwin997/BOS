@@ -125,28 +125,28 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/apps_bottom_sheet_btn_simpan_edit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/style_gradient_color_rounded_box_new_green"
-            android:layout_marginEnd="5dp"
-            android:text="Simpan"
-            android:textColor="@color/white"
-            android:textStyle="bold"/>
-
-        <Button
             android:id="@+id/apps_bottom_sheet_btn_hapus_edit"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:layout_marginStart="5dp"
             android:background="@drawable/style_gradient_color_rounded_box_new_red"
             android:text="Hapus"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/apps_bottom_sheet_btn_simpan_edit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/style_gradient_color_rounded_box_new_green"
+            android:layout_marginEnd="5dp"
+            android:text="Simpan"
             android:textColor="@color/white"
             android:textStyle="bold"/>
 

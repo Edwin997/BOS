@@ -312,28 +312,28 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/apps_bottom_sheet_btn_batal_add_produk"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/style_gradient_color_rounded_box_new_red"
+            android:text="Batal"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+        <Button
             android:id="@+id/apps_bottom_sheet_btn_tambah_add_produk"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
+            android:layout_marginStart="5dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/style_gradient_color_rounded_box_new_green"
             android:layout_marginEnd="5dp"
             android:text="Tambah"
-            android:textColor="@color/white"
-            android:textStyle="bold"/>
-
-        <Button
-            android:id="@+id/apps_bottom_sheet_btn_batal_add_produk"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/style_gradient_color_rounded_box_new_red"
-            android:text="Batal"
             android:textColor="@color/white"
             android:textStyle="bold"/>
 

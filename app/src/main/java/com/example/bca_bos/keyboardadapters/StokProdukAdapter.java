@@ -133,7 +133,7 @@ public class StokProdukAdapter extends RecyclerView.Adapter<StokProdukAdapter.St
         public void setData(Product product){
             l_product = product;
             if(product.getBase64StringImage().isEmpty())
-                iv_stokproduk.setImageResource(R.drawable.ic_bos_mascot);
+                iv_stokproduk.setImageResource(R.drawable.ic_bos_mascot_default_product);
             else
                 iv_stokproduk.setImageBitmap(Method.convertToBitmap(l_product.getBase64StringImage()));
 

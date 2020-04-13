@@ -34,7 +34,7 @@
         android:padding="1dp"
         android:background="@drawable/style_border_tambah_gambar"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_bos_mascot"/>
+        android:src="@drawable/ic_bos_mascot_default_profile"/>
 
     <TextView
         android:id="@+id/apps_bottom_sheet_tv_nama_edit_profile"
