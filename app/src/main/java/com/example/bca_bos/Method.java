@@ -57,6 +57,12 @@ public class Method {
         return "";
     }
 
+    public static String formatDatePicker(Date p_date){
+        SimpleDateFormat tmpFormatStringToDate = new SimpleDateFormat("dd MMMM yyyy", tmpLocale);
+        return tmpFormatStringToDate.format(p_date);
+    }
+
+
     public static Bitmap convertToBitmap(String p_string){
         byte[] decodedString = Base64.decode(p_string, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);

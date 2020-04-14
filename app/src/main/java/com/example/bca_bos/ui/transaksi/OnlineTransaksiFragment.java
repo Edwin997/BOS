@@ -1,5 +1,6 @@
 package com.example.bca_bos.ui.transaksi;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,6 +44,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -57,6 +60,12 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
 
     private TextView g_tv_not_found_judul;
     private LottieAnimationView g_iv_not_found_animation;
+
+    //DateTimePicker
+    private Calendar g_calendar_awal, g_calendar_akhir;
+    private DatePickerDialog.OnDateSetListener g_datepicker_listener_awal, g_datepicker_listener_akhir;
+    private EditText txt_tanggal_awal, txt_tanggal_akhir;
+    private Button btn_filter_tanggal;
 
     //Tombol tab status transaksi
     private Button g_btn_tab_semua, g_btn_tab_pesanan_baru, g_btn_tab_pesanan_dibayar,
@@ -161,6 +170,51 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         g_btn_tab_semua.setOnClickListener(this);
         g_btn_tab_batal.setOnClickListener(this);
 
+        //inisiasi tanggal
+        txt_tanggal_awal = g_view.findViewById(R.id.apps_transaksi_et_tanggal_awal);
+        txt_tanggal_akhir = g_view.findViewById(R.id.apps_transaksi_et_tanggal_akhir);
+        btn_filter_tanggal = g_view.findViewById(R.id.apps_transaksi_btn_cari_tanggal);
+
+        g_calendar_awal = Calendar.getInstance();
+        g_datepicker_listener_awal = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                g_calendar_awal.set(Calendar.YEAR, year);
+                g_calendar_awal.set(Calendar.MONTH, month);
+                g_calendar_awal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel(txt_tanggal_awal, g_calendar_awal);
+            }
+        };
+
+        g_calendar_akhir = Calendar.getInstance();
+        g_datepicker_listener_akhir = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                g_calendar_akhir.set(Calendar.YEAR, year);
+                g_calendar_akhir.set(Calendar.MONTH, month);
+                g_calendar_akhir.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel(txt_tanggal_akhir, g_calendar_akhir);
+            }
+        };
+
+        txt_tanggal_awal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(g_context, g_datepicker_listener_awal, g_calendar_awal
+                        .get(Calendar.YEAR), g_calendar_awal.get(Calendar.MONTH),
+                        g_calendar_awal.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        txt_tanggal_akhir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(g_context, g_datepicker_listener_akhir, g_calendar_akhir
+                        .get(Calendar.YEAR), g_calendar_akhir.get(Calendar.MONTH),
+                        g_calendar_akhir.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
         if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIBAYAR) {
             VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_SUDAHDIBAYAR, g_transaksiadapter);
         }
@@ -177,6 +231,10 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         });
 
         return g_view;
+    }
+
+    private void updateLabel(EditText p_edittext, Calendar p_calendar) {
+        p_edittext.setText(Method.formatDatePicker(p_calendar.getTime()));
     }
 
     public void refreshLayout(int p_type){
