@@ -26,8 +26,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.bca_bos.CustomDialogBoxWarning;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.R;
+import com.example.bca_bos.dummy.ListTemplatedTextDummy;
 import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.Seller;
 import com.example.bca_bos.models.TemplatedText;
@@ -210,8 +212,22 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
 
                 break;
             case R.id.apps_bottom_sheet_btn_hapus_edit:
-                VolleyClass.deleteTemplatedText(g_context, g_template_onclick.getId_template_text(), g_templateadapter);
-                g_bottomsheet_dialog_edit.dismiss();
+                CustomDialogBoxWarning.showWarning(g_context,
+                        "Apakah anda yakin ingin menghapus \nTemplate Text : " + g_template_onclick.getTemplate_code() +" ?",
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                VolleyClass.deleteTemplatedText(g_context, g_template_onclick.getId_template_text(), g_templateadapter);
+                                g_bottomsheet_dialog_edit.dismiss();
+                            }
+                        },
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                CustomDialogBoxWarning.dismissWarning();
+                            }
+                        });
+
                 break;
             //endregion
         }
@@ -226,8 +242,8 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
     }
 
     public void refreshData(){
-//        g_templateadapter.setListTemplate(ListTemplatedTextDummy.templatedTextList);
-        VolleyClass.getTemplatedTextByName(g_context, g_seller_id, Method.ASC, g_templateadapter);
+        g_templateadapter.setListTemplate(ListTemplatedTextDummy.templatedTextList);
+//        VolleyClass.getTemplatedTextByName(g_context, g_seller_id, Method.ASC, g_templateadapter);
     }
 
     private void changeLayoutValue(int p_count){
@@ -290,9 +306,9 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
         g_list_edittext_edit.add(g_et_edit_templated_label_edit);
         g_list_edittext_edit.add(g_et_edit_templated_deskripsi_edit);
 
-        g_list_textview_add = new ArrayList<>();
-        g_list_textview_add.add(g_tv_error_templated_label_add);
-        g_list_textview_add.add(g_tv_error_templated_deskripsi_add);
+        g_list_textview_edit = new ArrayList<>();
+        g_list_textview_edit.add(g_tv_error_templated_label_edit);
+        g_list_textview_edit.add(g_tv_error_templated_deskripsi_edit);
 
         //config button
         g_btn_templated_simpan_edit.setOnClickListener(this);

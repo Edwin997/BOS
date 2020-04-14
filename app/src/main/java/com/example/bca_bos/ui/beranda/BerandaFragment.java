@@ -22,6 +22,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.bca_bos.Method;
@@ -45,6 +46,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
     //Profile
     private TextView g_beranda_tv_nama_toko, g_beranda_tv_nominal_jumlah_transaksi, g_beranda_tv_jumlah_transaksi;
     public static BerandaFragment g_instance;
+    private SwipeRefreshLayout g_beranda_fragment_refresh;
 
     //Produk dan Pembeli RecyclerView
     private RecyclerView g_beranda_produk_fragment_recyclerview, g_beranda_pembeli_fragment_recyclerview;
@@ -128,6 +130,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_beranda_tv_nama_toko = g_view.findViewById(R.id.apps_beranda_nama_toko_text_view);
         g_beranda_tv_nominal_jumlah_transaksi = g_view.findViewById(R.id.apps_beranda_nominal_jumlah_transaksi_text_view);
         g_beranda_tv_jumlah_transaksi = g_view.findViewById(R.id.apps_beranda_jumlah_transaksi_text_view);
+        g_beranda_fragment_refresh = g_view.findViewById(R.id.apps_beranda_fragment_refresh);
 
         //TRANSAKSI
         g_beranda_pesanan_belum_dikirim_button = g_view.findViewById(R.id.beranda_btn_pesanan_belum_dikirim);
@@ -176,6 +179,18 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_iv_buyer_not_found_animation = g_view.findViewById(R.id.apps_pembeli_setia_iv_not_found_animation);
 
         showLayoutPembeli(0, false);
+
+        g_beranda_fragment_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                VolleyClass.getProfileForBeranda(g_context, g_seller_id);
+                VolleyClass.getJumlahTransaksiBulanIni(g_context, g_seller_id);
+                VolleyClass.getJumlahTransaksiSudahDIbayar(g_context, g_seller_id);
+                VolleyClass.getProdukTerlaris(g_context, g_seller_id, g_beranda_produk_adapter);
+                VolleyClass.getPembeliSetia(g_context, g_seller_id, g_beranda_pembeli_adapter);
+                g_beranda_fragment_refresh.setRefreshing(false);
+            }
+        });
 
         return g_view;
     }
@@ -473,8 +488,11 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
 
     public void refreshProduk(Product p_product){
         g_beranda_produk_popup_tv_harga.setText(Method.getIndoCurrency(p_product.getPrice()));
+        g_product_onclick.setPrice(p_product.getPrice());
         g_beranda_produk_popup_tv_berat.setText(String.valueOf(p_product.getWeight())+ " gram");
+        g_product_onclick.setWeight(p_product.getWeight());
         g_beranda_produk_popup_tv_stok.setText(String.valueOf(p_product.getStock()));
+        g_product_onclick.setStock(p_product.getStock());
     }
 
     public void refreshJumlahTransaksiSudahDIbayar(int tmp_jumlah_transaksi){

@@ -303,26 +303,6 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                         tmpProduct.setImage_path(imageToString(g_bmp_bottom_sheet_produk_add));
                         tmpProduct.setPrdCategory(g_product_category_add);
                         tmpProduct.setSeller(seller);
-
-                        CustomDialogBoxWarning.showWarning(g_context,
-                                "Apakah anda yakin dengan data yang telah anda inputkan?",
-                                new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        VolleyClass.insertProduct(g_context, tmpProduct, g_produkadapter);
-                                        g_bmp_bottom_sheet_produk_add = null;
-
-                                        g_bottomsheet_dialog_add.dismiss();
-                                        CustomDialogBoxWarning.dismissWarning();
-                                    }
-                                },
-                                new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        CustomDialogBoxWarning.dismissWarning();
-                                    }
-                                });
-
                     }
                 }
                     else {
@@ -423,8 +403,21 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
 
                 break;
             case R.id.apps_bottom_sheet_btn_hapus_edit_produk:
-                g_bottomsheet_dialog_edit.dismiss();
-                VolleyClass.deleteProduct(g_context, g_product_onclick.getId_product(), g_produkadapter);
+                CustomDialogBoxWarning.showWarning(g_context,
+                        "Apakah anda yakin ingin menghapus \nProduk : " + g_product_onclick.getProduct_name() +" ?",
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                g_bottomsheet_dialog_edit.dismiss();
+                                VolleyClass.deleteProduct(g_context, g_product_onclick.getId_product(), g_produkadapter);
+                            }
+                        },
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                CustomDialogBoxWarning.dismissWarning();
+                            }
+                        });
                 break;
             case R.id.apps_bottom_sheet_btn_add_berat_edit_produk:
                 if(g_tv_bottom_sheet_produk_edit_berat.getText().toString().isEmpty()){
