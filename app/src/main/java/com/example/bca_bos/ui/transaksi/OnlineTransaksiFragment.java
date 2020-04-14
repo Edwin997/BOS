@@ -25,6 +25,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.bca_bos.Method;
@@ -51,6 +52,7 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
     private View g_view;
     public static OnlineTransaksiFragment g_instance;
     private TransaksiFragment g_parent;
+    private SwipeRefreshLayout g_transaksi_fragment_refresh;
     private ConstraintLayout g_transaksi_fragment_not_found;
 
     private TextView g_tv_not_found_judul;
@@ -116,6 +118,8 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         g_view = inflater.inflate(R.layout.fragment_online_transaction, container, false);
         g_instance = this;
 
+        g_transaksi_fragment_refresh = g_view.findViewById(R.id.apps_online_transaksi_fragment_refresh);
+
         g_transaksi_fragment_not_found = g_view.findViewById(R.id.apps_online_transaksi_fragment_not_found);
         g_tv_not_found_judul  = g_view.findViewById(R.id.apps_tv_not_found_judul);
         g_iv_not_found_animation = g_view.findViewById(R.id.apps_iv_not_found_animation);
@@ -163,6 +167,14 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         else {
             VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_SEMUA, g_transaksiadapter);
         }
+
+        g_transaksi_fragment_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                VolleyClass.getTransaksi(g_context, g_seller_id, FLAG_FRAGMENT_TYPE, g_transaksiadapter);
+                g_transaksi_fragment_refresh.setRefreshing(false);
+            }
+        });
 
         return g_view;
     }
