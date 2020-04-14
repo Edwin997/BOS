@@ -46,12 +46,46 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         g_register_btn = findViewById(R.id.register_register_button);
         g_register_btn.setOnClickListener(this);
 
+        //bos id
         g_register_et_bos_id = findViewById(R.id.register_et_bos_id);
         g_register_et_bos_id.setOnTouchListener(this);
+        g_register_et_bos_id.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus && g_register_et_bos_id.getText().toString().isEmpty()){
+                    g_register_tv_bos_id.setVisibility(View.INVISIBLE);
+                    g_register_et_bos_id.setHint("BOS ID*");
+                }
+            }
+        });
+
+        //nama lengkap
         g_register_et_nama = findViewById(R.id.register_et_nama);
         g_register_et_nama.setOnTouchListener(this);
+        g_register_et_nama.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus && g_register_et_nama.getText().toString().isEmpty()) {
+                    g_register_tv_nama.setVisibility(View.INVISIBLE);
+                    g_register_et_nama.setHint("Nama Lengkap*");
+                }
+            }
+        });
+
+        //no. rekening
         g_register_et_no_rekening = findViewById(R.id.register_et_no_kartu);
         g_register_et_no_rekening.setOnTouchListener(this);
+        g_register_et_no_rekening.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus && g_register_et_no_rekening.getText().toString().isEmpty()) {
+                    g_register_tv_no_rekening.setVisibility(View.INVISIBLE);
+                    g_register_et_no_rekening.setHint("Nomor Rekening*");
+                }
+            }
+        });
+
+        //no. hp
         g_register_et_no_hp = findViewById(R.id.register_et_no_hp);
         g_register_et_no_hp.setOnTouchListener(this);
         g_register_et_no_hp.addTextChangedListener(new TextWatcher() {
@@ -72,11 +106,44 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 }
             }
         });
+        g_register_et_no_hp.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus && g_register_et_no_hp.getText().toString().isEmpty()) {
+                    g_register_tv_no_hp.setVisibility(View.INVISIBLE);
+                    g_register_et_no_hp.setHint("Nomor HP*");
+                }
+            }
+        });
+
+
+        //password
         g_register_et_password = findViewById(R.id.register_et_password);
         g_register_et_password.setOnTouchListener(this);
+        g_register_et_password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus && g_register_et_password.getText().toString().isEmpty()) {
+                    g_register_tv_password.setVisibility(View.INVISIBLE);
+                    g_register_et_password.setHint("Password*");
+                }
+            }
+        });
+
+        //konfirmasi password
         g_register_et_confirm_password = findViewById(R.id.register_et_confirm_password);
         g_register_et_confirm_password.setOnTouchListener(this);
+        g_register_et_confirm_password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus && g_register_et_confirm_password.getText().toString().isEmpty()) {
+                    g_register_tv_confirm_password.setVisibility(View.INVISIBLE);
+                    g_register_et_confirm_password.setHint("Password*");
+                }
+            }
+        });
 
+        //Text View
         g_register_tv_bos_id = findViewById(R.id.register_tv_bos_id);
         g_register_tv_nama = findViewById(R.id.register_tv_nama);
         g_register_tv_no_rekening = findViewById(R.id.register_tv_no_rekening);
@@ -114,26 +181,32 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             case R.id.register_et_bos_id:
                 g_register_et_bos_id.setHint("");
                 g_register_tv_bos_id.setVisibility(View.VISIBLE);
+                g_register_tv_bos_id_error.setText("");
                 break;
             case R.id.register_et_nama:
                 g_register_et_nama.setHint("");
                 g_register_tv_nama.setVisibility(View.VISIBLE);
+                g_register_tv_nama_error.setText("");
                 break;
             case R.id.register_et_no_kartu:
                 g_register_et_no_rekening.setHint("");
                 g_register_tv_no_rekening.setVisibility(View.VISIBLE);
+                g_register_tv_no_rek_error.setText("");
                 break;
             case R.id.register_et_no_hp:
                 g_register_et_no_hp.setHint("");
                 g_register_tv_no_hp.setVisibility(View.VISIBLE);
+                g_register_no_hp_error.setText("");
                 break;
             case R.id.register_et_password:
                 g_register_et_password.setHint("");
                 g_register_tv_password.setVisibility(View.VISIBLE);
+                g_register_password_error.setText("");
                 break;
             case R.id.register_et_confirm_password:
                 g_register_et_confirm_password.setHint("");
                 g_register_tv_confirm_password.setVisibility(View.VISIBLE);
+                g_register_confirm_error.setText("");
                 break;
         }
         return false;
@@ -238,7 +311,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void moveToOTPActivity(String p_bos_id, String p_no_hp){
         Intent tmp_register_intent = new Intent(RegisterActivity.this, OTPActivity.class);
         tmp_register_intent.putExtra(BOS_ID, p_bos_id);
-        tmp_register_intent.putExtra("no_hp", p_no_hp);
+        tmp_register_intent.putExtra("NO_HP", p_no_hp);
         startActivity(tmp_register_intent);
         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
     }

@@ -153,6 +153,8 @@
                 android:id="@+id/et_apps_bottom_sheet_transaksi_pesanandibayar_resi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:background="@android:color/transparent"
                 android:padding="10dp"
                 android:maxLines="1"

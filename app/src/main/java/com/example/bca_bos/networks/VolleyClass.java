@@ -1682,7 +1682,7 @@ public class VolleyClass {
                         }else if (errorCode.equals(ERROR_CODE_AKUN_BELUM_TERVERIFIKASI)){
                             Seller tempObject = gson.fromJson(output, Seller.class);
                             tmp_seller_id = tempObject.getId_seller();
-                            LoginActivity.g_instance.getProfile(p_bos_id, tmp_seller_id);
+                            LoginActivity.g_instance.getProfile(tmp_seller_id);
                         }else{
                             LoginActivity.g_instance.setError(message);
                         }
@@ -1751,7 +1751,7 @@ public class VolleyClass {
                         String message = NetworkUtil.getErrorMessage(response.toString());
 
                         if(errorCode.equals(ERROR_CODE_BERHASIL)){
-                            LoginActivity.g_instance.moveToOTPActivity(p_bos_id);
+                            LoginActivity.g_instance.moveToOTPActivity(p_bos_id, p_no_hp);
                         }else{
                             LoginActivity.g_instance.setError(message);
                         }
@@ -1942,7 +1942,7 @@ public class VolleyClass {
                         output_id_seller = tmpObject.substring(11);
 
                         if(errorCode.equals(ERROR_CODE_BERHASIL)){
-                            OTPActivity.g_instance.registerIntent(Integer.parseInt(output_id_seller), p_bos_id);
+                            OTPActivity.g_instance.moveToFillDataActivity(Integer.parseInt(output_id_seller), p_bos_id);
                         }else {
                             OTPActivity.g_instance.setError(message);
                         }

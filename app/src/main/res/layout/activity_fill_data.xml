@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Nama Toko"
+            android:text="Nama Toko*"
             android:textColor="@color/dark_blue"
             android:layout_marginTop="8dp"
             android:textSize="10dp"
@@ -50,7 +50,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:background="@android:color/transparent"
-                android:hint="Nama Toko"
+                android:hint="Nama Toko*"
                 android:imeOptions="actionNext"
                 android:singleLine="true"
                 android:textAlignment="center"
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Kota"
+            android:text="Kota*"
             android:textColor="@color/dark_blue"
             android:layout_marginTop="8dp"
             android:textSize="10dp"
@@ -92,7 +92,7 @@
                 android:textAlignment="center"
                 android:textColorHint="@color/grey"
                 android:dropDownHeight="150dp"
-                android:hint="Kota" />
+                android:hint="Kota*" />
 
 
         </androidx.cardview.widget.CardView>

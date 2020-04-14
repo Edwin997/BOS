@@ -130,7 +130,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                 g_counter--;
             }
             public  void onFinish(){
-                g_otp_tv_error.setText("SMS OTP belum masuk?");
+                g_otp_tv_error.setText("SMS OTP belum masuk? ("+ g_no_hp+")");
                 g_otp_ll_kirim_ulang_otp.setVisibility(View.VISIBLE);
             }
         }.start();
@@ -303,7 +303,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         return p_str;
     }
 
-    public void registerIntent(int p_seller_id, String p_bos_id){
+    public void moveToFillDataActivity(int p_seller_id, String p_bos_id){
         Intent tmp_register_intent = new Intent(OTPActivity.this, FillDataActivity.class);
         saveStringSharedPreference(BOS_ID, p_bos_id);
         saveIntegerSharedPreference(SELLER_ID, p_seller_id);

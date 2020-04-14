@@ -86,9 +86,27 @@ public class FillDataActivity extends AppCompatActivity implements View.OnClickL
         //Edit Text
         g_filldata_et_nama_toko = findViewById(R.id.filldata_et_nama_toko);
         g_filldata_et_nama_toko.setOnTouchListener(this);
+        g_filldata_et_nama_toko.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus && g_filldata_et_nama_toko.getText().toString().isEmpty()){
+                    g_filldata_tv_nama_toko.setVisibility(View.INVISIBLE);
+                    g_filldata_et_nama_toko.setHint("Nama Toko*");
+                }
+            }
+        });
+
         g_filldata_actv_kota = findViewById(R.id.filldata_actv_kota);
-//        g_filldata_actv_kota.setAdapter(g_autocompleteadapter);
         g_filldata_actv_kota.setOnTouchListener(this);
+        g_filldata_actv_kota.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus && g_filldata_actv_kota.getText().toString().isEmpty()){
+                    g_filldata_tv_kota.setVisibility(View.INVISIBLE);
+                    g_filldata_actv_kota.setHint("Kota*");
+                }
+            }
+        });
 
         //Kurir Button
         g_filldata_btn_jne = findViewById(R.id.filldata_jne_button);
@@ -246,7 +264,7 @@ public class FillDataActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent tmp_back_intent = new Intent(FillDataActivity.this, RegisterActivity.class);
+        Intent tmp_back_intent = new Intent(FillDataActivity.this, StartActivity.class);
         startActivity(tmp_back_intent);
         overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
         finish();
