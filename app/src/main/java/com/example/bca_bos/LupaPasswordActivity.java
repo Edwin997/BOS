@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 public class LupaPasswordActivity extends AppCompatActivity implements View.OnTouchListener, View.OnClickListener {
 
-    EditText g_lupapassword_et_email;
-    TextView g_lupapassword_tv_error, g_lupapassword_tv_email;
+    EditText g_lupapassword_et_bos_id;
+    TextView g_lupapassword_tv_error, g_lupapassword_tv_bos_id;
     Button g_lupapassword_btn_kirim;
 
     String email_pattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -26,9 +26,9 @@ public class LupaPasswordActivity extends AppCompatActivity implements View.OnTo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lupa_password);
 
-        g_lupapassword_et_email = findViewById(R.id.lupapassword_et_email);
-        g_lupapassword_et_email.setOnTouchListener(this);
-        g_lupapassword_et_email.addTextChangedListener(new TextWatcher() {
+        g_lupapassword_et_bos_id = findViewById(R.id.lupapassword_et_bos_id);
+        g_lupapassword_et_bos_id.setOnTouchListener(this);
+        g_lupapassword_et_bos_id.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -41,27 +41,30 @@ public class LupaPasswordActivity extends AppCompatActivity implements View.OnTo
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (android.util.Patterns.EMAIL_ADDRESS.matcher(editable).matches() && editable.length() > 0){
-                    g_lupapassword_tv_error.setTextColor(Color.parseColor("#1CAD50"));
-                    g_lupapassword_tv_error.setText("Email valid");
-                }else {
+                if (editable.length() < 8){
                     g_lupapassword_tv_error.setTextColor(Color.parseColor("#7b1a1c"));
-                    g_lupapassword_tv_error.setText("Email tidak valid");
+                    g_lupapassword_tv_error.setText("BOS ID minimal 8 karakter");
+                } else if (editable.length() > 20){
+                    g_lupapassword_tv_error.setTextColor(Color.parseColor("#7b1a1c"));
+                    g_lupapassword_tv_error.setText("BOS ID maksimal 20 karakter");
+                } else{
+                    g_lupapassword_tv_error.setTextColor(Color.parseColor("#1CAD50"));
+                    g_lupapassword_tv_error.setText("BOS ID valid");
                 }
             }
         });
 
-        g_lupapassword_tv_email = findViewById(R.id.lupapassword_tv_email);
+        g_lupapassword_tv_bos_id = findViewById(R.id.lupapassword_tv_bos_id);
         g_lupapassword_tv_error = findViewById(R.id.lupapasword_tv_error);
 
         g_lupapassword_btn_kirim = findViewById(R.id.lupapasword_kirim_button);
     }
 
-    private Boolean isEmailValid(){
-        String l_email = g_lupapassword_et_email.getText().toString().trim();
+    private Boolean isBOSIDValid(){
+        String l_bos_id = g_lupapassword_et_bos_id.getText().toString().trim();
 
-        if (l_email.isEmpty()){
-            g_lupapassword_tv_error.setText("Email tidak boleh kosong");
+        if (l_bos_id.isEmpty()){
+            g_lupapassword_tv_error.setText("BOS ID tidak boleh kosong");
             return false;
         }else {
             return true;
@@ -71,9 +74,9 @@ public class LupaPasswordActivity extends AppCompatActivity implements View.OnTo
     @Override
     public boolean onTouch(View p_view, MotionEvent event) {
         switch (p_view.getId()){
-            case R.id.lupapassword_et_email:
-                g_lupapassword_et_email.setHint("");
-                g_lupapassword_tv_email.setVisibility(View.VISIBLE);
+            case R.id.lupapassword_et_bos_id:
+                g_lupapassword_et_bos_id.setHint("");
+                g_lupapassword_tv_bos_id.setVisibility(View.VISIBLE);
                 break;
         }
         return false;
@@ -83,7 +86,9 @@ public class LupaPasswordActivity extends AppCompatActivity implements View.OnTo
     public void onClick(View p_view) {
         switch (p_view.getId()){
             case R.id.lupapasword_kirim_button:
+                if (isBOSIDValid()){
 
+                }
                 break;
         }
     }

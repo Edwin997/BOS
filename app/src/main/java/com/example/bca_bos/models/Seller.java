@@ -21,8 +21,9 @@ public class Seller implements Serializable {
     private String username;// 20
     private String password_user; //100 //8-12 must contains alphabet and numeric
     private String name; //40
-    private String card_number; //40
+    private String account_no; //40
     private String phone; //20
+    private String email;
     private String shop_name; //40
     private int flag;
     private String last_update_time; //date
