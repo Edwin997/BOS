@@ -111,7 +111,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     //region HOME DATA MEMBER
     private LinearLayout g_home_layout;
-    private ImageButton g_btn_home, g_btn_template_openapps;
+    private ImageButton g_btn_home, g_btn_template_openapps, g_btn_home_refresh;
     private RecyclerView g_templatedtext_recyclerview;
     private LinearLayoutManager g_linear_layout;
     private TextView g_no_login_message;
@@ -126,7 +126,9 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     //region ONGKIR DATA MEMBER
     private LinearLayout g_ongkir_berat_layout, g_ongkir_asal_layout, g_ongkir_tujuan_layout, g_ongkir_kurir_layout, g_ongkir_cekongkir_layout;
     private ConstraintLayout g_ongkir_layout;
-    private ImageButton g_btn_ongkir_berat_back,g_btn_ongkir_asal_back, g_btn_ongkir_tujuan_back, g_btn_ongkir_kurir_back,  g_btn_ongkir_back, g_btn_ongkir_refresh;
+    private ImageButton g_btn_ongkir_berat_back,g_btn_ongkir_asal_back,
+            g_btn_ongkir_tujuan_back, g_btn_ongkir_kurir_back,  g_btn_ongkir_back,
+            g_btn_ongkir_refresh;
     private AutoCompleteTextView g_actv_ongkir_asal, g_actv_ongkir_tujuan;
     private EditText g_et_ongkir_berat;
     private Button g_btn_ongkir_cekongkir;
@@ -147,7 +149,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private RecyclerView g_rv_stok;
     private LinearLayoutManager g_stok_item_layout;
     private StokProdukAdapter g_stok_adapter;
-    private ImageButton g_btn_stok_back;
+    private ImageButton g_btn_stok_back, g_btn_stok_refresh;
     private EditText g_et_stok_search;
     private Spinner g_sp_stok_filter;
     private ArrayAdapter g_sp_stok_filter_adapter;
@@ -164,7 +166,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private RecyclerView g_rv_kirimform_produk;
     private LinearLayoutManager g_kirimform_produk_item_layout;
     private KirimFormProdukAdapter g_kirimform_produk_adapter;
-    private ImageButton g_btn_kirimform_back;
+    private ImageButton g_btn_kirimform_back, g_btn_kirimform_refresh;
     private Button g_btn_kirimform_next;
     private EditText g_et_kirimform_search;
 
@@ -192,7 +194,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     private LinearLayout g_mutasi_layout;
     private RecyclerView g_mutasi_recyclerview;
     private LinearLayoutManager g_mutasi_item_layout;
-    private ImageButton g_btn_mutasi_back;
+    private ImageButton g_btn_mutasi_back, g_btn_mutasi_refresh;
     private MutasiRekeningAdapter g_mutasi_rekening_adapter;
     private OfflineMutasiRekeningAdapter g_offline_mutasi_rekening_adapter;
     private Switch g_switch;
@@ -401,19 +403,35 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         //inisiasi button
         g_btn_home = g_viewparent.findViewById(R.id.bcabos_extended_home_button);
         g_btn_template_openapps = g_viewparent.findViewById(R.id.bcabos_extended_home_button_add_template);
+        g_btn_home_refresh = g_viewparent.findViewById(R.id.bcabos_extended_home_button_refresh);
 
         //inisiasi textview
         g_no_login_message = g_viewparent.findViewById(R.id.bcabos_extended_home_text_not_login);
 
+        //config recyclerview
+        g_linear_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
+        final TemplatedTextAdapter tmpTemplatedTextAdapter = new TemplatedTextAdapter();
+        tmpTemplatedTextAdapter.setParentOnCallBack(this);
+
+        g_templatedtext_recyclerview.setLayoutManager(g_linear_layout);
+        g_templatedtext_recyclerview.setAdapter(tmpTemplatedTextAdapter);
+
+        refreshHome(tmpTemplatedTextAdapter);
+
+        g_btn_home_refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshHome(tmpTemplatedTextAdapter);
+            }
+        });
+
+        //config button
+        g_btn_home.setOnClickListener(this);
+        g_btn_template_openapps.setOnClickListener(this);
+    }
+
+    private void refreshHome(TemplatedTextAdapter tmpTemplatedTextAdapter){
         if(IS_LOGIN){
-            //config recyclerview
-            g_linear_layout = new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
-            TemplatedTextAdapter tmpTemplatedTextAdapter = new TemplatedTextAdapter();
-            tmpTemplatedTextAdapter.setParentOnCallBack(this);
-
-            g_templatedtext_recyclerview.setLayoutManager(g_linear_layout);
-            g_templatedtext_recyclerview.setAdapter(tmpTemplatedTextAdapter);
-
             showLayoutTemplateText(0, false);
 
             VolleyClass.getTemplatedTextByName(getApplicationContext(), g_seller_id, Method.ASC, tmpTemplatedTextAdapter);
@@ -424,10 +442,6 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             g_no_login_message.setVisibility(View.VISIBLE);
             g_btn_template_openapps.setVisibility(View.GONE);
         }
-
-        //config button
-        g_btn_home.setOnClickListener(this);
-        g_btn_template_openapps.setOnClickListener(this);
     }
 
     private void initiateFeature() {
@@ -452,6 +466,10 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     @SuppressLint("ClickableViewAccessibility") //ini biar dropdownnya langsung muncul data
     private void initiateOngkir(){
+        //inisialisasi kurir
+        IS_CHOOSE_JNE = false;
+        IS_CHOOSE_TIKI = false;
+        IS_CHOOSE_POS = false;
 
         //inisiasi layout
         g_ongkir_layout = g_viewparent.findViewById(R.id.bcabos_ongkir_layout);
@@ -576,9 +594,9 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
     private void initiateStok(){
         //inisialisasi kurir
-        IS_CHOOSE_JNE = false;
-        IS_CHOOSE_TIKI = false;
-        IS_CHOOSE_POS = false;
+//        IS_CHOOSE_JNE = false;
+//        IS_CHOOSE_TIKI = false;
+//        IS_CHOOSE_POS = false;
 
         //inisiasi layout
         g_stok_layout = g_viewparent.findViewById(R.id.bcabos_stok_layout);
@@ -597,6 +615,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
         //inisiasi button
         g_btn_stok_back = g_viewparent.findViewById(R.id.bcabos_stok_search_back_button);
+        g_btn_stok_refresh = g_viewparent.findViewById(R.id.bcabos_stok_button_refresh);
 
         //inisiasi not found layout
         g_stok_not_found_layout = g_viewparent.findViewById(R.id.bcabos_stok_produk_not_found_layout);
@@ -644,6 +663,14 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_btn_stok_back.setOnClickListener(this);
 
         showLayoutStok(0, false);
+
+        g_btn_stok_refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VolleyClass.getProductByName(getApplicationContext(), g_seller_id, Method.ASC, g_stok_adapter);
+                VolleyClass.getProductCategory(getApplicationContext(), g_seller_id, g_sp_stok_filter_adapter);
+            }
+        });
     }
 
     private void initiateKirimForm(){
@@ -664,6 +691,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
         //inisiasi button
         g_btn_kirimform_back = g_viewparent.findViewById(R.id.bcabos_kirimform_produk_button_back_button);
+        g_btn_kirimform_refresh = g_viewparent.findViewById(R.id.bcabos_kirimform_button_refresh);
         g_btn_kirimform_next = g_viewparent.findViewById(R.id.bcabos_kirimform_produk_button_next_button);
 
         //inisiasi not found layout
@@ -689,6 +717,13 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         g_btn_kirimform_next.setOnClickListener(this);
 
         showLayoutKirimForm(0, false);
+
+        g_btn_kirimform_refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VolleyClass.getProductByName(getApplicationContext(), g_seller_id, Method.ASC, g_kirimform_produk_adapter);
+            }
+        });
     }
 
     @SuppressLint("ClickableViewAccessibility") //ini biar dropdownnya langsung muncul data
@@ -760,6 +795,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
         //inisiasi button
         g_btn_mutasi_back = g_viewparent.findViewById(R.id.bcabos_mutasi_back_button);
+        g_btn_mutasi_refresh = g_viewparent.findViewById(R.id.bcabos_extended_mutasi_button_refresh);
 
         //inisiasi not found layout
         g_mutasi_not_found_layout = g_viewparent.findViewById(R.id.bcabos_extended_mutasi_not_found_layout);
@@ -794,6 +830,15 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
 
         //config button
         g_btn_mutasi_back.setOnClickListener(this);
+        g_btn_mutasi_refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (g_switch.isChecked())
+                    VolleyClass.getTransaksi(getApplicationContext(), g_seller_id, -1, g_mutasi_rekening_adapter);
+                else
+                    VolleyClass.getTransaksiOffline(getApplicationContext(), g_seller_id, g_offline_mutasi_rekening_adapter);
+            }
+        });
 
         showLayoutMutasi(0, false);
     }
@@ -802,19 +847,11 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
     public void OnCallBack(Object p_obj) {
         if(p_obj instanceof Product){
             Product tmpProduct = (Product) p_obj;
-//            if(tmpProduct.getId_product() == -1){
-//                Intent tmpIntent = new Intent(this, ApplicationContainer.class);
-//                tmpIntent.putExtra(ApplicationContainer.KEY_OPEN_APPS, ApplicationContainer.ID_PRODUK);
-//                tmpIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(tmpIntent);
-//            }
-//            else {
-                if(tmpProduct.getStock() <= 0){
-                    commitTextToBOSKeyboardEditText("Maaf, stok kami untuk produk tersebut sudah habis. \nTerima kasih.");
-                }else{
-                    commitTextToBOSKeyboardEditText("Stok kami untuk produk tersebut masih ada. \nTerima kasih.");
-                }
-//            }
+            if(tmpProduct.getStock() <= 0){
+                commitTextToBOSKeyboardEditText("Maaf, stok kami untuk produk tersebut sudah habis. \nTerima kasih.");
+            }else{
+                commitTextToBOSKeyboardEditText("Stok kami untuk produk tersebut masih ada. \nTerima kasih.");
+            }
         }
         else if(p_obj instanceof String){
             String p_text = p_obj.toString();
