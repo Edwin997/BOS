@@ -2,6 +2,9 @@ package com.example.bca_bos.networks;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -23,6 +26,7 @@ import com.example.bca_bos.LoginActivity;
 import com.example.bca_bos.OTPActivity;
 import com.example.bca_bos.Method;
 import com.example.bca_bos.PasswordActivity;
+import com.example.bca_bos.R;
 import com.example.bca_bos.RegisterActivity;
 import com.example.bca_bos.cobaImage;
 import com.example.bca_bos.keyboardadapters.KirimFormProdukAdapter;
@@ -57,6 +61,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1820,7 +1825,7 @@ public class VolleyClass {
         g_requestqueue.add(request_json);
     }
 
-    public static void saveTokoToSharedPreference(Context p_context, final int p_id_seller){
+    public static void saveTokoToSharedPreference(final Context p_context, final int p_id_seller){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         StringRequest request_json = new StringRequest(Request.Method.GET ,URL_PROFILE + "/" + p_id_seller,
@@ -1833,11 +1838,11 @@ public class VolleyClass {
                             String output = NetworkUtil.getOutputSchema(response);
 
                             Seller tempObject = gson.fromJson(output, Seller.class);
-                            if (!tempObject.getShop_name().isEmpty()){
+                            if (tempObject.getShop_name() == null || tempObject.getShop_name().isEmpty()){
+                                PasswordActivity.g_instance.intentFillData(p_id_seller);
+                            }else {
                                 PasswordActivity.g_instance.saveStringSharedPreference("NAMA_TOKO", tempObject.getShop_name());
                                 PasswordActivity.g_instance.intentLogin(p_id_seller);
-                            }else {
-                                PasswordActivity.g_instance.intentFillData(p_id_seller);
                             }
 
 
@@ -1861,7 +1866,7 @@ public class VolleyClass {
 
     }
 
-    public static void register(final Context p_context, final String p_bos_id, final String p_nama, final String p_no_rek, final String p_no_hp, final String p_password){
+    public static void register(final Context p_context, final String p_bos_id, final String p_nama, final String p_no_rek, final String p_no_hp, final String p_email, final String p_password){
         g_requestqueue = Volley.newRequestQueue(p_context);
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -1869,6 +1874,7 @@ public class VolleyClass {
         params.put("nama", p_nama);
         params.put("no_rek",p_no_rek);
         params.put("no_hp",p_no_hp);
+        params.put("email", p_email);
         params.put("password",p_password);
 
         JsonObjectRequest request_json = new JsonObjectRequest(URL_REGISTER, new JSONObject(params),
@@ -2115,12 +2121,15 @@ public class VolleyClass {
         jsonArray.put(1, secondjsonObject);
         jsonArray.put(2, thirdjsonObject);
 
+        Drawable drawable = p_context.getResources().getDrawable(R.drawable.ic_bos_mascot_default_profile);
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+
 
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("id_seller", String.valueOf(p_seller.getId_seller()));
         params.put("shop_name", p_seller.getShop_name());
         params.put("id_kota_kab", p_seller.getKota_kab().getId_kota_kab());
-        params.put("base64StringImage", "/NASBOS/7.jpg");
+        params.put("base64StringImage", imageToString(bitmap));
         params.put("selected_courier", jsonArray);
         //params put selected courier
 
@@ -2159,6 +2168,14 @@ public class VolleyClass {
 
 
         g_requestqueue.add(request_json);
+    }
+
+    public static String imageToString(Bitmap bitmap){
+        ByteArrayOutputStream bost = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100 ,bost);
+        byte[] img = bost.toByteArray();
+        String temp = Base64.encodeToString(img, Base64.NO_WRAP);
+        return temp;
     }
 
     public static void changePassword(final Context p_context, final String p_id_seller, String p_o_password, String p_n_password, String p_c_password){

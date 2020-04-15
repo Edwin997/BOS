@@ -3,6 +3,7 @@ package com.example.bca_bos;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,11 +20,11 @@ import com.example.bca_bos.networks.VolleyClass;
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
     Button g_register_btn;
-    EditText g_register_et_bos_id, g_register_et_nama, g_register_et_no_rekening, g_register_et_no_hp, g_register_et_password, g_register_et_confirm_password;
-    TextView g_register_tv_bos_id, g_register_tv_nama, g_register_tv_no_rekening, g_register_tv_no_hp, g_register_tv_password, g_register_tv_confirm_password;
+    EditText g_register_et_bos_id, g_register_et_nama, g_register_et_no_rekening, g_register_et_no_hp, g_register_et_password, g_register_et_confirm_password, g_register_et_email;
+    TextView g_register_tv_bos_id, g_register_tv_nama, g_register_tv_no_rekening, g_register_tv_no_hp, g_register_tv_password, g_register_tv_confirm_password, g_register_tv_email;
 
     //Error
-    TextView g_register_tv_error, g_register_tv_bos_id_error, g_register_tv_nama_error, g_register_tv_no_rek_error, g_register_no_hp_error, g_register_password_error, g_register_confirm_error;
+    TextView g_register_tv_error, g_register_tv_bos_id_error, g_register_tv_nama_error, g_register_tv_no_rek_error, g_register_no_hp_error, g_register_password_error, g_register_confirm_error, g_register_email_error;
 
     //
     public static RegisterActivity g_instance = null;
@@ -116,6 +117,38 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
+        //email
+        g_register_et_email = findViewById(R.id.register_et_email);
+        g_register_et_email.setOnTouchListener(this);
+        g_register_et_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus && g_register_et_email.getText().toString().isEmpty()) {
+                    g_register_tv_email.setVisibility(View.INVISIBLE);
+                    g_register_et_email.setHint("Password*");
+                }
+            }
+        });
+        g_register_et_email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (android.util.Patterns.EMAIL_ADDRESS.matcher(editable).matches() && editable.length() > 0){
+                    g_register_email_error.setText("Email valid");
+                }else {
+                    g_register_email_error.setText("Email tidak valid");
+                }
+            }
+        });
 
         //password
         g_register_et_password = findViewById(R.id.register_et_password);
@@ -148,6 +181,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         g_register_tv_nama = findViewById(R.id.register_tv_nama);
         g_register_tv_no_rekening = findViewById(R.id.register_tv_no_rekening);
         g_register_tv_no_hp = findViewById(R.id.register_tv_no_hp);
+        g_register_tv_email = findViewById(R.id.register_tv_email);
         g_register_tv_password = findViewById(R.id.register_tv_password);
         g_register_tv_confirm_password = findViewById(R.id.register_tv_confirm_password);
 
@@ -157,6 +191,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         g_register_tv_nama_error = findViewById(R.id.register_tv_nama_error);
         g_register_tv_no_rek_error = findViewById(R.id.register_tv_no_rek_error);
         g_register_no_hp_error = findViewById(R.id.register_tv_no_hp_error);
+        g_register_email_error = findViewById(R.id.register_tv_email_error);
         g_register_password_error = findViewById(R.id.register_tv_password_error);
         g_register_confirm_error = findViewById(R.id.register_tv_confirm_error);
 
@@ -198,6 +233,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 g_register_tv_no_hp.setVisibility(View.VISIBLE);
                 g_register_no_hp_error.setText("");
                 break;
+            case R.id.register_et_email:
+                g_register_et_email.setHint("");
+                g_register_tv_email.setVisibility(View.VISIBLE);
+                g_register_email_error.setText("");
+                break;
             case R.id.register_et_password:
                 g_register_et_password.setHint("");
                 g_register_tv_password.setVisibility(View.VISIBLE);
@@ -232,16 +272,18 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         g_register_tv_nama_error.setText("");
         g_register_tv_no_rek_error.setText("");
         g_register_no_hp_error.setText("");
+        g_register_email_error.setText("");
         g_register_password_error.setText("");
         g_register_confirm_error.setText("");
         String l_bos_id = g_register_et_bos_id.getText().toString();
         String l_nama = g_register_et_nama.getText().toString();
         String l_no_rekening = g_register_et_no_rekening.getText().toString();
         String l_no_hp = g_register_et_no_hp.getText().toString();
+        String l_email = g_register_et_email.getText().toString();
         String l_password = g_register_et_password.getText().toString();
         String l_confirm = g_register_et_confirm_password.getText().toString();
 
-        Boolean b_bos_id = false, b_nama = false, b_no_rekekning = false, b_no_hp = false, b_password = false, b_confirm = false;
+        Boolean b_bos_id = false, b_nama = false, b_no_rekekning = false, b_no_hp = false, b_email = false, b_password = false, b_confirm = false;
 
         if (l_bos_id.isEmpty()){
             g_register_tv_bos_id_error.setText("BOS ID harus diisi");
@@ -272,6 +314,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             b_no_hp = false;
         }else b_no_hp = true;
 
+        if (l_email.isEmpty()){
+            g_register_email_error.setText("Email harus diisi");
+            b_email = false;
+        }else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(l_email).matches() && l_email.length() > 0){
+            g_register_email_error.setText("Email tidak valid");
+            b_email = false;
+        }else b_email = true;
+
         if (l_password.isEmpty()){
             g_register_password_error.setText("Password harus diisi");
             b_password = false;
@@ -291,7 +341,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             b_confirm = false;
         }else b_confirm = true;
 
-        if (b_bos_id && b_nama && b_no_rekekning && b_no_hp && b_password && b_confirm){
+        if (b_bos_id && b_nama && b_no_rekekning && b_no_hp && b_email && b_password && b_confirm){
             return true;
         }else return false;
     }
@@ -302,9 +352,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String l_no_rekening = g_register_et_no_rekening.getText().toString();
         String l_no_hp = g_register_et_no_hp.getText().toString();
         l_no_hp = "+62" + l_no_hp;
+        String l_email = g_register_et_email.getText().toString().trim();
         String l_password = g_register_et_password.getText().toString();
 
-        VolleyClass.register(this, l_bos_id, l_nama, l_no_rekening, l_no_hp, l_password);
+        VolleyClass.register(this, l_bos_id, l_nama, l_no_rekening, l_no_hp, l_email, l_password);
 //       g_register_tv_error.setText(l_bos_id + "\n" + l_nama + "\n" + l_no_rekening + "\n" + l_no_hp + "\n" + l_password);
     }
 

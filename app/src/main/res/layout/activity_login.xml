@@ -83,7 +83,7 @@
                 android:textColorHint="@color/grey"
                 android:hint="BOS ID"
                 android:maxLength="20"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 android:singleLine="true"
                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
                 android:inputType="textFilter"/>

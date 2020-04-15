@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -62,7 +63,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
     private ImageButton g_profile_ib_edit;
     private RoundedImageView g_profile_image;
     private TextView g_profile_nama_seller, g_profile_nama_toko, g_profile_rekening, g_profile_bosid,
-            g_profile_phone, g_profile_kotkab, g_profile_courier;
+            g_profile_phone, g_profile_email, g_profile_kotkab, g_profile_courier;
     private Button g_profile_btn_change_password, g_profile_button_jne, g_profile_button_tiki,
             g_profile_button_pos, g_profile_btn_about, g_profile_btn_logout;
 
@@ -117,7 +118,8 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         g_profile_nama_toko = g_view.findViewById(R.id.profile_tv_nama_toko);
         g_profile_rekening = g_view.findViewById(R.id.profile_tv_rekening_toko);
         g_profile_bosid = g_view.findViewById(R.id.profile_tv_bosid_toko);
-        g_profile_phone = g_view.findViewById(R.id.profile_tv_phone_toko);
+        g_profile_phone = g_view.findViewById(R.id.profile_tv_phone);
+        g_profile_email = g_view.findViewById(R.id.profile_tv_email);
         g_profile_kotkab = g_view.findViewById(R.id.profile_tv_kotakab);
         g_profile_courier = g_view.findViewById(R.id.profile_tv_courier);
 
@@ -187,8 +189,11 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                 configChooseCourierButton(p_view, IS_CHOOSE_POS);
                 break;
             case R.id.apps_bottom_sheet_btn_simpan_profil:
+
+                Drawable drawable = getResources().getDrawable(R.drawable.ic_bos_mascot_default_profile);
+
                 if(g_bmp_bottom_sheet_edit_profile == null){
-                    g_bmp_bottom_sheet_edit_profile = ((BitmapDrawable)g_bottomsheet_iv_profile.getDrawable()).getBitmap();
+                    g_bmp_bottom_sheet_edit_profile = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
                 }
 
 
@@ -491,9 +496,10 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
         g_profile_image.setImageBitmap(Method.convertToBitmap(p_seller.getBase64StringImage()));
         g_profile_nama_seller.setText(p_seller.getName());
         g_profile_nama_toko.setText(p_seller.getShop_name());
-        g_profile_rekening.setText(p_seller.getCard_number());
+        g_profile_rekening.setText(p_seller.getAccount_no());
         g_profile_bosid.setText(p_seller.getUsername());
         g_profile_phone.setText(p_seller.getPhone());
+        g_profile_email.setText(p_seller.getEmail());
         g_profile_kotkab.setText(p_seller.getKota_kab().getKota_kab_name());
 
         String l_selected_courier = "";
