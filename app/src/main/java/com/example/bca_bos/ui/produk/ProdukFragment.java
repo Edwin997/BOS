@@ -303,6 +303,11 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                         tmpProduct.setImage_path(imageToString(g_bmp_bottom_sheet_produk_add));
                         tmpProduct.setPrdCategory(g_product_category_add);
                         tmpProduct.setSeller(seller);
+
+                        VolleyClass.insertProduct(g_context, tmpProduct, g_produkadapter);
+
+                        g_bmp_bottom_sheet_produk_add = null;
+                        g_bottomsheet_dialog_add.dismiss();
                     }
                 }
                     else {

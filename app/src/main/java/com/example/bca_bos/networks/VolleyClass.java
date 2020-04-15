@@ -1082,6 +1082,8 @@ public class VolleyClass {
         params.put("weight", String.valueOf(p_product.getWeight()));
         params.put("base64StringImage", p_product.getImage_path());
 
+        Log.d("BOSVOLLEY", p_product.getImage_path());
+
         JsonObjectRequest request_json = new JsonObjectRequest(URL_PRODUCT, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
