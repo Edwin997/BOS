@@ -1,6 +1,7 @@
 package com.example.bca_bos.ui.transaksi;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.transactions.Transaction;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class OnlineTransaksiAdapter extends RecyclerView.Adapter<OnlineTransaksiAdapter.TransaksiViewHolder> implements OnCallBackListener {
@@ -88,6 +90,21 @@ public class OnlineTransaksiAdapter extends RecyclerView.Adapter<OnlineTransaksi
         }
 
         return tmpListTransaction;
+    }
+
+    public List<Transaction> getListTransaksiByDate(int p_type, Date p_awal, Date p_akhir){
+        List<Transaction> tmpListTransaction = getListTransaksiByType(p_type);
+        List<Transaction> resultListTransaction = new ArrayList<>();
+
+        for(int i = 0; i < tmpListTransaction.size(); i++){
+            Date tmpDate = Method.getDateTypeyyyymmdd(tmpListTransaction.get(i).getOrder_time());
+            if(tmpDate != null &&
+                    ((tmpDate.before(p_akhir) && tmpDate.after(p_awal)) ||
+                            tmpDate.equals(p_akhir) || tmpDate.equals(p_awal)))
+                resultListTransaction.add(tmpListTransaction.get(i));
+        }
+
+        return resultListTransaction;
     }
 
     public float getPersentaseTransaksiSudahSelesai(){

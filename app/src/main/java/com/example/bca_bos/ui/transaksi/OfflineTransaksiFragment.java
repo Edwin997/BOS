@@ -40,6 +40,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -112,6 +113,11 @@ public class OfflineTransaksiFragment extends Fragment implements View.OnClickLi
         });
 
         return g_view;
+    }
+
+    public void filterByDate(Date p_awal, Date p_akhir){
+        g_transaksiadapteroffline.setListTransaksiFiltered(
+                g_transaksiadapteroffline.getListTransaksiByDate(p_awal, p_akhir));
     }
 
     public void firstLoad(){

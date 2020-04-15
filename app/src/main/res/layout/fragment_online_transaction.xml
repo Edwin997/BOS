@@ -46,60 +46,6 @@
     </com.github.mikephil.charting.charts.PieChart>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="5dp"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <EditText
-                    android:id="@+id/apps_transaksi_et_tanggal_awal"
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:focusable="false"
-                    android:textSize="12dp"
-                    android:background="@android:color/transparent"
-                    android:hint="Tanggal Awal" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:text="-"
-                    android:textSize="40dp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    />
-
-                <EditText
-                    android:id="@+id/apps_transaksi_et_tanggal_akhir"
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="false"
-                    android:gravity="center"
-                    android:background="@android:color/transparent"
-                    android:textSize="12dp"
-                    android:hint="Tanggal Akhir" />
-
-                <Button
-                    android:id="@+id/apps_transaksi_btn_cari_tanggal"
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:layout_height="match_parent"
-                    android:text="SEARCH"/>
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

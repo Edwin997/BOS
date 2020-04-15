@@ -11,7 +11,6 @@
         android:id="@+id/apps_beranda_fragment_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="35dp"
         android:visibility="visible">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -242,8 +242,8 @@ public class TemplateFragment extends Fragment implements View.OnClickListener, 
     }
 
     public void refreshData(){
-        g_templateadapter.setListTemplate(ListTemplatedTextDummy.templatedTextList);
-//        VolleyClass.getTemplatedTextByName(g_context, g_seller_id, Method.ASC, g_templateadapter);
+//        g_templateadapter.setListTemplate(ListTemplatedTextDummy.templatedTextList);
+        VolleyClass.getTemplatedTextByName(g_context, g_seller_id, Method.ASC, g_templateadapter);
     }
 
     private void changeLayoutValue(int p_count){

@@ -57,6 +57,30 @@ public class Method {
         return "";
     }
 
+    public static Date getDate(String p_date){
+        try {
+            SimpleDateFormat tmpFormatStringToDate = new SimpleDateFormat("dd MMMM yyyy");
+            Date tmpDate = tmpFormatStringToDate.parse(p_date);
+
+            return tmpDate;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Date getDateTypeyyyymmdd(String p_date){
+        try {
+            SimpleDateFormat tmpFormatStringToDate = new SimpleDateFormat("yyyy-MM-dd");
+            Date tmpDate = tmpFormatStringToDate.parse(p_date);
+
+            return tmpDate;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static String formatDatePicker(Date p_date){
         SimpleDateFormat tmpFormatStringToDate = new SimpleDateFormat("dd MMMM yyyy", tmpLocale);
         return tmpFormatStringToDate.format(p_date);

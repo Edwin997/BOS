@@ -16,6 +16,7 @@ import com.example.bca_bos.interfaces.OnCallBackListener;
 import com.example.bca_bos.models.transactions.Transaction;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class OfflineTransaksiAdapter extends RecyclerView.Adapter<OfflineTransaksiAdapter.TransaksiViewHolder> implements OnCallBackListener {
@@ -69,6 +70,21 @@ public class OfflineTransaksiAdapter extends RecyclerView.Adapter<OfflineTransak
         g_list_transaction_master = p_list;
         setListTransaksiFiltered(g_list_transaction_master);
         notifyDataSetChanged();
+    }
+
+    public List<Transaction> getListTransaksiByDate(Date p_awal, Date p_akhir){
+        List<Transaction> tmpListTransaction = g_list_transaction_master;
+        List<Transaction> resultListTransaction = new ArrayList<>();
+
+        for(int i = 0; i < tmpListTransaction.size(); i++){
+            Date tmpDate = Method.getDateTypeyyyymmdd(tmpListTransaction.get(i).getOrder_time());
+            if(tmpDate != null &&
+                    ((tmpDate.before(p_akhir) && tmpDate.after(p_awal)) ||
+                            tmpDate.equals(p_akhir) || tmpDate.equals(p_awal)))
+                resultListTransaction.add(tmpListTransaction.get(i));
+        }
+
+        return resultListTransaction;
     }
 
     public void setListTransaksiFiltered(List<Transaction> p_list){

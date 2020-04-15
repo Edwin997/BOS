@@ -45,6 +45,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -60,12 +61,6 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
 
     private TextView g_tv_not_found_judul;
     private LottieAnimationView g_iv_not_found_animation;
-
-    //DateTimePicker
-    private Calendar g_calendar_awal, g_calendar_akhir;
-    private DatePickerDialog.OnDateSetListener g_datepicker_listener_awal, g_datepicker_listener_akhir;
-    private EditText txt_tanggal_awal, txt_tanggal_akhir;
-    private Button btn_filter_tanggal;
 
     //Tombol tab status transaksi
     private Button g_btn_tab_semua, g_btn_tab_pesanan_baru, g_btn_tab_pesanan_dibayar,
@@ -170,51 +165,6 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         g_btn_tab_semua.setOnClickListener(this);
         g_btn_tab_batal.setOnClickListener(this);
 
-        //inisiasi tanggal
-        txt_tanggal_awal = g_view.findViewById(R.id.apps_transaksi_et_tanggal_awal);
-        txt_tanggal_akhir = g_view.findViewById(R.id.apps_transaksi_et_tanggal_akhir);
-        btn_filter_tanggal = g_view.findViewById(R.id.apps_transaksi_btn_cari_tanggal);
-
-        g_calendar_awal = Calendar.getInstance();
-        g_datepicker_listener_awal = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                g_calendar_awal.set(Calendar.YEAR, year);
-                g_calendar_awal.set(Calendar.MONTH, month);
-                g_calendar_awal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel(txt_tanggal_awal, g_calendar_awal);
-            }
-        };
-
-        g_calendar_akhir = Calendar.getInstance();
-        g_datepicker_listener_akhir = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                g_calendar_akhir.set(Calendar.YEAR, year);
-                g_calendar_akhir.set(Calendar.MONTH, month);
-                g_calendar_akhir.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel(txt_tanggal_akhir, g_calendar_akhir);
-            }
-        };
-
-        txt_tanggal_awal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DatePickerDialog(g_context, g_datepicker_listener_awal, g_calendar_awal
-                        .get(Calendar.YEAR), g_calendar_awal.get(Calendar.MONTH),
-                        g_calendar_awal.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-
-        txt_tanggal_akhir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DatePickerDialog(g_context, g_datepicker_listener_akhir, g_calendar_akhir
-                        .get(Calendar.YEAR), g_calendar_akhir.get(Calendar.MONTH),
-                        g_calendar_akhir.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-
         if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SUDAHDIBAYAR) {
             VolleyClass.getTransaksi(g_context, g_seller_id, KEY_STATUS_SUDAHDIBAYAR, g_transaksiadapter);
         }
@@ -233,12 +183,15 @@ public class OnlineTransaksiFragment extends Fragment implements View.OnClickLis
         return g_view;
     }
 
-    private void updateLabel(EditText p_edittext, Calendar p_calendar) {
-        p_edittext.setText(Method.formatDatePicker(p_calendar.getTime()));
+    public void filterByDate(Date p_awal, Date p_akhir){
+        g_transaksiadapter.setListTransaksiFiltered(
+                g_transaksiadapter.getListTransaksiByDate(FLAG_FRAGMENT_TYPE, p_awal, p_akhir));
     }
 
     public void refreshLayout(int p_type){
         FLAG_FRAGMENT_TYPE = p_type;
+
+        g_parent.refreshFilterDate();
 
         if(FLAG_FRAGMENT_TYPE == KEY_STATUS_SEMUA){
             g_percentage = 100;
