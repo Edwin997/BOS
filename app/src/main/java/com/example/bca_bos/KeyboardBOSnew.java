@@ -515,6 +515,8 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 IS_FILLED = true;
+                typedCharacters.setLength(0);
+                typedCharacters.append(g_actv_ongkir_asal.getText());
                 g_keyboardview.setVisibility(View.VISIBLE);
             }
         });
@@ -527,6 +529,8 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 IS_FILLED = true;
+                typedCharacters.setLength(0);
+                typedCharacters.append(g_actv_ongkir_tujuan.getText());
                 g_keyboardview.setVisibility(View.VISIBLE);
             }
         });
@@ -761,6 +765,8 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 IS_FILLED = true;
+                typedCharacters.setLength(0);
+                typedCharacters.append(g_actv_kirimform_next_asal.getText());
                 g_keyboardview.setVisibility(View.VISIBLE);
             }
         });
