@@ -486,7 +486,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
 
     public void refreshLayout(Seller p_seller){
         g_seller = p_seller;
-        if(p_seller.getBase64StringImage().isEmpty()){
+        if(p_seller.getBase64StringImage().isEmpty() || p_seller.getBase64StringImage() == null){
             g_profile_image.setImageResource(R.drawable.ic_bos_mascot_default_profile);
         }
         else

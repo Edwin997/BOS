@@ -2381,6 +2381,8 @@ public class VolleyClass {
                             }
                             KeyboardBOSnew.g_instance.cekOngkirLoading("hide");
                         } catch (Exception e) {
+                            KeyboardBOSnew.g_instance.cekOngkirLoading("hide");
+                            KeyboardBOSnew.g_instance.cekOngkirError("show", "Gagal mendapatkan ongkir \nKlik disini untuk kembali");
                             e.printStackTrace();
                         }
 
@@ -2392,7 +2394,7 @@ public class VolleyClass {
             @Override
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
-                KeyboardBOSnew.g_instance.cekOngkirError("show");
+                KeyboardBOSnew.g_instance.cekOngkirError("show", "Gagal terhubung ke jaringan internet \nKlik disini untuk kembali");
                 KeyboardBOSnew.g_instance.cekOngkirLoading("hide");
             }
         }){
@@ -2458,7 +2460,7 @@ public class VolleyClass {
             @Override
             public void onErrorResponse(VolleyError error) {
                 NetworkUtil.setErrorMessage(error);
-                KeyboardBOSnew.g_instance.kirimFormNextError("show");
+                KeyboardBOSnew.g_instance.kirimFormNextError("show", "Gagal terhubung ke jaringan internet \\nKlik disini untuk kembali");
                 KeyboardBOSnew.g_instance.kirimFormNextLoading("hide");
             }
         }){

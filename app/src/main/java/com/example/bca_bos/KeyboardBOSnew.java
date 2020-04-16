@@ -570,8 +570,10 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         }
 
         g_autocompleteadapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, g_city_name_list);
+        g_actv_ongkir_asal.setAdapter(g_autocompleteadapter);
+        g_actv_ongkir_tujuan.setAdapter(g_autocompleteadapter);
+        g_actv_kirimform_next_asal.setAdapter(g_autocompleteadapter);
         g_autocompleteadapter.notifyDataSetChanged();
-        g_autocompleteadapter.setNotifyOnChange(true);
     }
 
     public void cekOngkirLoading(String p_status){
@@ -583,7 +585,10 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             g_lav_ongkir_loading.setVisibility(View.GONE);
     }
 
-    public void cekOngkirError(String p_status){
+    public void cekOngkirError(String p_status, String p_message){
+
+        g_tv_ongkir_error.setText(p_message);
+
         if (p_status.equals("show")){
             g_tv_ongkir_error.setVisibility(View.VISIBLE);
         }else if (p_status.equals("hide")){
@@ -776,7 +781,10 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             g_lav_kirimform_next_loading.setVisibility(View.GONE);
     }
 
-    public void kirimFormNextError(String p_status){
+    public void kirimFormNextError(String p_status, String p_message){
+
+        g_tv_kirimform_next_error.setText(p_message);
+
         if (p_status.equals("show")){
             g_tv_kirimform_next_error.setVisibility(View.VISIBLE);
         }else if (p_status.equals("hide")){
@@ -966,8 +974,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 if (isGetOngkirValid()){
                     getOngkirByCourier();
                 }else {
-                    g_tv_ongkir_error.setText("Semua field harus diisi \nKlik disini untuk kembali");
-                    g_tv_ongkir_error.setVisibility(View.VISIBLE);
+                    cekOngkirError("show", "Ada field yang kosong atau tidak valid \nKlik disini untuk kembali");
                 }
                 showOngkir();
                 break;
@@ -1021,11 +1028,17 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 kirimFormNextLoading("show");
                 focusedEditText = KEY_ET_EXTERNAL;
                 getAsalCityIdForm(g_actv_kirimform_next_asal);
-                try {
-                    VolleyClass.insertOrder(this, g_seller_id,Integer.valueOf(g_asal_id_city_form), g_kirimform_produk_adapter.getListOrder());
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if (isKirimFormNextValid()){
+                    try {
+                        VolleyClass.insertOrder(this, g_seller_id,Integer.valueOf(g_asal_id_city_form), g_kirimform_produk_adapter.getListOrder());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    kirimFormNextLoading("hide");
+                    kirimFormNextError("show", "Field asal kota tidak valid \nKlik disini untuk kembali");
                 }
+
                 break;
             case R.id.bcabos_kirimform_next_error_text_view:
                 g_tv_kirimform_next_error.setVisibility(View.GONE);
@@ -1468,7 +1481,23 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
         String l_tujuan = g_actv_ongkir_tujuan.getText().toString();
         String l_berat = g_et_ongkir_berat.getText().toString();
 
-        Boolean b_kurir = false;
+        Boolean b_asal = false, b_tujuan = false, b_berat = false, b_kurir = false;
+
+        if (l_asal.isEmpty() || l_asal == null){
+            b_asal = false;
+        }else if (!g_city_name_list.contains(l_asal)){
+            b_asal = false;
+        }else b_asal = true;
+
+        if (l_tujuan.isEmpty() || l_tujuan == null){
+            b_tujuan = false;
+        }else if (!g_city_name_list.contains(l_tujuan)){
+            b_tujuan = false;
+        }else b_tujuan = true;
+
+        if (l_berat.isEmpty() || l_berat == null){
+            b_berat = false;
+        }else b_berat = true;
 
         if (IS_CHOOSE_JNE ||  IS_CHOOSE_TIKI || IS_CHOOSE_POS == true){
             b_kurir = true;
@@ -1476,7 +1505,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             b_kurir = false;
         }
 
-        if (!l_asal.isEmpty() && !l_tujuan.isEmpty() && !l_berat.isEmpty() && b_kurir){
+        if (b_asal && b_tujuan && b_berat && b_kurir){
             return true;
         }else {
             return false;
@@ -1496,6 +1525,14 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
             int l_position = g_city_name_list.indexOf(p_autocomplete.getText().toString());
             g_tujuan_id_city = String.valueOf(g_city_list.get(l_position).getId_kota_kab());
         }
+    }
+
+    //Validasi Kirim Form
+    public boolean isKirimFormNextValid(){
+        String l_asal = g_actv_kirimform_next_asal.getText().toString();
+        if (l_asal.isEmpty() || l_asal == null || !g_city_name_list.contains(l_asal)){
+            return false;
+        }else return true;
     }
 
     private void getAsalCityIdForm(AutoCompleteTextView p_autocomplete){
