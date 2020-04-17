@@ -491,7 +491,7 @@ public class BerandaFragment extends Fragment implements View.OnClickListener, O
         g_product_onclick.setPrice(p_product.getPrice());
         g_beranda_produk_popup_tv_berat.setText(String.valueOf(p_product.getWeight())+ " gram");
         g_product_onclick.setWeight(p_product.getWeight());
-        g_beranda_produk_popup_tv_stok.setText(String.valueOf(p_product.getStock()));
+        g_beranda_produk_popup_tv_stok.setText("Stok : " + String.valueOf(p_product.getStock()));
         g_product_onclick.setStock(p_product.getStock());
     }
 

@@ -270,6 +270,7 @@ public class KeyboardBOSnew extends InputMethodService implements KeyboardView.O
                 break;
             default:
                 g_curr_keyboard = g_keyboard_alphabet_default;
+                IS_ALPHABET = true;
         }
         g_keyboardview.setKeyboard(g_curr_keyboard);
     }
