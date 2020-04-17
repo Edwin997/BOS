@@ -864,6 +864,7 @@ public class VolleyClass {
                             if(p_order.equals(Method.DESC)){
                                 for (int i = tempObject.size()-1; i >= 0; i--)
                                 {
+                                    Log.d(TAG, tempObject.get(i).getProduct_name() + tempObject.get(i).getBase64StringImage());
                                     tempResult.add(tempObject.get(i));
                                 }
                             }else{

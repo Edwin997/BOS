@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,6 +37,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -375,7 +378,12 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                 break;
             case R.id.apps_bottom_sheet_btn_simpan_edit_produk:
                 if(g_bmp_bottom_sheet_produk_edit == null){
-                    g_bmp_bottom_sheet_produk_edit = ((BitmapDrawable)g_iv_bottom_sheet_produk_edit_gambar.getDrawable()).getBitmap();
+                    try{
+                        g_bmp_bottom_sheet_produk_edit = ((BitmapDrawable)g_iv_bottom_sheet_produk_edit_gambar.getDrawable()).getBitmap();
+
+                    }catch (Exception ex){
+
+                    }
                 }
 
                 if(g_product_category_edit != null)
@@ -391,7 +399,13 @@ public class ProdukFragment extends Fragment implements OnCallBackListener, View
                         tmpProductedit.setPrice(Integer.parseInt(g_tv_bottom_sheet_produk_edit_harga.getText().toString()));
                         tmpProductedit.setStock(Integer.parseInt(g_tv_bottom_sheet_produk_edit_stok.getText().toString()));
                         tmpProductedit.setWeight(g_tv_bottom_sheet_produk_edit_berat.getText().toString());
-                        tmpProductedit.setImage_path(imageToString(g_bmp_bottom_sheet_produk_edit));
+                        if(g_bmp_bottom_sheet_produk_edit == null){
+                            tmpProductedit.setImage_path("");
+                        }
+                        else
+                        {
+                            tmpProductedit.setImage_path(imageToString(g_bmp_bottom_sheet_produk_edit));
+                        }
                         tmpProductedit.setPrdCategory(g_product_category_edit);
                         tmpProductedit.setSeller(selleredit);
 
