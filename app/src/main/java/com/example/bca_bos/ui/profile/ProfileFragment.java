@@ -283,7 +283,7 @@ public class ProfileFragment extends Fragment implements OnCallBackListener, Vie
                 g_choose_dialog.showChooseDialogEditProfile(g_context);
                 break;
             case R.id.profile_about_button:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtu.be/fe9pxRbBNDM"));
                 startActivity(browserIntent);
                 break;
         }
